@@ -1,0 +1,361 @@
+\errorcontextlines 999999
+\usepackage{attachfile2}
+\attachfilesetup{%
+    author={Florian Sihler},%
+    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
+}
+
+\usepackage[%
+    sopra-listings={encoding,cpalette,highlights,numinpar},%
+    sopra-tables,
+    color-palettes={addons},%
+    util,%
+    lithie-boxes={germanenv,koma,overwrite},%
+    lithie-task-boxes={cpalette},%
+    lecture-links={patchurl},%
+    lecture-registers={disable}% would interfere with beamer
+]{lithie-util}
+
+\RequirePackage{lecture-personal-tikz}
+
+\usepackage[ngerman]{babel}
+\usepackage{amssymb}
+\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
+\RestyleAlgo{plain}
+\solLoadLanguage{bash,cpp,regex}
+
+\def\solcustom{fill=paletteA!30,draw=paletteA!30}
+
+\colorlet{MaterialHeaderColor}{paletteB}%
+\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
+
+\newcommand\twosplit[3][t]{%
+\begin{columns}[#1]
+\begin{column}{0.475\linewidth}
+    #2
+\end{column}\hfill
+\begin{column}{0.475\linewidth}
+    #3
+\end{column}
+\end{columns}
+}
+
+\def\linkstyle#1{\textsf{\paletteD{#1}}}
+\SetAllLinkStyle{\linkstyle{#1}}
+\usepackage{tikzducks,tikzsymbols,lilly-color}
+\usetheme{lucy}
+
+\colorlet{chessfieldblack}{lightgray}
+
+\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
+
+\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
+
+\newcommand\parallelcontent[3][t]{%
+    \begin{columns}[#1]
+    \begin{column}{0.475\linewidth}
+        #2
+    \end{column}\hfill
+    \begin{column}{0.475\linewidth}
+        #3
+    \end{column}
+    \end{columns}
+}
+
+\tikzset{
+    dot/.style={circle,draw,align=center,text width=1em,execute at begin node={\strut}},
+    elem node/.style={inner sep=0pt}%
+}
+
+\setcounter{tocdepth}{4}
+
+\title[Zwölftes Tutorium -- Übungsblatt 12]{Die Suche nach der Prim-Sieb-Schnittstelle!\\\small Tutorium 12}
+\date{\sffamily KW 29}
+\author{Florian Sihler}
+\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+
+\usepackage{tikzpingus-old}
+\usetikzlibrary{decorations.text}
+
+\hypersetup{colorlinks=false}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{tikzpicture}[overlay]
+        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
+            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
+        \end{scope}
+        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {12};
+    \end{tikzpicture}
+    \titlepage
+\end{frame}
+
+
+\section{Präsenzaufgabe}
+\newsavebox\ActionCode \savebox\ActionCode{%
+\begin{minipage}{5.5cm}
+\lstfs{7}%
+\begin{plainjava}[aboveskip=0pt,belowskip=0pt,morekeywords={[3]{PrimeSieve}}]^^J
+PrimeSieve sieve = new PrimeSieve(m);^^J
+/* A */ sieve.isPrime(1213);^^J
+/* B */ sieve.isPrime(501);^^J
+/* C */ sieve.isPrime(5011);^^J
+\end{plainjava}
+\end{minipage}
+}
+\begin{frame}[c,fragile]{Präsenzaufgabe}
+    \begin{aufgabe}{Komplexes Sieben}
+        \vspace*{-5mm}\par\onslide<2->{\footnotesize Geben Sie für den grau hinterlegten Code die Komplexität von \bjava[morekeywords={[3]{PrimeSieve}}]{PrimeSieve::isPrime} zu den drei Zeitpunkten \(A\), \(B\) und \(C\) in Abhängigkeit von \bjava{m} an. Erfassen Sie zudem die Worst- und Best-Case-Laufzeit von \bjava[morekeywords={[3]{PrimeSieve}}]{PrimeSieve::isPrime}. Begründen Sie Ihre Antwort (\bjava{m} ist sicher genügend groß).\par}\vspace*{-4mm}
+{\lstfs{6}
+\begin{plainjava}[multicols=2,morekeywords={[3]{PrimeSieve}},aboveskip=0pt,belowskip=0pt,lineskip=2.5pt]
+!*\onslide<3->*!public class PrimeSieve {
+!*\onslide<3->*!  private final boolean[] sieve;
+!*\onslide<3->*!  private int next;
+!*\onslide<3->*!
+!*\onslide<3->*!  public PrimeSieve(int max) {
+!*\onslide<3->*!    this.sieve = new boolean[max];
+!*\onslide<3->*!    this.sieve[0] = this.sieve[1] = true;
+!*\onslide<3->*!    this.next = 2;
+!*\onslide<3->*!  }
+!*\onslide<3->*!
+!*\onslide<3->*!  public boolean isPrime(int n) {
+!*\onslide<3->*!    if (n >= this.sieve.length)
+!*\onslide<3->*!      throw new IndexOutOfBoundsException(n + "");
+!*\onslide<3->*!    if (n > this.next) {
+!*\onslide<3->*!      for (int i = this.next; i <= n; i++) {
+!*\onslide<3->*!        if (!this.sieve[i]) {
+!*\onslide<3->*!          for (int j = 2*i; j < this.sieve.length; j += i)
+!*\onslide<3->*!            this.sieve[j] = true;
+!*\onslide<3->*!        }
+!*\onslide<3->*!      }
+!*\onslide<3->*!      this.next = n;
+!*\onslide<3->*!    }
+!*\onslide<3->*!    return !this.sieve[n];
+!*\onslide<3->*!  }
+!*\onslide<3->*!}
+\end{plainjava}
+}
+        \onslide<1->
+    \end{aufgabe}
+\onslide<4->{\begin{tikzpicture}[overlay,remember picture]
+    \node[above left=7pt,yshift=11pt,fill=lightgray!35,draw=gray,thick,rounded corners=2pt,scale=.85] at (current page.south east) {%
+    \usebox\ActionCode%
+    };
+\end{tikzpicture}}
+\end{frame}
+
+\def\O{\mathcal{O}}
+\begin{frame}[t]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \item Erkenntnisse: \begin{itemize}
+            \itemsep7pt
+            \item Grundlegend hängt die Komplexität an \(m\) und \(n\) (verschachtelte Schleife): \(\O(m \cdot n)\).
+            \item \(n\) ist bei jedem Aufruf \emph{konstant}. So wird (z.B.) aus \(\O(1213 \cdot m) = \O(m)\).\par \(\Longrightarrow\) Die äußere \bjava{for}-Schleife läuft für jeden Aufruf konstant!
+            \item Ist \(i\) in einer Schleife prim, so genügen zwar \(\frac{m}{i}\) Iterationen in der inneren Schleife, die Konstante \(i\) in der Schleife spielt für \(\O\) aber keine Bedeutung.
+            \item Bisherige Berechnungen werden gespeichert!\par \(\Longrightarrow\) Alle Aufrufe, die kleiner als das bisherige Maximum sind, treten mit \(\O(1)\) gar nicht in die Schleife ein!
+        \end{itemize}
+        \item Damit erhalten wir die folgenden Komplexitäten: \begin{description}[A:]
+            \item[A:] Hier haben wir ein neues Maximum: \(\O(m)\).
+            \item[B:] Mit \(501 \leq 1213\) gibt es nichts neues zu berechnen: \(\O(1)\).
+            \item[C:] Ein neues Maximum: \(\O(m)\).
+        \end{description}
+        \item Allgemein ist die Worst-Case-Laufzeit damit \(\O(m \cdot n)\) und die Best-Case-Laufzeit \(\O(1)\).
+    \end{itemize}
+\end{frame}
+
+\section{Übungsblatt 12}
+\subsection{Aufgabe 1}
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 1a)}
+    \begin{itemize}[<+(1)->]
+        \item Dateien Palast: \only<2->{\textattachfile{BiNode.java}{BiNode.java}} und \only<2->{\textattachfile{BinaryTree.java}{BinaryTree.java}}.
+        \item Für \T{insert} schreiben wir eine rekursive Hilfsmethode, die von der Wurzel an die korrekte Position sucht:
+\begin{plainjava}
+!*\onslide<4->*!public void insert(int element) {
+!*\onslide<5->*!    this.root = insert(this.root, element);
+!*\onslide<4->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 1a)}
+    \begin{itemize}[<+(1)->]
+        \item Hier der rekursive Helfers-Helfer:
+\begin{plainjava}[morekeywords={[3]{BiNode}}]
+!*\onslide<3->*!public static BiNode insert(BiNode current, int element) {
+!*\onslide<4->*!  if(current == null) { // leaf
+!*\onslide<5->*!    return new BiNode(element);
+!*\onslide<4->*!  } else if (element < current.value) { // left
+!*\onslide<6->*!    current.left = insert(current.left, element);
+!*\onslide<4->*!  } else if (element > current.value) { // right
+!*\onslide<7->*!    current.right = insert(current.right, element);
+!*\onslide<4->*!  }
+!*\onslide<8->*!  return current; // already present
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 1b)}
+    \begin{itemize}[<+(1)->]
+        \item Lets check the nodes:
+\begin{plainjava}[morekeywords={[3]{BiNode}}]
+!*\onslide<3->*!public int nodes() {
+!*\onslide<4->*!  return nodes(this.root);
+!*\onslide<3->*!}
+!*\onslide<5->*!public static int nodes(BiNode current) {
+!*\onslide<6->*!  if(current == null) {
+!*\onslide<7->*!    return 0;
+!*\onslide<6->*!  } else {
+!*\onslide<8->*!    return 1 + nodes(current.left) + nodes(current.right);
+!*\onslide<6->*!  }
+!*\onslide<5->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 1c)}
+    \begin{itemize}[<+(1)->]
+        \item Final die (binäre) Suche:
+\begin{plainjava}[morekeywords={[3]{BiNode}}]
+!*\onslide<3->*!public boolean isElement(int value) {
+!*\onslide<4->*!  return isElement(this.root, value);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 1c)}
+    \begin{itemize}[<+(1)->]
+        \item Sowie der Helfers-Helfer:
+\begin{plainjava}[morekeywords={[3]{BiNode}}]
+!*\onslide<3->*!public static boolean isElement(BiNode current, int value) {
+!*\onslide<4->*!  if(current == null) {
+!*\onslide<5->*!    return false;
+!*\onslide<4->*!  } else if (current.value == value) {
+!*\onslide<6->*!    return true;
+!*\onslide<4->*!  } else if(value < current.value) { // left
+!*\onslide<7->*!    return isElement(current.left, value);
+!*\onslide<4->*!  } else {// right
+!*\onslide<8->*!    return isElement(current.right, value);
+!*\onslide<4->*!  }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 2a)}
+    \begin{itemize}[<+(1)->]
+        \item Zunächst die Klassen \info{diese habe ich lediglich umbenannt, damit sie mit den vorherigen nicht kollidieren}: \only<2->{\textattachfile{Memory.java}{Memory.java}}, \only<2->{\textattachfile{MemoryQueue.java}{MemoryQueue.java}} und \only<2->{\textattachfile{MemoryStack.java}{MemoryStack.java}}.
+        \item Zunächst das Grundgerüst:
+\begin{plainjava}[morekeywords={[3]{BiNode,Memory}}]
+!*\onslide<4->*!abstract class Memory {
+!*\onslide<5->*!  protected final BiNode[] memory;
+!*\onslide<5->*!  protected int length;
+!*\onslide<6->*!  protected Memory(int size) {
+!*\onslide<7->*!    if(size < 0)
+!*\onslide<7->*!      throw new IllegalArgumentException("Negative Speichergröße");
+!*\onslide<8->*!    this.memory = new BiNode[size];
+!*\onslide<8->*!    this.length = 0;
+!*\onslide<6->*!  }
+!*\onslide<9->*!// ...
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 2a)}
+    \begin{itemize}[<+(1)->]
+        \item Hier die gemeinsamen Methoden:
+\begin{plainjava}[morekeywords={[3]{BiNode,Memory}}]
+!*\onslide<3->*!// ...
+!*\onslide<4->*!public abstract void write(BiNode x) throws IllegalStateException;
+!*\onslide<3->*!
+!*\onslide<5->*!public abstract BiNode read() throws IllegalStateException;
+!*\onslide<3->*!
+!*\onslide<6->*!public abstract BiNode peek() throws IllegalStateException;
+!*\onslide<3->*!
+!*\onslide<7->*!public boolean isEmpty() {
+!*\onslide<8->*!  return this.length <= 0;
+!*\onslide<7->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 2b)}
+    \begin{itemize}[<+(1)->]
+        \item Wir können uns hier \T{isEmpty}, sowie einige Attribute sparen:
+\begin{plainjava}[morekeywords={[3]{BiNode,Memory,MemoryQueue}}]
+!*\onslide<3->*!public class MemoryQueue extends Memory {
+!*\onslide<4->*!  private int first;
+!*\onslide<5->*!  public MemoryQueue(int size) {
+!*\onslide<6->*!    super(size);
+!*\onslide<6->*!    this.first = 0;
+!*\onslide<5->*!  }
+
+!*\onslide<7->*!  // write, read und peek unverändert
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 2b)}
+    \begin{itemize}[<+(1)->]
+        \item Analog beim Stack:
+\begin{plainjava}[morekeywords={[3]{BiNode,Memory,MemoryStack}}]
+!*\onslide<3->*!public class MemoryStack extends Memory {
+!*\onslide<4->*!  public MemoryStack(int size) {
+!*\onslide<5->*!    super(size);
+!*\onslide<4->*!  }
+!*\onslide<3->*!
+!*\onslide<6->*!  // write, read und peek unverändert
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\subsection{Zusatzaufgabe 6/6}
+\begin{frame}[c]{Übungsblatt 12 - Zusatzaufgabe}
+    \begin{itemize}[<+(1)->]
+        \item Die \textit{Polymorphie} der Methoden der \solGet{keywordC}{Memory} Unterklassen und damit dynamisches Binden.\pause{} Je nach
+        konkreter Unterklasse der jeweiligen Instanz werden entweder die Methoden von Stack oder die
+        von Queue aufgerufen. Zur Übersetzerzeit (statisch) ist durch die Verwendung der Klasse Memory nur
+        sichergestellt, dass es die benötigten Methoden \bjava[morekeywords={[3]{Memory}}]{Memory::write}, \bjava[morekeywords={[3]{Memory}}]{Memory::read} und \bjava[morekeywords={[3]{Memory}}]{Memory::isEmpty}
+        gibt, ohne (abgesehen von \bjava[morekeywords={[3]{Memory}}]{Memory::isEmpty}) zu wissen, wie diese genau implementiert sind.\pause{} Zur Laufzeit
+        (dynamisch) wir abhängig von der jeweiligen Instanz der entsprechende Code ausgeführt.
+        \item \bjava[morekeywords={[3]{BinaryTree}}]{BinaryTree::traverseQ} implementiert eine Level-Order-Traversierung, wobei die Kindknoten von
+        rechts nach links besucht werden.
+        \bjava[morekeywords={[3]{BinaryTree}}]{BinaryTreBinaryTree::traverseS} implementiert eine Pre-Order-Traversierung.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,t]{Übungsblatt 12 - Zusatzaufgabe}
+    \begin{itemize}[<+(1)->]
+        \item Die beiden Aufrufe liefern:
+\begin{plainjava}
+!*\onslide<3->*!tree.traverseQ();
+!*\onslide<3->*!  //:yields: new int[]{59, 82, 21, 65, 49, 12, 50, 38, 20, 16}
+
+!*\onslide<4->*!tree.traverseS();
+!*\onslide<4->*!  //:yields: new int[]{59, 21, 12, 20, 16, 49, 38, 50, 82, 65}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\section{Die End-Pingus}
+
+\begin{frame}[c]
+\pause{}\begin{center}
+\resizebox{.95\linewidth}!{%
+    \tikz{\pingu[left wing grab, sunglasses*, cup straw = !hide, cup* = teal, cup shift=0, cup cover = brown!87!black, cup drops = !hide,name=lenni]}
+    \quad
+    \tikz{\pingu[left wing wave, right eye=!hide, name=steini,sign post={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.25cm}{\centering\small I \textcolor{purple}{\faHeart}\\\color{cwhite}M4g1c\\[-.65cm]}}}}]; \fill (steini-right-eye) circle [radius=0.082cm];\draw[line width=0.245pt,fill=pingu@blue,fill opacity=0.035] (steini-right-eye) circle [radius=0.15cm];\draw[very thin] ($(steini-right-eye)+(0.15,0)$) to[bend left,looseness=0.2] ++(-0.01,-0.375) coordinate (dt); \fill (dt) circle (0.65pt);}
+    \quad
+    \tikz{\pingu[left eye wink, right eye wink,santa,heart=pingu@red!24!white,name=tolgo,eyes wink];}
+    \quad
+    \tikz{\pingu[left patch,halo,right hair=teal,torch,name=flo]}}
+\end{center}
+\end{frame}
+
+\end{document}

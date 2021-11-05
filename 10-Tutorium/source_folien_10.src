@@ -1,0 +1,513 @@
+\errorcontextlines 999999
+\usepackage{attachfile2}
+\attachfilesetup{%
+    author={Florian Sihler},%
+    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
+}
+
+\usepackage[%
+    sopra-listings={encoding,cpalette,highlights,numinpar},%
+    sopra-tables,
+    color-palettes={addons},%
+    util,%
+    lithie-boxes={germanenv,koma,overwrite},%
+    lithie-task-boxes={cpalette},%
+    lecture-links={patchurl},%
+    lecture-registers={disable}% would interfere with beamer
+]{lithie-util}
+
+\RequirePackage{lecture-personal-tikz}
+\usepackage[ngerman]{babel}
+\usepackage{foekfont}
+
+\input Rothdn.fd
+\newcommand*\rotnfamily{\usefont{U}{Rothdn}{xl}{n}}
+
+\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
+\RestyleAlgo{plain}
+\solLoadLanguage{bash,cpp,regex}
+
+\def\solcustom{fill=paletteA!30,draw=paletteA!30}
+
+\colorlet{MaterialHeaderColor}{paletteB}%
+\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
+
+\def\linkstyle#1{\textsf{\paletteD{#1}}}
+\SetAllLinkStyle{\linkstyle{#1}}
+\usepackage{tikzducks,tikzsymbols,lilly-color}
+\usetheme{lucy}
+
+\colorlet{chessfieldblack}{lightgray}
+
+\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing,backgrounds}
+
+\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
+
+\newcommand\parallelcontent[3][t]{%
+    \begin{columns}[#1]
+    \begin{column}{0.475\linewidth}
+        #2
+    \end{column}\hfill
+    \begin{column}{0.475\linewidth}
+        #3
+    \end{column}
+    \end{columns}
+}
+
+\lstset{lineskip=3pt}
+
+\tikzset{
+    dot/.style={circle,draw,align=center,text width=1em,execute at begin node={\strut}}
+}
+
+\setcounter{tocdepth}{4}
+
+\title[Zehntes Tutorium -- Übungsblatt 10]{Wo sind nochmal meine Socken?\\\small Tutorium 10}
+\date{\sffamily KW 27}
+\author{Florian Sihler}
+\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+
+\usepackage[glows]{tikzpingus-old}
+\usetikzlibrary{decorations.text}
+
+\hypersetup{colorlinks=false}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{tikzpicture}[overlay]
+        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
+            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
+        \end{scope}
+        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {10};
+    \end{tikzpicture}
+    \titlepage
+\end{frame}
+
+\section{Präsenzaufgabe}
+\begin{frame}[c]{Präsenzaufgabe}
+    \begin{aufgabe}{Warten auf Godot}
+        \pause{}Stellen Sie die beiden folgenden Graphen entweder als Adjazenzliste oder -matrix in einem Java-Programm dar. Welche Form ist für welchen der Graphen besser geeignet und warum?\vspace*{-.5\baselineskip}
+\begin{center}
+    \onslide<3->{a)~~~\scalebox{.85}{\begin{tikzpicture}[scale=1.35,baseline=-.6ex]
+        \node[lblob] (3) at (0,2) {3};
+        \node[lblob] (2) at (2,2) {2};
+        \node[lblob] (1) at (2,0) {1};
+        \node[lblob] (0) at (0,0) {0};
+
+        \begin{scope}[every path/.style={draw,-Kite},t/.style 2 args={edge node={node[####1] {####2}}}]
+            \path (0) to[bend left=7,t={above}{6}] (1);
+            \path (1) to[bend left=7,t={below}{20}] (0);
+            \path (0) to[bend left=7,t={left}{3}] (3);
+            \path (3) to[bend left=7,t={right}{13}] (0);
+            \path (1) to[bend left=7,t={left}{3}] (2);
+            \path (2) to[bend left=7,t={right}{4}] (1);
+            \path (2) to[t={above}{7}] (3);
+            \path (0) to[t={below,pos=.45}{1}] (2);
+            \path (1) to[t={above,pos=.65}{9}] (3);
+            \path (0) to[loop left,t={left}{3}] (0);
+            \path (1) to[loop right,t={right}{8}] (1);
+            \path (2) to[loop right,t={right}{6}] (2);
+            \path (3) to[loop left,t={left}{42}] (3);
+        \end{scope}
+    \end{tikzpicture}}}\qquad \onslide<4->{~~b)~~~~\scalebox{.85}{\begin{tikzpicture}[scale=1.35,baseline=-.6ex]
+        \node[lblob] (3) at (0,2) {3};
+        \node[lblob] (2) at (2,2) {2};
+        \node[lblob] (1) at (2,0) {1};
+        \node[lblob] (0) at (0,0) {0};
+
+        \begin{scope}[every path/.style={draw,-Kite},t/.style 2 args={edge node={node[####1] {####2}}}]
+            \path (0) -- (1);
+            \path (0) -- (3);
+            \path (3) -- (2);
+            \path (2) -- (1);
+        \end{scope}
+    \end{tikzpicture}}}\vspace*{-.5\baselineskip}
+\end{center}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\tikzset{t/.style 2 args={edge node={node[#1] {#2}}}}
+\newsavebox\agraph
+\savebox\agraph{\scalebox{.85}{\begin{tikzpicture}[scale=1.35,baseline=-.6ex]
+    \node[lblob] (3) at (0,2) {3};
+    \node[lblob] (2) at (2,2) {2};
+    \node[lblob] (1) at (2,0) {1};
+    \node[lblob] (0) at (0,0) {0};
+
+    \begin{scope}[every path/.style={draw,-Kite}]
+        \path (0) to[bend left=7,t={above}{6}] (1);
+        \path (1) to[bend left=7,t={below}{20}] (0);
+        \path (0) to[bend left=7,t={left}{3}] (3);
+        \path (3) to[bend left=7,t={right}{13}] (0);
+        \path (1) to[bend left=7,t={left}{3}] (2);
+        \path (2) to[bend left=7,t={right}{4}] (1);
+        \path (2) to[t={above}{7}] (3);
+        \path (0) to[t={below,pos=.45}{1}] (2);
+        \path (1) to[t={above,pos=.65}{9}] (3);
+        \path (0) to[loop left,t={left}{3}] (0);
+        \path (1) to[loop right,t={right}{8}] (1);
+        \path (2) to[loop right,t={right}{6}] (2);
+        \path (3) to[loop left,t={left}{42}] (3);
+    \end{scope}
+\end{tikzpicture}}}
+\begin{frame}[fragile]{Präsenzaufgabe -- Lösung}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[below left=.25cm,yshift=-1.2cm,scale=.75,opacity=.65] at(current page.north east) {\usebox\agraph};
+\end{tikzpicture}\vspace*{-\baselineskip}%
+\begin{itemize}
+    \itemsep8pt
+    \item<2-> Viele Kanten \emph{und} Kantengewichte: \onslide<3->{Adjazenzmatrix.}\medskip\par
+    \onslide<4->{\info{Die Kanten nutzen den Overhead der Matrix gut aus, Gewichte können direkt\\eingetragen werden.}}
+    \item<5-> In Java geht dies durch ein zweidimensionales Array:\vspace*{-10pt}
+\begin{center}
+\begin{columns}[c]
+\begin{column}{.55\linewidth}
+\begin{plainjava}[columns=fixed]
+!*\onslide<6->*!int[][] graphA = new int[][] {
+!*\onslide<7->*!       /*  0   1   2   3 */
+!*\onslide<7->*!/* 0 */!*\onslide<8->*! {  3,  6,  1,  3},
+!*\onslide<7->*!/* 1 */!*\onslide<9->*! { 20,  8,  3,  9},
+!*\onslide<7->*!/* 2 */!*\onslide<10->*! {  0,  4,  6,  7},
+!*\onslide<7->*!/* 3 */!*\onslide<11->*! { 13,  0,  0, 42}
+!*\onslide<6->*!};
+\end{plainjava}
+\end{column} \begin{column}{.35\linewidth}
+\onslide<12->{\begin{equation*}
+\bordermatrix{~ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} \cr
+    \textcolor{gray}{0} &  3 & 6 & 1 &  3\cr
+    \textcolor{gray}{1} & 20 & 8 & 3 &  9\cr
+    \textcolor{gray}{2} &  0 & 4 & 6 &  7\cr
+    \textcolor{gray}{3} & 13 & 0 & 0 & 42\cr}
+\end{equation*}}
+\end{column}
+\end{columns}
+\end{center}
+\end{itemize}
+\end{frame}
+
+\savebox\agraph{\scalebox{.85}{\begin{tikzpicture}[scale=1.35,baseline=-.6ex]
+    \node[lblob] (3) at (0,2) {3};
+    \node[lblob] (2) at (2,2) {2};
+    \node[lblob] (1) at (2,0) {1};
+    \node[lblob] (0) at (0,0) {0};
+
+    \begin{scope}[every path/.style={draw,-Kite}]
+        \path (0) -- (1);
+        \path (0) -- (3);
+        \path (3) -- (2);
+        \path (2) -- (1);
+    \end{scope}
+\end{tikzpicture}}}
+\begin{frame}[fragile]{Präsenzaufgabe -- Lösung, II}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[below left=.25cm,yshift=-1.2cm,scale=.75,opacity=.65] at(current page.north east) {\usebox\agraph};
+\end{tikzpicture}\vspace*{-\baselineskip}%
+\begin{itemize}[<+(1)->]
+    \itemsep8pt
+    \item Wenig Kanten \emph{und} keine Kantengewichte:\pause{} Adjazenzliste.\par
+    \info{In einer Adjazenzmatrix wären viele Einträge \bjava{0} oder \bjava{false}.}
+    \item Wir benötigen zuerst eine Node-Klasse:\lstfs{9}
+\begin{plainjava}[morekeywords={[3]{Node}}]
+!*\onslide<5->*!class Node {
+!*\onslide<6->*!    int key;
+!*\onslide<7->*!    Node next;
+!*\onslide<5->*!
+!*\onslide<8->*!    public Node(int key, Node next) {
+!*\onslide<9->*!        this.key = key;
+!*\onslide<10->*!        this.next = next;
+!*\onslide<8->*!    }
+!*\onslide<5->*!}
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe -- Lösung, III}
+\begin{tikzpicture}[remember picture, overlay]
+    \node[above left=.25cm,yshift=.33cm,scale=.75,opacity=.65] at(current page.south east) {\usebox\agraph};
+\end{tikzpicture}\vspace*{-\baselineskip}%
+\begin{itemize}
+    \itemsep8pt
+    \item<2-> Damit gestaltet sich die Liste wie folgt:\vspace*{-.75\baselineskip}\lstfs{10}
+\begin{center}
+\begin{columns}[c]
+\begin{column}{.55\linewidth}
+\begin{plainjava}[aboveskip=-5pt]
+!*\onslide<3->*!Node[] graphB = new Node[] {
+!*\onslide<4->*!    new Node(1, new Node(3, null)),
+!*\onslide<5->*!    null,
+!*\onslide<6->*!    new Node(1, null),
+!*\onslide<7->*!    new Node(2, null)
+!*\onslide<3->*!};
+\end{plainjava}
+\end{column} \begin{column}{.3\linewidth}
+\onslide<8->{\begin{alignat*}{2}
+    \mathbf{0} &\to 1 &\to 3 \\
+    \mathbf{1} & &\\
+    \mathbf{2} &\to 1 & \\
+    \mathbf{3} &\to 2 & \\
+\end{alignat*}}
+\end{column}
+\end{columns}\vspace*{-2\baselineskip}
+\end{center}
+\item<9-> Aber ist der Aufwand notwendig? \onslide<10->{In Java: Nein.}\smallskip\par{}
+    \onslide<11->{\info{Da in Java Arrays komplexe Datentypen sind, sind Arrays auch Zeiger und damit mehr-\\dimensionale Arrays auch Zeiger auf Zeiger. In Sprachen wie \T{C} muss das nicht so sein.}}
+\item<12-> Daher:\lstfs{10} \bjava{int[][] graphB = new int[][] \{ \{1, 3\}, \{\}, \{1\}, \{2\} \};}.
+\end{itemize}
+\end{frame}
+
+\section{Übungsblatt 10}
+\subsection{Aufgabe 1}
+\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1a)}
+    \begin{itemize}[<+(1)->]
+        \item Die Freuden der Datei: \only<2->{\textattachfile{PriorityQueue.java}{PriorityQueue.java}}
+        \item Das Grundgerüst einer Priority-Queue mit Heap:
+\begin{plainjava}[morekeywords={[3]{PriorityQueue}}]
+!*\onslide<4->*!public class PriorityQueue {
+!*\onslide<5->*!    private final String[] heap;
+!*\onslide<5->*!    private int next = 0;
+!*\onslide<4->*!
+!*\onslide<6->*!    public PriorityQueue(int size) {
+!*\onslide<7->*!        if (size < 0) throw new IllegalArgumentException("[...]");
+!*\onslide<8->*!        this.heap = new String[size];
+!*\onslide<6->*!    }
+!*\onslide<4->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1a)}
+    \begin{itemize}[<+(1)->]
+        \item Für die \T{percolate}-Methode schreiben wir uns zuerst \bjava{swap(int, int)} als Hilfe:
+\begin{plainjava}
+!*\onslide<3->*!private void swap(int i, int j){
+!*\onslide<4->*!    if (!(0 <= i && i < this.heap.length))
+!*\onslide<4->*!        throw new IndexOutOfBoundsException(i);
+!*\onslide<5->*!    if (!(0 <= j && j < this.heap.length))
+!*\onslide<5->*!        throw new IndexOutOfBoundsException(j);
+!*\onslide<6->*!    String tmp = this.heap[i];
+!*\onslide<6->*!    this.heap[i] = this.heap[j];
+!*\onslide<6->*!    this.heap[j] = tmp;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1a)}
+    \begin{itemize}[<+(1)->]
+        \item Nun können wir die Routine konstruieren\lstfs{9}
+\begin{plainjava}
+!*\onslide<3->*!private void percolate(int i) {
+!*\onslide<4->*!    int l = 2*i + 1, r = 2*i + 2, t = i;
+!*\onslide<3->*!
+!*\onslide<5->*!    if (r < next)
+!*\onslide<6->*!        t = this.heap[l].length() <= this.heap[r].length() ? l : r;
+!*\onslide<5->*!    else if (l < next)
+!*\onslide<7->*!        t = l;
+!*\onslide<3->*!
+!*\onslide<8->*!    if (t != i && this.heap[t].length() <= this.heap[i].length()) {
+!*\onslide<9->*!        swap(i, t);
+!*\onslide<9->*!        percolate(t);
+!*\onslide<8->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1b)}
+    \begin{itemize}[<+(1)->]
+        \item Nun die \bjava{put}-Routine:\lstfs{9}
+\begin{plainjava}[aboveskip=0pt]
+!*\onslide<3->*!public void put(String str) {
+!*\onslide<4->*!    if (next >= this.heap.length) throw new IllegalStateException("[...]");
+!*\onslide<5->*!    this.heap[next] = str;
+!*\onslide<5->*!    int curr = next;
+!*\onslide<6->*!    while (curr > 0) {
+!*\onslide<7->*!        int parent = (curr - 1) / 2;
+!*\onslide<8->*!        if (this.heap[parent].length() <= this.heap[curr].length())
+!*\onslide<8->*!            break;
+!*\onslide<9->*!        swap(curr, parent);
+!*\onslide<10->*!        curr = parent;
+!*\onslide<6->*!    }
+!*\onslide<11->*!    percolate(curr);
+!*\onslide<12->*!    next++;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1c)}
+    \begin{itemize}[<+(1)->]
+        \item Die \bjava{peek}-Routine:\lstfs{9}
+\begin{plainjava}
+!*\onslide<3->*!public String peek() {
+!*\onslide<4->*!    if (next <= 0) throw new IllegalStateException("[...]");
+!*\onslide<5->*!    return this.heap[0];
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1d)}
+    \begin{itemize}[<+(1)->]
+        \item Und zuletzt \bjava{get}:\lstfs{9}
+\begin{plainjava}
+!*\onslide<3->*!public String get() throws IllegalStateException {
+!*\onslide<4->*!    if (next <= 0) throw new IllegalStateException("[...]");
+!*\onslide<5->*!    String toReturn = this.heap[0];
+!*\onslide<6->*!    this.heap[0] = this.heap[next - 1];
+!*\onslide<7->*!    next--;
+!*\onslide<8->*!    percolate(0);
+!*\onslide<9->*!    return toReturn;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Zusatzaufgabe 4/6}
+\def\DrawEye#1#2{
+    \fill[devilcolor,path fading=fade out] (#1-#2-eye) circle [radius=2.15pt];
+    \foreach \i in {0,1}{
+    \filldraw[path fading=fade out,devilcolor,draw opacity=0.25,fill opacity=0.66] (#1-#2-eye)++(0,0.36) to[bend right=58] ++(0.36,-0.36) to[bend right=58] ++(-0.36,-0.36) to[bend right=58] ++(-0.36,0.36) to[bend right=58] cycle;}
+    \foreach \i in {0}{
+    \fill[path fading=fade out,devilcolor!20!yellow!15!white] (#1-#2-eye)++(0,0.10) to[bend right=60] ++(0.10,-0.10) to[bend right=60] ++(-0.10,-0.10) to[bend right=60] ++(-0.10,0.10) to[bend right=60] cycle;}
+    \fill[devilcolor!20!yellow!7!white] (#1-#2-eye) circle [radius=0.5pt]; %
+    \fill[white] (#1-#2-eye) circle [radius=0.15pt]; %
+}
+
+\colorlet{devilcolor}{purple!90!red}
+\colorlet{shadowcolor}{devilcolor!10!black}
+\tikzfading[name=fade out,inner color=transparent!0,outer color=transparent!100]
+\def\WW#1#2{
+    \node[circle,inner sep=rand*0.25pt+0.5pt,fill,devilcolor!60!black,path fading=circle with fuzzy edge 20 percent] (d#2) at(#1) {};
+    \draw[devilcolor!60!black,very thin,decorate,decoration={coil,aspect=0,segment length=0.85pt,amplitude=0.33pt,pre length=0pt,post length=0pt}] (d#2) -- ++(0,-5pt-rand*2pt);
+}
+
+\newsavebox\mommapengu
+\savebox\mommapengu{%
+\begin{tikzpicture}
+    \pingu[name=beate2,scale=1.8,wings wave,eyes=!hide,halo=devilcolor,halo fade,hair=devilcolor,devil]
+    \begin{pgfinterruptboundingbox}
+        \node[below=1.75cm,white] at(beate2-heart) {\foekfamily\MakeUppercase{Keine Liebe ohne Zusatzaufgaben}};
+        \DrawEye{beate2}{left}\DrawEye{beate2}{right}
+        \begin{pgfonlayer}{background}
+        \coordinate (low-heart) at ($(beate2-heart)+(0,-0.65)$);
+        \begin{scope}[canvas is zx plane at y=0]
+            \foreach[count=\i] \a in {0,72,...,359} {
+                \path (low-heart)++(\a-25:1.7cm) coordinate (pent-\i);
+            }
+            \draw[devilcolor,ultra thick,opacity=0.2] (pent-1) -- (pent-3) -- (pent-5) -- (pent-2) -- (pent-4) -- (pent-1);
+            \draw[devilcolor,ultra thick,opacity=0.2] (low-heart) circle[radius=1.85cm];
+            \draw[devilcolor,thick] (pent-1) -- (pent-3) -- (pent-5) -- (pent-2) -- (pent-4) -- (pent-1);
+            \draw[devilcolor,thick] (low-heart) circle[radius=1.85cm];
+            \draw[devilcolor,decoration={text along path,text={|\rotnfamily\tiny|THIS IS SO GOOD, WE HAVE SOOO MUCH FUN, DON'T WE? LOVE XOXO},text color={devilcolor},reverse path=true},decorate] (low-heart) circle[radius=1.95cm];
+        \end{scope}
+    \end{pgfonlayer}
+        \fill[devilcolor!60!pingu@black,rounded corners=3pt] (beate2-bill)++(-1.133cm,0.1cm) to[bend right=22] ++(2.25cm,-0.225cm) coordinate (right up) to[bend left=4] ++(0,-1.7cm) to[bend left=8] ++(-2.25cm,0) to[bend left=4] cycle;
+        \draw[devilcolor!60!pingu@black,ultra thick] (right up)++(-0.05cm,-0.05cm) -- ++(0.085cm,0.23cm);
+        \node[pingu@black] at (beate2-heart) {\faHeart};
+    \end{pgfinterruptboundingbox}
+
+    \node[above,devilcolor,opacity=0.25,scale=2,yshift=-0.95pt] (w) at(beate2-left-wing-tip) {\faWindows};
+    \node[above,devilcolor,scale=1.8] (w) at(beate2-left-wing-tip) {\faWindows};
+    \node[above,devilcolor,opacity=0.25,scale=2,yshift=-0.95pt] (w) at(beate2-right-wing-tip) {\faWindows};
+    \node[above,devilcolor,scale=1.8] (w) at(beate2-right-wing-tip) {\faWindows};
+
+    \foreach \side in {left,right} {
+    \foreach \a in {A,B,C,D} {
+        \WW{$(beate2-\side-wing-tip)+(0.3*rand,0.25*rand)$}{A}
+    }
+    \foreach \a in {E,...,K} {
+        \WW{$(beate2-\side-wing-tip)+(0.35*rand,0.4*rand+0.7)$}{A}
+    }
+    \begin{pgfonlayer}{background}
+        \foreach \a in {Q,...,Z} {
+            \WW{$(beate2-\side-wing-tip)+(0.35*rand,0.35*rand+0.35)$}{A}
+        }
+    \end{pgfonlayer}
+    }
+\end{tikzpicture}}
+
+{
+\setbeamercolor{background canvas}{bg=black}
+\begin{frame}[c,plain]
+\begin{center}
+\vspace*{-0.75cm}\scalebox{1.25}{\usebox{\mommapengu}}
+\end{center}%
+\begin{tikzpicture}[overlay,remember picture]
+    \node[below left,white,scale=0.45] at(current page.north east) {\textbf{\textcolor{devilcolor}{Achievement}} unlocked: Discover Momma pengu};
+\end{tikzpicture}%
+\end{frame}
+}
+
+\begin{frame}[fragile]{Zusatzaufgabe 4/6}
+\begin{itemize}[<+(1)->]
+    \item Siehe dahaaaa: \only<2->{\textattachfile{Knapsack.java}{Knapsack.java}}
+    \item Die Idee: wir prüfen für jeden Gegenstand einmal den Fall wenn wir ihn wählen und einmal, wenn wir ihn verschmähen.
+    \item Der rekursive Einstieg:\lstfs{9}
+\begin{plainjava}
+!*\onslide<5->*!public static List knapsack(int capacity, int[] values, int[] weights) {
+!*\onslide<6->*!    if (capacity < 0)
+!*\onslide<6->*!        throw new IllegalArgumentException("[...]");
+!*\onslide<7->*!    if(values.length != weights.length)
+!*\onslide<7->*!        throw new IllegalArgumentException("[..]");
+!*\onslide<8->*!    return knapsack(capacity, 0, values, weights);
+!*\onslide<5->*!}
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Zusatzaufgabe 4/6}
+\begin{itemize}[<+(1)->]
+    \item Die Hauptroutine:\lstfs{8}
+\begin{plainjava}
+!*\onslide<3->*!private static List knapsack(int capacity, int idx, int[] values, int[] weights) {
+!*\onslide<4->*!  if(idx >= values.length) // Done
+!*\onslide<4->*!    return new List();
+!*\onslide<5->*!  if(capacity < weights[idx]) // W < w_i; too heavy
+!*\onslide<5->*!    return knapsack(capacity, idx + 1, values, weights);
+
+!*\onslide<6->*!  List with = knapsack(capacity - weights[idx], idx + 1, values, weights).push(idx);
+!*\onslide<6->*!  List withoutItem = knapsack(capacity, idx + 1, values, weights);
+!*\onslide<3->*!
+!*\onslide<7->*!  int valueWithItem = getValueOfList(withItem, values);
+!*\onslide<7->*!  int valueWithoutItem = getValueOfList(withoutItem, values);
+!*\onslide<3->*!
+!*\onslide<8->*!  return valueWithItem > valueWithoutItem ? with : withoutItem;
+!*\onslide<3->*!}
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Zusatzaufgabe 4/6}
+\begin{itemize}[<+(1)->]
+    \item Und hier die Hilfsroutine zur Berechnung des Wertes einer Liste:
+\begin{plainjava}
+!*\onslide<3->*!private static int getValueOfList(List list, int[] values) {
+!*\onslide<4->*!    int sum = 0;
+!*\onslide<5->*!    for(int i = 0; i < list.length; i++) {
+!*\onslide<6->*!        sum += values[list.getByIndex(i)];
+!*\onslide<5->*!    }
+!*\onslide<7->*!    return sum;
+!*\onslide<3->*!}
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+
+\section{Die End-Pingu-Ente}
+\begin{frame}
+    \begin{center}
+    \begin{tikzpicture}[scale=2.5]
+    % \shuffleducks
+         \duck[aodai=cprimary!50!black,tshirt=cprimary,conicalhat=brown,water=paletteA]
+    \end{tikzpicture}\\\pause{}
+    Wieder kein Pingu,\pause{} weil süß!
+    \end{center}
+\begin{tikzpicture}[overlay, remember picture]
+    \fill[black] (current page.north east) -| ++(-2.5cm,-1.9cm) -- ++(0.25cm,-0.25cm) -| cycle;
+    \node[below left=2pt,xshift=-1.55mm,scale=0.36] at(current page.north east) {\usebox{\mommapengu}};
+\end{tikzpicture}
+\end{frame}
+
+\end{document}

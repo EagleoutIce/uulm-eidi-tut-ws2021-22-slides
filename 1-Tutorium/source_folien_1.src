@@ -1,0 +1,584 @@
+\RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
+\input ../global.src
+\usepackage{foekfont,addfont,punk,bbold,inslrmin}
+\usepackage{xfrac}
+
+\input RoyalIn.fd
+\newcommand*\ROSEBABY{\usefont{U}{RoyalIn}{xl}{n}}
+
+\title[Erstes Tutorium -- Übungsblatt 1]{Mathe. Haha. Kann ich.\\\small Tutorium Unostasio}
+\date{\sffamily KW 44}
+
+
+\begin{document}
+
+\Titlepage{1}
+
+% space pingu stage
+\begin{frame}[c,plain]
+    \centering
+    \onslide<5->{\begin{tikzpicture}[align-bottom]%
+        \pingu[body=pingu@main!90!white,cloak=black!99!darkgray,sunglasses,glasses opacity=1,normal,heart=black!15!white,bill=angry]
+    \end{tikzpicture}}~~~\onslide<6->{\begin{tikzpicture}[align-bottom]%
+        \pingu[body=pingu@main!90!white,name=a,sunglasses round,glasses round opacity=1,small,heart=cprimary!15!white,wings raise,halo,bow tie=cprimary,halo raise=1mm,feet simple]
+        \onslide<7->{\node[above=.75cm,align=center] at (a-head-top) {All hail the space!\\[-.65mm]\only<8->{\scriptsize \makebox[0pt]{Lehrfeld? Lärfeld? Learfeld? Nix?}}};}
+    \end{tikzpicture}}~~~\onslide<5->{\begin{tikzpicture}[align-bottom]%
+        \pingu[body=pingu@main!95!white,cloak=black!98!darkgray,sunglasses,glasses opacity=1,normal,heart=black!17!white,bill=angry]
+    \end{tikzpicture}}
+    \par\onslide<2->{\begin{tikzpicture}[align-bottom]%
+        \pingu[:back,hair 1=cprimary,cane right=pingu@bronze!80!brown,cane right raise=3mm,name=a,left wing raise]
+        \node[white,align=center,yshift=-2mm] at(a-bill-bottom) {\foekfamily SPACE\\{\punkfamily LOVE}};
+    \end{tikzpicture}}~\onslide<4->{\begin{tikzpicture}[align-bottom]
+        \pingu[:back,small,body=pingu@main!95!cprimary,hair 2=cprimary,name=a,wings wave,lollipop left=cprimary,feet color=pingu@yellow!95!brown]
+        \node[white,align=center,yshift=-3mm,scale=3] at(a-bill-bottom) {\ROSEBABY S};
+    \end{tikzpicture}\hskip-1.9em\begin{tikzpicture}[align-bottom]
+        \pingu[:back,large,body=pingu@main!86!brown,hair 3=cprimary,hat,name=a,left wing hug,feet color=pingu@yellow!90!brown]
+        % \node[white,align=center,yshift=-3mm,scale=3] at(a-bill-bottom) {\ROSEBABY S};
+    \end{tikzpicture}}~~\onslide<3->{\begin{tikzpicture}[align-bottom]
+        \pingu[:back,body=pingu@main!93!black,hair 4=cprimary,name=a,right wing raise,flag right=darkgray!80!cprimary!50!black,right item flip]
+        \node[white,align=center,yshift=-1mm] (cl) at(a-bill-bottom) {\bbfamily Calling};
+        \path[postaction={decorate},decoration={text along path, text={|\fontsize{4pt}{4pt}\selectfont\iminfamily|straight from},text align={fit to path},text color=white}] ([yshift=2mm]cl.south) ++ (270-75:22pt and 10pt) arc (270-75:270+75:22pt and 10pt);
+        \node[white,below=1.9mm,scale=.8,align=center] at(cl.south) {\def\rmdefault{AlphaSlabOne-TLF}\rmfamily outta\\[-3mm]\scriptsize\T{\textvisiblespace}};
+        % get space up there baby
+        \node[white,xshift=7mm,yshift=10mm,xscale=1.33] at(a-wing-right-tip.north) {\bjava[showspaces]{\ }};
+    \end{tikzpicture}}\hspace*{-1em}\null
+\end{frame}
+
+\section{Präsenzaufgabe}
+\begin{frame}{Präsenzaufgabe}
+    \begin{aufgabe}{Kommen Sie hier rein?}
+        \pause Konstruieren Sie für jede der folgenden Aussagen einen booleschen Ausdruck, welcher diese überprüft.
+        \begin{enumerate}[<+(1)->]
+            \item Eine Person ist Teenager. (\bjava{int alter} in Jahren)
+            \item Es ist Vormittag. (\bjava{int uhrzeit} im 24h-Format)
+            \item Eine Tür ist geschlossen. (\bjava{boolean istOffen})
+            \item Im Kaffee ist entweder Zucker \emph{oder} Milch, aber nicht beides. (\bjava{boolean zucker} und \bjava{boolean milch})
+        \end{enumerate}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\def\spar{\par}
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \itemsep=\medskipamount% TODO: talk about teenager problem
+        \item Teenager: \pause\bjava{alter >= 13 && alter <= 18} \info{oooder 19?}
+        \item Vormittag: \pause\bjava{uhrzeit >= 9 && uhrzeit <= 12}
+        \item Tür: \pause\bjava{!istOffen} \info{But who trusts the name?}
+        \item (Guter?) Kaffee: \pause\T{(zucker || milch) \pause\&\& !(zucker \&\& milch)}, oder: \pause\bjava{zucker ^ milch}.
+    \end{itemize}\bigskip
+  \begin{columns}
+    \column{0.75\linewidth}\pause{\textit{\bvoid{^} entspricht dem XOR-Operator.
+     \onslide<17->{Dieser evaluiert nur genau dann zu wahr, \onslide<18->{wenn einer der Parameter wahr und der andere falsch ist.}\spar}\vspace*{1.5cm}}}
+    \column{0.25\linewidth}{\onslide<12->{\vspace*{\dimexpr-\topsep-2\baselineskip}\begin{table}[H]\scriptsize
+        \centering\begin{mtabular}{ccc}
+            A & B & A \^{} B \\
+            \onslide<13->{0 & 0 & 0
+            \onslide<14->{\\0 & 1 & 1
+            \onslide<15->{\\1 & 0 & 1
+            \onslide<16->{\\1 & 1 & 0}}}}
+        \end{mtabular}
+    \end{table}}}
+    \end{columns}\vspace*{-0.25cm}
+\end{frame}
+
+
+\def\h#1{\textcolor{cprimary}{#1}}
+\def\brace#1{(#1)}
+\section{Übungsblatt 1}
+\subsection{Aufgabe 1}
+\begin{frame}{Übungsblatt 1 - Aufgabe 1 a)}
+    \begin{itemize}[]
+        \item \pause Hornerschema am Beispiel von $1101_{(2)}$: \pause\[(((\h{1}\cdot2 + \h{1})\cdot2 + \h{0}) \cdot 2) + \h{1} \pause = (((3)\cdot2 + \h{0}) \cdot 2) + \h{1} \pause = (6 \cdot 2) + \h{1} = 13_{(10)}.\vspace*{-0.5cm}\]
+        \item \pause \(1010101_{(2)} \pause = \brace{
+            \brace{
+                \brace{
+                    \brace{
+                        \brace{
+                            \h{1} \cdot 2 + \h{0}
+                        } \cdot 2 + \h{1}
+                    } \cdot 2 + \h{0}
+                } \cdot 2 + \h{1}
+            } \cdot 2 + \h{0}
+        } \cdot 2 + \h{1} \pause = 85_{(10)}\)
+        \item \pause \(12345_{(8)} \pause =
+            \brace{
+                \brace{
+                    \brace{
+                        \brace{
+                            \h{1} \cdot 8 + \h{2}
+                        } \cdot 8 + \h{3}
+                    } \cdot 8 + \h{4}
+                } \cdot 8 + \h{5}
+            }
+        \pause = 5349_{(10)}\)
+        \item \pause Hexadezimal:\pause{} \vspace*{-0.75\baselineskip}\begin{multicols}{4}
+                  \begin{enumerate}[]
+                      \foreach[count=\i] \a in {1,...,9,A,B,...,F}{
+                      \item $\a_{(16)}\; \widehat{=}\; \i_{(10)}$
+                            }
+                      \item %place holder for NOPE-balancing :D
+                  \end{enumerate}\vspace*{-\baselineskip}
+              \end{multicols}
+        \item \pause \(FACE_{(16)} \pause = ((\h{15} \cdot 16 + \h{10})\cdot 16 + \h{12}) \cdot 16 + \h{14} \pause = 64206_{(10)}\)
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Übungsblatt 1 - Aufgabe 1 a)}
+    \begin{itemize}[<+(1)->]
+        \item Wir können die Rechnungen auch tabellarisch veranschaulichen!\pause{} Zur Erinnerung:\pause{} \(1010101_{(2)} = \brace{
+            \brace{
+                \brace{
+                    \brace{
+                        \brace{
+                            \h{1} \cdot 2 + \h{0}
+                        } \cdot 2 + \h{1}
+                    } \cdot 2 + \h{0}
+                } \cdot 2 + \h{1}
+            } \cdot 2 + \h{0}
+        } \cdot 2 + \h{1} = 85_{(10)}\).
+    \end{itemize}
+    \TikzHorner[4]{1,0,1,0,1,0,1}{2}
+\end{frame}
+
+\begin{frame}{Übungsblatt 1 - Aufgabe 1 a)}
+    \begin{itemize}[<+(1)->]
+        \item Analog:\pause{} \(12345_{(8)} =
+        \brace{
+            \brace{
+                \brace{
+                    \brace{
+                        \h{1} \cdot 8 + \h{2}
+                    } \cdot 8 + \h{3}
+                } \cdot 8 + \h{4}
+            } \cdot 8 + \h{5}
+        }
+     = 5349_{(10)}\).\pause{}
+    \end{itemize}
+    \TikzHorner[3]{1,2,3,4,5}{8}
+\end{frame}
+
+\begin{frame}{Übungsblatt 1 - Aufgabe 1 a)}
+    \begin{itemize}[<+(1)->]
+        \item Sowie:\pause{} \(FACE_{(16)} = ((\h{15} \cdot 16 + \h{10})\cdot 16 + \h{12}) \cdot 16 + \h{14} = 64206_{(10)}\).\pause{}
+    \end{itemize}
+    \TikzHorner[3]{F,A,C,E}{16}
+\end{frame}
+
+\begin{frame}{Übungsblatt 1 - Aufgabe 1 b)\hfill Vorbemerkung}
+    \begin{itemize}[]
+        \itemsep5pt
+        \item \pause$14_{(10)}$ zur Basis 2. Eine Vorbemerkung: \begin{alignat*}{3}
+                  \onslide<3->{14 & \div 2 = 7 \qquad & 14 \bmod 2 & = 0\onslide<7->{~~(\leftarrow LSB)} \\}
+                  \onslide<4->{7  & \div 2 = 3 \qquad & 7 \bmod 2  & = 1 \\}
+                  \onslide<5->{3  & \div 2 = 1 \qquad & 3 \bmod 2  & = 1 \\}
+                  \onslide<6->{1  & \div 2 = 0 \qquad & 1 \bmod 2  & = 1\onslide<7->{~~(\leftarrow MSB)}}
+              \end{alignat*}
+        \item \onslide<8->{Damit gilt: $1110_{(2)} = (((\h{1} \cdot 2 + \h{1})\cdot 2 + \h{1})\cdot 2 + \h{0} \onslide<9->{= 14_{(10)}.}$}
+        \item \onslide<10->{\textit{Hinweis: Für \(b2\) genügt der Test auf gerade oder ungerade}.}
+        \item \onslide<11->{Dieses Art der Darstellung ist aber \textit{nicht} das Hornerschema!}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Übungsblatt 1 - Aufgabe 1 b)}
+    \begin{itemize}[]
+        \item Natürlich geht dies auch tabellarisch.\pause{} Zur Erinnerung:\pause{} $1110_{(2)} = (((\h{1} \cdot 2 + \h{1})\cdot 2 + \h{1})\cdot 2 + \h{0} = 14_{(10)}.$\pause{}
+              \TikzHornerReverse[4]{1,1,1,0}{2}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 2}
+% compensate for fat overflow
+\newcommand<>\hlkw[1]{{\savebox0{#1}\only#2{\bfseries\color{paletteA}}\makebox[\dimexpr\wd0+.285ex]{\strut#1}}}
+\newcommand<>\hloutkw[1]{{\savebox0{#1}\only#2{\bfseries\color{paletteB}}\makebox[\dimexpr\wd0+.285ex]{\strut#1}}}
+\def\g#1{{#1}}\def\k#1{{\savebox0{#1}\makebox[\dimexpr\wd0+.285ex]{\strut#1}}}
+\begin{frame}[c]{Übungsblatt 1 - Aufgabe 2}
+    \pause\centering \parbox{.65\linewidth}{%
+    \footnotesize\only<3->{\color{gray}}Angenommen, Sie überlegen sich ein \g{neues Tablet} für die \g{Uni} zu kaufen.
+    Sie stellen jedoch fest, dass die \g{Preise für elektronische Geräte} durch den \g{Chipmangel} in \g{letzter Zeit} stark gestiegen sind.
+    Nun haben Sie eine \g{Website} gefunden, die Ihnen die jeweiligen \g{\k{Tagespreise}} eines Tablets über die \g{letzten Monate} liefert.
+    Sie möchten nun den \g{\k{maximalen pro-}} \g{\k{zentualen Preisanstieg}} zwischen \g{\k{zwei aufeinanderfolgenden Tagen}} für dieses Tablet herausfinden.\bigskip\par
+    Entwickeln Sie einen \g{Algorithmus}, der aus einer \hlkw<4->{\g{\k{Liste von Tagespreisen}}} des Tablets den \hloutkw<4->{maximalen prozentualen Preisanstieg} von \hloutkw<4->{\g{\k{zwei aufein-}}} \hloutkw<4->{\g{\k{anderfolgenden Tagen}}} berechnet.}\only<5->{\qquad\parbox{.2\linewidth}{%
+        \centering\footnotesize \onslide<6->{\paletteA{Liste von Tagespreise}\\{\color{gray}\((p_1,\;\ldots,\;p_n)_{n\in\N}\)}\medskip\par
+        \onslide<7->{\faCaretDown\medskip\par \paletteC{Max. \% Preisanstieg}\\{\color{gray}\(\Delta_{max}\)}}}
+    }}
+\end{frame}
+
+{\def\g#1{{\only<2->{\color{black}}#1}}\def\k#1{{\savebox0{#1}\only<3->{\bfseries\color{paletteA}}\makebox[\dimexpr\wd0+.285ex]{\strut#1}}}
+\renewcommand<>\hlkw[1]{{\savebox0{#1}\makebox[\dimexpr\wd0+.285ex]{\strut#1}}}
+\renewcommand<>\hloutkw[1]{{\savebox0{#1}\makebox[\dimexpr\wd0+.285ex]{\strut#1}}}
+\begin{frame}[c]{Übungsblatt 1 - Aufgabe 2}
+    \centering \parbox{.65\linewidth}{\color{gray}\footnotesize Angenommen, Sie überlegen sich ein \g{neues Tablet} für die \g{Uni} zu kaufen.
+    Sie stellen jedoch fest, dass die \g{Preise für elektronische Geräte} durch den \g{Chipmangel} in \g{letzter Zeit} stark gestiegen sind.
+    Nun haben Sie eine \g{Website} gefunden, die Ihnen die jeweiligen \g{\k{Tagespreise}} eines Tablets über die \g{letzten Monate} liefert.
+    Sie möchten nun den \g{\k{maximalen pro-}} \g{\k{zentualen Preisanstieg}} zwischen \g{\k{zwei aufeinanderfolgenden Tagen}} für dieses Tablet herausfinden.\bigskip\par
+    Entwickeln Sie einen \g{Algorithmus}, der aus einer \hlkw<4->{\g{\k{Liste von Tagespreisen}}} des Tablets den \hloutkw<4->{maximalen prozentualen Preisanstieg} von \hloutkw<4->{\g{\k{zwei aufein-}}} \hloutkw<4->{\g{\k{anderfolgenden Tagen}}} berechnet.}\qquad\parbox{.2\linewidth}{%
+        \centering\footnotesize Begriffe:\medskip\\
+        \onslide<4->{Tagespreis\textcolor{gray}{liste}}\smallskip\\
+        \onslide<5->{\textcolor{gray}{zwei auff.} Tage}\smallskip\\
+        \onslide<6->{\textcolor{gray}{max. \%} Preisanstieg}\smallskip\\
+    }
+\end{frame}
+}
+
+\begin{frame}{Übungsblatt 1 - Aufgabe 2 a) \& b)}
+    \begin{enumerate}[a)]
+        \itemsep8pt
+        \item\pause \strut Problemspezifikation: \begin{itemize}[<+(1)->]
+            \itemsep3pt
+            \item \emph{Tagespreis:} positive reelle Zahl. Dargestellt mit zwei Nachkommastellen.
+            \item \emph{Tagespreisliste:} chronologisch sortierte Liste an Tagespreisen \([p_1, \ldots, p_n]\) mit \(n \in \N_1\).
+            \item \emph{Tag:} natürlicher Index in Tagespreisliste.
+            \item \emph{Zwei aufeinanderfolgende Tage:} zwei aufeinanderfolgende Listenindizes: \(i\) und \(i + 1\) wobei \(i, i + 1 < n\).
+            \item \emph{Preisanstieg:} positive Veränderung einer reellen Zahl (dem Tagespreis): \(p_{i + 1} - p_i > 0\).
+            \item \emph{maximaler prozentualer Preisanstieg:} größter relativer Preisanstieg: \(\max_{1 \leq i < n} \frac{p_{i + 1} - p_i}{p_i} \cdot 100\).
+        \end{itemize}\pause
+        {\footnotesize\textbf{Wichtig:} Wir sind hier nicht in einer Programmiersprache: Typen wie \say{\T{int}} gibt es nicht $\Rightarrow$ mathematische Notation benutzen oder eigenen Typ definieren (wie Tupel, \ldots)!}
+        \item\pause Problemabstraktion: \begin{itemize}[<+(1)->]
+            \itemsep3pt
+            \item \emph{Gegeben:} Chronologisch sortierte Liste \([p_1, \ldots, p_n]\) positiver reeller Zahlen. Annahme: \(n > 1\) (\say{letzte Monate}).
+            \item \emph{Gesucht:} Positive reelle Zahl \(m = 100\cdot \max_{1 \leq i < n} \frac{p_{i + 1} - p_i}{p_i}\) (\(X\,\%~\widehat{=}~\frac{X}{100}\)).
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[t]{Übungsblatt 1 - Aufgabe 2 c) \& d)}
+    \begin{enumerate}[a)]
+        \setcounter{enumi}{2}
+        \item \strut Algorithmenentwurf:
+        \setbeamercolor{itemize/enumerate subbody}{fg=black}%
+        \begin{enumerate}[(1)]
+            \itemsep3pt
+            \item\pause Setze $\Delta_{max} = 0$.
+            \item\pause Setze $i = 1$.
+            \item\label{alg:st}\pause Solange $(i < n)$, wiederhole:\smallskip\\
+                \pause \quad Setze \(test = \sfrac{(p_{i + 1} - p_i)}{p_i}\).\smallskip\\
+                \pause \quad Wenn \(test > \Delta_{max}\):~~Setze \(\Delta_{max} = test\).\smallskip\\
+                \pause \quad Erhöhe \(i\) um \(1\).
+            \item\pause Ergebnis ist $100 \cdot \Delta_{max}$.
+        \end{enumerate}
+        \medskip% Wir können Optimieren: einfach von oben herab
+        \item\pause Korrektheitsnachweis, Verifikation:\begin{enumerate}[1.]
+                  \item \pause Formale vollständige Induktion, oder:
+                  \item \pause\say{Textbasiert}.\pause{} \(i\) wächst streng monoton an, die Schleife wird damit genau \(n - 1\) mal durchlaufen.\pause{} Alle mathematischen Berechnungen terminieren per Konstruktion, ebenso die Zuweisungen. Der Algorithmus \textit{terminiert}.\medskip\pause
+
+                  Zudem ist er \textit{partiell korrekt}. Die maximale prozentuale Änderung ist immer größte relative Differenz für alle \([p_1, \ldots, p_{i + 1}]\) im \(i\)-ten Durchlauf.\pause{} Nach \(n - 1\) Durchläufen: \([p_1, \ldots, p_n]\). Basisfall mit \(i = 2\), für Schritt \(i \to i + 1\).
+              \end{enumerate}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Übungsblatt 1 - Aufgabe 2\hfill Notizen}
+    \begin{itemize}[<+(1)->]
+        \item Totale Korrektheit erfordert zwei Komponenten! \begin{enumerate}
+            \item \textit{Terminiertheit}: Der Algorithmus terminiert für jede definierte Eingabe.
+            \item \textit{Partielle Korrektheit}: Der Algorithmus liefert für jede definierte Eingabe ein korrektes Ergebnis, sofern er terminiert.
+        \end{enumerate}
+        \medskip
+        \item Es reicht in der Regel nicht aus: \begin{itemize}
+            \item \say{Maximum ist sicher größer als alle betrachteten Alternativen}.\pause{} Es muss dann zum Beispiel auch gezeigt werden, dass alle relevanten Alternativen in Betracht gezogen werden.
+            \item \say{Der Algorithmus findet das gesuchte Ergebnis}.\pause{} Wir Beweisen zwar (noch) nicht ganz formal. Dennoch sollte ein ausreichendes Verständnis für den Beweis gezeigt werden.
+        \end{itemize}\medskip
+        \item Vollständige Induktion über \(i\) (meist bei Schleifen): \begin{itemize}
+            \item Achtet darauf klar anzugeben, über was die Induktion läuft\pause\ \info{Länge der Einladungs-, Bekannten- oder Bedingungsliste? Das Durchschnittsalter der Person?}
+            \item Achtet auf eine vollständige Behauptung. Ist die unvollständig, ist es auch der Prozess an sich.
+            \item Induktionsanfang: Wir zeigen, dass es für ein \(i \in \N\) gilt, in der Regel \(i = 0\) oder \(i = 1\).
+            \item Induktionshypothese: Die Behauptung gilt für (ein) \(n\).
+            \item Induktionsschritt: Gilt die Behauptung für \(n\), so gilt sie auch für \(n + 1\).\pause{} \info{Hier wird fast immer die Hypothese benutzt um den Fall \(n + 1\) auf \(n\) zurückzuführen.}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Übungsblatt 1 - Aufgabe 2 d)\hfill Induktion}
+\parallelcontent[c]{\tiny
+\setbeamercolor{itemize/enumerate subbody}{fg=black}%
+\vspace*{-\baselineskip}\begin{enumerate}[(1)]
+    \itemsep1.5pt
+    \item\label{algA:a} Setze $\Delta_{max} = 0$.
+    \item\label{algA:b} Setze $i = 1$.
+    \item\label{algA:c} Solange $(i < n)$, wiederhole:\smallskip\\
+            \quad Setze \(test = \sfrac{(p_{i + 1} - p_i)}{p_i}\).\smallskip\\
+            \quad Wenn \(test > \Delta_{max}\):~~Setze \(\Delta_{max} = test\).\smallskip\\
+            \quad Erhöhe \(i\) um \(1\).
+    \item\label{algA:d} Ergebnis ist $100 \cdot \Delta_{max}$.
+\end{enumerate}
+}{\onslide<2->{Wir zeigen die partielle Korrektheit und nehmen die Termination hier als gegeben.}}\medskip\small
+    \onslide<3->{Für ein beliebiges aber festes \(n \in \N\) mit \(n \geq 2\) und der Eingabe \(p_1, \ldots, p_n\)} \onslide<4->{zeigen wir per vollständiger Induktion über \(i\),} \onslide<5->{dass in jedem Schritte gelte: \(\Delta_{max} \geq \max_{1 \leq j \leq i}(\sfrac{(p_{j + 1} - p_j)}{p_j})\).}\footnotesize
+    \begin{description}[xIA:]% Inudktionshypothese als Voraussetzung und Behauptung
+        \itemsep0pt
+        \item<6->[IA:] Mit \(i = 1\) ist \(\Delta_{max} = \frac{p_2 - p_1}{p_1}\) das triviale Maximum (\(1 \leq j \leq 1\)).
+        \item<7->[IH:] Es gilt \(\Delta_{max} \geq \max_{1 \leq j \leq i}(\sfrac{(p_{j + 1} - p_j)}{p_j})\) für \(i\).
+        \item<8->[IS:] Wir zeigen, dass auch \(\Delta_{max} \geq\allowbreak \max_{1 \leq j \leq i + 1}(\sfrac{(p_{j + 1} - p_j)}{p_j})\) gilt.
+        \onslide<9->{Das heißt, aktuell ist \(\Delta_{max} \geq \max_{1 \leq j \leq i}(\sfrac{(p_{j + 1} - p_j)}{p_j})\) und in der weiteren Schleife gilt:}\begingroup\scriptsize
+        \begin{enumerate}
+            \item<10-> \color{gray}\(test > \Delta_{max}\): Durch die Bedingung wird \(\Delta_{max}\) aktualisiert. Es gilt: \(\Delta_{max} = test \geq \max_{1 \leq j \leq i + 1}(\sfrac{(p_{j + 1} - p_j)}{p_j})\).
+            \item<11-> \color{gray}\(test \leq \Delta_{max}\): Das neue Glied durch \(i + 1\) ist kein neues Maximum. Es gilt: \(\Delta_{max} \geq \max_{1 \leq j \leq i + 1}(\sfrac{(p_{j + 1} - p_j)}{p_j}) \geq test\).
+        \end{enumerate}\endgroup
+    \end{description}
+    \onslide<12->{Nach \(n-1\) Schritten durch die Begrenzung \(i < n\), wurden alle \(p_1, \ldots, p_n\) betrachtet.} \onslide<13->{\(\Delta_{max}\) ist Maximum aller.}
+\end{frame}
+
+\begin{frame}{Übungsblatt 1 - Aufgabe 2 e)}
+    {}{\tiny
+        \setbeamercolor{itemize/enumerate subbody}{fg=black}%
+        \vspace*{-.9\baselineskip}\begin{enumerate}[(1)]
+            \itemsep1.5pt
+            \item\label{algA:a} Setze $\Delta_{max} = 0$.
+            \item\label{algA:b} Setze $i = 1$.
+            \item\label{algA:c} Solange $(i < n)$, wiederhole:\smallskip\\
+                    \quad Setze \(test = \sfrac{(p_{i + 1} - p_i)}{p_i}\).\smallskip\\
+                    \quad Wenn \(test > \Delta_{max}\):~~Setze \(\Delta_{max} = test\).\smallskip\\
+                    \quad Erhöhe \(i\) um \(1\).
+            \item\label{algA:d} Ergebnis ist $100 \cdot \Delta_{max}$.
+        \end{enumerate}
+    }
+    \begin{enumerate}[a)]
+        \setcounter{enumi}{4}
+        \item \pause Aufwandsanalyse: \begin{enumerate}[1.]
+                  \item \pause Tabellarisch, siehe Vorlesung, oder:
+                  \item \pause \say{Textbasiert}. Wir betrachten Stückweise: \begin{itemize}[<+(1)->]
+                      \item Die ersten Zuweisungen \ref{algA:a} \& \ref{algA:b} sind  exakt zwei Elementaroperation.
+                      \item Die äußere Schleife in \ref{algA:c} wird genau \(n - 1\) mal durchlaufen. \begin{description}[\textbullet\space]
+                        \item[\textbullet] Erste Schleifenanweisung bedarf dreier Elementaroperationen: Subtraktion, Division \& Zuweisung.
+                        \item[\textbullet] Zweite Schleifenanweisung ist ein Vergleich und maximal eine Zuweisung.
+                        \item[\textbullet] Dritte Schleifenanweisung ist eine Elementaroperation (je nach Definition auch zwei).
+                      \end{description}
+                      \item Das Endergebnis ist eine Multiplikation (und je nach Definition eine Zuweisung).
+                  \end{itemize}
+                  \item\pause Damit erhalten wir: \(2 + (n - 1) \cdot ( 3+ 2 + 1) + 2 + 2 = 6n - 2\)\pause{} (also \(\mathcal{O}(n)\)).
+              \end{enumerate}
+    \end{enumerate}
+\end{frame}
+
+\section{Aussicht: IEEE 754}
+\begin{frame}{Aussicht: Das IEEE 754 Format}
+    \begin{itemize}[<+(1)->]
+        \item Erlaubt es Gleitkommazahl in Bits darzustellen
+        \item Vorteil zu Festkommaformat: flexibler
+        \item Beispiel mit wissenschaftlicher Notation: $ + 1.42 \cdot 10^{12}$\smallskip
+        \item Grundlegend gilt für eine Zahl $a = s \cdot m \cdot b^e$, wobei: \begin{itemize}
+                  \item[$s$] Signum, Vorzeichen, Plus oder Minus
+                  \item[$m$] Mantisse an $\abs{m}$ Stellen (wie $1.42$), später genauer
+                  \item[$b$] Basis, normiert, für uns: $10$, im IEEE 754: $2$
+                  \item[$e$] Exponent an $\abs{e}$ Stellen.
+              \end{itemize}
+        \item Da Exponent immer positiv, existiert noch ein Bias $B$, ebenfalls definiert (meist auf die \say{Hälfte} das maximal möglichen Exponenten)
+        \item Die Mantisse wird für $b = 2$ auf $1.$ (\say{Eins komma}) normiert, es werden nur die Stellen nach dem Komma gespeichert.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Das IEEE 754 Format - Ein Beispiel}
+    \begin{itemize}[<+(1)->]
+        \item Konvertiere $7.25$ ins IEEE 754 Format, wobei $\abs{m} = 5$, $\abs{e} = 2$. Der Bias sei $1$:
+        \begin{enumerate}[1.]
+                  \item positiv $\Rightarrow$ $S = 0$ [$s = (-1)^S$]
+                  \item konvertiere die Zahl in das Binärsystem (nach dem Komma gilt $2^{-1}2^{-2}2^{-3}\ldots$):\pause{} \(7.25_{(10)} = 111.01\)
+                  \item Normalisiere Mantisse: $111.01 =\pause 1.1101 \cdot 2^2 \Rightarrow M = 1101$
+                  \item Berechne Exponent: $e = 2 \overset{+B = 1}{\Rightarrow}\pause E = 3_{(10)} = 11_{(2)}$
+                  \item Überraschung, es geht alles auf \Smiley (wenn nicht, muss dies kenntlich gemacht werden, es existieren Rundungsverfahren!)
+                  \item Gebe Ergebnis an ($S = 0$, $E = 11$, $M = 1101$). \pause{}
+                        Wir erhalten: \[\underbrace{0}_{S} \underbrace{11}_{E} \underbrace{11010}_{M} = 01111010\vspace*{-0.25cm}\]
+                        \pause{} Die Mantisse wird logisch (rechts!!!) mit Nullen aufgefüllt ($8$ Bit, jay \Smiley).
+                  \item Hinweis: Zahlen wie die '0', Unendlich, NaN (Not a Number) besitzen besondere Darstellungen.
+              \end{enumerate}
+        \item Beachte \emph{Verlust}, Wenn Mantisse oder Exponent zu groß/klein!
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Das IEEE 754 Format - Die Formate}
+    \pause Hier die wichtigsten IEEE 754 Formate (dies so wirklich gibt) zum Sehen und
+    Vergessen:\pause{}
+    \begin{table}[H]
+        \begin{mtabular}{l*4{c}}
+            Typ & Größe & Exponent & Mantisse & Bias \\
+            single & 32 bit & 8 bit & 23 bit & 127 \\
+            double & 64 bit & 11 bit & 52 bit & 1023 \\
+            \multicolumn{5}{c}{\vdots} \\
+            single ext, min & 43 bit & 11 bit & 31 bit & 1023 \\
+            double ext. min & 79 bit & 15 bit & 63 bit & 16383 \\
+        \end{mtabular}
+    \end{table}
+\end{frame}
+
+\begin{frame}{Das IEEE 754 Format - Ein Beispiel, reloaded}
+    \begin{itemize}[<+(1)->]
+        \item \strut Konvertiere \(01111010\) aus dem IEEE 754 Format ins Fließkommaformat, wobei \(\abs{m} = 5\) und \(\abs{e} = 2\). Der Bias sei $1$:
+        \begin{enumerate}[1.]
+                  \item Erstes Bit $0$ $\Rightarrow$ positiv
+                  \item Betrachte nächste beiden Bits (da $\abs{e} = 2$): $11_{(2)} \widehat{=} 3_{(10)}$\pause{} Bias abziehen ergibt: $3 - 1 = 2$.
+                  \item Isoliere Mantisse: $11010$ (da $\abs{m} = 5$), füge \say{Eins komma} an:\pause{} $1.11010$\pause{} multipliziere über Basis ($=2$) mit Exponent:\pause{} $1.1101 \cdot 2^2 \pause{}= 111.01$.
+                  \item Rechne um: $111.01_{(2)} \pause{}\;\widehat{=}\; 7 + 0 \cdot 2^{-1} + 1 \cdot 2^{-2} = 7.25_{(10)}$
+                  \item Füge Vorzeichen an (hier positiv):\pause{} $7.25$, ferddisch! (und schdimmd, \Laughey)
+              \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Das IEEE 754 Format - Rundungsproblematik}
+    \begin{itemize}[<+(1)->]
+        \item Da mit $2^{-1}2^{-2}2^{-3}\ldots$ nicht jede (dezimale) Fließkommazahl exakt darstellbar.
+        \item Beispiel: \pause
+              \ijava{RoundingProblem.java}
+        \item Erwartung: $0.1$ und $0.1$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Das IEEE 754 Format - Rundungsproblematik}
+    \begin{itemize}
+        \rExecute{javac RoundingProblem.java}%
+        \item \textbf{Leider nein}:\rbash[:\pause]{java RoundingProblem}
+        \item\pause{}Warum?\pause{}\newline{}$0.1_{(10)} \pause{}\,\widehat{=}\, 0.000110011001100110011\ldots_{(2)} \pause\neq 0.1_{(10)}$ da Mantisse begrenzt.
+    \end{itemize}
+\end{frame}
+
+\section{Bonus: Weitere Algorithmusanalyse}
+
+
+\begin{frame}[c]{Algorithmenbau}
+    \pause\centering \parbox{.65\linewidth}{\footnotesize Gegeben sei folgende Situation: Es soll ein kleine Party veranstaltet werden, zu der Sie möglichst viele Ihrer Bekannten
+    einladen wollen. Jedoch gibt es hier verschiedene Bedingungen, die zu beachten sind: zum einen kommen Einige nur
+    dann, wenn auch eine andere Person eingeladen wird. Andere wiederum können bestimmte Personen nicht leiden und
+    kommen nicht, wenn eine bestimmte Person auch eine Einladung erhält. Nehmen Sie an, dass sie bereits eine Liste
+    dieser Bedingungen in Form von Aussagen \say{X kommt nur, wenn Y kommt} oder \say{X kommt nicht, wenn Y kommt} aufgeschrieben haben.\pause\bigskip\par \footnotesize
+        Entwickeln Sie einen Algorithmus, der Ihnen aus der Liste Ihrer Bekannten und der Liste an Bedingungen eine Einlandungsliste berechnet, die möglichst viele Personen einlädt.
+    }\qquad\parbox{.25\linewidth}{%
+        \scriptsize
+        \onslide<4->{\begin{enumerate}[a)]
+            \item Problemspezifikation
+            \item Problemabstraktion
+            \item Algorithmenentwurf
+            \item Korrektheitsnachweis
+            \item Aufwandsanalyse
+        \end{enumerate}}
+    }
+\end{frame}
+
+\begin{frame}[c]{Algorithmenbau}
+    \pause\centering \parbox{.65\linewidth}{\only<4->{\color{gray}}\footnotesize Gegeben sei folgende Situation: Es soll ein kleine Party veranstaltet werden, zu der Sie möglichst viele Ihrer Bekannten
+    einladen wollen. Jedoch gibt es hier verschiedene Bedingungen, die zu beachten sind: zum einen kommen Einige nur
+    dann, wenn auch eine andere Person eingeladen wird. Andere wiederum können bestimmte Personen nicht leiden und
+    kommen nicht, wenn eine bestimmte Person auch eine Einladung erhält. Nehmen Sie an, dass sie bereits eine Liste
+    dieser Bedingungen in Form von Aussagen \say{X kommt nur, wenn Y kommt} oder \say{X kommt nicht, wenn Y kommt} aufgeschrieben haben.\pause\bigskip\par \footnotesize
+        \only<4->{\color{gray}}Entwickeln Sie einen Algorithmus, der Ihnen aus der {\only<4->{\bfseries\color{paletteA}}Liste Ihrer Bekannten} {\only<4->{\color{gray}}und} der {\only<4->{\bfseries\color{paletteA}}Liste an Bedingungen} eine {\only<4->{\bfseries\color{paletteC}}Einlandungsliste berechnet}, die möglichst viele Personen einlädt.
+    }\only<5->{\qquad\parbox{.25\linewidth}{%
+        \centering\footnotesize \onslide<6->{\paletteA{Bekanntenliste}\\{\color{gray}\((b_1,\;\ldots,\;b_n)\)}\par
+        \onslide<7->{\paletteA{Bedingungsliste}\\{\color{gray}\((c_1,\;\ldots,\;c_k)\)}\medskip\par}
+        \onslide<8->{\faCaretDown\medskip\par \paletteC{Einladeliste}\\{\color{gray}\((e_1, \ldots,\;e_j)\)}}}
+    }}
+\end{frame}
+
+{\def\g#1{{\only<2->{\color{black}}#1}}\def\k#1{{\only<3->{\bfseries\color{paletteA}}#1}}
+\begin{frame}[c]{Algorithmenbau}
+    \centering \parbox{.65\linewidth}{\color{gray}\footnotesize Gegeben sei folgende Situation: Es soll ein \g{kleine Party} veranstaltet werden, zu der Sie möglichst viele Ihrer \g{\k{Bekannten}}
+    einladen wollen. Jedoch gibt es hier verschiedene \g{\k{Bedingungen}}, die zu beachten sind: zum einen \g{kommen} Einige nur
+    dann, wenn auch eine andere Person eingeladen wird. Andere wiederum können bestimmte \g{Personen} nicht leiden und
+    kommen nicht, wenn eine bestimmte Person auch eine \g{\k{Einladung}} erhält. Nehmen Sie an, dass sie bereits eine Liste
+    dieser Bedingungen in Form von \g{Aussagen} \say{X kommt nur, wenn Y kommt} oder \say{X kommt nicht, wenn Y kommt} aufgeschrieben haben.\bigskip\par \footnotesize
+    Entwickeln Sie einen Algorithmus, der Ihnen aus der \g{Liste} Ihrer Bekannten und der Liste an Bedingungen eine Einlandungsliste berechnet, die \g{\k{möglichst viele}} Personen einlädt.
+    }\qquad\parbox{.25\linewidth}{%
+        \centering\footnotesize Begriffe:\medskip\\
+        \onslide<4->{Bekannten\textcolor{gray}{liste}}\\
+        \onslide<5->{Bedingungs\textcolor{gray}{liste}}\\
+        \onslide<6->{Einladungs\textcolor{gray}{liste}}\\
+        \onslide<7->{möglichst viele}\\
+    }
+\end{frame}
+}
+
+\begin{frame}{Algorithmenbau a) \& b)}
+    \begin{enumerate}[a)]
+        \item\pause Problemspezifikation: \begin{itemize}[<+(1)->]
+            \item \emph{Bekanntenliste:} eine Menge von Personen \info{z.B. als Zeichenketten der Namen}.
+            \item \emph{Einladungsliste:} eine Teilmenge der Menge an bekannten Personen.
+            \item \emph{Möglichst viele:} maximale Größe der Menge eingeladener Bekannter.
+            \item \emph{Bedingung:} eine eindeutig überprüfbare Aussage \info{hier über die Einladungsliste}.
+            \item \emph{Bedingungsliste:} eine Menge an Bedingungen.
+        \end{itemize}
+        \pause\par
+        {\scriptsize\info{Warum Mengen und nicht mehr Listen? Für jede Liste können wir Argumentieren, dass Dopplungen unsinnig sind: Doppelte Einladungen sind ebenso sinnfrei wie doppelte Bedingungen. Damit lockern wir so das Problem ein wenig auf und vereinfachen uns die Lösung.}\par}
+        \item\pause Problemabstraktion: \begin{itemize}[<+(1)->]
+            \item \emph{Gegeben:} (\(n, k \in \N\)) \begin{enumerate}[1.]
+                \item Eine endliche Menge von Bekannten \(B = \{b_1, \ldots, b_n\}\) \info{hoffentlich mit \(B \neq \emptyset\) \Laughey}.
+                \item Eine endliche Menge an Bedingungen \(C = \{c_1, \ldots, c_k\}\).
+            \end{enumerate}
+            \item \emph{Gesucht:} Eine Menge einzuladender Bekannten \(E \subseteq B\), die alle Bedingungen \(c \in C\) erfüllt, mit maximalem \(\abs{E}\).
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Algorithmenbau c) \& d)}
+    \begin{enumerate}[a)]
+        \setcounter{enumi}{2}
+        \item Algorithmenentwurf: \info{Wir probieren einfach jede Konstellation}% Note => SAT-Solving
+        \null\quad\parallelcontent[c]{\setbeamercolor{itemize/enumerate subbody}{fg=black}%
+        \begin{enumerate}[(1)]
+            \item\pause Setze $Max = \emptyset$.
+            \item\label{alg:st}\pause Für alle $E \in \P(B)$ (alternativ: \(E \subseteq B\)):\\
+                \pause \quad Wenn ($\abs{E} > \abs{Max}$):\\
+                \pause \qquad Für alle \(c \in C\):\\
+                \pause \quad\qquad Wenn (\(E\) erfüllt nicht \(c\)): Weiter über (\ref{alg:st}).\\
+                \pause \qquad Setze \(Max = E\).
+            \item\pause Ergebnis ist $Max$.
+        \end{enumerate}
+        }{\pause\footnotesize\color{gray}%
+            \say{E erfüllt nicht \(c\)} können wir unterschiedlichst testen. Ganz naiv genügt hier ein Test abhängig von der Form: \begin{enumerate}[(1)]
+                \item \say{X nur, wenn Y}:\\ \(c\) scheitert, wenn \(X \in E\) aber \(Y \not\in E\).
+                \item \say{X nicht, wenn Y}:\\ \(c\) scheitert, wenn \(X \in E\) und \(Y \in E\).
+            \end{enumerate}
+        }\medskip% Wir können Optimieren: einfach von oben herab
+        \item\pause Korrektheitsnachweis, Verifikation:\begin{enumerate}[1.]
+                  \item \pause Vollständige Induktion, oder:
+                  \item \pause\say{Textbasiert}.\pause{} \(B\) und \(C\) sind endliche und konstante Mengen (damit ist auch \(\P(B)\) endlich und konstant).\pause{} Daraus werden auch die Schleifen nur endlich oft durchlaufen. Der Algorithmus \textit{terminiert} somit.\smallskip
+
+                  \pause Zudem ist er \textit{partiell korrekt}, in jedem Durchlauf wird \(Max\) genau dann geändert, wenn \(E\) größer ist \emph{und} alle \(c \in C\) erfüllt.\pause{} Da alle möglichen Konstellationen \(E \subseteq B\) geprüft werden, findet sich so das \(E\) mit maximaler Kardinalität.
+              \end{enumerate}
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}{Algorithmenbau e)}
+    {}{\tiny
+        \parallelcontent{\setbeamercolor{itemize/enumerate subbody}{fg=black}%
+        \vspace*{-\baselineskip}\begin{enumerate}[(1)]
+            \item\pause\label{algA:a} Setze $Max = \emptyset$.
+            \item\label{algA:b} Für alle $E \in \P(B)$ (alternativ: \(E \subseteq B\)):\\
+                \quad Wenn ($\abs{E} > \abs{Max}$):\\
+                \qquad Für alle \(c \in C\):\\
+                \quad\qquad Wenn (\(E\) erfüllt nicht \(c\)): Weiter über (\ref{alg:st}).\\
+                \qquad Setze \(Max = E\).
+            \item\label{algA:c} Ergebnis ist $Max$.
+        \end{enumerate}
+    }{%
+        \pause\medskip\par\footnotesize\color{gray}%
+        Aus der Mathematik ist bekannt, dass für eine endliche Menge \(\abs{\P(X)} = 2^{\abs{X}}\).
+    }}\bigskip
+    \begin{enumerate}[a)]
+        \setcounter{enumi}{4}
+        \item \pause Aufwandsanalyse: \begin{enumerate}[1.]
+                  \item \pause Tabellarisch, siehe Vorlesung, oder:
+                  \item \pause \say{Textbasiert}. Wir betrachten Stückweise: \begin{itemize}[<+(1)->]
+                      \item Die erste Zuweisung \ref{algA:a} ist exakt eine Elementaroperation.
+                      \item Die äußere Schleife in \ref{algA:b} wird \(2^{\abs{B}}\) mal durchlaufen.
+                      \item Die erste Bedingung bedarf 3 Elementaroperationen: 2 Kardinalitätsberechnungen, 1 Vergleich.
+                      \item Die innere Schleife wird (bis zu) \(\abs{C}\) mal durchlaufen.
+                      \item Die innere Schleife enthält eine Elementaroperation.
+                      \item Die äußere Schleife enthält weiter noch eine Elementaroperation (\(Max = E\)).
+                  \end{itemize}
+                  \item\pause Damit erhalten wir: \(1 + 2^{\abs{B}} \cdot (3 + \abs{C} \cdot (1) + 1) = 1 + 2^{\abs{B}} \cdot (4 + \abs{C})\)
+              \end{enumerate}
+    \end{enumerate}
+\end{frame}
+
+
+
+\section{End Pinguuu}
+\begin{frame}[c]
+    \hbox{}\vfill
+    \centering\onslide<2->{\begin{tikzpicture}[scale=1.9]
+            \pingu[name = herbertine, heart=purple!15!pingu@white, left wing hug, right wing wave,eyes shiny]
+            \node[above, inner sep=1.5pt,scale=4, pingu@red!70!white] at(herbertine-wing-right-tip) {\faHeart};
+            % \HerbertMarkers
+        \end{tikzpicture}\begin{tikzpicture}[scale=1.9]
+            \pingu[name = herbert, heart=teal!15!pingu@white, wings shock, eyes shock,pumpkin-hat,pumpkin-hat outline=gray!70!pingu@bronze]
+            % \HerbertMarkers
+        \end{tikzpicture}}
+\end{frame}
+\end{document}

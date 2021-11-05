@@ -1,0 +1,108 @@
+\ProvidesPackage{tikz-horner}[2020/11/03 v1.0 Horner schema]
+
+\RequirePackage{tikz,xstring}
+\usetikzlibrary{arrows.meta}
+
+% Just to avoid duplication in multiple
+\newcounter{hornerLast}
+% [#1] animation offset
+% #2 list
+% #3 multiplier
+\newcommand*\tikzHorner[3][5]{
+% bincode w/ shift of 3:
+\setcounter{hornerLast}{-1}
+\foreach[count=\i, evaluate=\i as \ci using {int(\i+#1)},
+    evaluate=\i as \xi using {1.55*\i}, remember=\i as \li (initially 0)] \b in {#2} {
+        % double last
+        \ifnum\i>1
+            \setcounter{hornerLast}{#3*\value{hornerLast}}
+        \fi
+        \onslide<\ci->{%
+            \node at (\xi,0) {\b};
+            \node at (\xi,-0.5) {+};
+            \ifnum\value{hornerLast}<0%
+            \node (p\i) at (\xi, -1) {};
+            \else
+            \node (p\i) at (\xi, -1) {\arabic{hornerLast}};
+            \fi
+            \node at (\xi,-1.5) {=};
+            % decode if hexadecimal?
+            \IfInteger{\b}{}{
+                \pgfmathsetmacro\db{int(0x\b)}
+                \xdef\b{\db}
+            }
+            \ifnum\i=1%
+                \setcounter{hornerLast}{\b}
+            \else
+                \addtocounter{hornerLast}{\b}
+            \fi
+            \node (\i) at (\xi,  -2) {\arabic{hornerLast}};
+            \ifnum\i>1% arrow *2
+                \draw[-Kite] (\li) to[edge node={node[above,sloped,scale=0.75] {\({}\cdot{}\,\)#3}}] (p\i);
+            \fi
+        }
+    }
+}
+% [#1] animation offset
+% #2 list
+% #3 multiplier
+\newcommand*\tikzHornerReverse[3][5]{
+% bincode w/ shift of 3:
+\setcounter{hornerLast}{0}
+% First: get length
+\foreach[count=\i] \ignored in {#2} {\setcounter{hornerLast}{\i}}
+\xdef\TotalCount{\thehornerLast}% store value
+\setcounter{hornerLast}{-1}% reset
+\foreach[count=\i, evaluate=\i as \ci using {int(\TotalCount-\i+#1)},
+    evaluate=\i as \xi using {1.55*\i}, remember=\i as \li (initially 0)] \b in {#2} {
+        % double last
+        \ifnum\i>1
+            \setcounter{hornerLast}{#3*\value{hornerLast}}
+        \fi
+        \onslide<\ci->{%
+            \node at (\xi,0) {\b};
+            \node at (\xi,-0.5) {+};
+            \ifnum\value{hornerLast}<0%
+            \node (p\i) at (\xi, -1) {};
+            \else
+            \node (p\i) at (\xi, -1) {\arabic{hornerLast}};
+            \fi
+            \node at (\xi,-1.5) {=};
+            % decode if hexadecimal?
+            \IfInteger{\b}{}{
+                \pgfmathsetmacro\db{int(0x\b)}
+                \xdef\b{\db}
+            }
+            \ifnum\i=1%
+                \setcounter{hornerLast}{\b}
+            \else
+                \addtocounter{hornerLast}{\b}
+            \fi
+            \node (\i) at (\xi,  -2) {\arabic{hornerLast}};
+        }
+    }
+\foreach[count=\i, evaluate=\i as \ci using {int(\TotalCount-\i+#1+1)},
+    evaluate=\i as \xi using {1.55*\i}, remember=\i as \li (initially 0)] \b in {#2} {
+        \ifnum\i>1% arrow *2
+            \onslide<\ci->{%
+                \draw[Kite-] (\li) to[edge node={node[above,sloped,scale=0.75] {\({}\div{}\,\)#3}}] (p\i);
+            }
+        \fi
+
+    }
+}
+\newcommand*\TikzHorner[3][5]{%
+    \vfill\begin{center}
+        \begin{tikzpicture}
+            \tikzHorner[#1]{#2}{#3}
+        \end{tikzpicture}
+    \end{center}\vfill\null
+}
+\newcommand*\TikzHornerReverse[3][5]{%
+    \vfill\begin{center}
+        \begin{tikzpicture}
+            \tikzHornerReverse[#1]{#2}{#3}
+        \end{tikzpicture}
+    \end{center}\vfill\null
+}
+\endinput

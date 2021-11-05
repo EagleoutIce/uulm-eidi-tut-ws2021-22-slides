@@ -1,0 +1,573 @@
+\errorcontextlines 999999
+\usepackage{attachfile2}
+\attachfilesetup{%
+    author={Florian Sihler},%
+    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
+}
+
+\usepackage[%
+    sopra-listings={encoding,cpalette,highlights,numinpar},%
+    sopra-tables, color-palettes={addons}, util,%
+    lithie-boxes={germanenv,koma,overwrite},%
+    lithie-task-boxes={cpalette}, lecture-links={patchurl},%
+    lecture-registers={disable}% would interfere with beamer
+]{lithie-util}
+
+\RequirePackage{lecture-personal-tikz}
+
+\usepackage[ngerman]{babel}
+
+\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
+\RestyleAlgo{plain}
+\solLoadLanguage{bash,cpp}
+
+\def\lhnselementformat#1{\texttt{#1}\hfill\hbox{}}
+\def\lhnsielementformat#1{\textbf{\vphantom{A}#1}}
+\long\def\lhnselementbox#1#2{\parbox{#1}{~#2~}}%
+\makeatletter
+\lhns@minborderheight=5.4cm
+\makeatother
+
+\tikzset{lhns@impstyle/.style={}}%
+
+\def\solcustom{fill=paletteA!30,draw=paletteA!30}
+
+
+\usepackage[chess]{eagle-maps}
+\colorlet{chesswhite}{paletteA!90!white}
+\colorlet{chessblack}{paletteB!90!white}
+
+\colorlet{MaterialHeaderColor}{paletteB}%
+\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
+
+\def\linkstyle#1{\textsf{\paletteD{#1}}}
+\SetAllLinkStyle{\linkstyle{#1}}
+\usepackage{tikzducks,tikzsymbols}
+\usetheme{lucy}
+
+\colorlet{chessfieldblack}{lightgray}
+
+\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
+
+\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
+
+\newcommand\parallelcontent[3][t]{%
+\begin{columns}[#1]
+    \begin{column}{0.475\linewidth}#2\end{column}\hfill
+    \begin{column}{0.475\linewidth}#3\end{column}
+\end{columns}}
+
+\title[Sechstes Tutorium -- Übungsblatt 6]{Miau Miau Wuff Miau\\\small Tutorium 6}
+\date{\sffamily KW 23}
+\author{Florian Sihler}
+\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+
+\lstset{add to literate={Member}{{{\solGet{keywordC}{Member}}}}6}
+\usepackage{tikzpingus-old}
+\newsavebox\oldpingus
+\savebox\oldpingus{%
+\begin{tikzpicture}[every node/.style={font=\sffamily}]
+    \newcounter{dotblobcounter}% hihi
+    % Color: #1, whereX #2 whereY #3 | #4 additional features
+    \def\DotBlob#1#2#3#4{\stepcounter{dotblobcounter}\node[circle, minimum width=0.75cm] (db\thedotblobcounter) at(2+1.25*#2,-1.25*#3+0.5/2) {};% auto calc offset, for spacing
+        % \fill[white] (db\thedotblobcounter) circle(0.3);% opacity compensation
+        \begin{scope}[scale=0.25]
+            \pgfmathsetmacro\px{4*(2+1.25*#2)-0.95}
+            \pgfmathsetmacro\py{4*(-1.25*#3+0.5/2)-0.75}
+            \begin{scope}[xshift=\px cm-2.25cm,yshift=\py cm+4.5cm]
+                \edef\pingutmp{\noexpand\pingu[body=#1,heart=#1!20,#4]}\pingutmp
+            \end{scope}
+        \end{scope}
+    }
+    \foreach[count=\y] \lab/\col in {Master/paletteA,Release/paletteB,Develop/paletteC,Peep 1/paletteD,Peep 42/paletteD} {
+        \draw[thin,dotted,black!50!white] (2,-1.25*\y+0.5/2) -- ++(1.25*9.5,0); % nicer for borderoverly if before
+        \draw[\col,fill=\col,rounded corners,thick] (0,-1.25*\y) rectangle ++(2,0.5) node[midway,centered,color=black,font=\fillfont,writ] {\footnotesize\lab};
+    }
+    % Draw the dotblobbs:
+    \foreach[count=\bloby] \blobcol/\blobs in {%
+        paletteA/{1/{},3/{right eye wink,strawhat=paletteA!90!black, strawhat ribbon=paletteA},8/{sunglasses=paletteA!90!black,right eye wink,shirt=paletteA!90!black,wings wave,strawhat=paletteA!90!black, strawhat ribbon=paletteA}},% master
+        paletteB/{7/{sunglasses=paletteB!90!black,shirt=paletteB!90!black,wings wave},8/{sunglasses=paletteB!90!black,shirt=paletteB!90!black,wings wave}},% release
+        paletteC/{2/{sunglasses=paletteC!90!black},3/{sunglasses=paletteC!90!black},4/{sunglasses=paletteC!90!black},6/{sunglasses=paletteC!90!black,shirt=paletteC!90!black},9/{sunglasses=paletteC!90!black,shirt=paletteC!90!black,wings wave}},% develop
+        paletteD/{4/{shirt=paletteD!90!black,sunglasses=paletteD!90!black},5/{shirt=paletteD!90!black,sunglasses=paletteD!90!black}},%feature 1
+        paletteD/{2/{santa=paletteD!90!black,sunglasses=paletteD!90!black},3/{santa=paletteD!90!black,sunglasses=paletteD!90!black},4/{santa=paletteD!90!black,sunglasses=paletteD!90!black},5/{santa=paletteD!90!black,sunglasses=paletteD!90!black}}%feature 2
+    }{
+        \foreach \blobx/\feature in \blobs {
+            \DotBlob{\blobcol}{\blobx}{\bloby}{\feature}
+        }
+    }
+    % draw the paths :D
+    \foreach \dbpath in {{1,2,3},{1,6,7,8,9,10},{9,4,5,10},{5,3},{6,13,14,15,16},{7,11,12,9}}{%
+        \foreach [count=\i,remember=\db as \ldb (initially 0)] \db in \dbpath {%
+            \ifnum\i>1\relax
+                \draw[-Kite] (db\ldb) -- (db\db);
+            \fi
+        }
+    }
+    % lets make the tags:
+    \foreach[count=\i] \x/\lab in {1/{0.1},3/{0.2},8/{1.0}}{
+        \draw[paletteA,fill=shadeA,rounded corners] (1.25*\x+2 - 0.75/2,0) rectangle ++(0.75,0.35) node[midway,centered] {\tiny v\lab};
+        \draw[-Kite] (1.25*\x+2,-0.125) -- (db\i);
+
+    }
+\end{tikzpicture}}
+\let\pingu\relax
+\usepackage[glows]{tikzpingus}
+\pingudefaults{lightsaber left outer glow factor=.05,lightsaber right outer glow factor=.05}
+\usetikzlibrary{decorations.text}
+\hypersetup{colorlinks=false}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{tikzpicture}[overlay]
+        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
+            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
+        \end{scope}
+        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {6};
+    \end{tikzpicture}
+    \titlepage
+\end{frame}
+
+\section{Präsenzaufgabe}
+\begin{frame}[fragile]{Präsenzaufgabe}
+    \begin{aufgabe}{Natürlich bin ich ein Teil von dir}
+        \pause{}Implementieren Sie eine \bjava{Member}-Klasse für Mitglieder einer Bibliothek.
+        Diese soll einen nicht-leeren Namen und Vornamen (veränderbar), sowie ein Geburtsdatum im Format \T{TT.MM.YYYY} (unveränderbar) verwalten.
+\begin{enumerate}[<+(1)->]
+    \item Definieren Sie die Klasse, inklusive aller notwendiger Attribute und mit sinnvollen Modifikatoren.\pause{} Fügen sie \textit{Getter}-Methoden so hinzu, dass die Objekte von außen nicht mehr geändert werden können.\pause{}\par
+    {\footnotesize\textit{Hinweis:} Ein Datum kann mit der Klasse \bjava{SimpleDateFormat} geparsed werden.\pause{} Nutzen Sie \bjava{SimpleDateFormat::parse} und \bjava{SimpleDateFormat::format}, zur Konversion von \bjava{String} in \bjava{java.util.Date} und umgekehrt.\pause{} Übergeben Sie dem Konstruktor das Datumsformat als \bjava{\"dd.MM.yyyy\"}. Ein Datum kann durch \bjava{Date::clone} kopiert werden.\par}
+\end{enumerate}\vspace*{-\medskipamount}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe}
+    \begin{aufgabe}{Natürlich bin ich ein Teil von wir}
+        \pause Implementieren Sie eine \bjava{Member}-Klasse mit nicht-leerem Namen und Vornamen, sowie ein Geburtsdatum im Format \T{TT.MM.YYYY}.
+\begin{enumerate}[<+(1)->]
+    \setcounter{enumi}{1}
+    \item Implementieren Sie einen Konstruktor \bjava{Member(String, String, String)}, der alle Attribute übergeben bekommt \textit{und} überprüft. Wird auch nur eine Bedingung verletzt, soll eine \bjava{IllegalArgumentException} geworfen werden.\smallskip\pause{}\par
+    {\footnotesize\textit{Hinweis:} \bjava{SimpleDateFormat::parse} wirft eine \bjava{java.text.ParseException}, wenn der String \textit{nicht} dem gewünschten Format entspricht.\par}
+\end{enumerate}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe}
+    \begin{aufgabe}{Natürlich bin ich ein Teil von mir}
+        \pause Implementieren Sie eine \bjava{Member}-Klasse mit nicht-leerem Namen und Vornamen, sowie ein Geburtsdatum im Format \T{TT.MM.YYYY}.
+\begin{enumerate}[<+(1)->]
+    \setcounter{enumi}{2}
+    \item Implementieren Sie eine Methode der Gestalt: \bjava{public boolean equals(Member other)}, welche das \bjava{Member}-Objekt mit \bjava{other} vergleicht.\pause{} Hat \bjava{other} den Wert \bjava{null}, so soll eine \bjava{NullPointerException} geworfen werden.
+\end{enumerate}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe -- Übersicht}
+    \begin{aufgabe}{Oh schau mal, da sind sie!}
+        \bjava{Member}: nicht-leere Namen, Vornamen und Geburtsdatum (fest, \T{dd.MM.yyyy}).
+\begin{enumerate}[<+(1)->]
+    \item Attribute (samt Modifikatoren). \textit{Getter}, die Änderungen von außen verhindern.
+    \item Konstruktor \bjava{Member(String, String, String)}, der Parameter \textit{auch} überprüft. Bei Fehler: \bjava{IllegalArgumentException}.\smallskip\pause{}\par
+    {\footnotesize\textit{Hinweis:} \bjava{SimpleDateFormat::parse} wirft \bjava{java.text.ParseException}.\par}
+    \item \bjava{public boolean equals(Member other)}, welches das \bjava{Member}-Objekt mit \bjava{other} vergleicht (\bjava{NullPointerException} wenn \bjava{other} \bjava{null} ist).
+\end{enumerate}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \item Die ganze Freude befindet sich hier: \only<2->{\textattachfile{Member.java}{Member.java}}.
+        \item Wir beginnen mit den bloßen Attributen:
+\begin{plainjava}
+!*\onslide<4->*!public class Member {
+!*\onslide<5->*!    private String name;
+!*\onslide<5->*!    private String surname;
+!*\onslide<5->*!    private final Date birthday;
+!*\onslide<4->*!}
+\end{plainjava}
+        \item<6-> Frage: was bedeutet das \bjava{final} bei \bjava{birthday}?\par\info{Es schützt nur die Variable \bjava{birthday} vor einer Neuzuweisung. Nicht eine Änderung der Werte \emph{in} dem zugewiesenen Datum. \onslide<7->{Übrigens: bei Strings schützt \bjava{final} jede Veränderung, obwohl es sich auch bei \bjava{String} um eine Klasse handelt. Dies liegt daran, dass Strings in Java \emph{immutable} sind. Bei jeder Veränderung wird ein neues String-Objekt erzeugt.}}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \item Nun die Getter:
+\begin{plainjava}
+!*\onslide<3->*!public String getName() { return this.name; }
+!*\onslide<3->*!
+!*\onslide<4->*!public String getSurname() { return this.surname; }
+!*\onslide<3->*!
+!*\onslide<5->*!public Date getBirthday() {
+!*\onslide<6->*!    return (Date) this.birthday.clone();
+!*\onslide<5->*!}
+\end{plainjava}
+        \item<7-> Have you ever heard the tragedy of Darth Clon\textbf{e}able the wise? \onslide<8->{Well, then prepare yourself for\ldots\ something at least.}
+    \end{itemize}
+\end{frame}
+
+{
+\setbeamercolor{background canvas}{bg=black}
+\begin{frame}[c,plain]{}
+\vspace*{1.5em}\centering
+\begin{tikzpicture}
+    \pgfinterruptboundingbox% to avoid clanky changes
+    \only<2|handout:0>{\pingu[eyes wink]}
+    \only<3|handout:0>{\pingu[right wing grab, lightsaber right, lightsaber right disabled]}
+    \only<4|handout:0>{\pingu[right wing grab, eyes angry, lightsaber right=purple]}
+    \only<5|handout:0>{\pingu[right wing wave, eyes angry, lightsaber right=purple]}
+    \only<6|handout:0>{\pingu[right wing wave, eyes angry, lightsaber right=purple,right item angle=-70],bill angry}
+    \only<7|handout:0>{\pingu[right wing wave, eyes angry, lightsaber right=purple,lightsaber right double,right item angle=-70],bill angry}
+    \only<8->{\pingu[right wing grab, eyes angry, lightsaber right=purple,lightsaber right double,right item angle=-70,bill angry,right item angle=-80,lightsaber right yshift=-.45mm]}
+    \endpgfinterruptboundingbox
+\end{tikzpicture}~~~~~~~~~~~~~~
+\end{frame}
+}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Exkurs: Object}
+    \begin{itemize}[<+(1)->]
+        \item \bjava{Object} ist die Klasse, welche die grundlegenden Eigenschaften für jede andere Klassen zur Verfügung stellt.
+        \item Wir werden sie später im Rahmen von Vererbung genauer kennen lernen.\par
+            Bis da hin: \bjava{toString} stammt beispielsweise dort her.
+        \item Diese Klasse \bjava{Object} liefert auch die Methode \bjava{clone}, die auf jedem Objekt aufgerufen werden kann\pause\ldots\pause{} \ldots\pause{} \ldots
+        \item \bjava{clone} muss aber von jeder Klasse selbst und individuell implementiert werden, wenn es denn unterstützt werden soll.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Exkurs: Kopien}
+    \begin{itemize}[<+(1)->]
+        \item Da die Variable eines Objekts in Java nur eine Referenz auf das eigentliche Objekt enthält, erzeugen wir durch den folgenden Code \emph{keine} Kopie:\pause{}
+\begin{plainjava}
+Scanner a = new Scanner(System.in);
+Scanner b = a;
+\end{plainjava}
+        \item Oft stellen sich auch Fragen wie:
+         \begin{itemize}
+             \item Was soll kopiert werden?
+             \item Funktioniert eine Kopie überhaupt?
+             \item Was ist, wenn das zu kopierende Objekt selbst wieder (zum Beispiel in den Attributen) Referenzen auf andere Objekte enthält?
+             \item Was, wenn diese Referenzen zirkulär sind?
+         \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Exkurs: Kopien}
+    \begin{itemize}[<+(1)->]
+        \item Deswegen unterscheiden wir zwei Arten von Kopien: \emph{shallow} und \emph{deep}.\par
+            \info{Genau genommen gibt es noch viel mehr, wie zum Beispiel \emph{lazy}, aber das soll uns hier nicht weiter stören.}
+        \item Eine \emph{shallow copy} kopiert \say{so wenig wie möglich}. Oder auch nur \say{die erste Hierarchieebene.}
+        \item Eine \emph{deep copy} kopiert das komplette Objekt, sowie alle Objekt-Referenzen die dieses Objekt wieder besitzt und so weiter.
+        \item Während shallow copies meist von Hand geschrieben werden,\pause{} wird eine deep copy meistens durch (De-)Serialisierung gelöst.\par\pause{}\info{Sonst müssten bei einer deep copy auch alle vom Objekt verwendeten Ressourcen wieder deep-copyable sein.\pause{} Das Verfahren hat allerdings ebenfalls Nachteile. Stichwort: \bjava{transient}.}
+    \end{itemize}
+\end{frame}
+
+\begingroup
+\lstset{add to literate={X}{{{\solGet{keywordC}{X}}}}1 {Y}{{{\solGet{keywordC}{Y}}}}1 {Z}{{{\solGet{keywordC}{Z}}}}1}
+\begin{frame}[t,fragile]{Präsenzaufgabe - Exkurs: Kopien, Beispiel}
+    \begin{itemize}[<+(1)->]
+        \item Betrachten wir die folgende Klasse (\bjava{Y} und \bjava{Z} seien ebenfalls gegeben):\pause
+\begin{plainjava}
+class X {
+    int a;
+    Y y;
+    Z z;
+}
+\end{plainjava}
+        \item Eine \emph{shallow copy} würde ein neues \bjava{X}-Objekt erzeugen und die Attribute durch \say{\bjava{=}} zuweisen.\pause{} Damit wird \bjava{a} kopiert, \bjava{y} und \bjava{z} referenzieren aber (je) dasselbe Objekt.
+        \item Eine \emph{deep copy} würde rekursiv auch neue Objekte von \bjava{Y} und \bjava{Z} erzeugen.\par\pause{} \info{Quizfrage: was passiert oder besser, was kann alles passieren, wenn \bjava{Y} wieder eine Referenz auf \bjava{X} enthält?}
+        \item Und was davon macht jetzt \bjava{Object::clone()}?\pause{} Spoiler: Nobody knows.
+    \end{itemize}
+\end{frame}
+\endgroup
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Exkurs: Cloneable}
+    \begin{itemize}[<+(1)->]
+        \item Das Interface Cloneable \emph{fordert nichts} von einer gegebene Klasse.
+        \item Es ist ein sogenanntes \say{Marker} interface.\pause{} Wer es implementiert, sorgt dafür, dass gewisse Methoden sich einem gewissen Vertrag unterwerfen.\pause\par\info{Diese Erklärung ist an sich nachträglich entstanden. Die komplette Geschichte um das \bjava{Cloneable}-Interface ist eine einzige Tragödie.}
+        \item Aus dem Java-Contract:\pause
+\lstfs{9}
+\begin{plainjava}
+/*
+ * Note that this interface does not contain the clone method.
+ * Therefore, it is not possible to clone an object merely by virtue of the
+ * fact that it implements this interface. !*\onslide<+(1)->*! Even if the clone method is invoked
+ * reflectively, there is no guarantee that it will succeed.
+ */
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Exkurs: Cloneable, Schadensbericht}
+    \begin{itemize}[<+(1)->]
+        \item Das Interface widerspricht der sonstigen Schreibweise.\pause{} \info{Clonable vs. Cloneable.}
+        \item Es fordert keine Methode und kann theoretisch von jeder Klasse implementiert werden.
+        \item Es liefert keine weiteren Informationen über die Kopie.
+        \item Es stellt keine Anforderungen an die Java-Syntax (Sichtbarkeit), die nicht gleichermaßen geprüft werden können.
+        \item Der Rückgabewert der \bjava{Object::clone}-Methode ist stets \bjava{Object}, wir brauchen also einen expliziten Cast.\pause{} \info{Wie bei \bjava{(Date) this.birthday.clone()}.}
+        \item \ldots\pause{} \ldots\pause{} \ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Exkurs: Long story short}
+    \begin{itemize}[<+(1)->]
+        \item Manche Java Klassen implementieren \bjava{Cloneable} korrekt.\pause{} \info{Wie \bjava{Date}}.
+        \item Ansonsten haben sich andere Prinzipien durchgesetzt. So beispielsweise Copy-Konstruktoren.
+        \item Diesen werden noch später im Semester begegnen.
+        \item Also kehren wir uns lieber von der dunklen Seite ab und zur Präsenzaufgabe zurück\ldots
+    \end{itemize}
+\end{frame}
+
+{
+\setbeamercolor{background canvas}{bg=black}
+\begin{frame}[c,plain]{}
+\vspace*{1.5em}\centering
+\begin{tikzpicture}
+    \pgfinterruptboundingbox% to avoid clanky changes
+    \only<2|handout:0>{
+        \pingu[xshift=-3cm,yshift=.5cm]
+        \pingu[xshift=3cm,yshift=.5cm]
+        \pingu[]
+    }
+    \only<3|handout:0>{
+        \pingu[xshift=-3cm,yshift=.5cm,right wing grab, lightsaber right, lightsaber right disabled,]
+        \pingu[xshift=3cm,yshift=.5cm,left wing grab, lightsaber left, lightsaber left disabled]
+        \pingu[right wing grab, lightsaber right, lightsaber right disabled, eyes shiny,left wing wave, lightsaber left, lightsaber left disabled,right item angle=-80,lightsaber right yshift=-.5mm,left item angle=75]
+    }
+    \only<4->{
+        \pingu[xshift=-3cm,yshift=.5cm,right wing grab, lightsaber right=orange]
+        \pingu[xshift=3cm,yshift=.5cm,left wing grab, lightsaber left=orange]
+        \pingu[right wing grab, lightsaber right=pingu@blue, eyes shiny,left wing wave, lightsaber left=green,right item angle=-80,lightsaber right double,lightsaber right yshift=-.5mm,left item angle=75]
+    }
+    \endpgfinterruptboundingbox
+\end{tikzpicture}~~~~~~~~~~~~~~
+\end{frame}
+}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \item Der Konstruktor samt Prüfung:\pause{} \info{Bonusfrage: was ist mit \bjava{throws}? Warum ist es nicht nötig?}
+\lstfs{9}
+\begin{plainjava}
+!*\onslide<4->*!public Member(String name, String surname, String birthday) {
+!*\onslide<5->*!    if (name.length() <= 0)
+!*\onslide<5->*!        throw new IllegalArgumentException("Name ist leer");
+!*\onslide<6->*!    if (surname.length() <= 0)
+!*\onslide<6->*!        throw new IllegalArgumentException("Nachname ist leer");
+!*\onslide<4->*!
+!*\onslide<7->*!    this.name = name;
+!*\onslide<7->*!    this.surname = surname;
+!*\onslide<8->*!    try {
+!*\onslide<9->*!        this.birthday = dateFormat.parse(birthday);
+!*\onslide<8->*!    } catch(ParseException e) {
+!*\onslide<10->*!        throw new IllegalArgumentException("Kein gültiges Datum", e);
+!*\onslide<8->*!    }
+!*\onslide<4->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \item Nun noch unsere Variante der \bjava{equals} Methode.\pause{} \info{Diese gleicht \emph{nicht} der \bjava{Object::equals}-Methode!\pause{} Die kommt später.}
+\lstfs{9}
+\begin{plainjava}
+!*\onslide<4->*!public boolean equals(Member other) {
+!*\onslide<5->*!    if (other == null)
+!*\onslide<5->*!        throw new NullPointerException();
+!*\onslide<4->*!
+!*\onslide<6->*!    return this.name.equals(other.name)
+!*\onslide<6->*!        && this.surname.equals(other.surname)
+!*\onslide<6->*!        && this.birthday.equals(other.birthday);
+!*\onslide<4->*!}
+\end{plainjava}
+        \item<7-> Ist die \bjava{if}-Abfrage hier notwendig? \onslide<8->{\info{Nein. \bjava{others.name} würde auch eine \bjava{NullPointerException} werfen.}}
+        \item<9-> Ist sie doch gut? \onslide<10->{\info{Ja-ein. Sie macht das Wissen über die möglichen werte von \bjava{other} explizit. An sich sollte man aber eher eine eigene Exception dafür konstruieren und diese dann werfen, oder direkt \bjava{false} zurückliefern.}}
+    \end{itemize}
+\end{frame}
+
+
+\section{Übungsblatt 6}
+\subsection{Aufgabe 1a)}
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1a)}
+    \begin{itemize}[<+(1)->]
+        \item Hier die Klasse an sich: \only<2->{\textattachfile{User.java}{User.java}}
+        \item Zunächst die Basisklasse mit Attributen:
+\begin{plainjava}
+!*\onslide<4->*!public class User {
+!*\onslide<5->*!    private static int nextId = 0;
+!*\onslide<5->*!    public final int id; // oder mit Getter
+!*\onslide<4->*!
+!*\onslide<6->*!    private String userName;
+!*\onslide<6->*!    private int passwordHash;
+!*\onslide<6->*!    private boolean loggedIn;
+!*\onslide<4->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 1b)}
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1b)}
+    \begin{itemize}[<+(1)->]
+        \item Die \bjava{toString()}-Implementation:
+\begin{plainjava}
+!*\onslide<3->*!public String toString() {
+!*\onslide<4->*!    return "User [id=" + id
+!*\onslide<4->*!        +  ", loggedIn=" + loggedIn
+!*\onslide<4->*!        +  ", passwordHash=" + passwordHash
+!*\onslide<4->*!        +  ", userName=" + userName
+!*\onslide<4->*!        +  "]";
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 1c)}
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1c)}
+    \begin{itemize}[<+(1)->]
+        \item How to create Users online fast:
+\begin{plainjava}
+!*\onslide<6->*!private User(String userName, String password) {
+!*\onslide<7->*!    this.id = nextId;
+!*\onslide<7->*!    nextId += 1; // This is bad. Why?
+!*\onslide<8->*!    this.userName = userName;
+!*\onslide<8->*!    this.passwordHash = password.hashCode();
+!*\onslide<8->*!    this.loggedIn = false;
+!*\onslide<6->*!}
+!*\onslide<3->*!public static User create(String userName, String password) {
+!*\onslide<4->*!    if(!isUsernameValid(userName) || !isPasswordValid(password))
+!*\onslide<4->*!        return null;
+!*\onslide<5->*!    return new User(userName, password);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1c)}
+    \begin{itemize}[<+(1)->]
+        \item Helpie-Help-Methods:
+\begin{plainjava}
+!*\onslide<3->*!private static boolean isUsernameValid(String userName) {
+!*\onslide<4->*!    if(userName == null || userName.length() <= 0)
+!*\onslide<4->*!        return false;
+!*\onslide<5->*!    for (char c : userName.toCharArray()) {
+!*\onslide<6->*!        if(!isCharInUsernameValid(c))
+!*\onslide<6->*!            return false;
+!*\onslide<5->*!    }
+!*\onslide<7->*!    return true;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1c)}
+    \begin{itemize}[<+(1)->]
+        \item Helpie-Help-Methods, Klappe Halpie-2:
+\begin{plainjava}
+!*\onslide<3->*!private static boolean isCharInUsernameValid(char c) {
+!*\onslide<4->*!    return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
+!*\onslide<3->*!}
+!*\onslide<3->*!
+!*\onslide<5->*!private static boolean isPasswordValid(String password) {
+!*\onslide<6->*!    return password != null && password.length() >= 6;
+!*\onslide<5->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 1d)}
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
+    \begin{itemize}[<+(1)->]
+        \item Die \bjava{verify(String, String)}-Methode:
+\begin{plainjava}
+!*\onslide<3->*!public boolean verify(String userName, String password) {
+!*\onslide<4->*!    return Objects.equals(this.userName, userName) &&
+!*\onslide<4->*!        this.passwordHash == Objects.hashCode(password);
+!*\onslide<3->*!}
+\end{plainjava}
+        \item Bonusfrage: warum hier \say{\bjava{Objects.equals(a, b)}}?\par
+        \info{Wenn \T{userName} den Wert \bjava{null} hat, ergibt \bjava{userName.equals(this.userName)} eine \bjava{NullPointerException}.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
+    \begin{itemize}[<+(1)->]
+        \item Die \bjava{login(String, String)}-Methode:
+\begin{plainjava}
+!*\onslide<3->*!public void login(String userName, String password) {
+!*\onslide<4->*!    if(this.verify(userName, password)) {
+!*\onslide<5->*!        this.loggedIn = true;
+!*\onslide<5->*!        System.out.println("Nutzer " + this.id + " [...].");
+!*\onslide<4->*!    } else {
+!*\onslide<6->*!        System.err.println("Kein Nutzer [...].");
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+        \item<5-> Mit \bjava{\"[...]\"} kürze ich lange Ausgaben für die Folien.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
+    \begin{itemize}[<+(1)->]
+        \item Die \bjava{logout(String)}-Methode:
+\begin{plainjava}
+!*\onslide<3->*!public void logout(String userName) {
+!*\onslide<4->*!    if(Objects.equals(this.userName, userName)) {
+!*\onslide<5->*!        this.loggedIn = false;
+!*\onslide<5->*!        System.out.println("Nutzer " + this.id + " [...].");
+!*\onslide<4->*!    } else {
+!*\onslide<6->*!        System.err.println("Kein Nutzer [...].");
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 1e)}
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1e)}
+    \begin{itemize}[<+(1)->]
+        \item Das Ändern eines Passworts:
+\begin{plainjava}
+!*\onslide<3->*!public void changePassword(String userName, String oldPassword, String newPassword) {
+!*\onslide<4->*!    if(this.verify(userName, oldPassword) &&
+!*\onslide<4->*!            isPasswordValid(newPassword)) {
+!*\onslide<5->*!        this.passwordHash = newPassword.hashCode();
+!*\onslide<5->*!        System.out.println("Passwort erfolgreich geändert!");
+!*\onslide<4->*!    } else {
+!*\onslide<6->*!        System.err.println("Kein Nutzer [...].");
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1e)}
+    \begin{itemize}[<+(1)->]
+        \item Das Ändern durch Passworteingabe:\lstfs{10}
+\begin{plainjava}
+!*\onslide<3->*!public void changePassword(String userName, String oldPassword) {
+!*\onslide<4->*!    Scanner scanner = new Scanner(System.in);
+!*\onslide<5->*!    System.out.print("Neues Passwort: ");
+!*\onslide<5->*!    String newPassword = scanner.nextLine();
+!*\onslide<6->*!    System.out.print("Passwort wiederholen: ");
+!*\onslide<6->*!    String repetition = scanner.nextLine();
+!*\onslide<6->*!    scanner.close();
+!*\onslide<7->*!    if(!Objects.equals(newPassword, repetition)) {
+!*\onslide<8->*!        System.err.println("[...] stimmen nicht überein!");
+!*\onslide<8->*!        return;
+!*\onslide<7->*!    }
+!*\onslide<9->*!    changePassword(userName, oldPassword, newPassword);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\section{Der End-Pinguuuu}
+\begin{frame}[fragile]
+   \pause\begin{center}
+    \usebox\oldpingus
+   \end{center}
+\end{frame}
+\end{document}

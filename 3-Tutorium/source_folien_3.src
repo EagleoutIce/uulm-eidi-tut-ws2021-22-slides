@@ -1,0 +1,636 @@
+\errorcontextlines 999999
+\usepackage{attachfile2}
+\attachfilesetup{%
+    author={Florian Sihler},%
+    color=0.2 0.3647 0.4941, icon=Tag, mimetype=text/plain%
+}
+
+\usepackage[%
+    sopra-listings={encoding,cpalette},%
+    sopra-tables,
+    color-palettes={addons},%
+    util,%
+    lithie-boxes={germanenv,koma,overwrite},%
+    lithie-task-boxes={cpalette},%
+    lecture-links={patchurl},%
+    lecture-registers={disable}% would interfere with beamer
+]{lithie-util}
+\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
+\RestyleAlgo{plain}
+\solLoadLanguage{bash,cpp}
+\usepackage[ngerman]{babel}
+\usepackage{xfrac}
+
+\colorlet{MaterialHeaderColor}{paletteB}%
+\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
+
+\def\linkstyle#1{\textsf{\paletteD{#1}}}
+\SetAllLinkStyle{\linkstyle{#1}}
+\usepackage{tikzducks,tikzsymbols}
+\usetheme{lucy}
+
+\usetikzlibrary{arrows.meta}
+
+\def\info#1{\begingroup\scriptsize\textcolor{gray}{(#1)}\endgroup}
+
+\newcommand\parallelcontent[3][t]{%
+    \begin{columns}[#1]
+    \begin{column}{0.475\linewidth}
+        #2
+    \end{column}\hfill
+    \begin{column}{0.475\linewidth}
+        #3
+    \end{column}
+    \end{columns}
+}
+
+\title[Drittes Tutorium -- Übungsblatt 3]{Objektive Sequenzen\\\small Tutorium 3}
+\date{\sffamily KW 20}
+\author{Florian Sihler}
+\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+
+\usepackage{tikzpingus}
+\usetikzlibrary{decorations.text}
+
+\hypersetup{colorlinks=false}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{tikzpicture}[overlay]
+        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
+            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
+        \end{scope}
+        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {3};
+    \end{tikzpicture}
+    \titlepage
+\end{frame}
+
+
+
+\section{Allgemeines}
+\begin{frame}[t,fragile]{Allgemeines}
+    \begin{itemize}[<+(1)->]
+        % \item Ihr könnt Altklausuren drucken:\pause{} \url{https://stuve.uni-ulm.de/fin/services/pruefungsprotokolle}
+        \item Übt Java. Beispielprojekte (nach Schwierigkeit): \begin{itemize}
+            \item Taschenrechner:\pause{} Programmiere einen Taschenrechner für die Kommandozeile der die grundlegenden Rechenoperationen wie +, -, * und / beherrscht.
+            \item TicTacToe:\pause{} Tic-Tac-Toe mit netter ASCII-Art im Terminal.\pause{} Kleine Herausforderung: Der andere oder auch beide Spieler sollen von einem Computer übernommen werden können.
+            \item Wer wird Millionär?\pause{} Fragen sollen aus den jeweiligen Schwierigkeitsgraden zufällige gewählt werden, sonst normales Wer-Wird Millionär, die Joker arbeiten natürlich mit den korrekten Antworten.
+            \item Sudoku:\pause{} Schreibe eine Terminal-Anwendung die Sudokus einliest und dann gelöst wieder ausgibt. (Bonus: ANSI-Escape Codes)
+            \item Conway's Game of Life:\pause{} Programmiere Conway's Game of Life im Terminal oder mittels einer Grafik-Bibliothek deiner Wahl.
+            \item \ldots
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{Süße!!!! Plagiatsente}
+\begin{frame}[c]
+\pause\centering\begin{tikzpicture}[scale=2.25,every node/.style={transform shape}]
+    \duck[grumpy,recedinghair=gray!50!white,tshirt=white!93!black,jacket=red!50!black,book={\scalebox{0.35}{\LaTeX}},bookcolour=black!20!brown,glasses=brown!70!lightgray]
+        \node[gray!50!white,rounded corners=1,scale=0.72] at (0.59,1.76) {\rotatebox{-28}{\faMinus}};
+        \node[gray!50!white,rounded corners=1,scale=0.75] at (0.86,1.70) {\rotatebox{-2}{\faMinus}};
+        \node[align=center,left,text width=3cm] at(-0.25,1.25){Keine Plagiate!};
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[c]
+\centering\begin{tikzpicture}[scale=2.25,every node/.style={transform shape}]
+    \duck[eyebrow,recedinghair=gray!50!white,tshirt=white!93!black,jacket=red!50!black,book={\scalebox{0.35}{\LaTeX}},bookcolour=black!20!brown,glasses=brown!70!lightgray]
+    \node[align=center,left,text width=3cm] (dnk) at(-0.25,1.25){Danke};
+    \onslide<2->{\node[align=center,scale=0.35,below,text width=5.65cm] at(dnk.south) {Das ist besonders lustig, da ich die Ente aus den letzten Semestern übernommen habe \Laughey.};}
+    % 28°
+    %\fill[red,rounded corners=1] (0.60,1.92) -- ++(0.135,-0.125) -- ++ (0.125,-0.135);
+    \end{tikzpicture}
+\end{frame}
+
+
+\section{Präsenzaufgabe}
+\tikzset{block/.style={rectangle,draw=gray,minimum width=.7cm,minimum height=.5cm},N/.style={outer sep=0pt,inner sep=0pt}}
+% list | pointer
+\def\bk#1#2{%
+\scalebox{.65}{\begin{tikzpicture}
+\foreach[count=\i] \a in {#1} {
+    \node[block] (\i) at(\i*.7cm,0) {\a};
+    \node[below,gray,font=\footnotesize\sffamily] at (\i.south) {\the\numexpr\i-1\relax};
+}
+\node[left=.55cm,N] (arr) at (1.west) {\bjava{int[] arr}: };
+
+\node[above,yshift=.15cm] at(\the\numexpr#2+1\relax.north) {\faCaretDown};
+\node[above left,yshift=.15cm,N] at(arr.north east) {\bjava{pointer = #2}};
+\end{tikzpicture}}%
+}
+
+\begin{frame}[fragile]{Exkurs: (Array-)Kellerspeicher}
+    \begin{itemize}[<+(1)->]
+        \item Einfache Datenstruktur (Stack). \info{Wir werden später mehr kennenlernen}
+        \item Repräsentiert durch Array und Zeiger (\bjava{int pointer}).
+        \item \strut Betrachten wir ein Array mit 5 Elementen (initial \bjava{pointer = -1}).\smallskip\\
+\scalebox{.65}{\begin{tikzpicture}
+\foreach[count=\i] \a in {0,0,0,0,0} {
+    \node[block] (\i) at(\i*.7cm,0) {\a};
+    \node[below,gray,font=\footnotesize\sffamily] at (\i.south) {\the\numexpr\i-1\relax};
+}
+\node[left=.55cm,N] (arr) at (1.west) {\bjava{int[] arr}: };
+\end{tikzpicture}}%
+    \end{itemize}
+    \begin{multicols}{3}
+    \begin{enumerate}[<+(1)->]
+        \item \strut Hinzufügen von \bjava{8}\\ \bk{8,0,0,0,0}{0}
+        \item \strut Hinzufügen von \bjava{3}\\ \bk{8,3,0,0,0}{1}
+        \item \strut Hinzufügen von \bjava{4}\\ \bk{8,3,4,0,0}{2}
+        \item \strut Hinzufügen von \bjava{9}\\ \bk{8,3,4,9,0}{3}
+        \item \strut Entferne Element\\ \bk{8,3,4,0,0}{2}
+        \item \strut Entferne Element\\ \bk{8,3,0,0,0}{1}
+    \end{enumerate}
+    \end{multicols}
+\end{frame}
+
+\begin{frame}[fragile]{Exkurs: (Array-)Kellerspeicher}
+    \begin{itemize}[<+(1)->]
+        \item Für unser Beispiel, muss die Zahl gar nicht gelöscht werden.
+        \item \strut Es reicht, den Zeiger zu verschieben:\smallskip\\
+\scalebox{.65}{\begin{tikzpicture}
+\foreach[count=\i] \a in {0,0,0,0,0} {
+    \node[block] (\i) at(\i*.7cm,0) {\a};
+    \node[below,gray,font=\footnotesize\sffamily] at (\i.south) {\the\numexpr\i-1\relax};
+}
+\node[left=.55cm,N] (arr) at (1.west) {\bjava{int[] arr}: };
+\end{tikzpicture}}%
+    \end{itemize}
+    \begin{multicols}{3}
+    \begin{enumerate}[<+(1)->]
+        \item \strut Hinzufügen von \bjava{8}\\ \bk{8,0,0,0,0}{0}
+        \item \strut Hinzufügen von \bjava{3}\\ \bk{8,3,0,0,0}{1}
+        \item \strut Hinzufügen von \bjava{4}\\ \bk{8,3,4,0,0}{2}
+        \item \strut Hinzufügen von \bjava{9}\\ \bk{8,3,4,9,0}{3}
+        \item \strut Entferne Element\\ \bk{8,3,4,9,0}{2}
+        \item \strut Entferne Element\\ \bk{8,3,4,9,0}{1}
+    \end{enumerate}
+    \end{multicols}
+\end{frame}
+
+\def\exr#1#2{\bvoid{#1}~$\Rightarrow$~\bvoid{#2}}
+\begin{frame}[fragile]{Exkurs: Umgekehrte polnische Notation}
+    \begin{itemize}[<+(1)->]
+        \item Herkömmliche Darstellung für arithmetischer Ausdrücke: \bvoid{<a> <op> <b>}
+        \item In der umgekehrten polnischen Notation (UPN) ist dies anders!
+        \item Zuerst die Operanden (\bvoid{<a>}, \bvoid{<b>}), dann der Operator (\bvoid{<op>}). \begin{itemize}
+            \item \exr{1 + 2 + 3 + 4}{1 2 + 3 4 + + }
+            \item \exr{(2 * 3) + (20 * 3)}{2 3 * 20 3 * +}
+            \item \exr{13 * 12 * -5 + 4}{13 12 * -5 * 4 +}
+        \end{itemize}
+        \item Wir werden uns auf \say{$+$} und \say{$*$} fokussieren.
+        \item Anstelle von \say{$*$} schreiben wir \say{mult}, anstelle von \say{$+$}, \say{add}. \begin{itemize}
+            \item \exr{1 + 2 + 3 + 4}{1 2 add 3 4 add add}
+            \item \exr{(2 * 3) + (20 * 3)}{2 3 mult 20 3 mult add}
+            \item \exr{13 * 12 * -5 + 4}{13 12 mult -5 mult 4 add}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exkurs: Umgekehrte polnische Notation mit Stack}
+    \begin{itemize}[<+(1)->]
+        \item Annahme: Die Ausdrücke mit denen wir arbeiten sind gültig.
+        \item Wir arbeiten von links nach rechts.
+        \item Wir speichern die Operanden auf dem Stack.
+        \item Treffen wir auf einen Operator: \info{Ein Beispiel kommt mit der Lösung der Präsenzaufgabe} \begin{enumerate}
+            \item entnehmen der obersten beiden Elemente des Stack.
+            \item verarbeiten mit dem Operator \info{Multiplikation/Addition}.
+            \item ablegen der Summe/des Produktes auf dem Stack.
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Präsenzaufgabe}
+    \rExecute{javac ReversePolishNotation.java}\setcounter{algocf}{0}
+    \begin{aufgabe}{Do da' UPN}
+        \pause{}Schreiben Sie ein Programm, dass mit (korrekter) UPN gefüttert, den oberen Wert des Stacks ausgibt.\pause{} Die Operanden sollen Integer und die Operatoren \bjava{add} und \bjava{mult} sein. Sie können eine Zeichenkette mit \say{\bjava{Integer.parseInt(x)}} in einen Integer umwandeln.\pause{} Sie können den Stack auf eine kleine Zahl begrenzen.\pause\par
+% \rbash[:\pause]{java ReversePolishNotation 1 2 3 4 5 add}
+\rbash[:\pause]{java ReversePolishNotation 2 3 mult 20 3 mult add}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\begingroup
+\lstfs{10}
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+\begin{itemize}[<+(1)->]
+    \item Das volle Programm findet sich hier: \only<2->{\textattachfile{ReversePolishNotation.java}{ReversePolishNotation.java}}.
+    \item Initialisierung:
+\begin{java}
+int[] stack = new int[100];
+int pointer = -1;
+\end{java}
+    \item Wir iterieren über alle Kommandozeilenargumente:
+\begin{java}[firstnumber=3]
+for (String arg : args) {
+    // Cast epic magic
+}
+
+!*\onslide<+(1)->*!System.out.println(stack[pointer]);
+\end{java}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+\begin{itemize}[<+(1)->]
+    \item Die epic magic der Addition:
+\begin{java}[firstnumber=4]
+!*\onslide<3->*!if (arg.equals("add")) {
+!*\onslide<4->*!    pointer -= 1;
+!*\onslide<4->*!    stack[pointer] += stack[pointer + 1];
+!*\onslide<3->*!}
+\end{java}
+    \item<5-> Die epic magic der Multiplikation:
+\begin{java}[firstnumber=10]
+!*\onslide<6->*!else if (arg.equals("mult")) {
+!*\onslide<7->*!    pointer -= 1;
+!*\onslide<7->*!    stack[pointer] *= stack[pointer + 1];
+!*\onslide<6->*!}
+\end{java}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+\begin{itemize}[<+(1)->]
+    \item Die epic magic der Sonstigkeit:
+\begin{java}[firstnumber=16]
+!*\onslide<3->*!else { // Annahme: Zahl
+!*\onslide<4->*!    pointer += 1;
+!*\onslide<4->*!    stack[pointer] = Integer.parseInt(arg);
+!*\onslide<3->*!}
+\end{java}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung, ein Beispiel}
+\begin{itemize}[<+(1)->]
+    \item Betrachten wir ein Beispiel für \bjava{3 2 add 5 1 add add 4 mult}
+\end{itemize}\vspace*{-\smallskipamount}
+\begin{multicols}{3}
+\begin{enumerate}[<+(1)->]
+    \item Einlesen von \bjava{3}:\\ \bk{3,0,0,0,0}{0}
+    \item Einlesen von \bjava{2}:\\ \bk{3,2,0,0,0}{1}
+    \item Einlesen von \bjava{add}:\\ \bk{5,2,0,0,0}{0}
+    \item Einlesen von \bjava{5}:\\ \bk{5,5,0,0,0}{1}
+    \item Einlesen von \bjava{1}:\\ \bk{5,5,1,0,0}{2}
+    \item Einlesen von \bjava{add}:\\ \bk{5,6,1,0,0}{1}
+    \item Einlesen von \bjava{add}:\\ \bk{11,6,1,0,0}{0}
+    \item Einlesen von \bjava{4}:\\ \bk{11,4,1,0,0}{1}
+    \item Einlesen von \bjava{mult}:\\ \bk{44,4,1,0,0}{0}
+\end{enumerate}
+\end{multicols}
+\end{frame}
+\endgroup
+
+\section{Eine zweite Präsenzaufgabe}
+
+\begin{frame}[fragile]{Präsenzaufgabe die Zweite}
+    \setcounter{algocf}{0}
+    \begin{aufgabe}{Code! Code! Code! Repeat.}
+        \pause{}Drücken Sie die folgenden Anweisungen durch äquivalente Schleifen der angegeben Art aus!\pause{} Die Variable \bjava{int k} sei jeweils mit einem (beliebigen) Wert initialisiert.\vspace*{-\smallskipamount}
+        \begin{multicols}{2}\lstfs{8}
+            \begin{enumerate}[<+(1)->]
+                \item[a)] Do-While:
+                \begin{plainjava}
+for (int i = 1; i < k; ++i) {
+    System.out.println(i * i);
+}
+                \end{plainjava}
+                \item[b)] For-Schleife:
+                \begin{plainjava}
+int x = 0, i = 0;
+while(i < k) { x += k * ++i; }
+System.out.println("x: " + x);
+                \end{plainjava}
+                \item[c)] For-Schleife:
+            \begin{plainjava}
+if(k > 0){
+    int i = 1, m = 0;
+    while(i < k){
+        if(k*i > m) m = k+i;
+        ++i;
+    }
+    System.out.println("m: " + m);
+}
+\end{plainjava}
+            \end{enumerate}
+        \end{multicols}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe 2 - Lösung}
+\begin{enumerate}[<+(1)->]\lstfs{9}
+    \item[a)] Wir erhalten (rechts):\\
+    \begin{minipage}{0.5\linewidth}
+\begin{plainjava}
+!*\onslide<3->*!for (int i = 1; i < k; ++i) {
+!*\onslide<3->*!    System.out.println(i * i);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{minipage}\hfill\begin{minipage}{0.45\linewidth}
+\begin{plainjava}
+!*\onslide<4->*!if(k > 1) {
+!*\onslide<5->*!    int i = 1;
+!*\onslide<6->*!    do {
+!*\onslide<7->*!        System.out.println(i * i);
+!*\onslide<7->*!        ++i;
+!*\onslide<6->*!    } while (i < k);
+!*\onslide<4->*!}
+        \end{plainjava}
+    \end{minipage}
+    \item<8->[b)] Wir erhalten (rechts):\\
+        \begin{minipage}{0.5\linewidth}
+\begin{plainjava}
+!*\onslide<9->*!int x = 0, i = 0;
+!*\onslide<9->*!while(i < k) { x += k * ++i; }
+!*\onslide<9->*!System.out.println("x: " + x);
+\end{plainjava}
+    \end{minipage}\hfill\begin{minipage}{0.45\linewidth}
+\begin{plainjava}
+!*\onslide<10->*!int x = 0;
+!*\onslide<11->*!for(int i = 0; i < k; i++)
+!*\onslide<12->*!    x += k * (i + 1);
+!*\onslide<13->*!System.out.println("x: " + x);
+        \end{plainjava}
+    \end{minipage}
+\end{enumerate}
+\end{frame}
+
+
+\begin{frame}[t,fragile]{Präsenzaufgabe 2 - Lösung}
+\begin{enumerate}[<+(1)->]\lstfs{9}
+    \item[c)] Wir erhalten (rechts):\\
+\begin{minipage}{0.5\linewidth}
+    \begin{plainjava}
+!*\onslide<3->*!if(k > 0){
+!*\onslide<3->*!    int i = 1, m = 0;
+!*\onslide<3->*!    while(i < k){
+!*\onslide<3->*!        if(k*i > m) m = k+i;
+!*\onslide<3->*!        ++i;
+!*\onslide<3->*!    }
+!*\onslide<3->*!    System.out.println("m: " + m);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{minipage}\hfill\begin{minipage}{0.45\linewidth}
+\begin{plainjava}
+!*\onslide<4->*!if(k > 0){
+!*\onslide<5->*!    int m = 0;
+!*\onslide<6->*!    for(int i = 1; i < k; ++i)
+!*\onslide<7->*!        if(k*i > m) !*\onslide<8->*!m = k+i;
+!*\onslide<9->*!    System.out.println("m: " + m);
+!*\onslide<4->*!}
+        \end{plainjava}
+    \end{minipage}
+\end{enumerate}
+\end{frame}
+
+
+\section{Übungsblatt 3}
+\begin{frame}[t]{Übungsblatt 3 - Aufgabe 1}
+    \setcounter{algocf}{1}%
+    \begin{itemize}[<+(1)->]
+        \item Zur Übung zunächst Pseudocode:\pause{}
+{\footnotesize\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Obergrenze \(n \in \N^+\)}
+    \StartCode
+    \pause $bizz$ = $fuzz$ = $bizzfuzz$ = 0\Comment*[l]{Kardinalitäten}
+    \pause\For(\Comment*[h]{Für \(i \in [1,n]\)}){i = 1 \KwTo n}{
+        \pause\uIf{\(i \bmod 3 = i \bmod 5 = 0\)}{
+            \onslide<+(1)->{bizzfuzz += 1\;}
+        }\uElseIf{\(i \bmod 5 = 0\)}{
+            \onslide<+(1)->{bizz += 1\;}
+        }\ElseIf{\(i \bmod 3 = 0\)}{
+            \onslide<+(1)->{fuzz += 1\;}
+        }
+    }
+    \pause Gebe aus: $bizz$, $fuzz$ und $bizzfuzz$\;
+    \onslide<3->
+    \caption{Fizz-Buzz-Kardinalität}
+\end{algorithm}}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 1}
+    \begin{itemize}[<+(1)->]
+        \item Und nun in Java (\only<2->{\textattachfile{BizzFuzz.java}{BizzFuzz.java}}).\pause{} Zunächst das Einlesen der Obergrenze:
+\begin{java}
+!*\onslide<4->*!Scanner scanner = new Scanner(System.in);
+!*\onslide<4->*!final int n = scanner.nextInt();
+!*\onslide<4->*!scanner.close();
+\end{java}
+        \item<5-> Initialisieren der Variablen:
+\begin{java}[firstnumber=4]
+!*\onslide<6->*!int bizz, buzz, bizzfuzz;
+!*\onslide<6->*!bizz = fuzz = bizzfuzz = 0;
+\end{java}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 1}
+    \begin{itemize}[<+(1)->]
+        \item Die Iteration:
+\begin{java}[firstnumber=6]
+!*\onslide<3->*!for (int i = 1; i <= n; i++) {
+!*\onslide<4->*!    if (i % 3 == 0 && i % 5 == 0)
+!*\onslide<4->*!        bizzfuzzes++;
+!*\onslide<5->*!    else if (i % 5 == 0)
+!*\onslide<5->*!        bizzes++;
+!*\onslide<6->*!    else if (i % 3 == 0)
+!*\onslide<6->*!        fuzzes++;
+!*\onslide<3->*!}
+\end{java}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 1}
+    \begin{itemize}[<+(1)->]
+        \item Zuletzt die Ausgabe:
+\begin{java}[firstnumber=14]
+!*\onslide<3->*!System.out.format("fuzzes: %d, bizzes: %d, bizzfuzz: %d\n",
+!*\onslide<3->*!    fuzzes, bizzes, bizzfuzzes);
+\end{java}
+        \item Wie liese sich das Programm optimieren?
+        \item Sind diese Optimierungen notwendig?
+        \item Was wäre, wenn es \(50\) Mengen sind, die man so konstruiert?
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \item Naiver Ansatz: Wir probieren für jede Zahl \(1 < i < n\) ob sie \(n\) teilt.
+        \item Etwas besser: Wir beschränken uns auf \(1 < i \leq \sfrac{n}{2}\)
+        \item Wir beginnen mit dem Einlesen der Zahl (\only<4->{\textattachfile{Prim.java}{Prim.java}}):
+\begin{java}
+!*\onslide<5->*!Scanner scanner = new Scanner(System.in);
+!*\onslide<5->*!final int n = scanner.nextInt();
+!*\onslide<5->*!scanner.close();
+\end{java}
+    \item<6-> Wir initialisieren den möglichen Teiler auf 1:
+\begin{java}[firstnumber=4]
+!*\onslide<7->*!int teiler = 1;
+\end{java}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \item Nun die Schleife zum Iterieren über alle möglichen Teiler:
+\begin{java}[firstnumber=5]
+!*\onslide<3->*!for (int i = 2; i < n/2; i++) {
+!*\onslide<4->*!    if (n % i == 0) {
+!*\onslide<5->*!        teiler = i;
+!*\onslide<5->*!        break;
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{java}
+        \item<6-> Die Ausgabe:
+\begin{java}[firstnumber=11]
+!*\onslide<7->*!if (teiler > 1)
+!*\onslide<8->*!    System.out.format("%d ist keine, da %d\n", n, teiler);
+!*\onslide<9->*!else System.out.format("%d ist eine Primzahl\n", n);
+\end{java}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe}
+    \setcounter{algocf}{2}%
+    \begin{itemize}[<+(1)->]
+        \item Wir können zuerst alle Zahlen einlesen.\pause\ Oder ein Verfahren wählen, bei dem es genügt sie nacheinander zu betrachten.
+        \item Wir beginnen mit Pseudocode, durch \say{next()} wird die nächste Zahl der Liste entnommen \info{und weiter \(0\) geliefert, falls diese leer ist}:\medskip\par\pause
+{\footnotesize\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Liste an Zahlen \(a_1, \ldots, a_n, 0\)}
+    \StartCode
+    \pause $a_i = 0$, $a_{i + 1} =$ next(), akzeptiert = wahr\;
+    \pause\While{akzeptiert}{
+        \onslide<+(1)->{$a_i$ = $a_{i + 1}$\;
+        $a_{i + 1} =$ next()\;}
+        \onslide<+(1)->{\lIf(\Comment*[h]{Sonst undefiniert für negativ}){$a_{i + 1} \leq 0$}{
+            \KwBreak
+        }}
+        \onslide<+(1)->{akzeptiert = prüfe($a_i$, $a_{i + 1}$)\;}
+    }
+    Gebe aus: akzeptiert.
+    \onslide<5->
+    \caption{Sequenzanalyse}
+\end{algorithm}}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe}
+    \setcounter{algocf}{3}%
+    \begin{itemize}[<+(1)->]
+        \item Nun die Routine für das Prüfen:\medskip\par\pause
+{\footnotesize\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Zwei Zahlen \(a_{i} \geq 0\) und \(a_{i+1} \geq 0\)}
+    \KwOut{Wenn beide gerade/ungerade: \(a_i \leq a_{i + 1}\), sonst \(a_i > a_{i + 1}\).}
+    \StartCode
+    \pause\eIf{\(a_i \bmod 2 = a_{i + 1} \bmod 2\)}{
+        \onslide<+(1)->{\KwRet{$a_i \leq a_{i + 1}$}}
+    }{
+        \onslide<+(1)->{\KwRet{$a_i > a_{i + 1}$}}
+    }
+    \onslide<3->
+    \caption{prüfe($a_i$, $a_{i + 1}$)}
+\end{algorithm}}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe}
+    \begin{itemize}[<+(1)->]
+        \item Nun in Java (\only<2->{\textattachfile{Sequenzanalyse.java}{Sequenzanalyse.java}}). Wir initialisieren:
+\begin{java}
+!*\onslide<3->*!Scanner scanner = new Scanner(System.in);
+!*\onslide<4->*!int prev;
+!*\onslide<5->*!int i = scanner.nextInt();
+!*\onslide<6->*!boolean accept = true;
+\end{java}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe}
+    \begin{itemize}[<+(1)->]
+    \item Die Hauptschleife:
+\begin{java}[firstnumber=5]
+!*\onslide<3->*!while(i > 0 && accept) {
+!*\onslide<4->*!    prev = i;
+!*\onslide<5->*!    i = scanner.nextInt();
+!*\onslide<6->*!    if (i <= 0) break;
+!*\onslide<7->*!    accept = check(prev, i);
+!*\onslide<3->*!}
+\end{java}
+    \item<8-> Schließlich die Ausgabe:
+\begin{java}[firstnumber=11]
+!*\onslide<9->*!scanner.close();
+!*\onslide<9->*!System.out.println(accept ? "Akzeptiert" : "Abgelehnt");
+\end{java}
+    \end{itemize}
+\end{frame}
+\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe}
+    \rExecute{javac Sequenzanalyse.java}%
+    \begin{itemize}[<+(1)->]
+    \item Abschließend die \say{check} Routine:
+\begin{java}[firstnumber=13]
+!*\onslide<3->*!boolean check(int prev, int i) {
+!*\onslide<4->*!    if(prev % 2 == i % 2)
+!*\onslide<5->*!        return prev <= i;
+!*\onslide<4->*!    else
+!*\onslide<6->*!        return prev > i;
+!*\onslide<3->*!}
+\end{java}
+    \item<7-> So erhalten wir zum Beispiel für\Rbash[:\pause]{java Sequenzanalyse}{echo 2 4 6 6 6 3 5 5 5 0 | java Sequenzanalyse}
+    \end{itemize}
+\end{frame}
+
+% \section{Tipps für Übungsblatt 4}
+% \begin{frame}[t]{Aussicht: Übungsblatt 4}
+%     \begin{itemize}[<+(1)->]
+%         \item Bei einer Zeichenkette, kann man mittels \bjava{charAt} auf die einzelnen Zeichen zugreifen:\pause{}
+%         \ijava{CharAt.java}
+%     \end{itemize}
+% \end{frame}
+
+% \begin{frame}[t,fragile]{Aussicht: Übungsblatt 4}
+%     \begin{itemize}[<+(1)->]
+%         \rExecute{javac CharAt.java}%
+%         \item Wir erhalten: \rbash[:\pause{}]{java CharAt}
+%         \item Tipps zu ROT13:\pause{} Schaut euch an, wie die ASCII-Zeichen auf Zahlen abbilden.
+%         \item Beispielhaftes Verschlüsseln für ASCII $32$ bis $125$,\pause{} wobei \T{offset} ein \bjava{char} ist, der angibt um welches Zeichen verschoben werden soll, \T{c} sei der zu verschlüsselnde \bjava{char}\pause{} \info{ROT13 $\Rightarrow$ \bjava{offset = 13}}:\pause{}
+%         \begin{java}
+% if (c + offset > 125) // Überlauf :D
+%     char encrypted = (char) ((c+offset) - 125 + 32 - 1);
+% else
+%     char encrypted = (char) (c+offset);
+%         \end{java}
+%     \end{itemize}
+% \end{frame}
+
+% \begin{frame}[t,fragile]{Aussicht: Übungsblatt 4}
+%     \begin{itemize}[<+(1)->]
+%         \item Wichtige Information zu Unicode:\pause{} Manche Windows-Konsolen haben Standardmäßig kein Unicode. \pause{} Probiert: \cbash[morekeywords={[4]{chcp}}]{chcp 65001} im Terminal.
+%         \item Sonst Unicode, wie folgt:\pause{} \T{\paletteD{\textbackslash u}} gefolgt von der zugehörigen Zahl als Hexadezimalzahl.\pause{} So die Ente: \bjava[{literate={\\u}{{\paletteD{\textbackslash u}}}2}]{\"\\uD83E\\uDD86\"}.\pause{} \info{Kann vermutlich von den wenigsten Terminals dargestellt werden.}
+%         \item Codebeispiel:\pause{}
+% \begin{java}[literate={\\u}{{\paletteD{\textbackslash u}}}2]
+% char c = '\uFF03';
+% System.out.println(c + " \u263A");
+% \end{java}
+%         \item Liefert:\pause{} \say{\T{\# \Smiley}}.
+%     \end{itemize}
+% \end{frame}
+
+
+\section{End Pinguuu}
+\begin{frame}[c]
+    \hbox{}\vfill
+    \centering\onslide<2->{\scalebox{2}{\begin{tikzpicture}
+        \pingu[name = herbertine,eyes wink, right wing wave,bow tie,glasses,hat]
+        \pingu[name = herbert, xshift=2.75cm, wings grab, cup, eyes shiny, hair 2=pingu@green]
+    \end{tikzpicture}}}
+\end{frame}
+
+\end{document}

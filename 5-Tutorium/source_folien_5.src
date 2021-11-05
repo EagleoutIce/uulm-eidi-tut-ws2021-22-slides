@@ -1,0 +1,1274 @@
+\errorcontextlines 999999
+\usepackage{attachfile2}
+\attachfilesetup{%
+    author={Florian Sihler},%
+    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
+}
+
+\usepackage[%
+    sopra-listings={encoding,cpalette,highlights},%
+    sopra-tables, color-palettes={addons},%
+    util, lithie-boxes={germanenv,koma,overwrite},%
+    lithie-task-boxes={cpalette}, lecture-links={patchurl},%
+    lecture-registers={disable}% would interfere with beamer
+]{lithie-util}
+
+\def\solcustom{fill=paletteA!30,draw=paletteA!30}
+
+\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
+\RestyleAlgo{plain}
+\solLoadLanguage{bash,cpp}
+\lstset{add to literate={Vector}{{{\solGet{keywordC}{Vector}}}}6}
+\usepackage[ngerman]{babel}
+
+\usepackage[chess]{eagle-maps}
+\colorlet{chesswhite}{paletteA!90!white}
+\colorlet{chessblack}{paletteB!90!white}
+
+\colorlet{MaterialHeaderColor}{paletteB}%
+\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
+
+\def\linkstyle#1{\textsf{\paletteD{#1}}}
+\SetAllLinkStyle{\linkstyle{#1}}
+\usepackage{tikzducks,tikzsymbols}
+\usetheme{lucy}
+
+\colorlet{chessfieldblack}{lightgray}
+
+\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
+
+\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
+
+\newcommand\parallelcontent[3][t]{%
+    \begin{columns}[#1]
+    \begin{column}{.475\linewidth}#2\end{column}\hfill
+    \begin{column}{.475\linewidth}#3\end{column}
+    \end{columns}
+}
+
+\title[Fünftes Tutorium -- Übungsblatt 5]{Saure-Basen-Basisspiele\\\small Tutorium 5}
+\date{\sffamily KW 22}
+\author{Florian Sihler}
+\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+
+\usepackage{tikzpingus-old}
+\usetikzlibrary{decorations.text}
+\hypersetup{colorlinks=false}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{tikzpicture}[overlay]
+        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
+            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
+        \end{scope}
+        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {5};
+    \end{tikzpicture}
+    \titlepage
+\end{frame}
+
+\section{Präsenzaufgabe}
+\begin{frame}[fragile, c]{Präsenzaufgabe, zum Auflockern}
+    \begin{aufgabe}{Was tun Sie?!}
+~\\[-\baselineskip]\begin{minipage}{0.475\linewidth}
+    \pause{}Was produziert der rechts abgebildete Code, wobei:
+        \pause{}{\lstfs{9}\begin{plainjava}
+static int a = 5;
+static int b = 10;
+static boolean c = true;
+        \end{plainjava}}
+\end{minipage}\quad\pause{}\qquad\begin{minipage}{0.5\linewidth}
+    ~\lstfs{7}\begin{plainjava}
+public static void main(String[] args) {
+    methode1(b, a);
+    methode2(a, c);
+}
+
+static void methode1(int a, int b) {
+    boolean c = false;
+    b = b * a;
+    System.out.println(a + " " + b + " " + c);
+}
+
+static void methode2(int b, boolean d) {
+    b = a - b;
+    System.out.println(a + " " + b + " " +
+                        c + " " + d);
+}
+\end{plainjava}
+\end{minipage}
+\end{aufgabe}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \item Die Ausgabe lautet:\pause{}
+\begin{java}[style=lecture@BashOutput]
+10 50 false
+5 0 true true
+\end{java}
+        \item Warum?\pause{} \bjava{false} kommt über das lokale \T{c},\pause{} die \bjava{10} über das lokale \T{a}, welches als Parameter den Wert des globalen \T{b} erhält.\pause{} Die \bjava{50} über \bjava{b * a}, wobei hier die globalen Werte verwendet werden\pause{} \info{allerdings heißt \T{a} jetzt \T{b} und \T{b} jetzt \T{a}}.
+        \item Warum?\pause{}  Die \bjava{5} kommt durch das globale \T{a}, da es kein lokales Pendant besitzt.\pause{} Die \bjava{0} daher,\pause{} dass das \emph{lokale} \T{b} über die Parameter den Wert des globalen \T{a} trägt\pause{} und somit (informal) \bjava{b = a - a} gerechnet wird.\pause{} Das \T{d} entspricht dem Wert des globalen \T{c},\pause{} welches in \T{methode1} nicht überschrieben sonder überlagert wurde.
+    \end{itemize}
+\end{frame}
+
+\subsection{Präzisierung: Überlagern}
+\begin{frame}[t,fragile]{Präzise Antworten: Überlagerung}
+    \begin{itemize}[<+(1)->]
+        \item In Java gibt es verschiedene Sichtbarkeiten. \pause{} Wir werden uns hier ansehen, was bei gleichnamigen Variablen geschieht.
+        \item Wir werden in diesem Kontext \emph{nicht} auf den Stack eingehen.
+        \item Grundlegend sprechen wir von \emph{globaler} und \emph{lokaler} Sichtbarkeit einer Variable:\pause{}{\lstfs{9}
+\begin{plainjava}
+// Global:
+!*\pause*!public static int globaleZahl; // !*\solGet{comments}{$\leftarrow$}*! Überall wo Klasse sichtbar
+!*\pause*!private static int klasseZahl; // !*\solGet{comments}{$\leftarrow$}*! Überall innerhalb der Klasse
+!*\pause*!public static int main(String[] args){
+!*\pause*!    // Lokal:
+    int lokaleZahl;!*\pause*! // !*\solGet{comments}{$\leftarrow$}*! Nur innerhalb von main
+}
+\end{plainjava}}
+    \item Nun mal sehen, wie die Variablen überschrieben werden.
+    \end{itemize}
+\end{frame}
+
+\rExecute{javac Verdraengung.java}
+\begin{frame}[t,fragile]{Verdrängungs'v'reuden}
+    \begin{itemize}[<+(1)->]
+        \item Es können in Methoden nur globale Variablen überschrieben werden.
+        \item Überschrieben werden sie entweder durch die Erstellung einer gleichnamige Variable\pause{} oder einem Parameter mit gleichem Namen.
+        \item Der Typ spielt \emph{keine} Rolle. So erzeugt:\pause{}
+        {\lstfs{11}%
+        \ijava[firstline=3,lastline=7,firstnumber=3]{Verdraengung.java}
+        }
+        \pause{}die Ausgabe \rbash{java Verdraengung}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Super-Lokal mit Blöcken}
+    \begin{itemize}[<+(1)->]
+        \item Wir können in Java (fast) überall geschwungene Klammerpaare setzen. \pause{}
+              Sie fassen Anweisungen wieder zu einem lokalen Block zusammen.
+        \item In diesem Block existieren alle Variablen der äußeren Blöcke,\pause{} wir können also keine neuen erstellen. Allerdings überleben die Variablen nur den Block.
+        \item Zuerstmal ein eher sinnfreies Beispiel\ldots{}
+    \end{itemize}
+\end{frame}
+
+\rExecute{javac Block.java}
+\begin{frame}[t,fragile]{Super-Lokal mit Blöcken}
+    \begin{itemize}[<+(1)->]
+        \item Der Code
+{\lstfs{8}\begin{plainjava}
+!*\pause*!static int test = 0;
+!*\pause*!public static void main(String[] args) {
+    !*\pause*!System.out.print(test + " ");
+    !*\pause*!{
+        int test = 15; // Überlagere lokal
+        System.out.print(test + " ");
+    }
+    !*\pause*!System.out.print(test);
+}
+\end{plainjava}}
+        \pause{}erzeugt die Ausgabe \rbash[:\pause{}]{java Block}
+        \item Wann ist dies von Interesse?\pause{} Bei \bjava{if} zum Beispiel \ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Wie, wir kannten Blöcke schon?}
+    \begin{itemize}[<+(1)->]
+        \item Wenn wir nach einem \bjava{if}/\bjava{while}/\ldots{} Kopf eine geschwungene Klammer setzen,\pause{} starten wir einen neuen Block.
+        \item Hinweis: Bei Methoden, Klassen, Enums, \ldots{} gehören die Klammern dazu (und sind deswegen anders).
+        \item Allgmein noch: \pause{}\textit{achtet auf eine präzise Beschreibung!}\pause{} \say{Java weiß dann nicht was es tun soll} klingt zwar süß,\pause{} aber erklärt nicht warum.
+    \end{itemize}
+\end{frame}
+
+\section{Präsenzaufgabe, mit Vektoren}
+\begin{frame}{Präsenzaufgabe, nun Vektoriell}
+    \begin{itemize}[<+(1)->]
+        \item Im Folgenden soll eine Vektor Klasse konstruiert werden.
+        \item Zu unterstützen sind \(n\) Dimensionen \(\R^n\) (\(n \in \N\), \(n > 0\)).
+        \item Ein Objekt der Vektor-Klasse hat die folgenden Informationen zu halten:
+\begin{description}[Vektorkomponenten:]
+    \item[Vektorkomponenten:] Eine Folge von \(n\) Werten, die nach der Instanziierung alle \emph{nicht mehr} verändert werden dürfen.
+    \item[Betrag des Vektors:] Der Betrag des Vektors (ebenfalls unveränderbar).
+\end{description}
+        \item Um die Präsenzaufgabe übersichtlicher zu gestalten, teile ich sie in mehrere auf.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile, c]{Vectorias, the great one}
+\begin{aufgabe}{We please the mighty}
+Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
+    \item Schreiben Sie eine Klasse \bjava{Vector}, welche alle notwendigen Attribute (unveränderbare Vektorkomponenten, unveränderbarer Betrag), enthält.
+    \item Schreiben Sie eine \bjava{public String toString()}-Methode. Die nach Java-Standard alle Attribute ausgibt.\pause{} Hier eine beispielhafte Ausgabe. Das genau Format ist Ihnen überlassen:
+\begin{plainjava}
+{ magnitude: 2.0, values: [0.0, 2.0, 0.0, 0.0, 0.0] }
+\end{plainjava}
+\end{enumerate}
+\onslide<1->
+\end{aufgabe}
+\end{frame}
+
+\begin{frame}[fragile, c]{Vectorias, the great second}
+\begin{aufgabe}{We cheese the mighty}
+Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
+    \setcounter{enumi}{2}
+    \item Implementieren Sie \bjava{public static Vector create(double... values)}, welche die Einschränkungen prüft. Sind Sie erfüllt, soll ein neuer unveränderbarer Vektor und sonst \bjava{null} zurückgegeben werden.\pause{} Beispiele:
+\begin{plainjava}
+Vector a = Vector.create(0, 2, 0, 0, 0);
+Vector b = Vector.create(13, 2.5, 3.2);
+System.out.println(a); // :yields: Ausgabe von toString()
+\end{plainjava}
+\end{enumerate}
+\onslide<1->
+\end{aufgabe}
+\end{frame}
+
+\begin{frame}[fragile, c]{Vectorias, the great third}
+\begin{aufgabe}{We freeze the mighty}
+\pause Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
+    \setcounter{enumi}{3}
+    \item Implementieren Sie eine Methode \bjava{public double[] getValues()}, welche die übergebenen Werte zurückliefert, aber die Unveränderbarkeit sicher stellt.\pause{}
+\begin{plainjava}
+Vector a = Vector.create(0, 2, 0);
+double[] v = a.getValues();
+v[0] = 3;
+System.out.println(Arrays.toString(v)); // :yields: [3.0, 2.0, 0.0]
+System.out.println(a); // :yields: original vector
+\end{plainjava}
+\end{enumerate}
+\onslide<1->
+\end{aufgabe}
+\end{frame}
+
+
+\begin{frame}[fragile, c]{Vectorias, the great fourth}
+\begin{aufgabe}{We freeze the brighty}
+Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
+    \setcounter{enumi}{4}
+    \item Implementieren Sie eine Methode \bjava{public Vector normalize()}, welche einen neuen normalisierten Vektor erzeugt.\pause{}
+    Dieser hat die selbe Richtung, wie das Original, aber einen Betrag von \(1\). Die Normalisierung kann durch die folgende Formel erfolgen: \begin{equation*}
+        \vec{n} = \frac{\vec{v}}{||\vec{v}||}
+    \end{equation*}
+\end{enumerate}
+\onslide<1->
+\end{aufgabe}
+\end{frame}
+
+\begin{frame}[fragile]{Vectori-bras, the great solver}
+    \begin{itemize}[<+(1)->]
+        \item Hier die Klasse an sich: \only<2->{\textattachfile{Vector.java}{Vector.java}}
+        \item Zunächst die unveränderlichen Attribute:
+\begin{plainjava}
+!*\onslide<4->*!public class Vector {
+!*\onslide<5->*!    private final double[] values; // darf nicht public sein
+!*\onslide<5->*!    public final double magnitude; // oder mit getter
+!*\onslide<4->*!}
+\end{plainjava}
+        \item<6-> Die \bjava{toString()}-Methode:
+\begin{plainjava}
+!*\onslide<7->*!public String toString() {
+!*\onslide<8->*!    return "{ magnitude: " + magnitude
+!*\onslide<8->*!         + ", values: " + Arrays.toString(values)
+!*\onslide<8->*!         + " }";
+!*\onslide<7->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Vectori-bras, the late solver}
+    \begin{itemize}[<+(1)->]
+        \item Die \bjava{create(double...)}-Methode:
+\begin{plainjava}
+!*\onslide<6->*!// expects: valid vector (auch möglich: Exceptions)
+!*\onslide<6->*!private Vector(double[] values) {
+!*\onslide<7->*!    this.values = values; // to be completely sure: another copy
+!*\onslide<7->*!    this.magnitude = calculateMagnitude(values);
+!*\onslide<6->*!}
+!*\onslide<3->*!
+!*\onslide<3->*!public static Vector create(double... values) {
+!*\onslide<4->*!    if(values.length <= 0)
+!*\onslide<4->*!        return null;
+!*\onslide<5->*!    return new Vector(values);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Vectori-bras, the bait resolver}
+    \begin{itemize}[<+(1)->]
+        \item Hier noch die Hilfsmethode für den Betrag:
+\begin{plainjava}
+!*\onslide<3->*!private static double calculateMagnitude(double[] values) {
+!*\onslide<4->*!    double sumOfSquares = 0;
+!*\onslide<5->*!    for (double value : values) {
+!*\onslide<6->*!        sumOfSquares += Math.pow(value, 2);
+!*\onslide<5->*!    }
+!*\onslide<7->*!    return Math.sqrt(sumOfSquares);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Vectori-was? The quest revolver}
+    \begin{itemize}[<+(1)->]
+        \item Zum Erhalten der Werte erzeugen wir eine Kopie:
+\begin{plainjava}
+!*\onslide<3->*!public double[] getValues() {
+!*\onslide<4->*!    return copyArray(this.values);
+!*\onslide<3->*!}
+!*\onslide<3->*!
+!*\onslide<5->*!private double[] copyArray(double[] arr) {
+!*\onslide<6->*!    double[] copy = new double[arr.length];
+!*\onslide<7->*!    for (int i = 0; i < copy.length; i++) {
+!*\onslide<8->*!        copy[i] = arr[i];
+!*\onslide<7->*!    }
+!*\onslide<9->*!    return copy;
+!*\onslide<5->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Vectori-das, the final wolf}
+    \begin{itemize}[<+(1)->]
+        \item Nun noch die Normalisierung:
+\begin{plainjava}
+!*\onslide<3->*!public Vector normalize() {
+!*\onslide<4->*!    double[] normalizedValues = new double[this.values.length];
+!*\onslide<5->*!    for (int i = 0; i < normalizedValues.length; i++) {
+!*\onslide<6->*!        normalizedValues[i] = this.values[i] / this.magnitude;
+!*\onslide<5->*!    }
+!*\onslide<7->*!    return Vector.create(normalizedValues);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\section{Übungsblatt 5}
+\subsection{Aufgabe 1}
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 a)}
+    \begin{itemize}[<+(1)->]
+        \item Der volle Code befindet sich hier: \only<2->{\textattachfile{Conversion.java}{Conversion.java}}.
+        \item Wir bauen \bjava{intArrayToInt(int[] digits, int base)}.
+        \item Zunächst überspringen wir führende Leerzeichen:
+\begin{plainjava}
+!*\onslide<5->*!int begin = 0; // Start der eigentlichen Zahl im String
+!*\onslide<6->*!while (numberString.length() > begin &&
+!*\onslide<6->*!        numberString.charAt(begin) == ' ') {
+!*\onslide<7->*!    begin += 1;
+!*\onslide<6->*!}
+!*\onslide<8->*!if (begin >= numberString.length())
+!*\onslide<9->*!    return null;
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 a)}
+    \begin{itemize}[<+(1)->]
+        \item Nun kreieren wir das Array für die Zahlenwerte:
+\begin{plainjava}
+!*\onslide<3->*!int[] digits = new int[numberString.length() - begin];
+!*\onslide<4->*!for (int i = begin; i < numberString.length(); i++) {
+!*\onslide<5->*!    // Konvertierung...
+!*\onslide<4->*!}
+!*\onslide<6->*!return digits;
+\end{plainjava}
+        \item<7-> Bei der Konvertierung können wir die Zeichen, wie \bjava{'0'}, in arithmetischen Operationen verwenden. \onslide<8->{Java konvertiert sie implizit zu ihrem Unicode-Wert.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 a)}
+    \begin{itemize}[<+(1)->]
+        \item Wir konvertieren eine einzelne Zahl:
+\begin{plainjava}
+!*\onslide<3->*!int digit;
+!*\onslide<4->*!final char c = Character.toUpperCase(numberString.charAt(i));
+!*\onslide<5->*!if ('0' <= c && c <= '9') // ist Zahl
+!*\onslide<6->*!    digit = c - '0';
+!*\onslide<5->*!else if ('A' <= c && c <= 'Z') // ist Buchstabe
+!*\onslide<7->*!    digit = c - 'A' + 10;
+!*\onslide<5->*!else return null;
+!*\onslide<3->*!
+!*\onslide<8->*!if (digit >= base || digit < 0)
+!*\onslide<8->*!    return null;
+!*\onslide<9->*!digits[i - begin] = digit;
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 b)}
+    \begin{itemize}[<+(1)->]
+        \item Mit dem Hornerschema erfolgt die Konvertierung nahezu trivial:
+\begin{plainjava}
+!*\onslide<3->*!public static int intArrayToInt(int[] digits, int base) {
+!*\onslide<4->*!    int sum = digits[0];
+!*\onslide<5->*!    for (int i = 1; i < digits.length; i++) {
+!*\onslide<6->*!        sum = sum * base + digits[i];
+!*\onslide<5->*!    }
+!*\onslide<7->*!    return sum;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 c)}
+    \begin{itemize}[<+(1)->]
+        \item Zunächst kümmern wir uns um das Verarbeiten der Eingabe:
+\begin{plainjava}
+!*\onslide<3->*!void assertOnlyOneArgument(String[] args) {
+!*\onslide<4->*!    if (args.length != 1) {
+!*\onslide<5->*!        System.err.println("[...]. Gegeben: " + args.length);
+!*\onslide<5->*!        System.exit(1);
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 c)}
+    \begin{itemize}[<+(1)->]
+        \item Auf der Basis verarbeiten wir die Eingabe:
+\begin{plainjava}
+!*\onslide<3->*!private static int getBaseFromArgs(String[] args) {
+!*\onslide<4->*!    assertOnlyOneArgument(args);
+!*\onslide<4->*!    final int base = Integer.parseInt(args[0]);
+!*\onslide<5->*!    if (base < 2 || base > 36) {
+!*\onslide<6->*!        System.err.println("[...]. Gegeben: " + base);
+!*\onslide<6->*!        System.exit(2);
+!*\onslide<5->*!    }
+!*\onslide<7->*!    return base;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 c)}
+    \begin{itemize}[<+(1)->]
+        \item Damit sieht die Hauptroutine wie folgt aus:
+\begin{plainjava}
+!*\onslide<3->*!int base = getBaseFromArgs(args);
+!*\onslide<3->*!Scanner scanner = new Scanner(System.in);
+!*\onslide<4->*!while (scanner.hasNextLine()) {
+!*\onslide<5->*!    // Verarbeitung...
+!*\onslide<4->*!}
+!*\onslide<6->*!scanner.close();
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 c)}
+    \begin{itemize}[<+(1)->]
+        \item Die Verarbeitung der Eingaben verläuft dann wie folgt:
+\begin{plainjava}
+!*\onslide<3->*!final String input = scanner.nextLine();
+!*\onslide<4->*!if (input.isEmpty())
+!*\onslide<4->*!    continue;
+!*\onslide<5->*!int[] digits = stringToIntArray(input, base);
+!*\onslide<6->*!if (digits == null) {
+!*\onslide<7->*!    System.err.println(input+" ist keine Zahl zur Basis "+base);
+!*\onslide<6->*!} else {
+!*\onslide<8->*!    int number = intArrayToInt(digits, base);
+!*\onslide<8->*!    System.out.println(number);
+!*\onslide<6->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Zusatzaufgabe}
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe}
+    \begin{itemize}[<+(1)->]
+        \item Schach! \begin{center}
+\only<2|handout:0>{%
+\resizebox{!}{5.5cm}{\begin{em-chess*}%
+\emChessSetBoard{%
+    {black:rookB, black:knightB, black:bishopB, black:queen, black:king, black:bishopA, black:knightA, black:rookA},
+    {black,black,black,black,black,black,black,black},
+    {},
+    {},
+    {},
+    {},
+    {white,white,white,white,white,white,white,white},
+    {white:rookA, white:knightA, white:bishopA, white:queen, white:king, white:bishopB, white:knightB, white:rookB}%
+}%
+\end{em-chess*}%
+}}\only<3->{%
+\colorlet{chessblack}{paletteA}
+\resizebox{!}{5.5cm}{\begin{em-chess*}%
+\emChessSetBoard{%
+    {,,black:rookA},
+    {,,,,,black:rookA},
+    {,,,,,,,black:rookA},
+    {black:rookA},
+    {,,,black:rookA},
+    {,,,,,,black:rookA},
+    {,,,,black:rookA},
+    {,black:rookA}%
+}%
+\end{em-chess*}%
+}}%
+        \end{center}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe}
+    \begin{itemize}[<+(1)->]
+        \item Für Türme lässt sich die Aufgabe leicht umformulieren (\only<2->{\textattachfile{Zusatz.java}{Zusatz.java}}):\par
+              \say{In jeder Zeile und jeder Spalte darf es maximal einen Turm geben}
+        \item Das Grundgerüst:
+\begin{plainjava}
+!*\pause*!boolean[][] field = { /* :ldots: */ }
+!*\pause*!boolean validField = true;
+!*\pause*!for (int i = 0; i < field.length; i++) {
+!*\pause*!    // :ldots:
+}
+\end{plainjava}
+        \item Kein \say{line}, da wir damit Zeilen und Spalten abgehen werden\ldots
+        \item Hinweis: Wenn wir auch prüfen möchten, ob es wirklich \(n\) Türme sind, dann können wir die Aussage ersetzen durch \say{\ldots\ genau einen Turm},\pause{} und die Türme beispielsweise zählen.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,c]{Übungsblatt 5 - Zusatzaufgabe}
+\begin{plainjava}
+!*\pause*!// für jedes i
+!*\pause*!int rooksHorizontal = 0;
+!*\pause*!int rooksVertical = 0;
+!*\pause*!for (int j = 0; j < field.length; j++) { // da  w = h
+!*\pause*!    if(field[i][j])
+!*\pause*!        rooksHorizontal += 1;
+!*\pause*!    if(field[j][i])
+!*\pause*!        rooksVertical += 1;
+!*\pause*!}
+!*\pause*!if(rooksHorizontal > 1 || rooksVertical > 1) {
+!*\pause*!    validField = false;
+!*\pause*!    break;
+!*\pause*!}
+\end{plainjava}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe}
+    \begin{itemize}[<+(1)->]
+        \item Zuletzt noch die Auswertung:
+\begin{plainjava}
+!*\pause*!if(validField)
+!*\pause*!    System.out.println("Feld korrekt");
+!*\pause*!else
+!*\pause*!    System.out.println("Feld inkorrekt");
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe, Alternative}
+    \begin{itemize}[<+(1)->]
+        \item Betrachten wir eine Prüfroutine für ein gegebenes Feld (\only<2->{\textattachfile{ZusatzB.java}{ZusatzB.java}})
+\begin{plainjava}
+!*\onslide<3->*!boolean isRookPositionValid(int x, int y, boolean[][] field) {
+!*\onslide<4->*!    for (int i = 0; i < field.length; i++) {
+!*\onslide<5->*!        if(i != x && field[y][i]) return false;
+!*\onslide<6->*!        if(i != y && field[i][x]) return false;
+!*\onslide<4->*!    }
+!*\onslide<7->*!    return true;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe, Alternative}
+    \begin{itemize}[<+(1)->]
+        \item Nun können wir über das Feld iterieren und alle Turmpositionen prüfen:
+\begin{plainjava}
+!*\onslide<3->*!public static boolean checkField(boolean[][] field) {
+!*\onslide<4->*!    for(int y = 0; y < field.length; y++) {
+!*\onslide<5->*!        for(int x = 0; x < field.length; x++) {
+!*\onslide<6->*!            if(field[y][x] && !isRookPositionValid(x, y, field))
+!*\onslide<6->*!                return false;
+!*\onslide<5->*!        }
+!*\onslide<4->*!    }
+!*\onslide<7->*!    return true;
+!*\onslide<3->*!}
+\end{plainjava}
+        \item<8-> Auch hier lässt sich die Prüfung beispielsweise durch einen Zähler erweitern.
+    \end{itemize}
+\end{frame}
+
+\section{Ein Haufen Exkurse}
+\subsection{Exkurs: Objektorientierung}
+\begin{frame}[t,fragile]{Ich bin eine Biene.}
+    \begin{itemize}[<+(1)->]
+        \item Klassen an sich schon bekannt.\pause{} Keywords: \bjava{class} so zum Beispiel bei \T{Hamster.java}:\pause{}
+        \begin{java}[morekeywords={[2]{Hamster}}]
+class Hamster {
+    // ...
+}
+        \end{java}
+        \item Mittels \bjava{new} lässt sich ein neues Objekt der Klasse erstellen.
+        \item Beispiel: \bjava[morekeywords={[2]{Hamster}}]{Hamster günther = new Hamster();}.\pause{} Erzeugt ein \emph{Objekt} der \emph{Klasse} Hamster mit dem Namen \T{günther}.\pause{} \info{Die Deklaration der Variable verläuft analog zu \bjava{int Hamster = ...}}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Objektorientierung - Attribute}
+    \begin{itemize}[<+(1)->]
+        \item Dieser Klasse können wir Variablen zuweisen. \pause{} Diese besitzt dann auch jedes Objekt für sich.
+        \item Um auf die Variablen von außen zugreifen zu können, deklarieren wir sie mit \bjava{public}:\pause{}
+\begin{java}[morekeywords={[2]{Hamster}}]
+class Hamster {
+    public String name;
+    public int alter;
+}
+\end{java}
+        \item Mittels \bjava{static} deklarieren wir eine Variable, die für alle Hamster identisch ist.\pause{} \info{Deswegen auch \bjava{public static void main(...)}.} \pause{}
+        \begin{java*}
+public static boolean flauschig = true;
+        \end{java*}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Objektorientierung - Methoden}
+    \begin{itemize}[<+(1)->]
+        \item Analog zu \emph{main} können wir Methoden deklarieren.
+        \item Nebst den Zugriffspezifikatoren (\bjava{public}, \ldots)\pause{} und dem Rückgabetyp (\bjava{void} $\widehat{=}$ nichts)\pause{} schreiben wir noch den Namen (\bjava{main}),\pause{} so wie in Klammern, welche Argumente die Methode erhält (\bjava{String[] args}).
+        \item Beispiel:\pause{}
+\begin{java*}
+public int add(int a, int b){ /* ... */ }
+\end{java*}
+        Diese Methode erhält zwei Integer und liefert einen zurück. Beispiel:\pause{}
+\begin{java*}
+public int add(int a, int b){
+    return a + b;
+}
+\end{java*}
+        \pause{}Der Aufruf \bjava{add(2,3)} liefert uns also $5$ zurück.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Ein höflicher Hamster}
+    \begin{itemize}[<+(1)->]
+        \item Lassen wir den Hamster sich vorstellen:\pause{}
+\begin{java}[morekeywords={[2]{Hamster}},morekeywords={[6]{vorstellen}}]
+class Hamster {
+    public String name;
+    public int alter;
+    public static boolean flauschig = true;
+
+    public void vorstellen(){
+        System.out.println("Ich bin " + name + " und " + alter + " Jahre alt");
+    }
+}
+\end{java}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Objektorientierung - Konstruktoren}
+    \begin{itemize}[<+(1)->]
+        \item Beim Erzeugen einer Klasse durch \bjava{new} wird der Konstruktor aufgerufen.\pause{} \info{An sich handelt es sich um eine Methode ohne Rückgabetyp}.
+        \item So kann der Hamster bei der Erstellung einen Namen und ein Alter erhalten:\pause{}
+\begin{java}[morekeywords={[2]{Hamster}}]
+// ...
+public Hamster(String _name, int _alter) {
+    name = _name;
+    alter = _alter;
+}
+\end{java}
+        \item Nennen wir die Variablen gleich, so werden die des Hamsters über \bjava{this} erreicht,\pause{} also: \bjava{this.name = name;}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Die Hamster nutzen~\,\smaller\Smiley}
+    \begin{itemize}[<+(1)->]
+        \item Erzeugen wir einmal zwei Hamster in der main-Methode:\pause{}
+\begin{java}[morekeywords={[2]{Hamster}}]
+Hamster dieter = new Hamster("Dieter", 15);
+Hamster jenny  = new Hamster("Jennifer", 7);
+\end{java}
+        \pause{}Nun können wir Sie sich vorstellen lassen:\pause
+\begin{java}[morekeywords={[6]{vorstellen}}]
+dieter.vorstellen();
+jenny.vorstellen();
+\end{java}
+        \pause{}Dies liefert jeweils:\pause{}
+        \begin{plainvoid}
+Ich bin Dieter und 15 Jahre alt
+Ich bin Jennifer und 7 Jahre alt
+        \end{plainvoid}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Allgemeines zu Klassen}
+    \begin{itemize}[<+(1)->]
+        \item Jede Klasse gehört in eine eigene \T{.java}-Datei mit entsprechendem Namen.
+        \item Beim Kompilieren einfach alle \T{.java}-Dateien angeben.
+        \item Beim Ausführen nur die Auswählen, die die \emph{main}-Methode enthält/starten soll.
+        \item Andere Klassen binden wir mittels \bjava{import} ein.\pause{} Beispiel: \pause{}
+\begin{java*}
+import java.util.Scanner;
+\end{java*}
+        \item Ab jetzt steht \bjava{Scanner} zur Verfügung.
+        \item So können wir auch unsere eigene Klassen einbinden.
+    \end{itemize}
+\end{frame}
+
+\subsection{Bonus: Überladen und Co}
+
+\begin{frame}[t,fragile]{Bonus: Rückgabewerte}
+    \begin{itemize}[<+(1)->]
+        \item Programme liefern einen Statuswert zurück.
+        \item Interpretation ist proprietär. Einzig wichtig: \begin{description}
+            \item[0:] Kein Fehler.
+            \item[sonst:] Zahl kodiert den Fehler.
+        \end{description}
+        \item Deswegen: Im Fehlerfall \bjava{System.exit(1)},\pause{} oder \bjava{System.exit(42)},\pause{} oder \ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Bonus: Kommunikation}
+    \begin{itemize}[<+(1)->]
+        \item \say{\bjava{System.}} liefert drei Streams\pause{} über die kommuniziert werden kann: \begin{itemize}
+            \item \bjava{System.out}: für die normale Ausgabe.
+            \item \bjava{System.err}: für Fehler.
+            \item \bjava{System.in}: Lesen von Nutzereingaben.
+        \end{itemize}
+        \item \bjava{System.out} und \bjava{System.err} funktionieren identisch.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Hilfe! Ich bin Überladen}
+    \begin{itemize}[<+(1)->]
+        \item Methoden,\pause{} kennen wir: \pause{}
+\begin{java*}
+public int add (int a, int b) { /* ... */ }
+\end{java*}
+        \item Diese Methode besitzt eine \emph{Signatur}:\pause{} \bjava{add(int,int)}.
+            Der Rückgabetyp ist \emph{nicht} Teil!
+        \item Wir können mehrere Methoden mit verschiedener Signatur erstellen.
+        \item Bisher bekannt: anderer Name.
+        \item Aber auch: gleicher Name, andere Argumente:\pause{}
+\begin{java*}
+public int add (int a, int b) { /* ... */ }
+!*\pause*!public int add (int a, float b) { /* ... */ }
+!*\pause*!public int add (int a) { /* ... */ }
+!*\pause*!public int add () { /* ... */ }
+\end{java*}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Prinzip: Überladen}
+    \begin{itemize}[<+(1)->]
+        \item Wenn wir eine Methode mit gleichem Namen definieren,\pause{}
+             aber einer verschiedenen Signatur,\pause{} so heißt dies: \emph{Überladen}.
+        \item Java ruft die (seiner Meinung nach!) passende Methode auf.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Beispiele zur Überladung}
+    \begin{itemize}[<+->]
+        \item Es sei (die volle Datei: \textattachfile{Ueberladen.java}{Ueberladen.java}):\pause{}
+\begin{java}
+public static void print(short a)   {
+    System.out.println("Short: " + a);
+}
+\end{java}
+
+        \item Und analog:\pause{}
+\begin{java}
+public static void print(int a)   {
+    System.out.println("Int: " + a);
+}
+\end{java}
+        \item Sowie für \bjava{float} und \bjava{double}.
+    \end{itemize}
+\end{frame}
+
+\rExecute{javac Ueberladen.java}
+\begin{frame}[t,fragile]{Beispiele zur Überladung}
+    \begin{itemize}[<+(1)->]
+        \item Was ergibt:\pause{}
+\begin{java*}
+print(2); print('a'); print(0.25); print(0.1:float:);
+print((byte) 15);
+\end{java*}
+        \item \rbash[:\pause{}]{java Ueberladen}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Wie wählt Java?}
+    \begin{itemize}[<+(1)->]
+        \item Die erste Ausgabe (\bjava{print(2) :yields: Int: 2}) ist logisch.\pause{} \info{Eine Konstante ist eine Zahl, in Java ein \bjava{int}.}
+        \item Java kann bei \say{\bjava{print('a') :yields: Int: 97}} den \bjava{char}\pause{} durch implizite Umwandlung zu einem \bjava{int} konvertieren.
+        \item \say{\bjava{print(0.25) :yields: Dou:c:ble: 0.25}}\pause{} da Fließkommazahlen in Java standardmäßig \bjava{double} sind.
+        \item \say{\bjava{print(0.1:float:) :yields: Float: 0.1}}\pause{} hier
+            konvertieren wir die Zahl explizit!
+        \item Bei \say{\bjava{print((byte) 15) :yields: Short: 15}}\pause{}
+             findet Java kein \bjava{print(byte)},\pause{} konvertiert aber nicht zu
+             \bjava{print(int)} sondern sucht das \say{passendste} \bjava{print(short)}.
+    \end{itemize}
+\end{frame}
+
+
+\subsection{Exkurs: Matrizen}
+\begin{frame}[t]{Exkurs: Matrizen in Java}
+    \begin{itemize}[<+(1)->]
+        \item Wir kennen:\pause{} Arrays!
+        \begin{center}
+            \begin{tikzpicture}
+                \onslide<4>{\node at(0,0) {\bjava{int[] arr = \{3, 5, 7\};}};}
+                \onslide<5->{\node (n) at(0,0) {\bjava{int|custom|[]|custom| arr = \{3, 5, 7\};}};}
+                \begin{scope}[every node/.append style={scale=0.7}]
+                    \onslide<6->{
+                        \draw[decoration={brace,mirror},decorate] (n.163)++(0pt,0) -- ++(-13pt,0) node[midway,above=3pt] {Array};
+                    }
+                    \onslide<7->{
+                        \draw[decoration=brace,decorate] (n.192)++(2pt,0) -- ++(-17pt,0) node[midway,below=3pt] {Integer};
+                    }
+                    % position marker
+                    \onslide<8->{
+                        \draw[Kite-] (n.324) -- ++(-0.45,-0.35) node[below] {\bjava{arr|custom|[0]|custom|}};
+                    }
+                    \onslide<9->{
+                        \draw[Kite-] (n.342) -- ++(    0,-0.35) node[below] {\bjava{arr|custom|[1]|custom|}};
+                    }
+                    \onslide<10->{
+                        \draw[Kite-] (n.349) -- ++( 0.45,-0.35) node[below] {\bjava{arr|custom|[2]|custom|}};
+                    }
+                    %length
+                    \onslide<11->{
+                        \draw[decoration={brace,mirror},decorate] (n.10)++(-2pt,0) -- ++(-49pt,0) node[midway,above=3pt] {\bjava{arr.length :yields: 3}};
+                    }
+                \end{scope}
+            \end{tikzpicture}
+        \end{center}
+        \item<12-> Wir wollen: Matrizen!
+            \begin{center}
+                \onslide<13->{\(\displaystyle\begin{pmatrix}
+                    1 & 2 & 3 \\
+                    4 & 5 & 6
+                \end{pmatrix}\)}
+            \end{center}
+            \onslide<14->{Doch wie in Java?}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Exkurs: Matrizen in Java}
+    \onslide<0->{%
+        \begin{tikzpicture}[remember picture,overlay]
+            \node[below left=0.25cm,scale=0.7,yshift=-2cm] at(current page.north east) {\(\displaystyle\begin{pmatrix}
+                1 & 2 & 3 \\
+                4 & 5 & 6
+            \end{pmatrix}\)};
+        \end{tikzpicture}}\vspace*{-\baselineskip}%
+    \begin{itemize}[<+(1)->]
+        \item Recht leicht:\pause{} Array von Arrays!
+        \begin{center}
+            \begin{tikzpicture}
+                \onslide<4>{\node at(0,0) {\bjava{int[][] arr = \{\{1,2,3\}, \{4,5,6\}\};}};}
+                \onslide<5->{\node (n) at(0,0) {\bjava{int[]|custom|[]|custom| arr = \{|custom|\{1,2,3\}|custom|, |custom|\{4,5,6\}|custom|\};}};}
+                \begin{scope}[every node/.append style={scale=0.7}]
+                    \onslide<6->{
+                        \draw[decoration={brace,mirror},decorate] (n.169) -- ++(-14pt,0) node[midway,above=3pt] {Array};
+                    }
+                    \onslide<7->{
+                        \draw[decoration=brace,decorate] (n.188)++(5pt,0) -- ++(-29pt,0) node[midway,below=3pt] {Arrays};
+                    }
+                    % position marker
+                    \onslide<8->{
+                        \draw[Kite-] (n.321) -- ++(0,-0.35) node[below] {\bjava{arr|custom|[0]|custom|}};
+                    }
+                    \onslide<9->{
+                        \draw[Kite-] (n.350)++(6pt,0) -- ++(    0,-0.35) node[below] (wa) {\bjava{arr|custom|[1]|custom|}};
+                    }
+                    %length
+                    \onslide<10->{
+                        \draw[decoration={brace,mirror},decorate] (n.7)++(5pt,0) -- ++(-103pt,0) node[midway,above=3pt] {\bjava{arr.length :yields: 2}};
+                    }
+                    \onslide<11->{
+                        \draw[Kite-] (wa.east)++(-2pt,-1pt) -- ++(0.5,0) node[right,align=left] {Wieder ein\\Array};
+                    }
+                \end{scope}
+            \end{tikzpicture}
+        \end{center}
+        \item<12-> So gilt: \onslide<13->{\bjava{arr[0] :yields: \{1, 2, 3\}}}
+        \item<14-> Mehrdimensionale Arrays sind also \onslide<15->{\say{ein Array aus Arrays von Integern}.}
+        \item<16-> Kompliziert? \onslide<17->{Das Muster lässt sich durch Übung leicht einprägen.}
+        \item[\color{cprimary}\tiny\raisebox{1.45pt}{$\blacksquare$}]<17-> Vorerst: \onslide<18->{\bjava{arr.length} = Anzahl Zeilen} \onslide<19->{und} \onslide<20->{\bjava{arr[0].length} = Anzahl Spalten.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Exkurs: Matrizen multiplizieren}
+    \begin{itemize}[<+(1)->]
+        \item Sollte eigentlich aus Mathematikveranstaltungen bekannt sein.
+        \item Seien \(A, B\) Matrizen.\pause{} Genauer: \(A \in \R^{a, k}\) und \(B \in \R^{k, b}\) mit \(a, k, b \in \N\).\pause{}
+        Dann gilt für \(C = A \cdot B\), dass \(C \in \R^{a, b}\).
+        \item Kurz:\pause{} \say{Spalten von \(A\) = Zeilen von \(B\)}.\pause{} \info{Java: \bjava{a[0].length == b.length}}.
+        \item Formal berechnet sich jeder Eintrag \(c_{z,s}\) (Zeile \(z\), Spalte \(s\)) über: \[c_{z,s} = \sum_{j = 1}^k a_{z,j} \cdot b_{j,s}.\]
+        \item Nicht anschaulich? Vermutlich.
+    \end{itemize}
+\end{frame}
+
+% i've written it without the padding :D
+\def\fakepad#1{\raisebox{-0.75em}[0pt][0pt]{#1}}
+\begin{frame}[t,fragile]{Exkurs: Matrizen multiplizieren -- anschaulich}
+    \begin{itemize}[<+(1)->]
+        \item Seien \(A\) und \(B\):\pause{}
+        \[A = \begin{pmatrix}
+            1 & 3 & 4 & -1\\
+            1 & 1 & 3 & 0\\
+        \end{pmatrix},\pause{}\quad B = \begin{pmatrix}
+            3 & 0 \\
+            1 & 2 \\
+            1 & 1 \\
+            1 & 2
+        \end{pmatrix}\]
+        \item Anzahl Spalten von \(A\) entspricht Anzahl Zeilen von \(B\)\pause{} \(\Rightarrow\) \(A \cdot B = C \in \R^{2, 2}\).
+        \item Zur Anschaulichkeit schreiben wir sie um!
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t,fragile]{Exkurs: Matrizen multiplizieren -- anschaulich}
+    \onslide<0->{%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[below left=0.25cm,scale=0.7,yshift=-2cm] at(current page.north east) {\(\displaystyle A = \begin{pmatrix}
+            1 & 3 & 4 & -1\\
+            1 & 1 & 3 & 0\\
+        \end{pmatrix},\quad B = \begin{pmatrix}
+            3 & 0 \\
+            1 & 2 \\
+            1 & 1 \\
+            1 & 2
+        \end{pmatrix}\)};
+    \end{tikzpicture}}\vspace*{-\baselineskip}%
+    \begin{itemize}[<+(1)->]
+        \item Seien \(A\) und \(B\) formatiert als:\pause{}
+        \[\begin{array}{ccc}
+            &  \begin{pmatrix}
+              3 & 0 \\
+              1 & 2 \\
+              1 & 1 \\
+              1 & 2
+            \end{pmatrix} & \onslide<4->{\textcolor{cprimary}{B}}\\[2.4em]
+            \begin{pmatrix}
+                1 & 3 & 4 & -1\\
+                1 & 1 & 3 & 0
+            \end{pmatrix} & \onslide<5->{\color{gray}\begin{pmatrix}
+              a&b\\
+              c&d
+            \end{pmatrix}} \\
+            \onslide<4->{\fakepad{\textcolor{cprimary}{A}}}
+        \end{array}\]
+        \item<6-> Berechnen wir zunächst \(a \,\widehat{=}\, c_{1,1}\)
+        \item[]<7-> \info{Die Multiplikation ist möglich, da die linke Matrix so \say{breit}, wie die obere \say{hoch} ist.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Exkurs: Matrizen multiplizieren -- anschaulich, a}
+    \onslide<0->{%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[below left=0.25cm,scale=0.7,yshift=-2cm] at(current page.north east) {\(\displaystyle A = \begin{pmatrix}
+            1 & 3 & 4 & -1\\
+            1 & 1 & 3 & 0\\
+        \end{pmatrix},\quad B = \begin{pmatrix}
+            3 & 0 \\
+            1 & 2 \\
+            1 & 1 \\
+            1 & 2
+        \end{pmatrix}\)};
+    \end{tikzpicture}}\vspace*{-\baselineskip}%
+    \begin{itemize}[<+(1)->]
+        \item<1-> \(A \cdot B\):\pause{} \begin{center}
+            \begin{tikzpicture}
+                \node at(0,0) {\(\displaystyle\begin{array}{ccc}
+                    &  \begin{pmatrix}
+                      3 & 0 \\
+                      1 & 2 \\
+                      1 & 1 \\
+                      1 & 2
+                    \end{pmatrix} & {\textcolor{cprimary}{B}}\\[2.4em]
+                    \begin{pmatrix}
+                        1 & 3 & 4 & -1\\
+                        1 & 1 & 3 & 0
+                    \end{pmatrix} & {\color{gray}\begin{pmatrix}
+                      \only<1-6|handout:0>{\mathbf{a}}\only<7->{\mathbf{9}}&b\\
+                      c&d
+                    \end{pmatrix}} \\
+                    \fakepad{\textcolor{cprimary}{A}}
+                \end{array}\)};
+                \draw[dashed,thin, color=lightgray] (-2.65,-0.79) -- ++(4.65,0);
+              \draw[dashed,thin, color=lightgray] (1.05,2) -- ++(0,-3.5);
+              \onslide<3->{
+                \draw[Kite-Kite,color=paletteA] (-2.125,-0.35) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (0.8,1.65);
+              }
+              \onslide<4->{
+                \draw[Kite-Kite,color=paletteB] (-1.5,-0.35) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (0.8,1.15);
+              }
+              \onslide<5->{
+                \draw[Kite-Kite,color=paletteC] (-0.99,-0.35) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (0.8,0.65);
+              }
+              \onslide<6->{
+                \draw[Kite-Kite,color=paletteD] (-0.35,-0.35) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (0.8,0.25);
+              }
+              \node at(6.2,0) {\begin{minipage}{0.4\linewidth}
+                Für \(a\) ergibt sich damit: \\
+                \(a = \onslide<3->{\paletteA{1\cdot 3}} \onslide<4->{+ \paletteB{3\cdot 1}} \onslide<5->{+ \paletteC{4\cdot 1}} \onslide<6->{+ \paletteD{(-1)\cdot 1}}\)\\
+                \onslide<7->{\(\hphantom{a} = 9\)}
+              \end{minipage}};
+              \end{tikzpicture}
+        \end{center}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Exkurs: Matrizen multiplizieren -- anschaulich, b}
+    \onslide<0->{%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[below left=0.25cm,scale=0.7,yshift=-2cm] at(current page.north east) {\(\displaystyle A = \begin{pmatrix}
+            1 & 3 & 4 & -1\\
+            1 & 1 & 3 & 0\\
+        \end{pmatrix},\quad B = \begin{pmatrix}
+            3 & 0 \\
+            1 & 2 \\
+            1 & 1 \\
+            1 & 2
+        \end{pmatrix}\)};
+    \end{tikzpicture}}\vspace*{-\baselineskip}%
+    \begin{itemize}[<+(1)->]
+        \item<1-> \(A \cdot B\):\pause{} \begin{center}
+            \begin{tikzpicture}
+                \node at(0,0) {\(\displaystyle\begin{array}{ccc}
+                    &  \begin{pmatrix}
+                      3 & 0 \\
+                      1 & 2 \\
+                      1 & 1 \\
+                      1 & 2
+                    \end{pmatrix} & {\textcolor{cprimary}{B}}\\[2.4em]
+                    \begin{pmatrix}
+                        1 & 3 & 4 & -1\\
+                        1 & 1 & 3 & 0
+                    \end{pmatrix} & {\color{gray}\begin{pmatrix}
+                      9&\only<1-6|handout:0>{\mathbf{b}}\only<7->{\mathbf{8}}\\
+                      c&d
+                    \end{pmatrix}} \\
+                    \fakepad{\textcolor{cprimary}{A}}
+                \end{array}\)};
+                \draw[dashed,thin, color=lightgray] (-2.65,-0.79) -- ++(4.65,0);
+              \draw[dashed,thin, color=lightgray] (1.05,2) -- ++(0,-3.5);
+              \onslide<3->{
+                \draw[Kite-Kite,color=paletteA] (-2.125,-0.35) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (1.325,1.65);
+              }
+              \onslide<4->{
+                \draw[Kite-Kite,color=paletteB] (-1.5,-0.35) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (1.325,1.15);
+              }
+              \onslide<5->{
+                \draw[Kite-Kite,color=paletteC] (-0.99,-0.35) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (1.325,0.65);
+              }
+              \onslide<6->{
+                \draw[Kite-Kite,color=paletteD] (-0.35,-0.35) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (1.325,0.25);
+              }
+              \node at(6.2,0) {\begin{minipage}{0.4\linewidth}
+                Für \(b\) ergibt sich damit: \\
+                \(b = \onslide<3->{\paletteA{1\cdot 0}} \onslide<4->{+ \paletteB{3\cdot 2}} \onslide<5->{+ \paletteC{4\cdot 1}} \onslide<6->{+ \paletteD{(-1)\cdot 2}}\)\\
+                \onslide<7->{\(\hphantom{b} = 8\)}
+              \end{minipage}};
+              \end{tikzpicture}
+        \end{center}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Exkurs: Matrizen multiplizieren -- anschaulich, c}
+    \onslide<0->{%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[below left=0.25cm,scale=0.7,yshift=-2cm] at(current page.north east) {\(\displaystyle A = \begin{pmatrix}
+            1 & 3 & 4 & -1\\
+            1 & 1 & 3 & 0\\
+        \end{pmatrix},\quad B = \begin{pmatrix}
+            3 & 0 \\
+            1 & 2 \\
+            1 & 1 \\
+            1 & 2
+        \end{pmatrix}\)};
+    \end{tikzpicture}}\vspace*{-\baselineskip}%
+    \begin{itemize}[<+(1)->]
+        \item<1-> \(A \cdot B\):\pause{} \begin{center}
+            \begin{tikzpicture}
+                \node at(0,0) {\(\displaystyle\begin{array}{ccc}
+                    &  \begin{pmatrix}
+                      3 & 0 \\
+                      1 & 2 \\
+                      1 & 1 \\
+                      1 & 2
+                    \end{pmatrix} & {\textcolor{cprimary}{B}}\\[2.4em]
+                    \begin{pmatrix}
+                        1 & 3 & 4 & -1\\
+                        1 & 1 & 3 & 0
+                    \end{pmatrix} & {\color{gray}\begin{pmatrix}
+                      9&8\\
+                      \only<1-6|handout:0>{\mathbf{c}}\only<7->{\mathbf{7}}&d
+                    \end{pmatrix}} \\
+                    \fakepad{\textcolor{cprimary}{A}}
+                \end{array}\)};
+                \draw[dashed,thin, color=lightgray] (-2.65,-0.79) -- ++(4.65,0);
+              \draw[dashed,thin, color=lightgray] (1.05,2) -- ++(0,-3.5);
+              \onslide<3->{
+                \draw[Kite-Kite,color=paletteA] (-2.125,-0.75) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (0.8,1.65);
+              }
+              \onslide<4->{
+                \draw[Kite-Kite,color=paletteB] (-1.5,-0.75) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (0.8,1.15);
+              }
+              \onslide<5->{
+                \draw[Kite-Kite,color=paletteC] (-0.99,-0.75) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (0.8,0.65);
+              }
+              \onslide<6->{
+                \draw[Kite-Kite,color=paletteD] (-0.35,-0.75) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (0.8,0.25);
+              }
+              \node at(6.2,0) {\begin{minipage}{0.4\linewidth}
+                Für \(c\) ergibt sich damit: \\
+                \(c = \onslide<3->{\paletteA{1\cdot 3}} \onslide<4->{+ \paletteB{1\cdot 1}} \onslide<5->{+ \paletteC{3\cdot 1}} \onslide<6->{+ \paletteD{0\cdot 1}}\)\\
+                \onslide<7->{\(\hphantom{c} = 7\)}
+              \end{minipage}};
+              \end{tikzpicture}
+        \end{center}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Exkurs: Matrizen multiplizieren -- anschaulich, d}
+    \onslide<0->{%
+    \begin{tikzpicture}[remember picture,overlay]
+        \node[below left=0.25cm,scale=0.7,yshift=-2cm] at(current page.north east) {\(\displaystyle A = \begin{pmatrix}
+            1 & 3 & 4 & -1\\
+            1 & 1 & 3 & 0\\
+        \end{pmatrix},\quad B = \begin{pmatrix}
+            3 & 0 \\
+            1 & 2 \\
+            1 & 1 \\
+            1 & 2
+        \end{pmatrix}\)};
+    \end{tikzpicture}}\vspace*{-\baselineskip}%
+    \begin{itemize}[<+(1)->]
+        \item<1-> \(A \cdot B\):\pause{} \begin{center}
+            \begin{tikzpicture}
+                \node at(0,0) {\(\displaystyle\begin{array}{ccc}
+                    &  \begin{pmatrix}
+                      3 & 0 \\
+                      1 & 2 \\
+                      1 & 1 \\
+                      1 & 2
+                    \end{pmatrix} & {\textcolor{cprimary}{B}}\\[2.4em]
+                    \begin{pmatrix}
+                        1 & 3 & 4 & -1\\
+                        1 & 1 & 3 & 0
+                    \end{pmatrix} & {\only<1-7>{\color{gray}}\begin{pmatrix}
+                      9&8\\
+                      7&\only<1-6|handout:0>{\mathbf{d}}\only<7>{\mathbf{5}}\only<8-|handout:0>{5}
+                    \end{pmatrix}} \\
+                    \fakepad{\textcolor{cprimary}{A}}
+                \end{array}\)};
+                \onslide<1-7>{\draw[dashed,thin, color=lightgray] (-2.65,-0.79) -- ++(4.65,0);}
+                \onslide<1-7>{\draw[dashed,thin, color=lightgray] (1.05,2) -- ++(0,-3.5);}
+              \onslide<3-7>{
+                \draw[Kite-Kite,color=paletteA] (-2.125,-0.75) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (1.325,1.65);
+              }
+              \onslide<4-7>{
+                \draw[Kite-Kite,color=paletteB] (-1.5,-0.75) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (1.3258,1.15);
+              }
+              \onslide<5-7>{
+                \draw[Kite-Kite,color=paletteC] (-0.99,-0.75) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (1.325,0.65);
+              }
+              \onslide<6-7>{
+                \draw[Kite-Kite,color=paletteD] (-0.35,-0.75) to[bend left, edge node={node[above,sloped] {\(\cdot\)}}] (1.325,0.25);
+              }
+              \node at(6.2,0) {\begin{minipage}{0.4\linewidth}
+                Für \(d\) ergibt sich damit: \\
+                \(d = \onslide<3->{\paletteA{1\cdot 0}} \onslide<4->{+ \paletteB{1\cdot 2}} \onslide<5->{+ \paletteC{3\cdot 1}} \onslide<6->{+ \paletteD{0\cdot 2}}\)\\
+                \onslide<7->{\(\hphantom{d} = 5\)}
+              \end{minipage}};
+              \end{tikzpicture}
+        \end{center}
+        \item<8-> Damit gilt: \(C = \begin{pmatrix}
+            9 & 8 \\
+            7 & 5
+        \end{pmatrix}\).
+    \end{itemize}
+\end{frame}
+
+% vielleicht noch was zu null
+\makeatletter
+\section{End-Pinguuu}
+\begin{frame}
+    \begin{center}
+        \parbox{0.45\linewidth}{\centering\begin{tikzpicture}[scale=2.25]
+            \duck[santa=red!80!black, jacket=red!80!gray, tshirt=white,water=cprimary!80!black];
+
+    %This prompts the beard%
+    \fill[white!80!brown](1.3,1.3) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (1.2,1.15) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.5,1.05) ellipse (0.1 and 0.1);
+    \fill[white!80!brown](0.525,0.90) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.525,0.75) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.65,0.65) ellipse (0.14 and 0.14);
+    \fill[white!80!brown] (0.75,0.75) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.85,0.85) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.95,0.95) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (1.05,1.05) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (1.15,1.25) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (1,1.20) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.85,1.20) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.75,1.15) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.65,1.10) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.58,1.07) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.42,1.46) ellipse (0.07 and 0.07);
+    \fill[white!80!brown] (0.52,1.45) ellipse (0.07 and 0.07);
+    \fill[white!80!brown] (0.6,1.44) ellipse (0.07 and 0.07);
+    \fill[white!80!brown] (0.68,1.40) ellipse (0.07 and 0.07);
+    \fill[white!80!brown] (0.76,1.36) ellipse (0.07 and 0.07);
+    \fill[white!80!brown] (0.8,1.25) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.85,1.28) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (0.38,1.44) ellipse (0.05 and 0.05);
+    \fill[white!80!brown] (1,1.28) ellipse (0.12 and 0.12);
+    \fill[white!80!brown] (1.3,1.3) -- (0.5,1.05) -- (0.65,0.65) -- cycle;
+        \end{tikzpicture}}\qquad%
+        \parbox{0.45\linewidth}{\centering\begin{tikzpicture}[scale=2.25]
+            \pingu[name = herbert, right eye wink,santa,before code={%
+\begin{scope}[shift=(herbert-bill),xshift=-20pt,yshift=30pt,y=22.80pt, x=22.80pt,yscale=-1]
+    \draw[pingu@black] (0.2,1.22) to[bend right=12] ++(1.4,0.3);
+\end{scope}},in code={%
+\begin{scope}[shift=(herbert-bill),xshift=-20pt,yshift=30pt,y=22.80pt, x=22.80pt,yscale=-1]
+\fill[white!80!brown](1.3,1.3) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (1.2,1.15) ellipse (0.12 and 0.12);
+\fill[white!80!brown](0.525,0.90) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.525,0.75) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.62,0.65) ellipse (0.13 and 0.13);
+\fill[white!80!brown] (0.75,0.75) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.85,0.85) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.95,0.95) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (1.05,1.05) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (1.15,1.25) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (1,1.20) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.85,1.20) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.75,1.15) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.65,1.10) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.75,0.85) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.75,0.95) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.9,1.05) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.6,0.85) ellipse (0.12 and 0.12);
+\fill[white!80!brown] (0.6,0.95) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (0.45,1.15) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (0.45,1.05) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (0.5,0.95) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (0.55,0.85) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (1.25,1.15) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (0.6,1.15) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (0.75,0.6) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (0.79,0.6) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (0.85,0.65) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (0.95,0.7) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (1.05,0.78) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (1.1,0.85) ellipse (0.1 and 0.1);
+\fill[white!80!brown] (1.2,0.95) ellipse (0.11 and 0.12);
+\fill[white!80!brown] (1.27,1.05) ellipse (0.12 and 0.13);
+\fill[white!80!brown] (1.32,1.25) ellipse (0.11 and 0.11);
+\end{scope}%
+\pingu@path{\pingu@color@bill}{\pingupathBill}}]
+        \end{tikzpicture}}\bigskip\\
+        Jaja, damals war Weihnachten, \ldots
+    \end{center}
+\end{frame}
+
+
+\end{document}

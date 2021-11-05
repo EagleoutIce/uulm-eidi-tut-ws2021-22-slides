@@ -1,0 +1,65 @@
+\errorcontextlines999999
+\usepackage{attachfile2}
+\attachfilesetup{%
+    author={Florian Sihler},%
+    color=0.2 0.3647 0.4941, icon=Tag, mimetype=text/plain%
+}
+
+\usepackage[%
+    sopra-listings={encoding,cpalette,print},%
+    sopra-tables,
+    color-palettes={addons},%
+    util,beamer-extra,%
+    lithie-boxes={germanenv,koma,overwrite},%
+    lithie-task-boxes={cpalette},%
+    lecture-links={patchurl},%
+    lecture-registers={disable}% would interfere with beamer
+]{lithie-util}
+\usepackage{lecture-personal-tikz,lecture-personal-extra-units,tikzsymbols}
+
+
+\UsePalette{GreenWater}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
+\colorlet{MaterialHeaderColor}{paletteB!75!white}%
+\colorlet{NextMaterialHeaderColor}{paletteB!65!white}%
+
+\RestyleAlgo{plain}
+\solLoadLanguage{latex,bash,cpp}
+\usepackage[ngerman]{babel}
+
+\def\linkstyle#1{\textsf{\color{paletteD!60!paletteA}#1}}
+\SetAllLinkStyle{\linkstyle{#1}}
+
+\usepackage{tikzducks,xfrac}
+\usetheme{lucy}
+
+\long\def\info#1{\textcolor{gray}{\scriptsize(#1)}}
+\long\def\infoblock#1{\par{\scriptsize\textcolor{gray}{(#1)}\par}}
+
+\renewcommand\parallelcontent[3][t]{%
+\begin{columns}[#1,onlytextwidth]
+\column{.5\linewidth}#2\relax
+\column{.5\linewidth}#3\relax
+\end{columns}
+}
+
+% well.... if something should not get out :D
+\usepackage{../tikz-horner}
+
+\usepackage[glows]{tikzpingus}
+
+\usetikzlibrary{decorations.text,tikzmark}
+
+\hypersetup{colorlinks=false}
+
+\def\Titlepage#1{\begin{frame}[c]
+   \begin{tikzpicture}[overlay]
+       \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
+           \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
+       \end{scope}
+       \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,.22\paperheight) {#1};
+   \end{tikzpicture}
+   \titlepage
+\end{frame}}
+
+\author{Florian Sihler}
+\institute{Institute of Distributed Systems \(\circ\) University Ulm}

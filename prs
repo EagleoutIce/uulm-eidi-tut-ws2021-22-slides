@@ -1,0 +1,1 @@
+alias presentation='pdfpc --windowed=both --page-transition=fade:.6'

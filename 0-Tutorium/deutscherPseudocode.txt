@@ -1,0 +1,6 @@
+Sei A die Liste an n Pingus, indexiert mit !*$\tpingu_i$*!.
+Mache nun für jeden Pingu !*$\tpingu_i$*! aus A: [Durchsuche Pingus]
+    Wenn !*$\tpingu_i$*! klasse ist:
+            Gebe !*$\tpingu_i$*! zurück. [Pingu gefunden]
+Wenn kein Pingu super war:
+    Gebe Mega-Pingu (!*\raisebox{-1pt}{\tikz[scale=0.15]{\tagent}}*!) zurück.

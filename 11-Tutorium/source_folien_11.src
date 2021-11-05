@@ -1,0 +1,514 @@
+\errorcontextlines 999999
+\usepackage{attachfile2}
+\attachfilesetup{%
+    author={Florian Sihler},%
+    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
+}
+
+\usepackage[%
+    sopra-listings={encoding,cpalette,highlights,numinpar},%
+    sopra-tables,
+    color-palettes={addons},%
+    util,%
+    lithie-boxes={germanenv,koma,overwrite},%
+    lithie-task-boxes={cpalette},%
+    lecture-links={patchurl},%
+    lecture-registers={disable}% would interfere with beamer
+]{lithie-util}
+
+\RequirePackage{lecture-personal-tikz}
+
+\usepackage[ngerman]{babel}
+
+\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
+\RestyleAlgo{plain}
+\solLoadLanguage{bash,cpp,regex}
+
+\def\solcustom{fill=paletteA!30,draw=paletteA!30}
+
+\colorlet{MaterialHeaderColor}{paletteB}%
+\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
+
+\def\linkstyle#1{\textsf{\paletteD{#1}}}
+\SetAllLinkStyle{\linkstyle{#1}}
+\usepackage{tikzducks,tikzsymbols,lilly-color}
+
+\usetheme{lucy}
+
+\colorlet{chessfieldblack}{lightgray}
+
+\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
+
+\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
+
+\newcommand\parallelcontent[3][t]{%
+    \begin{columns}[#1]
+    \begin{column}{0.475\linewidth}
+        #2
+    \end{column}\hfill
+    \begin{column}{0.475\linewidth}
+        #3
+    \end{column}
+    \end{columns}
+}
+
+\lstset{lineskip=3pt}
+
+\tikzset{
+    dot/.style={circle,draw,align=center,text width=1em,execute at begin node={\strut}},
+    elem node/.style={inner sep=0pt}%
+}
+
+\setcounter{tocdepth}{4}
+
+\title[Elftes Tutorium -- Übungsblatt 11]{Jetzt drehen wir uns doppelt im Kreis!\\\small Tutorium 11}
+\date{\sffamily KW 28}
+\author{Florian Sihler}
+\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+
+\usepackage{tikzpingus-old}
+\usetikzlibrary{decorations.text}
+
+\hypersetup{colorlinks=false}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{tikzpicture}[overlay]
+        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
+            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
+        \end{scope}
+        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {11};
+    \end{tikzpicture}
+    \titlepage
+\end{frame}
+
+
+
+
+
+\def\Element#1{\renewcommand{\arraystretch}{1.4}%
+    \begin{tabular}{|>{\centering}p{1em}|p{1em}|}
+        \hline
+        \strut#1 & \\
+        \hline
+    \end{tabular}%
+}
+
+\def\EndElement{\renewcommand{\arraystretch}{1.4}%
+\begin{tabular}{|>{\centering\arraybackslash}p{1em}|}
+    \hline
+    \strut/\\
+    \hline
+\end{tabular}%
+}
+
+\newsavebox{\xx}
+
+
+\section{Präsenzaufgabe}
+\subsection{Die Erste}
+\begin{frame}[c]{Präsenzaufgabe}
+    \begin{aufgabe}{Vererbung}
+        \pause{}Beantworten Sie die folgenden beiden Fragen: \begin{itemize}[<+(1)->]
+            \item Was bedeutet Vererbung in Java?
+            \item Was ist der Unterschied zwischen \emph{Overloading} und \emph{Overriding}?
+        \end{itemize}\onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\begin{frame}[t]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \item Vererbung beschreibt das Erweitern einer Klasse durch eine Andere. In Java äußert sich dies durch das Schlüsselwort \bjava{extends}.\pause{} Unterklassen erben die Eigenschaften (Methoden und Member-Variablen) außer diese sind private.\pause{} Wir können die Methoden aber mit einer anderen Sichtbarkeit in der Unterklasse überschreiben.
+        \item Overriding beschreibt das neu definieren einer Methode in einer Unterklasse, die in einer vererbten Klasse bereits  mit derselben Signatur existiert.\pause{} Overloading bezeichnet das definieren einer Methode mit gleichem Namen,\pause{} aber unterschiedlicher Signatur.
+    \end{itemize}
+\end{frame}
+
+\subsection{Die zweite}
+\begin{frame}[c]{Präsenzaufgabe, 2}
+    \begin{aufgabe}{Baumtraversierung}
+        \onslide<2->{Geben Sie die Knoten des Baumes in einer Pre-, In-, Post- \textit{und} Level-Order an.}
+\begin{columns}[c]
+\begin{column}{.45\linewidth}
+\onslide<3->{\resizebox\linewidth!{\begin{forest}
+    for tree={circle,edge={Circle-},s sep=4em-level*0.5em,l sep=1ex}
+    [59[21[12[,phantom][20[16][,phantom]]][49[38][50]]][82[65],[,phantom]]]
+\end{forest}}}
+\end{column}
+\begin{column}{.45\linewidth}
+\onslide<4->{Beantworten Sie zudem: \begin{enumerate}
+    \item<5-> In welche Kategorien lassen sich die Traversierungen unterteilen?
+    \item<6-> Welche Datenstrukturen können für die Traversierungen verwendet werden?
+\end{enumerate}}
+\end{column}
+\end{columns}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+\newsavebox\btxtree \savebox\btxtree{\begin{forest}
+    for tree={circle,edge={Circle-},s sep=4em-level*0.5em,l sep=1ex}
+    [59[21[12[,phantom][20[16][,phantom]]][49[38][50]]][82[65],[,phantom]]]
+\end{forest}}
+\begin{frame}[t]{Präsenzaufgabe - Lösung}
+\begin{tikzpicture}[overlay,remember picture]
+    \node[below left=.25cm,yshift=-1.35cm,scale=.55] at (current page.north east) {\usebox\btxtree};
+\end{tikzpicture}\vspace*{-\baselineskip}%
+    \begin{itemize}[<+(1)->]
+        \itemsep10pt
+        \item Zunächst die Traversierungen: \begin{description}[Level:]
+            \item[Pre:] \(59\), \(21\), \(12\), \(20\), \(16\), \(49\), \(38\), \(50\), \(82\), \(65\).
+            \item[In:] \(12\), \(16\), \(20\), \(21\), \(38\), \(49\), \(50\), \(59\), \(65\), \(82\).
+            \item[Post:] \(16\), \(20\), \(12\), \(38\), \(50\), \(49\), \(21\), \(65\), \(82\), \(59\).
+            \item[Level:] \(59\), \(21\), \(82\), \(12\), \(49\), \(65\), \(20\), \(38\), \(50\), \(16\).
+        \end{description}
+        \item Nun die Kategorien: \begin{itemize}
+            \item Bei Pre-, In- und Post-Order handelt es sich um Depth-First-Traversierungen (rekursive Besuchstrategie).
+            \item Level-Order ist eine Breadth-First Traversierung (Arbeiten sich Stufenweise durch den Baum).
+        \end{itemize}
+        \item Zuletzt die Datenstrukturen: \begin{itemize}
+            \item Tiefensuchen bzw. -traversierungen arbeiten meist mit einem Stack (der in der Rekursion ja implizit verwendet wird).
+            \item Breitensuchen bzw. -traversierungen arbeiten in der Regel mit Warteschlangen.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\section{Übungsblatt 11}
+\subsection{Aufgabe 1}
+\subsubsection{Als Liste}
+\begin{frame}[t,fragile]{Übungsblatt 11 - Aufgabe 1a)}
+    \begin{itemize}[<+(1)->]
+        \item Wir betrachten zwei Implementationen:
+        \begin{itemize}
+            \item Queue als Liste (\only<3->{\textattachfile{QueueList/Node.java}{Node.java}, \textattachfile{QueueList/ListQueue.java}{ListQueue.java}})
+            \item Queue als Array (\only<4->{\textattachfile{QueueArray/ArrayQueue.java}{ArrayQueue.java}})
+        \end{itemize}
+        \item Wir beginnen mit der Liste und damit mit dem Fan-Favorite, \bjava{Node}:\lstfs{9}
+\begin{plainjava}
+!*\onslide<6->*!public class Node {
+!*\onslide<7->*!    public final int value;
+!*\onslide<7->*!    public Node next;
+!*\onslide<6->*!
+!*\onslide<8->*!    public Node(int value, Node next) {
+!*\onslide<9->*!        this.value = value;
+!*\onslide<9->*!        this.next = next;
+!*\onslide<8->*!    }
+!*\onslide<6->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 11 - Aufgabe 1a)}
+    \begin{itemize}[<+(1)->]
+        \item Das Grundgerüst:
+\begin{plainjava}[morekeywords={[3]{ListQueue}}]
+!*\onslide<3->*!public class ListQueue {
+!*\onslide<4->*!    private Node first;
+!*\onslide<4->*!    private Node last;
+!*\onslide<3->*!
+!*\onslide<5->*!    public ListQueue() {
+!*\onslide<6->*!        this.first = null;
+!*\onslide<6->*!        this.last = null;
+!*\onslide<5->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 11 - Aufgabe 1b)}
+    \begin{itemize}[<+(1)->]
+        \item Isse leaaaaaahr?:
+\begin{plainjava}[morekeywords={[3]{ListQueue}}]
+!*\onslide<3->*!public boolean isEmpty() {
+!*\onslide<4->*!    return this.first == null && this.last == null;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 11 - Aufgabe 1c)}
+    \begin{itemize}[<+(1)->]
+        \item Beim Hinzufügen gibt es den Sonderfall: Ist es das Erste?\lstfs{9}
+\begin{plainjava}[morekeywords={[3]{ListQueue}}]
+!*\onslide<3->*!public void enqueue(int i) {
+!*\onslide<4->*!    if (isEmpty()) {
+!*\onslide<5->*!        this.first = new Node(i, null);
+!*\onslide<5->*!        this.last = this.first;
+!*\onslide<4->*!    } else if (this.first != null && this.last != null) {
+!*\onslide<6->*!        this.last.next = new Node(i, null);
+!*\onslide<6->*!        this.last = this.last.next;
+!*\onslide<4->*!    } else {
+!*\onslide<7->*!        throw new IllegalStateException("Inkonsistente Zeiger");
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 11 - Aufgabe 1d)}
+    \begin{itemize}[<+(1)->]
+        \item Beim Entfernen gibt es den Sonderfall: Ist es das Letzte?\lstfs{9}
+\begin{plainjava}[morekeywords={[3]{ListQueue}}]
+!*\onslide<3->*!public int dequeue() throws IllegalStateException {
+!*\onslide<4->*!    if (isEmpty())
+!*\onslide<4->*!        throw new IllegalStateException("Queue leer");
+!*\onslide<5->*!    int toReturn = this.first.value;
+!*\onslide<6->*!    if (this.first == this.last) {
+!*\onslide<7->*!        this.first = null;
+!*\onslide<7->*!        this.last = null;
+!*\onslide<6->*!    } else {
+!*\onslide<8->*!        this.first = this.first.next;
+!*\onslide<6->*!    }
+!*\onslide<9->*!    return toReturn;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsubsection{Als Array}
+\begin{frame}[t,fragile]{Übungsblatt 11 - Aufgabe 1a)}
+    \begin{itemize}[<+(1)->]
+        \item Nun mit einem Array:\lstfs{9}
+\begin{plainjava}[morekeywords={[3]{ArrayQueue}}]
+!*\onslide<3->*!public class ArrayQueue {
+!*\onslide<4->*!    private final int[] buffer;
+!*\onslide<4->*!    private int first;
+!*\onslide<4->*!    private int length;
+!*\onslide<3->*!
+!*\onslide<5->*!    public ArrayQueue(int bufferSize) {
+!*\onslide<6->*!        if (bufferSize < 0)
+!*\onslide<6->*!            throw new IllegalArgumentException("[...]");
+!*\onslide<7->*!        buffer = new int[bufferSize];
+!*\onslide<7->*!        first = 0; length = 0;
+!*\onslide<5->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+\begin{frame}[t,fragile]{Übungsblatt 11 - Aufgabe 1b)}
+    \begin{itemize}[<+(1)->]
+        \item Und erneut: Isse leaaaaaahr?
+\begin{plainjava}
+!*\onslide<3->*!public boolean isEmpty() {
+!*\onslide<4->*!    return this.length == 0;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 11 - Aufgabe 1c)}
+    \begin{itemize}[<+(1)->]
+        \item Hinzufügen, bei begrenzter Kapazität mit einem schönen \say{Wrap Around}:\lstfs{10}
+\begin{plainjava}
+!*\onslide<3->*!public void enqueue(int n) {
+!*\onslide<4->*!    if (this.length >= this.buffer.length)
+!*\onslide<4->*!        throw new IllegalStateException("Queue voll");
+!*\onslide<3->*!
+!*\onslide<5->*!    buffer[(this.first + this.length) % this.buffer.length] = n;
+!*\onslide<6->*!    this.length++;
+!*\onslide<3->*!}
+\end{plainjava}
+\end{itemize}
+\begin{center}
+\resizebox{\linewidth}!{%
+\begin{tikzpicture}[rounded corners=.25pt,s/.style={decorate,decoration={snake,pre length=.15mm}},xscale=.9]
+    \onslide<7->{\draw[densely dotted,gray] (0,0) -- ++(-4.5,0) ++(0,-1)
+        -- ++(4.5,0);
+    \draw[densely dotted,gray,s] (-4.5,0) -- ++(0,-1);
+    \foreach \i in {4, 3, 2, 1} {
+        \draw[densely dotted,gray] (-\i,0) -- ++(0,-1) node[below right,xshift=-1.85mm] {\small\(n - \i\)};
+    }
+    \draw[densely dotted,gray] (10,0) -- ++(4.5,0) ++(0,-1) -- ++(-4.5,0);
+    \draw[densely dotted,gray,s] (14.5,0) -- ++(0,-1);
+    \foreach \i in {0,1,2,3,4} {
+        \ifnum\i>0 \draw[densely dotted,gray] (\i+10,0) -- ++(0,-1);\fi
+        \node[below right,gray,xshift=-1.85mm] at(\i+10,-1) {\small\(\i\)};
+    }
+    \draw[dashed] (4.5,0) -- (5.5,0) (4.5,-1) -- (5.5,-1);
+    \draw[fill=shadeA] (4.5,0) -| ++(-4.5,-1) -- ++(4.5,0) decorate[s] {-- cycle};
+    \draw[fill=shadeA] (5.5,0) -| ++(4.5,-1) -- ++(-4.5,0) decorate[s] {-- cycle};
+    \foreach \i in {0,1,2,3,4} {
+        \ifnum\i>0 \draw (\i,0) -- ++(0,-1);\fi
+        \node[below right,xshift=-1.85mm] at(\i,-1) {\small\(\i\)};
+    }
+    \foreach \i in {4, 3, 2, 1} {
+        \draw (5+\i,0) -- ++(0,-1) node[below right,xshift=-1.85mm] {\small\(n - \the\numexpr5-\i\relax\)};
+    }}
+    \onslide<8->{
+        \draw[densely dashed,|-|] (-2.5,.5) to[edge node={node[fill=white]{\footnotesize\T{length}}}] ++(6,0);
+        \draw[line width=2pt,shadeB] (-2.5,-.5) -- (0,-.5);
+        \draw[line width=2pt,paletteB,-Kite] (0,-.5) -- ++(3.5,0);
+        \fill[paletteB] (-2.5,-.5) circle[radius=2pt] node[above] {\tiny\T{first}};
+        \draw[densely dashed,|-|] (7.5,.5) to[edge node={node[fill=white]{\footnotesize\T{length}}}] ++(6,0);
+        \draw[line width=2pt,paletteB] (7.5,-.5) -- ++(2.5,0);
+        \draw[line width=2pt,shadeB,-Kite] (10,-.5) -- ++(3.5,0);
+        \fill[paletteB] (7.5,-.5) circle[radius=2pt] node[above] {\tiny\T{first}};
+    }
+\end{tikzpicture}}
+\end{center}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 11 - Aufgabe 1d)}
+    \begin{itemize}[<+(1)->]
+        \item Das Entfernen verläuft vergleichbar:
+\begin{plainjava}
+!*\onslide<3->*!public int dequeue() throws IllegalStateException {
+!*\onslide<4->*!    if (this.length <= 0)
+!*\onslide<4->*!        throw new IllegalStateException("Queue leer");
+!*\onslide<5->*!    this.length--;
+!*\onslide<6->*!    int oldFirst = this.first;
+!*\onslide<6->*!    this.first = (this.first + 1) % this.buffer.length;
+!*\onslide<7->*!    return this.buffer[oldFirst];
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}[t,fragile]{Übungsblatt 11 - Aufgabe 2}
+    \begin{itemize}
+        \item<2-> Eine Breitensuche ist zwar nicht notwendig, so haben wir aber Spaß.\par
+            \onslide<3->{Hinweis: Eine Tiefensuche könnten wir zum Beispiel mit Rekursion lösen!}
+        \item<4-> Und siehe da(h), es ist Java(h): \info{What about ListQueue/Polymorphie?}\lstfs{9}
+\begin{plainjava}[morekeywords={[3]{ArrayQueue}}]
+!*\onslide<5->*!public static boolean[] reachable(int[][] adjacencyList, int source) {
+!*\onslide<6->*!    ArrayQueue queue = new ArrayQueue(adjacencyList.length);
+!*\onslide<5->*!
+!*\onslide<7->*!    // Um Endlosschleifen zu vermeiden:
+!*\onslide<7->*!    boolean[] reached = new boolean[adjacencyList.length];
+!*\onslide<8->*!    queue.enqueue(source);
+!*\onslide<5->*!
+!*\onslide<9->*!    /* Die eigentliche Suche:ldots: */
+!*\onslide<5->*!
+!*\onslide<10->*!    return reached;
+!*\onslide<5->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 11 - Aufgabe 2}
+    \begin{itemize}
+        \item<2-> Die eigentliche Suche arbeitet nun, bis wir alles erreichbare gesehen haben:
+\begin{plainjava}
+!*\onslide<3->*!while (!queue.isEmpty()) {
+!*\onslide<4->*!    int current = queue.dequeue();
+!*\onslide<4->*!    for (int next : adjacencyList[current]) {
+!*\onslide<4->*!        // What to do with null? => pass
+!*\onslide<5->*!        if (!reached[next]) {
+!*\onslide<6->*!            reached[next] = true;
+!*\onslide<6->*!            queue.enqueue(next);
+!*\onslide<5->*!        }
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Zusatzaufgabe 5/6}
+\def\coutwhite#1#2{\fboxsep=0pt\colorbox{white}{#2}}
+\tikzset{m/.style={Circle-Kite,decoration={text along path,text={|\footnotesize\coutwhite|#1},text align={left indent=1em},raise=-2pt},postaction={decorate}}}
+\begin{frame}[c]{Übungsblatt 11 - Zusatzaufgabe 5/6 a)}
+\centering\onslide<2->{\begin{tikzpicture}[baseline=1.75cm]
+    \node[blob] (1) at(0,0) {1};
+    \node[blob] (2) at(4,0) {2};
+    \node[blob] (3) at(4,4) {3};
+    % \node[blob] (4) at(3,3) {4};
+    \draw[Kite-] (3) -- ++(0,1) node[above] {current};
+    \draw[m={previous}] (3) to[bend left=13] (2);
+    \draw[m={next}] (2) to[bend left=13] (3);
+    \draw[m={previous}] (1) to[bend left=13] (3);
+    \draw[m={next}] (3) to[bend left=13] (1);
+    \draw[m={previous}] (1) to[bend left=13] (2);
+    \draw[m={next}] (2) to[bend left=13] (1);
+\end{tikzpicture}}\qquad$\Longrightarrow$\qquad\onslide<3->{\begin{tikzpicture}[baseline=1.75cm]
+    \node[blob] (1) at(0,0) {1};
+    \node[blob] (2) at(4,0) {2};
+    \node[blob] (3) at(4,4) {3};
+    \node[lblob] (4) at(0,4) {4};
+    \draw[Kite-,paletteA] (4) -- ++(0,1) node[above] {current};
+    \draw[m={previous},paletteA] (4) to[bend left=13] (1);
+    \draw[m={next},paletteA] (1) to[bend left=13] (4);
+    \draw[m={previous},paletteA] (4) to[bend left=13] (3);
+    \draw[m={next},paletteA] (3) to[bend left=13] (4);
+    \draw[m={previous}] (1) to[bend left=13] (2);
+    \draw[m={next}] (2) to[bend left=13] (1);
+    \draw[m={previous}] (3) to[bend left=13] (2);
+    \draw[m={next}] (2) to[bend left=13] (3);
+\end{tikzpicture}}
+\end{frame}
+\begin{frame}[t,fragile]{Übungsblatt 11 - Zusatzaufgabe 5/6 a)}
+    \begin{itemize}
+        \item<2-> Wir fügen ein Element hinzu (Sonderfall: Leer?)\lstfs{10}
+\begin{plainjava}[morekeywords={[3]{Cell}}]
+!*\onslide<3->*!public void add(int i) {
+!*\onslide<4->*!    if (this.current == null) {
+!*\onslide<5->*!        this.current = new Cell(i, null, null);
+!*\onslide<5->*!        this.current.next = this.current;
+!*\onslide<5->*!        this.current.prev = this.current;
+!*\onslide<4->*!    } else {
+!*\onslide<6->*!        this.current = new Cell(i, this.current, this.current.next);
+!*\onslide<6->*!        this.current.prev.next = this.current;
+!*\onslide<6->*!        this.current.next.prev = this.current;
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[c]{Übungsblatt 11 - Zusatzaufgabe 5/6 b)}
+    \centering\onslide<2->{\begin{tikzpicture}[baseline=1.75cm]
+        \node[blob] (1) at(0,0) {1};
+        \node[blob] (2) at(4,0) {2};
+        \node[blob] (3) at(4,4) {3};
+        \node[blob] (4) at(0,4) {4};
+        \draw[Kite-] (4) -- ++(0,1) node[above] {current};
+        \draw[m={previous}] (3) to[bend left=13] (2);
+        \draw[m={next}] (2) to[bend left=13] (3);
+        \draw[m={previous}] (4) to[bend left=13] (3);
+        \draw[m={next}] (3) to[bend left=13] (4);
+        \draw[m={previous}] (1) to[bend left=13] (2);
+        \draw[m={next}] (2) to[bend left=13] (1);
+        \draw[m={previous}] (4) to[bend left=13] (1);
+        \draw[m={next}] (1) to[bend left=13] (4);
+    \end{tikzpicture}}\qquad$\Longrightarrow$\qquad\onslide<3->{\begin{tikzpicture}[baseline=1.75cm]
+        \node[blob] (1) at(0,0) {1};
+        \node[blob] (2) at(4,0) {2};
+        \node[blob] (3) at(4,4) {3};
+        % \node[blob] (4) at(3,3) {4};
+        \draw[Kite-] (3) -- ++(0,1) node[above] {\paletteA{current}};
+        \draw[m={previous},paletteA] (3) to[bend left=13] (2);
+        \draw[m={next},paletteA] (2) to[bend left=13] (3);
+        \draw[m={previous}] (1) to[bend left=13] (3);
+        \draw[m={next}] (3) to[bend left=13] (1);
+        \draw[m={previous}] (1) to[bend left=13] (2);
+        \draw[m={next}] (2) to[bend left=13] (1);
+    \end{tikzpicture}}
+    \end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 11 - Zusatzaufgabe 5/6 b)}
+    \begin{itemize}
+        \item<2-> Wir entfernen ein Element (Sonderfall: Letztes?)\lstfs{10}
+\begin{plainjava}[morekeywords={[3]{Cell}}]
+!*\onslide<3->*!public void remove() {
+!*\onslide<4->*!    if (this.current == this.current.next) {
+!*\onslide<5->*!        this.current = null;
+!*\onslide<4->*!    } else {
+!*\onslide<6->*!        Cell toRemove = this.current;
+!*\onslide<7->*!        this.current = toRemove.prev;
+!*\onslide<7->*!        toRemove.prev.next = toRemove.next;
+!*\onslide<7->*!        toRemove.next.prev = toRemove.prev;
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\section{Die End-Pengu}
+\begin{frame}[c]
+\pause\begin{center}
+    \begin{tikzpicture}[scale=2.5]
+        \pingu[left wing wave, eyes wink, left hair=pingu@green,left torch,name=saphira,sign post=\scalebox{1.35}{Li(s)t!}]
+    \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+
+\end{document}

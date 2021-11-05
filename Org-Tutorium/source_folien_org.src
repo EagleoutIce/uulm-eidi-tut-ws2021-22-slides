@@ -1,0 +1,203 @@
+
+\input ../global.src
+
+\title[Organisations Tutorium - Allgemeine Informationen]{Das bin ich\ldots\ Das seid Ihr! Schnabeltier.\\\small Organisations Tutorium}
+\date{\sffamily KW 43}
+
+\newsavebox\pinguA \newsavebox\pinguB
+
+\savebox\pinguA{\tikz\pingu[eyes shock, wings shock];}
+\savebox\pinguB{\tikz{\pingu[eyes shiny, left wing wave,tie=pingu@purple,tie dots,halo, staff right,hair 3=pingu@purple,name=X]; \node[above right,xshift=1mm] at(X-wing-left) {He... Helloh?};}}
+
+\begin{document}
+\begin{frame}[plain,c]
+\begin{tikzpicture}[remember picture, overlay]
+    \onslide<2->{%
+        \node[above left=-3cm,scale=2.25] at(current page.south east) {\rotatebox{45}{\usebox\pinguA}};
+    }
+    \onslide<3->{
+        \node[below right=1cm,scale=2,align=left] at(current page.north west) {\strut Könnt ihr\ldots~~\only<4->{Könnt ihr mich {\bfseries sehn}?}\\\strut\only<5->{Und etwa auch\ldots~~\only<6->{angrabbeln?\llap{\smash{\raisebox{-.35\baselineskip}{\scalebox{.35}{(bitte nich)}~~}}}}}};
+    }
+    \onslide<7->{%
+        \node[above right=1cm] at(current page.south west) {\usebox\pinguB};
+    }
+\end{tikzpicture}
+\end{frame}
+
+\Titlepage{Org}
+
+\section{Allgemeines}
+\savebox\pinguA{\tikz\pingu[right eye wink,right wing wave,bow tie=paletteD,left wing grab,cup=paletteC];}
+\savebox\pinguB{\tikz\pingu[eyes angry,left wing hug,bow tie=paletteB];}
+
+\begin{frame}[c]{Hygienekonzept}
+    \begin{tikzpicture}[remember picture, overlay]
+        \onslide<12->{\node[below left=1.35cm,xshift=.35cm] at(current page.east) {\scalebox{.6}{\usebox\pinguA}};}
+        \onslide<13->{\node[above left=.55cm,xshift=-3.5cm] at(current page.east) {\scalebox{.6}{\usebox\pinguB}};}
+    \end{tikzpicture}\vspace*{-\baselineskip}\begin{itemize}[<+(1)->]
+        \item Wir machen \only<handout:0|2-7>{5G}\only<8->{\cancel{5G} \textbf{3G}} \begin{itemize}
+            \item Geimpft
+            \item Genesen
+            \item Getestet
+            \item \only<8->{\color{lightgray}}Genmanipuliert \& Gechipt
+            \item \only<8->{\color{lightgray}}Gelangweilt
+        \end{itemize}
+        \item<9-> Präsenzlehre so lange wie möglich. \onslide<10->{(Sonst \textit{Zoom})}
+        \item<11-> Abstand einhalten!
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t]{Zu den Folien und Tutorien}
+    \begin{itemize}[<+(1)->]
+        \itemsep=10pt
+        \item Folien von Florian Sihler (\href{mailto:florian.sihler@uni-ulm.de}{florian.sihler@uni-ulm.de}).
+        \item Mitschriften, Zusammenfassungen, \ldots{} finden sich im Cloudstore: \begin{itemize}[<1->]
+            \item \url{https://cloudstore.uni-ulm.de/apps/circles/}
+            \item Kreis: \say{Mitschriebe Informatik} (ganz eingeben)
+        \end{itemize}
+        \item Bei erbrachter Leistung: 3 ECTS (LP)
+    \end{itemize}
+\end{frame}
+
+
+\savebox\pinguA{\tikz\pingu[left wing hug,eyes wink];}
+\savebox\pinguB{\tikz\pingu[right wing hug,eyes shiny];}
+
+\begin{frame}[t]{Übungsblätter\hfill I}
+\begin{itemize}[<+(1)->]
+    \item Mindestens 50\,\% der Punkte pro Blatt
+    \item Teilnahme am Tutorium verpflichtend für Punkte
+    \item Maximal zwei Blätter nicht bestanden
+    \begin{itemize}
+        \item Bonusaufgaben auf sechs Blättern
+        \item Absolviert man mindestens die Hälfte $\rightarrow$ Ein Pufferblatt mehr
+    \end{itemize}
+    \item Abgabe in zweier Gruppen \only<handout:0|7>{\smash{\raisebox{-2pt}{\resizebox*!{\baselineskip}{\usebox\pinguA\!\usebox\pinguB}}}}\only<8->{\smash{\raisebox{-2pt}{\resizebox*!{\baselineskip}{\usebox\pinguA\hskip8em\usebox\pinguB}}}}
+    \item<9-> Erlaubte Formate: \begin{itemize}
+        \item<10-> Bei einer Datei: PDF, Java-Quellcode
+        \item<11-> Bei mehreren: Archiv verwenden! (ZIP,~\ldots)% TODO: NOTE: wird vermutlich noch Freigeschaltet
+    \end{itemize}
+    \item<12-> Programme \emph{müssen} lauffähig sein (inklusive \bjava{main}).\\[-.2\baselineskip]
+    \onslide<13->{\info{Oder entsprechend kommentiert, wo es (wieso) Probleme gibt.}}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Übungsblätter\hfill II}
+    \begin{itemize}[<+(1)->]
+        \item \emph{Jeder} muss die Abgabe vorstellen können.\pause\\[-.2\baselineskip]\info{Unabhängig davon, wer die Aufgabe im Team gemacht hat.}
+        \item Im Falle einer Krankheit:\pause\\\emph{Nachricht an den Tutor mit zugehöriger Entschuldigung!}
+    \end{itemize}
+    \vfill
+    \begin{center}
+        \onslide<6->{\bfseries Lest die \href{https://www.uni-ulm.de/einrichtungen/zuv/dez1/recht-und-organisation/satzungen-und-ordnungen/studium-promotion-habilitation/studien-und-pruefungsordungen-bachelor-master-staatsexamen/}{\textbf{FSPO}}!\\}
+        \onslide<7->{\bfseries Verwendet die Uni-Mail!\\}
+    \end{center}
+\end{frame}
+
+
+\begin{frame}[t]{Präsenzaufgaben}
+    \begin{itemize}[<+(1)->]
+        \itemsep10pt
+        \item Stift und Papier
+        \item Jede Woche, unbepunktet
+        \item Darf aber gern abgegeben werden!
+    \end{itemize}
+\end{frame}
+
+
+\immediate\write18{wget https://media.githubusercontent.com/media/EagleoutIce/Episode-Heaps/gh-pages/preview-01.png -O logoHeaps-\jobname.png}
+\immediate\write18{wget https://media.githubusercontent.com/media/EagleoutIce/Episode-Recursion/gh-pages/preview-01.png -O logoRecursion-\jobname.png}
+\immediate\write18{wget https://media.githubusercontent.com/media/EagleoutIce/Episode-Traversierung/gh-pages/preview-01.png -O logoTraversal-\jobname.png}
+% and more :D
+
+\begin{frame}[t]{Zusätzliches}
+    \begin{itemize}[<+(1)->]
+        \itemsep9pt
+        \item Es empfiehlt sich die Abgaben in \LaTeX\ ($2_{\textstyle\varepsilon}$) zu machen.
+        \item Dafür wurden erklärende Bonusblöcke erstellt. Darunter:\pause{}
+        \vspace*{-.75\baselineskip}\begin{multicols}{3}
+            \begin{enumerate}[<1->]
+                \item \LaTeX{} (2-3 Tutorien)
+                \item Richtig Kommentieren
+                \item Linux (\& Kommandozeile)
+                \item Git -- Versionsverwaltung
+                \item (Unit-)Testen
+                \item \ldots\par
+            \end{enumerate}
+        \end{multicols}\vspace*{-.75\baselineskip}
+        \item Mit dem letzten Semester gibt es auch tolle Episoden. Darunter:\\\smallskip
+% hella hail the copy and paste
+\resizebox{.85\linewidth}!{\begin{tikzpicture}[align-base]
+    \onslide<2->{\draw[thick,darkgray,rounded corners=2.5pt,path picture={\node at(path picture bounding box.center) {\href{https://media.githubusercontent.com/media/EagleoutIce/Episode-Traversierung/gh-pages/noanim_traversal.pdf}{\includegraphics[width=8.5cm,height=4.788cm,keepaspectratio]{logoTraversal-\jobname.png}}};}] (0,0) rectangle (8.5cm,4.788cm);}
+\end{tikzpicture}\quad\begin{tikzpicture}[align-base]
+    \onslide<2->{\draw[thick,darkgray,rounded corners=2.5pt,path picture={\node at(path picture bounding box.center) {\href{https://media.githubusercontent.com/media/EagleoutIce/Episode-Recursion/gh-pages/noanim_rekursion.pdf}{\includegraphics[width=8.5cm,height=4.788cm,keepaspectratio]{logoRecursion-\jobname.png}}};}] (0,0) rectangle (8.5cm,4.788cm);}
+\end{tikzpicture}\quad\begin{tikzpicture}[align-base]
+    \onslide<2->{\draw[thick,darkgray,rounded corners=2.5pt,path picture={\node at(path picture bounding box.center) {\href{https://media.githubusercontent.com/media/EagleoutIce/Episode-Heaps/gh-pages/noanim_heap.pdf}{\includegraphics[width=8.5cm,height=4.788cm,keepaspectratio]{logoHeaps-\jobname.png}}};}] (0,0) rectangle (8.5cm,4.788cm);}
+\end{tikzpicture}\qquad\textbullet~\textbullet~\textbullet}
+        \item Die (Lösungs-)Folien werden wochenweise veröffentlicht.
+    \end{itemize}
+\end{frame}
+
+\section{Java \& Editoren}
+\def\os#1{\;\textsuperscript{\tiny\color{black}\def\x##1{\textcolor{gray}{##1}}#1}}
+\begin{frame}[t]{How to Editor}
+    \begin{itemize}[<+(1)->]
+        \itemsep10pt
+        \item Text-Editor mit Syntaxfreude
+        \item Keine IDE!
+        \item Klassisch: \begin{itemize}
+            \item \href{https://notepad-plus-plus.org/}{Nodepad++}\os{\faWindows, \x{\faApple}, \x{\faLinux}}
+            \item \href{https://code.visualstudio.com/Download}{VS-Code}\os{\faApple, \faWindows, \faLinux} (ohne Extensions)
+            \item \href{https://atom.io/}{\textsc{atom}}\os{\faApple, \faWindows, \faLinux}
+        \end{itemize}
+        \item Advanced: \begin{itemize}
+            \item \href{https://www.nano-editor.org/}{nano}\os{\faLinux, \faApple, \x{\faWindows}}
+            \item \href{https://www.vim.org/}{vim}\os{\faLinux, \faApple, \x{\faWindows}}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{How to Java}
+    \begin{itemize}[<+(1)->]
+        \itemsep7pt
+        \item Linux: \begin{itemize}
+            \item Wenn \T{apt}-basiert: \cbash{sudo apt install default-jdk} (\bbash{openjdk-14-jdk},~\ldots)
+            \item Auch sonst über den jeweiligen Paketmanager
+            \item Oder per \href{https://www.oracle.com/java/technologies/javase-downloads.html}{download}.
+        \end{itemize}
+        \item Windows: \begin{itemize}
+            \item Download \& Installation der \href{https://www.oracle.com/java/technologies/javase-downloads.html}{gewünschten Version}.
+            \item \T{PATH}-Variable anpassen! Dafür gibt es etliche \href{https://explainjava.com/set-java-path-and-java-home-windows/}{Anleitungen}:
+                \begin{enumerate}
+                    \item \say{Systemumgebungsvariablen bearbeiten}\textor \say{Edit the system environment variables}
+                    \item \say{bin}-Ordner der JDK zum \T{PATH} hinzufügen. \info{Zum Beispiel: \say{C:\textbackslash Program Files\textbackslash Java\textbackslash jdk-15\textbackslash bin}}
+                \end{enumerate}
+        \end{itemize}
+        \item MacOS: \begin{itemize}
+            \item Download \& Installation der \href{https://www.oracle.com/java/technologies/javase-downloads.html}{gewünschten Version}.
+            \item Sonst unterstützt auch weitere \href{https://brew.sh/}{Homebrew} ein paar Versionen.
+        \end{itemize}
+        \item Es gibt auch \href{https://jdk.java.net/16/}{open source} Implementationen.
+    \end{itemize}
+\end{frame}
+
+\section{End-Pinguuu}
+\begin{frame}[c]
+\null\vfill
+\centering\begin{tikzpicture}[scale=1.5,remember picture]
+    \pingu[wings wave,name=saphira,eyes wink,pants=cprimary,monocle right]
+    \onslide<2->{\path[postaction={decorate},decoration={text along path, text={|\huge\Fontauri|Motivation!},text align={fit to path}}] (saphira-bill) ++ (90+55:45pt) arc (90+55:90-55:45pt);}
+\end{tikzpicture}
+\end{frame}
+
+{\setbeamercolor{background canvas}{bg=cprimary!15!black}
+\begin{frame}[plain,c]
+\null\vfill
+\centering\begin{tikzpicture}[scale=1.5,remember picture]
+    \pingu[wings raise,monocle right,name=saphira,eyes wink,devil horns,left eye devil,right eye angry,bill=angry,glow thick=white,heart=pingu@purple!60!black]
+
+    \path[postaction={decorate},decoration={text along path, text={|\huge\Fontauri\bfseries\color{white}|Motivation!},text align={fit to path}}] (saphira-bill) ++ (90+55:45pt) arc (90+55:90-55:45pt);
+\end{tikzpicture}
+\end{frame}}
+\end{document}

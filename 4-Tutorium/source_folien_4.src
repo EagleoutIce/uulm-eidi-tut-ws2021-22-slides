@@ -1,0 +1,244 @@
+\errorcontextlines 999999
+\usepackage{attachfile2}
+\attachfilesetup{%
+    author={Florian Sihler},%
+    color=0.2 0.3647 0.4941, icon=Tag, mimetype=text/plain%
+}
+
+\usepackage[%
+    sopra-listings={encoding,cpalette},%
+    sopra-tables,color-palettes={addons},%
+    util,lithie-boxes={germanenv,koma,overwrite},%
+    lithie-task-boxes={cpalette},%
+    lecture-links={patchurl},%
+    lecture-registers={disable}% would interfere with beamer
+]{lithie-util}
+\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
+\RestyleAlgo{plain}
+\solLoadLanguage{bash,cpp}
+\usepackage[ngerman]{babel}
+
+\colorlet{MaterialHeaderColor}{paletteB}%
+\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
+
+\def\linkstyle#1{\textsf{\paletteD{#1}}}
+\SetAllLinkStyle{\linkstyle{#1}}
+\usepackage{tikzducks,tikzsymbols}
+\usetheme{lucy}
+
+\usetikzlibrary{arrows.meta}
+
+\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
+
+\newcommand\parallelcontent[3][t]{%
+    \begin{columns}[#1]
+    \begin{column}{0.475\linewidth}
+        #2
+    \end{column}\hfill
+    \begin{column}{0.475\linewidth}
+        #3
+    \end{column}
+    \end{columns}
+}
+
+\title[Viertes Tutorium -- Übungsblatt 4]{Kommandozeilenargumente\\\small Tutorium 4}
+\date{\sffamily KW 21}
+\author{Florian Sihler}
+\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+
+\usepackage{tikzpingus-old}
+\newsavebox\oldpingus
+\savebox\oldpingus{\begin{tikzpicture}[scale=1.75]
+    \pingu[name = herbertine, heart=purple!15!pingu@white, eyes =!hide, right wing hug, left wing wave]
+    \node[above, inner sep=1.5pt, pingu@red] at(herbertine-left-wing-tip) {\Large\faHeart};
+    \node[inner sep=1.5pt, pingu@red, scale=0.65] at(herbertine-left-eye) {\large\faHeart};
+    \node[inner sep=1.5pt, pingu@red, scale=0.65] at(herbertine-right-eye) {\large\faHeart};
+\end{tikzpicture}\hspace*{-0.095cm}\begin{tikzpicture}[scale=1.75]
+    \pingu[name = herbert, heart=teal!15!pingu@white, left wing hug, sunglasses]
+\end{tikzpicture}}
+\let\pingu\relax
+\usepackage{tikzpingus}
+
+
+\usetikzlibrary{decorations.text}
+
+\hypersetup{colorlinks=false}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{tikzpicture}[overlay]
+        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
+            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
+        \end{scope}
+        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {4};
+    \end{tikzpicture}
+    \titlepage
+\end{frame}
+
+\section{Präsenzaufgabe}
+\begin{frame}[c,fragile]{Präsenzaufgabe}
+    \begin{aufgabe}{Matrix reversed}
+        \pause{}Implementieren Sie zwei Java-Methoden: \begin{enumerate}[<+(1)->]
+            \item \bjava{public static int[] reverse(int[] toReverse)}\par
+                  Lässt \T{toReverse} unverändert und liefert ein neues Array zurück, dass die Elemente von \T{toReverse} in umgekehrter Reihenfolge enthält.
+            \item \bjava{public static void reverseInPlace(int[] reverse)}\par
+                  Kehrt die Reihenfolge des übergebenen Arrays direkt um.
+        \end{enumerate}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+    \item Der gesamte Code ist wieder hier: \only<2->{\textattachfile{Reverse.java}{Reverse.java}}\par\info{Er enthält eine Anwendung für Tabs und Assertions.}
+    \item Zunächst \bjava{reverse}:
+\begin{plainjava}
+!*\onslide<4->*!public static int[] reverse(int[] toReverse){
+!*\onslide<5->*!    int[] newArr = new int[toReverse.length];
+!*\onslide<6->*!    for(int i = 0; i < toReverse.length; i++) {
+!*\onslide<7->*!        newArr[newArr.length-i-1]  = toReverse[i];
+!*\onslide<6->*!    }
+!*\onslide<8->*!    return newArr;
+!*\onslide<4->*!}
+\end{plainjava}
+\end{itemize}
+\end{frame}
+% TODO: auch möglich: kopie
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+    \item Nun \bjava{reverseInPlace}:
+\begin{plainjava}
+!*\onslide<3->*!public static void reverseInPlace(int[] reverse) {
+!*\onslide<4->*!    for (int i = 0; i < reverse.length / 2; i++) {
+!*\onslide<5->*!        // swap i and length-i-1
+!*\onslide<6->*!        int tmp = reverse[i];
+!*\onslide<6->*!        reverse[i] = reverse[reverse.length - i - 1];
+!*\onslide<6->*!        reverse[reverse.length - i - 1] = tmp;
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+\only<1->{\rExecute{javac Reverse.java}}
+\begin{itemize}[<+(1)->]
+    \item So weit so gut \Laughey. \pause\info{Es wäre auch möglich in \bjava{reverse(int[])} eine Kopie von \bjava{toReverse} zu erstellen und dann \bjava{reverseInPlace} zu verwenden.}
+    \item Ein Beispiel mit dem Array \bjava{\{1, 2, 3, 4, 5, 6, 7\}} \rbash[:\pause]{java Reverse}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \item Vorteile von \bjava{reverse} (gegenüber \bjava{reverseInPlace}): \begin{itemize}
+            \item Nebeneffekte von Methoden sind generell schlecht! \say{out-Parameter} sollten vermieden werden (wo nicht unbedingt notwendig).
+        \end{itemize}
+        \item Nachteile von \bjava{reverse} (gegenüber \bjava{reverseInPlace}): \begin{itemize}
+            \item Der benötigte Speicher wird verdoppelt (was, wenn das Array riesig ist?)
+        \end{itemize}
+        \item Was ist nun besser?
+            \begin{itemize}
+                \item In der Regel \bjava{reverse}. Die unerwarteten/ungewollten Seiteneffekte können Kaskaden schwer zu findender Fehler verursachen.
+                \item Sollten wirklich große Arrays erwartet werden, sollte man sich unter Umständen ein grundlegend anderes System überlegen.
+            \end{itemize}
+    \end{itemize}
+    \end{frame}
+
+
+\section{Übungsblatt 4}
+\subsection{Aufgabe 1}
+\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 1}
+    \begin{itemize}[<+(1)->]
+        \item Die volle Aufgabe findet sich hier: \only<2->{\textattachfile{Aufgabe1.java}{Aufgabe1.java}}.
+        \item Wir beginnen mit der Wertinitialisierung:
+\begin{plainjava}
+!*\onslide<4->*!double min = Double.POSITIVE_INFINITY;
+!*\onslide<4->*!double max = Double.NEGATIVE_INFINITY;
+!*\onslide<4->*!double sum = 0;
+\end{plainjava}
+        \item<5-> Wir fangen eine leere Eingabe ab:
+\begin{plainjava}[firstnumber=4]
+if (args.length <= 0) {
+    System.err.println("Keine Argumente übergeben. Ende.");
+    System.exit(1);
+    return; // Nicht notwendig
+}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 1}
+    \begin{itemize}[<+(1)->]
+        \item Die Hauptschleife zur Akkumulation:
+\begin{plainjava}
+!*\onslide<3->*!for (String arg : args) {
+!*\onslide<4->*!    double val = Double.parseDouble(arg);
+!*\onslide<5->*!    min = val < min ? val : min;
+!*\onslide<5->*!    max = val > max ? val : max;
+!*\onslide<5->*!    sum += val;
+!*\onslide<3->*!}
+\end{plainjava}
+        \item<6-> Die Ausgabe zum Schluss:
+\begin{plainjava}
+!*\onslide<7->*!System.out.println("     Minimum: " + min);
+!*\onslide<7->*!System.out.println("     Maximum: " + max);
+!*\onslide<7->*!System.out.format( "Durchschnitt: %f\n", (sum / args.length));
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 1}
+    \rExecute{javac Aufgabe1.java}
+    \begin{itemize}[<+(1)->]
+        \item Ein Beispiel (beachte \bjava{System.out::format})\par
+        \Rbash{java Aufgabe1 12 13.5 -:c:9 .125}{java Aufgabe1 12 13.5 -9 .125}
+    \end{itemize}
+\end{frame}
+
+
+\subsection{Aufgabe 2}
+\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \item Die volle Aufgabe findet sich hier: \only<2->{\textattachfile{Aufgabe2.java}{Aufgabe2.java}}.
+        \item Ich verwende hier eine separate Methode:
+\begin{plainjava}
+!*\onslide<4->*!public static void main(String[] args) {
+!*\onslide<5->*!    for (String arg : args) {
+!*\onslide<6->*!        System.out.println(reverse(arg));
+!*\onslide<5->*!    }
+!*\onslide<4->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \item Und hier die extra Methode:
+\begin{plainjava}
+!*\onslide<3->*!public static String reverse(final String arg) {
+!*\onslide<4->*!    char[] orig = arg.toCharArray();
+!*\onslide<4->*!    char[] rev = new char[orig.length];
+!*\onslide<3->*!
+!*\onslide<5->*!    for (int i = 0; i < orig.length; i++) {
+!*\onslide<6->*!        rev[orig.length - i - 1] = orig[i];
+!*\onslide<5->*!    }
+!*\onslide<7->*!    return new String(rev);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\section{Der End-Pingu}
+\begin{frame}[c]
+    \hbox{}\vfill
+    \centering\onslide<2->{\usebox\oldpingus}\bigskip\par
+    ~\onslide<2->{\begin{tikzpicture}[scale=1.15]
+        \pingu[name=herbertine, left wing hug, right wing wave, hand cast right=\scalebox{2}{\color{pingu@red!50!white}\faHeart}]
+        \pgfonlayer{foreground}
+        \node[inner sep=1.5pt, ,scale=1.25,pingu@red!50!white] at(herbertine-left-eye) {\large\faHeart};
+        \node[inner sep=1.5pt, ,scale=1.25,pingu@red!50!white] at(herbertine-right-eye) {\large\faHeart};
+        \endpgfonlayer
+        \pingu[name = herbert, xshift=3.1cm,right wing hug, sunglasses,eyes wink]
+    \end{tikzpicture}}
+\end{frame}
+\end{document}

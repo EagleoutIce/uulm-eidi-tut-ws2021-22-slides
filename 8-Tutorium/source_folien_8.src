@@ -1,0 +1,824 @@
+% #region preamble
+\errorcontextlines 999999
+\usepackage{attachfile2}
+\attachfilesetup{%
+    author={Florian Sihler},%
+    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
+}
+
+\usepackage[%
+    sopra-listings={encoding,cpalette,highlights,numinpar},%
+    sopra-tables,
+    color-palettes={addons},%
+    util,%
+    lithie-boxes={germanenv,koma,overwrite},%
+    lithie-task-boxes={cpalette},%
+    lecture-links={patchurl},%
+    lecture-registers={disable}% would interfere with beamer
+]{lithie-util}
+
+\RequirePackage{lecture-personal-tikz}
+
+\usepackage[ngerman]{babel}
+
+\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
+\RestyleAlgo{plain}
+\solLoadLanguage{bash,cpp,regex}
+
+\def\lhnselementformat#1{\texttt{#1}\hfill\hbox{}}
+\def\lhnsielementformat#1{\textbf{\vphantom{A}#1}}
+\long\def\lhnselementbox#1#2{\parbox{#1}{~#2~}}%
+\makeatletter
+\lhns@minborderheight=5.4cm
+\makeatother
+
+\tikzset{lhns@impstyle/.style={}}%
+
+\def\solcustom{fill=paletteA!30,draw=paletteA!30}
+
+
+\usepackage[chess]{eagle-maps}
+\colorlet{chesswhite}{paletteA!90!white}
+\colorlet{chessblack}{paletteB!90!white}
+
+\colorlet{MaterialHeaderColor}{paletteB}%
+\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
+
+\def\linkstyle#1{\textsf{\paletteD{#1}}}
+\SetAllLinkStyle{\linkstyle{#1}}
+\usepackage{tikzducks,tikzsymbols}
+\usetheme{lucy}
+
+\colorlet{chessfieldblack}{lightgray}
+
+\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
+
+\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
+
+\newcommand\parallelcontent[3][t]{%
+    \begin{columns}[#1]
+    \begin{column}{0.475\linewidth} #2 \end{column}\hfill
+    \begin{column}{0.475\linewidth} #3 \end{column}
+    \end{columns}
+}
+% #endregion
+
+\title[Achtes Tutorium -- Übungsblatt 8]{(Still) Stay at Home\\\small Tutorium 8}
+\date{\sffamily KW 25}
+\author{Florian Sihler}
+\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+
+\usepackage{tikzpingus}
+\usetikzlibrary{decorations.text}
+\hypersetup{colorlinks=false}
+
+\begin{document}
+\begin{frame}[c]
+    \begin{tikzpicture}[overlay]
+        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
+            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
+        \end{scope}
+        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {8};
+    \end{tikzpicture}
+    \titlepage
+\end{frame}
+
+\section{Präsenzaufgabe}
+\begin{frame}[c]{Präsenzaufgabe}
+    \begin{aufgabe}{Listentausch, \ldots}
+        \pause{}Implementieren Sie eine einfach verkettete Liste, die Integerwerte speichern kann.\pause{} Implementieren Sie eine Methode (+ Hilfsmethoden), die zwei Listenelemente anhand ihrer Indizes vertauscht.\pause{} Die Liste fängt wie ein Array bei 0 zu zählen an. Beachten Sie auch Randbedingungen, wie eine leere Liste.
+    \end{aufgabe}
+\end{frame}
+
+\def\Element#1{%
+    \begin{tabular}{|>{\centering}p{1em}|p{1em}|}
+        \hline
+            \strut#1 & \\
+        \hline
+    \end{tabular}%
+}
+
+\def\EndElement{
+    \begin{tabular}{|>{\centering\arraybackslash}p{1em}|}
+        \hline
+            \strut/\\
+        \hline
+    \end{tabular}
+}
+
+\newsavebox{\xx}
+\sbox{\xx}{\solGet{comments}{\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+    \node[inner sep=0pt] (a) at (1.5*0,0) {\Element{1}};
+    \node[inner sep=0pt] (b) at (1.5*2.25,0) {\Element{2}};
+    \node[inner sep=0pt] (c) at (1.5*4.5,0) {\Element{3}};
+    \node[inner sep=0pt] (d) at (1.5*6.75,0) {\Element{4}};
+    \node[inner sep=0pt] (e) at (1.5*8.75,0) {\EndElement};
+    \foreach[remember=\i as \li (initially a)] \i in {b,c,d,e}{
+        \draw[-Kite] ($(\li.east)+(-1em,0)$) to[edge label={\T{.next}}] (\i.west);
+        \fill ($(\li.east)+(-1em,0)$) circle (2pt);
+    }
+\end{tikzpicture}}}
+
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung}
+\begin{itemize}[<+(1)->]
+    \item Wir konstruieren eine Klasse für das Element.
+\begin{plainjava}
+!*\onslide<3->*!public class Element {
+!*\onslide<4->*!    int value;
+!*\onslide<4->*!    Element next;
+!*\onslide<3->*!
+!*\onslide<5->*!    public Element (int value, Element next) {
+!*\onslide<6->*!        this.value = value;
+!*\onslide<6->*!        this.next = next;
+!*\onslide<5->*!    }
+!*\onslide<3->*!
+!*\onslide<7->*!    // !*\usebox{\xx}*!
+!*\onslide<3->*!}
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung, II}
+\begin{itemize}[<+(1)->]
+    \item Wir benötigen eine weitere Methode:
+\begin{plainjava}
+!*\onslide<3->*!public class Element {
+!*\onslide<3->*!
+!*\onslide<4->*!    // ...
+!*\onslide<4->*!    public Element findBefore(int x) {
+!*\onslide<5->*!        if(x > 1) { // 0 & 1
+!*\onslide<6->*!            if(next != null)
+!*\onslide<7->*!                return next.findBefore(x-1);
+!*\onslide<8->*!            else return null; // nicht gefunden
+!*\onslide<5->*!        } else return this;
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung, III}
+    \begin{itemize}[<+(1)->]
+        \item Wir verwalten sie in einer Listenklasse:
+    \begin{plainjava}
+!*\onslide<3->*!public class List {
+!*\onslide<4->*!    Element head;
+!*\onslide<5->*!    public List() { head = null;}
+!*\onslide<3->*!
+!*\onslide<6->*!    public Element findBefore(int x){
+!*\onslide<7->*!        if(head == null) return null;
+!*\onslide<8->*!        else head.findBefore(x);
+!*\onslide<6->*!    }
+!*\onslide<3->*!
+!*\onslide<9->*!    // ...
+!*\onslide<3->*!}
+    \end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung, IV}
+    \begin{itemize}[<+(1)->]
+        \item Nun können wir die Tauschoperation implementieren:\lstfs{7}
+\begin{minipage}{0.5\linewidth}
+    \begin{plainjava}
+!*\onslide<3->*!public void swap(int i, int j) {
+!*\onslide<3->*!    if(i == j) return; // Gleich
+!*\onslide<4->*!    if(i > j) { // Aufsteigend sortiert:
+!*\onslide<5->*!        int tmp = i; i = j; j = tmp;
+!*\onslide<4->*!    }
+!*\onslide<6->*!    Element ai = findBefore(i);
+!*\onslide<7->*!    Element bj = findBefore(j);
+!*\onslide<8->*!    if(ai != null && bj != null) { // In Liste
+!*\onslide<9->*!        Element b = bj.next, a;
+!*\onslide<10->*!        if(i == 0) a = head; // Kopf
+!*\onslide<11->*!        else a = ai.next;
+!*\onslide<12->*!        if(a != null && b != null) { // Exist.
+!*\onslide<13->*!            if(i == 0) head = b;
+!*\onslide<14->*!            else ai.next = b;
+!*\onslide<15->*!            // Swap
+!*\onslide<16->*!            bj.next = a;
+!*\onslide<17->*!            Element tmp = a.next;
+!*\onslide<18->*!            a.next = b.next; b.next = tmp;
+!*\onslide<12->*!        }
+!*\onslide<8->*!    }
+!*\onslide<3->*!}
+    \end{plainjava}
+\end{minipage}\hfill\begin{minipage}{0.475\linewidth}
+    \onslide<19->{\centering\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+        \node[inner sep=0pt] (a) at (0,0) {\Element{1}};
+        \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
+        \node[inner sep=0pt] (c) at (4.5,0) {\Element{3}};
+        \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+        \foreach[remember=\i as \li (initially a)] \i in {b,c,d}{
+            \draw[-Kite] ($(\li.east)+(-1em,0)$) -- (\i.west);
+            \fill ($(\li.east)+(-1em,0)$) circle (2pt);
+        }
+        \draw[densely dashed,Kite-Kite] (a.north) to[bend left] (c.north);
+        \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{head}};
+
+    \end{tikzpicture}\\[0.5em]}
+    \onslide<20->{\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+        \node[inner sep=0pt] (a) at (0,0) {\Element{1}};
+        \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
+        \node[inner sep=0pt] (c) at (4.5,0) {\Element{3}};
+        \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+        \foreach[remember=\i as \li (initially a)] \i in {b,c,d}{
+            \draw[-Kite] ($(\li.east)+(-1em,0)$) -- (\i.west);
+            \fill ($(\li.east)+(-1em,0)$) circle (2pt);
+        }
+
+        \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{a, ai}};
+        \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj}};
+        \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
+        \draw[Kite-] (a) -- ++(0,0.75) node[above] {\T{head}};
+
+    \end{tikzpicture}}\\[0.5em]
+    \onslide<21->{\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+        \node[inner sep=0pt] (a) at (0,0) {\Element{1}};
+        \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
+        \node[inner sep=0pt] (c) at (4.5,0) {\Element{3}};
+        \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+        \foreach[remember=\i as \li (initially a)] \i in {b,c,d}{
+            \draw[-Kite] ($(\li.east)+(-1em,0)$) -- (\i.west);
+            \fill ($(\li.east)+(-1em,0)$) circle (2pt);
+        }
+
+        \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{a, ai}};
+        \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj}};
+        \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
+        \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
+    \end{tikzpicture}}
+\end{minipage}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung, V}
+    \begin{itemize}
+        \item<1-> Nun können wir die Tauschoperation implementieren:\lstfs{7}
+\begin{minipage}{0.5\linewidth}
+    \begin{plainjava}
+public void swap(int i, int j) {
+    if(i == j) return; // Gleich
+    if(i > j) { // Aufsteigend sortiert:
+        int tmp = i; i = j; j = tmp;
+    }
+    Element ai = findBefore(i);
+    Element bj = findBefore(j);
+    if(ai != null && bj != null) { // In Liste
+        Element b = bj.next, a;
+        if(i == 0) a = head; // Kopf
+        else a = ai.next;
+        if(a != null && b != null) { // Exist.
+            if(i == 0) head = b;
+            else ai.next = b;
+            // Swap
+            bj.next = a;
+            Element tmp = a.next;
+            a.next = b.next; b.next = tmp;
+        }
+    }
+}
+    \end{plainjava}
+\end{minipage}\hfill\begin{minipage}{0.475\linewidth}
+    \onslide<1->{\centering{\color{csecondary}\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+        \node[inner sep=0pt] (a) at (0,0) {\Element{1}};
+        \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
+        \node[inner sep=0pt] (c) at (4.5,0) {\Element{3}};
+        \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+        \foreach[remember=\i as \li (initially a)] \i in {b,c,d}{
+            \draw[-Kite] ($(\li.east)+(-1em,0)$) -- (\i.west);
+            \fill ($(\li.east)+(-1em,0)$) circle (2pt);
+        }
+
+        \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{a, ai}};
+        \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj}};
+        \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
+        \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
+    \end{tikzpicture}}\\[0.5em]}
+    \onslide<2->{\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+        \node[inner sep=0pt] (a) at (0,0) {\Element{1}};
+        \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
+        \node[inner sep=0pt] (c) at (4.5,0) {\Element{3}};
+        \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+        \draw[-Kite] ($(a.east)+(-1em,0)$) -- (b.west);
+        \fill ($(a.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(c.east)+(-1em,0)$) -- (d.west);
+        \fill ($(c.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(b.east)+(-1em,0)$) -- ++(0,0.75) -| (a.north);
+        \fill ($(b.east)+(-1em,0)$) circle (2pt);
+
+        \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{a, ai}};
+        \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj}};
+        \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
+        \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
+    \end{tikzpicture}}\\[0.5em]
+    \onslide<3->{\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+        \node[inner sep=0pt] (a) at (0,0) {\Element{1}};
+        \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
+        \node[inner sep=0pt] (c) at (4.5,0) {\Element{3}};
+        \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+        \draw[-Kite] ($(a.east)+(-1em,0)$) -- (b.west);
+        \fill ($(a.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(c.east)+(-1em,0)$) -- (d.west);
+        \fill ($(c.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(b.east)+(-1em,0)$) -- ++(0,0.75) -| (a.north);
+        \fill ($(b.east)+(-1em,0)$) circle (2pt);
+
+        \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{a, ai}};
+        \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
+        \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
+        \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
+    \end{tikzpicture}}
+\end{minipage}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung, VI}
+    \begin{itemize}
+        \item<1-> Nun können wir die Tauschoperation implementieren:\lstfs{7}
+\begin{minipage}{0.5\linewidth}
+    \begin{plainjava}
+public void swap(int i, int j) {
+    if(i == j) return; // Gleich
+    if(i > j) { // Aufsteigend sortiert:
+        int tmp = i; i = j; j = tmp;
+    }
+    Element ai = findBefore(i);
+    Element bj = findBefore(j);
+    if(ai != null && bj != null) { // In Liste
+        Element b = bj.next, a;
+        if(i == 0) a = head; // Kopf
+        else a = ai.next;
+        if(a != null && b != null) { // Exist.
+            if(i == 0) head = b;
+            else ai.next = b;
+            // Swap
+            bj.next = a;
+            Element tmp = a.next;
+            a.next = b.next; b.next = tmp;
+        }
+    }
+}
+    \end{plainjava}
+\end{minipage}\hfill\begin{minipage}{0.475\linewidth}
+    \onslide<1->{\centering{\color{csecondary}\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+        \node[inner sep=0pt] (a) at (0,0) {\Element{1}};
+        \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
+        \node[inner sep=0pt] (c) at (4.5,0) {\Element{3}};
+        \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+        \draw[-Kite] ($(a.east)+(-1em,0)$) -- (b.west);
+        \fill ($(a.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(c.east)+(-1em,0)$) -- (d.west);
+        \fill ($(c.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(b.east)+(-1em,0)$) -- ++(0,0.75) -| (a.north);
+        \fill ($(b.east)+(-1em,0)$) circle (2pt);
+
+        \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{a, ai}};
+        \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
+        \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
+        \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
+    \end{tikzpicture}}\\[0.5em]}
+    \onslide<2->{\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+        \node[inner sep=0pt] (a) at (0,0) {\Element{1}};
+        \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
+        \node[inner sep=0pt] (c) at (4.5,0) {\Element{3}};
+        \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+        \draw[-Kite] ($(a.east)+(-1em,0)$) -- ++(0,-0.65) -| (d.south);
+        \fill ($(a.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(c.east)+(-1em,0)$) -- (d.west);
+        \fill ($(c.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(b.east)+(-1em,0)$) -- ++(0,0.75) -| (a.north);
+        \fill ($(b.east)+(-1em,0)$) circle (2pt);
+
+        \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{a, ai}};
+        \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
+        \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
+        \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
+    \end{tikzpicture}}\\[0.5em]
+    \onslide<3->{
+        {\color{csecondary}\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+            \node[inner sep=0pt] (b) at (0,0) {\Element{2}};
+            \node[inner sep=0pt] (a) at (2.25,0) {\Element{1}};
+            \node[inner sep=0pt] (c) at (4.5,0) {\Element{3}};
+            \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+            \draw[-Kite] ($(a.east)+(-1em,0)$) -- ++(0,0.65) -| (d.north);
+            \fill ($(a.east)+(-1em,0)$) circle (2pt);
+
+            \draw[-Kite] ($(c.east)+(-1em,0)$) -- (d.west);
+            \fill ($(c.east)+(-1em,0)$) circle (2pt);
+
+            \draw[-Kite] ($(b.east)+(-1em,0)$) -- (a.west);
+            \fill ($(b.east)+(-1em,0)$) circle (2pt);
+
+            \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{a, ai}};
+            \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
+            \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
+            \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
+        \end{tikzpicture}}
+    }
+\end{minipage}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung, VII}
+    \begin{itemize}
+        \item<1-> Nun können wir die Tauschoperation implementieren:\lstfs{7}
+\begin{minipage}{0.5\linewidth}
+    \begin{plainjava}
+public void swap(int i, int j) {
+    if(i == j) return; // Gleich
+    if(i > j) { // Aufsteigend sortiert:
+        int tmp = i; i = j; j = tmp;
+    }
+    Element ai = findBefore(i);
+    Element bj = findBefore(j);
+    if(ai != null && bj != null) { // In Liste
+        Element b = bj.next, a;
+        if(i == 0) a = head; // Kopf
+        else a = ai.next;
+        if(a != null && b != null) { // Exist.
+            if(i == 0) head = b;
+            else ai.next = b;
+            // Swap
+            bj.next = a;
+            Element tmp = a.next;
+            a.next = b.next; b.next = tmp;
+        }
+    }
+}
+    \end{plainjava}
+\end{minipage}\hfill\begin{minipage}{0.475\linewidth}
+    \onslide<1->{\centering{\color{csecondary}\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+        \node[inner sep=0pt] (b) at (0,0) {\Element{2}};
+        \node[inner sep=0pt] (a) at (2.25,0) {\Element{1}};
+        \node[inner sep=0pt] (c) at (4.5,0) {\Element{3}};
+        \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+        \draw[-Kite] ($(a.east)+(-1em,0)$) -- ++(0,0.65) -| (d.north);
+        \fill ($(a.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(c.east)+(-1em,0)$) -- (d.west);
+        \fill ($(c.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(b.east)+(-1em,0)$) -- (a.west);
+        \fill ($(b.east)+(-1em,0)$) circle (2pt);
+
+        \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{a, ai}};
+        \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
+        \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
+        \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
+    \end{tikzpicture}}\\[0.5em]}
+    \onslide<2->{\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+        \node[inner sep=0pt] (b) at (0,0) {\Element{2}};
+        \node[inner sep=0pt] (a) at (2.25,0) {\Element{1}};
+        \node[inner sep=0pt] (c) at (4.5,0) {\Element{3}};
+        \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+        \draw[-Kite] ($(a.east)+(-1em,0)$) -- ++(0,0.65) -| (d.north);
+        \fill ($(a.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(c.east)+(-1em,0)$) -- ++(0,-0.65) -| ([xshift=0.25cm]b.south);
+        \fill ($(c.east)+(-1em,0)$) circle (2pt);
+
+        \draw[-Kite] ($(b.east)+(-1em,0)$) -- (a.west);
+        \fill ($(b.east)+(-1em,0)$) circle (2pt);
+
+        \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{a, ai}};
+        \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
+        \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
+        \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
+    \end{tikzpicture}}\\[0.5em]
+    \onslide<3->{
+        {\color{csecondary}\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
+            \node[inner sep=0pt] (c) at (0,0) {\Element{3}};
+            \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
+            \node[inner sep=0pt] (a) at (4.5,0) {\Element{1}};
+            \node[inner sep=0pt] (d) at (6.75,0) {\EndElement};
+
+            \foreach[remember=\i as \li (initially c)] \i in {b,a,d}{
+                \draw[-Kite] ($(\li.east)+(-1em,0)$) -- (\i.west);
+                \fill ($(\li.east)+(-1em,0)$) circle (2pt);
+            }
+
+            \draw[Kite-] (a) -- ++(0,-0.75) node[below] {\T{a, ai}};
+            \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
+            \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
+            \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
+        \end{tikzpicture}}
+    }
+\end{minipage}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Präsenzaufgabe - Lösung, VIII}
+    \begin{itemize}
+        \item Übung: versucht mit Hilfsmethoden wie \bjava{swapElements(Element, Element)} oder \bjava{elementsInList(Element, Element)}, \ldots{} die Struktur zu vereinfachen.
+    \end{itemize}
+\end{frame}
+
+\section{Präsenzaufgabe, 2}
+\begin{frame}[c]{Präsenzaufgabe, 2}
+    \begin{aufgabe}{It's complex, isn't it?}
+        \pause{}Sie sehen gleich ein Programm, welches ein Array an Integer-Werten sortiert. Ihre Aufgaben sind die folgenden: \begin{enumerate}[<+(1)->]
+            \item Schätzen Sie die Laufzeit des folgenden Codes gemäß der \(\mathcal{O}\)-Notation ab.
+            \item Welchen \say{Trick} nutzt der Algorithmus?
+            \item Welches Wissen über die Domäne macht sich der Algorithmus zu Nutze? Welche Nachteile bringt das mit sich?
+            \item Geben Sie ein Beispiel an, für das dieser konkrete Algorithmus viel mehr Zeit braucht als notwendig!
+            \item Für welche Anwendungsfälle ist der Algorithmus gut geeignet?
+        \end{enumerate}
+    \end{aufgabe}
+\end{frame}
+
+\begin{frame}[fragile,c]{Präsenzaufgabe, 2}
+    \addtocounter{tcb@cnt@libx@box@addon@Task@normal}{-1}% :)
+    \begin{aufgabe}{It's complex, isn't it?}
+\lstfs{7}%
+\begin{plainjava}[lineskip=3pt,aboveskip=-7pt,belowskip=-4pt]
+!*\onslide<2->*!public static void sort(int min, int max, int[] arr) {
+!*\onslide<3->*!    if (min > max) throw new IllegalArgumentException("Intervall [min, max]");
+!*\onslide<4->*!    int[] counts = new int[max - min + 1];
+!*\onslide<5->*!    for(int e : arr) {
+!*\onslide<6->*!        if(!(min <= e && e <= max)) throw new IllegalArgumentException("Element außerhalb Intervall.");
+!*\onslide<7->*!        counts[e - min]++;
+!*\onslide<5->*!    }
+!*\onslide<2->*!
+!*\onslide<8->*!    int k = 0;
+!*\onslide<9->*!    for(int i = 0; i < arr.length; i++) {
+!*\onslide<10->*!        while(counts[k] <= 0) k++;
+!*\onslide<10->*!        arr[i] = k + min;
+!*\onslide<10->*!        counts[k]--;
+!*\onslide<9->*!    }
+!*\onslide<2->*!}
+\end{plainjava}%
+\vspace*{-\baselineskip}\begin{tikzpicture}[overlay,remember picture]
+    \onslide<11->{\node[above left=5mm,yshift=.45cm,text width=75mm] at(current page.south east) {%
+    \scriptsize\begin{enumerate}
+        \item \color{gray}(Worst-Case) Laufzeit in \(\mathcal{O}\)-Notation.
+        \item \color{gray}Welchen \say{Trick} nutzt der Algorithmus?
+        \item \color{gray}Welches Domänenwissen nutzt der Algorithmus? Welche Nachteile hat das?
+        \item \color{gray}Beispiel, das viel mehr Zeit braucht als notwendig!
+        \item \color{gray}Für welche Anwendungsfälle ist er gut geeignet?
+    \end{enumerate}
+    };}
+\end{tikzpicture}%
+    \end{aufgabe}
+\end{frame}
+
+\begin{frame}[c]{Präsenzaufgabe, 2 - Lösung}
+    \begin{enumerate}[<+(1)->]
+        \item Die Laufzeit skaliert linear in der Länge des Arrays und der Differenz \(max - min\) (Traversierung von \T{counts}). Damit befinden wir uns in \(\mathcal{O}\bigl(\max(\text{\T{arr.length}}, (max-min))\bigr)\). \info{Das innere While wird durch \T{k} nur genau \(max - min\) oft durchlaufen.}
+        \item Der Algorithmus zählt (in counts), wie oft eine Zahl im Intervall vorkommt und reproduziert so das Array \info{er ist also nicht stabil}.
+        \item Er nutzt das Wissen über ganze Zahlen \(\Q\), sowie die im Array enthaltenen Extremwerte! Im Zweifelsfall kennen wir z.B. \(\max(\text{\T{arr}})\) gar nicht.
+        \item Ein Array bei dem \(\text{\T{arr.length}} \ll max - min\). So wird ein unnötig großes \T{counts}-Array traversiert. Beispiel: \bjava{sort(0,42:_:000, new int[]\{3, 0, 40:_:000\})}.
+        \item Arrays mit kleinem Wertebereich, welches zudem möglichst gleichverteilt alle Werte aus diesem wertebereich abdeckt.
+    \end{enumerate}
+\end{frame}
+
+\section{Übungsblatt 8}
+\subsection{Aufgabe 1}
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1}
+    \begin{itemize}[<+(1)->]
+        \item Die Datei findet sich hier: \only<2->{\textattachfile{MemberBase.java}{MemberBase.java}}
+        \item Mit \bjava[morekeywords={[3]{Member}}]{Member::compareTo} klappt das Vergleichen:
+\lstfs{10}
+\begin{plainjava}[morekeywords={[3]{Member}}]
+!*\onslide<4->*!public boolean find(Member member) {
+!*\onslide<4->*!    int left = 0;
+!*\onslide<4->*!    int right = this.members.length - 1;
+!*\onslide<5->*!    while (left <= right) {
+!*\onslide<6->*!        int mid = left + (right-left)/2; // oder nur (left + right)/2
+!*\onslide<7->*!        if (member.compareTo(members[mid]) < 0)
+!*\onslide<8->*!            right = mid - 1;
+!*\onslide<7->*!        else if(member.compareTo(members[mid]) > 0)
+!*\onslide<9->*!            left = mid + 1;
+!*\onslide<7->*!        else !*\onslide<10->*!return true;
+!*\onslide<5->*!    }
+!*\onslide<11->*!    return false;
+!*\onslide<4->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \item Die Datei findet sich hier: \only<2->{\textattachfile{Binom.java}{Binom.java}}
+        \item Zur Wiederholung die Formel:\pause
+\begin{equation*}
+    \binom{n}{k} = \begin{cases}
+        1 & n = k \lor k = 0 \\
+        \binom{n - 1}{k - 1} + \binom{n - 1}{k}\quad & 0 < k < n
+    \end{cases}
+\end{equation*}
+        \item Ohne die Prüfung lässt sich dies genau so übertragen:
+\begin{plainjava}
+!*\onslide<6->*!public static int binomial(int n, int k) {
+!*\onslide<7->*!    if (n == k || k == 0) return 1;
+!*\onslide<8->*!    return binomial(n - 1, k - 1) + binomial(n - 1, k);
+!*\onslide<6->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \item Nun mit dem Abfangen der ungültigen Eingaben:
+\begin{plainjava}
+!*\onslide<3->*!public static int binomial(int n, int k)
+!*\onslide<3->*!            throws IllegalArgumentException {
+!*\onslide<4->*!    if (!(0 <= k && k <= n))
+!*\onslide<4->*!        throw new IllegalArgumentException("[...]");
+!*\onslide<3->*!
+!*\onslide<5->*!    if (n == k || k == 0) return 1;
+!*\onslide<6->*!    return binomial(n - 1, k - 1) + binomial(n - 1, k);
+!*\onslide<3->*!}
+\end{plainjava}
+    \item<7-> Hier bietet sich auch eine Hilfsmethode an um den Test von der Rekursion zu trennen!
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 3}
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 3}
+    \begin{itemize}[<+(1)->]
+        \item Die Datei findet sich hier: \only<2->{\textattachfile{Combinations.java}{Combinations.java}}
+        \item Die Idee: wir rufen die Methode rekursiv für jedes Symbol auf, bis die gewünschte Länge an Symbolen erreicht ist!
+        \item Dafür benötigen wir eine Hilfsmethode, welche das Präfix der bisherigen Symbolkombination hält.
+        \item Damit erhalten wir\ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 3}
+\lstfs{10}%
+\begin{plainjava}
+!*\onslide<2->*!public static void combinations(int length, char... symbols) {
+!*\onslide<4->*!    combinations(length, symbols, "");
+!*\onslide<2->*!}
+!*\onslide<2->*!
+!*\onslide<3->*!private static void combinations(int length, char[] symbols, String acc) {
+!*\onslide<7->*!    if (acc.length() >= length) {
+!*\onslide<8->*!        System.out.println(acc);
+!*\onslide<8->*!        return;
+!*\onslide<7->*!    } // oder wir Dekrementieren length und Prüfen auf = 0
+!*\onslide<2->*!
+!*\onslide<5->*!    for (char symbol: symbols) {
+!*\onslide<6->*!        combinations(length, symbols, acc + symbol);
+!*\onslide<5->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+\end{frame}
+
+\subsection{Zusatzaufgabe 3/6}
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 3}
+    \begin{itemize}[<+(1)->]
+        \item Die Datei findet sich hier: \only<2->{\textattachfile{Horner.java}{Horner.java}}
+        \item Das Vorgehen folgt dem der vorherigen Aufgabe.
+        Zuerst die Hauptmethode:
+\begin{plainjava}
+!*\onslide<4->*!public static int convert(int base, int... digits)
+!*\onslide<4->*!            throws IllegalArgumentException {
+!*\onslide<5->*!    if (base < 2)
+!*\onslide<5->*!        throw new IllegalArgumentException ("[...]");
+!*\onslide<6->*!    if (digits.length <= 0) // oder '0' nach Definition
+!*\onslide<6->*!        throw new IllegalArgumentException ("[...]");
+!*\onslide<7->*!    validateDigits(base, digits);
+!*\onslide<8->*!    return convert(digits, digits.length - 1, base);
+!*\onslide<4->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 3}
+    \begin{itemize}[<+(1)->]
+        \item Die Methode zum Prüfen der jeweiligen Ziffern könnten wir auch in den rekursiven Aufruf einweben:
+\begin{plainjava}
+!*\onslide<3->*!private static void validateDigits(int base, int[] digits) {
+!*\onslide<4->*!    for (int digit : digits) {
+!*\onslide<5->*!        if (!(0 <= digit && digit < base))
+!*\onslide<6->*!           throw IllegalArgumentException("[...]");
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 3}
+    \begin{itemize}[<+(1)->]
+        \item Und nun die rekursive Methode:
+\begin{plainjava}
+!*\onslide<3->*!private static int convert(int[] digits, int index, int base) {
+!*\onslide<4->*!    if(index < 0)
+!*\onslide<4->*!        return 0;
+!*\onslide<5->*!    return convert(digits, index-1, base) * base + digits[index];
+!*\onslide<3->*!}
+\end{plainjava}
+    \item<6-> Oder alternativ:
+\begin{plainjava}
+!*\onslide<7->*!private static int convert(int[] digits, int index, int base) {
+!*\onslide<8->*!    return index < 0 ? 0 : convert(digits, index - 1, base)
+!*\onslide<8->*!        * base + digits[index];
+!*\onslide<7->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\section{Eine End-Enteee}
+\pgfmathsetmacro{\relativefibrethickness}{0.50}
+\pgfmathsetmacro{\relativefibrevariation}{0.11}
+\pgfmathsetmacro{\numberoffibres}{9}
+\pgfmathsetmacro{\fibresteps}{25}
+\pgfmathsetmacro{\boardwidth}{10}
+\pgfmathsetmacro{\boardheight}{10}
+\colorlet{backgroundcolor}{brown}
+\colorlet{fibrecolor}{brown!82!black}
+\definecolor{shieldsilver}{HTML}{C0C0C0}
+\pgfmathsetmacro{\segmentwidth}{\boardwidth/(\numberoffibres+1)}
+\pgfmathsetmacro{\segmentvariation}{\relativefibrethickness/2*\segmentwidth}
+
+\pgfmathsetmacro{\secondfibre}{2*\segmentwidth}
+\pgfmathsetmacro{\lastfibre}{\numberoffibres*\segmentwidth}
+
+\pgfmathsetmacro{\stepheight}{\boardheight/\fibresteps}
+\begin{frame}[c]
+    \begin{tikzpicture}[overlay,remember picture]
+        \node[above left,yshift=0.45cm,scale=.9] at (current page.south east) {\tikz{\pingu[right wing wave,eyes wink,small]}};
+    \end{tikzpicture}
+    \begin{center}
+        \begin{tikzpicture}
+        % Let ducks fight... whatever? ^^
+            % \node at(0,0) {\includegraphics[width=4.25cm]{Durotan.png}};
+            \node[scale=2.25] at (7,0) {\begin{tikzpicture}
+                \duck[invisible,water=blue!90!white]
+                \begin{scope}[xshift=-1.25cm,scale=1.1]
+                    \fill[gray,rotate=-24] (0.1,1.21) rectangle (1*1.1,1*1.23); % make triangle
+                    \fill[gray,rotate=-24]
+                        (1.2,1.22) ellipse (1*0.15 and 1*0.03) (1.08,1.22)
+                        ellipse (1*0.03 and 1*0.15);
+                \end{scope}
+                \duck[beard=red!20!brown]
+                \node[red!20!brown,rounded corners=1,scale=0.72] at (0.59,1.76) {\rotatebox{-28}{\faMinus}};
+                \node[red!20!brown,rounded corners=1,scale=0.75] at (0.86,1.70) {\rotatebox{-2}{\faMinus}};
+                \duck[invisible,viking=gray]
+
+                \begin{scope}[scale=0.1,xshift=2.75cm]
+                    % Shield
+                    \draw[line width=2.75pt,shieldsilver] (\boardwidth/2,\boardheight/2) circle (\boardwidth/2);
+                    % the dots:
+                    \pgfmathsetmacro\bwradius{\boardwidth/2+2.75/11 pt}
+                    \foreach \i in {0,20,...,360} {
+                        \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2)++(\i:\bwradius) circle (3.75pt);
+                    }
+
+                    \clip (\boardwidth/2,\boardheight/2) circle (\boardwidth/2);
+                    \filldraw[backgroundcolor] (0,0) rectangle ++(\boardwidth,\boardheight);
+
+                    \foreach \x in {1,2,...,\numberoffibres}
+                    {
+                        \fill[fibrecolor] ($(\x*\segmentwidth-\segmentvariation,0) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                        \foreach \y in {1,...,\fibresteps}
+                        {   -- ($(\x*\segmentwidth-\segmentvariation,\y*\stepheight) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                        }
+                        -- ($(\x*\segmentwidth+\segmentvariation,\boardheight)+ (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                        \foreach \y in {\fibresteps,...,0}
+                        {   -- ($(\x*\segmentwidth+\segmentvariation,\y*\stepheight) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                        }
+                        -- cycle;
+                    }
+                    % shield post
+                    \fill[shieldsilver] (\boardwidth/2,\boardheight/2) circle (46.25pt);
+                    \foreach \i in {0,40,...,360} {
+                        \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2)++(\i:40.25pt) circle (3.75pt);
+                    }
+                    \begin{scope}
+                        \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2) circle (0.85);
+                        \clip (\boardwidth/2,\boardheight/2) circle (0.85);
+                        \shade[outer color=shieldsilver!85!black, inner color=shieldsilver!90!white] (\boardwidth/2-0.35,\boardheight/2+0.8) circle (1.32);
+                    \end{scope}
+                \end{scope}
+                %\def\swordscaler{1}
+                %\fill[gray,rotate=24] (0.1,0.21) rectangle (\swordscaler*1.1,\swordscaler*0.23); % make triangle
+                %\fill[gray!70!black,rotate=24]
+                %    (1.2,0.22) ellipse (\swordscaler*0.15 and \swordscaler*0.03) (1.08,0.22)
+                %    ellipse (\swordscaler*0.03 and \swordscaler*0.15);
+            \end{tikzpicture}};
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+\end{document}

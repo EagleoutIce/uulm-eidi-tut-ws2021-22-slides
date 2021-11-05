@@ -1,0 +1,5 @@
+In: !*$\tpingu_1, \ldots, \tpingu_n$*!
+Out: awesome-pengu, if none: mega-pengu
+iterate for every !*$\tpingu_i$*! in !*$\tpingu_1, \ldots, \tpingu_n$*!:
+    if !*$\tpingu_i$*! is awesome:  return !*$\tpingu_i$*! // Pengu found
+return !*\raisebox{-1pt}{\tikz[scale=0.15]{\tagent}}*! // Not found

@@ -1,0 +1,331 @@
+\RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
+\input ../global.src
+
+\title[Nulltes Tutorium -- Übungsblatt 0]{Mein Compiler und ich.\\\small Tutorium ZeroHero}
+\date{\sffamily KW 43}
+
+\pingudefaults{eyes=shiny,wings=grab,glasses opacity=.97}
+
+\begin{document}
+
+\Titlepage{0}
+
+\section{Präsenzaufgabe}
+\begin{frame}{Präsenzaufgabe}
+\begin{aufgabe}{Schau mal, ich bin schon groß!}
+    \pause Entwickeln Sie einen Algorithmus, der als Eingabe eine Liste von Zahlen erhält. Anschließend soll er für jedes Element der Liste bestimmen, ob nach diesem Element noch eine größere Zahl in der Liste folgt.\smallskip
+    \onslide<3->{\parallelcontent[c]{Beispiel mit der Liste \say{1, 0, 7, 5, 2}:
+        \footnotesize\begin{enumerate}[<+(2)->]
+            \item ja \info{da $1 < 7$}
+            \item ja \info{da $0 < 7$}
+            \item nein \info{da $7 > \max\{5,2\}$}
+            \item nein \info{da $5 > 2$}
+            \item nein \info{da letztes Element}
+        \end{enumerate}}{\onslide<9->{Welche Laufzeit hat Ihr Algorithmus im schlechtesten Fall?}}}
+    \onslide<1->
+\end{aufgabe}
+\end{frame}
+
+\begin{frame}{Präsenzaufgabe - Lösung}
+\setcounter{algocf}{0}
+\begin{center}
+\begin{minipage}{0.825\linewidth}
+\begin{algorithm}[H]
+\PreCode
+    \KwIn{Eingabe als Liste von $n$ Zahlen: $a_1, \ldots, a_n$}
+\StartCode
+    \pause\For{i = 1 \KwTo n}{
+        $gefunden \gets$ falsch\;
+        \pause\For(\Comment*[h]{Wird für j > n nicht betreten.}){j = i+1 \KwTo n}{
+            \pause{\If{$a_j > a_i$}{
+                \pause $gefunden \gets$ wahr\;
+                \pause \KwBreak\;
+            }}
+        }
+        \pause \leIf{gefunden}{
+            \pause Gebe aus: \say{ja}
+        }{
+            \pause Gebe aus: \say{nein}
+        }
+    }\pause
+    \caption{Naiver Ansatz}
+\end{algorithm}
+\end{minipage}
+\hspace*{-2cm}\begin{minipage}{0.2\linewidth}
+    \pause\small\color{gray}Nach kleinem Gauß ergibt sich die Laufzeit: \[c \cdot \frac{n(n+1)}{2} \in \mathcal{O}(n^2).\]
+    \vfill\hbox{}
+\end{minipage}
+\end{center}
+\end{frame}
+
+\begin{frame}[t]{Präsenzaufgabe - Effizientere Lösung}
+    \setcounter{algocf}{1}Für eine optimierte/bessere Laufzeit ($\mathcal{O}(n)$):\pause
+\begin{center}
+\begin{minipage}{0.75\linewidth}
+\begin{algorithm}[H]
+\PreCode
+    \KwIn{Eingabe als Liste von $n$ Zahlen: $a_1, \ldots, a_n$}
+\StartCode
+    \pause Erstelle Liste an $n$ Wörtern: $w_1, \ldots, w_n$\;
+    \pause$max \gets - \infty$\;
+    \pause\For{i = n \KwTo 1}{
+        \pause\leIf{$max > a_i$}{
+            \pause$w_i \gets$ \say{ja}
+        }{
+            \pause$w_i \gets$ \say{nein}
+        }
+        \pause\lIf{$a_i > max$}{$max \gets a_i$}
+    }
+    \pause\For{i = 1 \KwTo n}{
+        \pause Gebe aus: $w_i$\;
+    }\pause
+    \caption{Bezüglich der Laufzeit besserer Ansatz}
+\end{algorithm}
+\end{minipage}
+\end{center}
+\end{frame}
+
+
+\section{Bonus: Pseudocode}
+\def\tpingu{\raisebox{-1pt}{\tikz[scale=0.15]{\pingu}}}
+\def\tagent{\pingu[sunglasses,wings wave,heart=paletteA,eyes wink]}
+\begin{frame}[t]{How-To Pseudocode}
+    \begin{itemize}[<+(1)->]
+        \item \textbf{Konsistent bleiben}
+        \item Menschenlesbare Notation \info{meist Programmiersprachen-Mathe-Gemisch}
+        \item Solange \emph{klar} und \emph{eindeutig}, frei gestaltbar
+        \item Beispiel:
+\setcounter{algocf}{2}
+\begin{algorithm}[H]
+    \PreCode
+    \pause\Comment{\textbf{@author} Florian, the lone pengu}
+    \KwIn{Eingabe als Liste von $n$ Pingus: $\tpingu_1, \ldots \tpingu_n$}
+    \StartCode
+    \pause\Comment{Jeder Pinguin ist klasse!}
+    \pause\For{i = 1 \KwTo n}{
+        \pause\lIf{$\tpingu_i$ ist klasse!}{
+            \pause\KwRet{$\tpingu_i$}
+        }
+    }
+    \pause\KwRet{\raisebox{-1pt}{\tikz[scale=0.15]{\tagent}}}\Comment*[l]{Wenn kein klasse Pingu gefunden.}
+    \caption{Einen \say{klasse} Pinguin finden}
+\end{algorithm}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[c]
+\centering\begin{tikzpicture}[scale=2.5,every node/.style={transform shape}]
+    \tagent
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[t]{Pseudocode: do's and dont's}
+    \begin{itemize}[<+(1)->]
+        \itemsep4pt
+        \item \emph{Do:} Gerne eine an Python oder C angelehnte Syntax verwenden.
+        \item \emph{Do:} mathematisch bleiben, also $n \in \mathbb{N}$, $n \in [0,\infty)$ oder \say{$\T{Zeichenkette}~n$}.
+        \item \emph{Don't:} Spracheigene \say{syntactic-sugar} Funktionen oder Definitionen verwenden.\pause{} Also: \emph{kein} \bjava{int}, \bjava{String} oder \bjava{double}.
+        \item \emph{Don't:} Einfach nur Java- oder C-Code.
+        \item \emph{Don't:} Zu allgemein Formulieren:\smallskip
+\setcounter{algocf}{3}
+\begin{algorithm}[H]
+\PreCode
+    \KwIn{Eingabe als Liste von $n$ Pingus: $\tpingu_1, \ldots \tpingu_n$}
+\StartCode
+    \pause sucheKlassePingu($\tpingu_1, \ldots \tpingu_n$, \raisebox{-1pt}{\tikz[scale=.15]{\tagent}})\;
+    \caption{Einen \say{klasse} Pinguin finden}
+\end{algorithm}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,c]{Pseudocode, Beispiele\hfill I}
+    \pause
+\begin{plainvoid}
+In: !*$\tpingu_1, \ldots, \tpingu_n$*!
+Out: awesome-pengu, if none: mega-pengu
+iterate for every !*$\tpingu_i$*! in !*$\tpingu_1, \ldots, \tpingu_n$*!:
+    if !*$\tpingu_i$*! is awesome:  return !*$\tpingu_i$*! // Pengu found
+return !*\raisebox{-1pt}{\tikz[scale=0.15]{\tagent}}*! // Not found
+\end{plainvoid}
+\end{frame}
+
+\begin{frame}[fragile,c]{Pseudocode, Beispiele\hfill II}
+    \pause
+\begin{plainvoid}
+Sei A die Liste an n Pingus, indexiert mit !*$\tpingu_i$*!.
+Mache nun für jeden Pingu !*$\tpingu_i$*! aus A: [Durchsuche Pingus]
+    Wenn !*$\tpingu_i$*! klasse ist:
+            Gebe !*$\tpingu_i$*! zurück. [Pingu gefunden]
+Wenn kein Pingu super war:
+    Gebe Mega-Pingu (!*\raisebox{-1pt}{\tikz[scale=0.15]{\tagent}}*!) zurück.
+\end{plainvoid}
+\end{frame}
+
+\section{Übungsblatt 0}
+\subsection{Aufgabe 1}
+\begin{frame}[t]{Übungsblatt 0 - Aufgabe 1}
+    % i do not want number highlight for this
+    \soldisablenumhl\def\smallerXLST{\lstfs[1.2]{8}}% bracket parser
+    \begin{itemize}[<+(1)->]
+        \item In der Konsole: \rbash[:\smallerXLST\pause]{java -version}
+        \item Sowie: \rbash[:\smallerXLST\pause]{javac -version}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}[t]{Übungsblatt 0 - Aufgabe 2}
+    \only<-5>{\begin{itemize}[<+(1)->]
+        \item Tipp, tipp, tipp, \ldots \ijava{Hello.java}
+        \item Sowie: \cbash{javac Hello.java}\rExecute{javac Hello.java}%
+        \item Und dann: \rbash[:\pause]{java Hello}
+    \end{itemize}}
+\end{frame}
+
+\section{Aussicht: Übungsblatt 1}
+\subsection{Hornerschema}
+\def\h#1{\textcolor{cprimary}{#1}}
+\let\tm\tikzmarknode
+\begin{frame}{Aussicht: Hornerschema, \(b\) zu Dezimal}
+    \begin{itemize}[]
+        \item \pause Am Beispiel von $\h{\tm11\tm21\tm30\tm41}_{(\tm02)}$.
+        \pause\[((\h{\tm a1}\cdot \tm x2 + \h{\tm b1})\cdot\tm y2 + \h{\tm c0}) \cdot\tm z2 + \h{\tm d1} \pause = (3\cdot2 + \h{0}) \cdot 2 + \h{1} \pause = (6 \cdot 2) + \h{1} = 13_{(10)}.\]
+        \begin{tikzpicture}[remember picture,overlay]
+            \only<+(1)|handout:0>{\draw[-Kite,gray] (1.south) -- (a);}
+            \only<+(1)|handout:0>{\draw[-Kite,gray] (2.south) -- (b);}
+            \only<+(1)|handout:0>{\draw[-Kite,gray] (3.south) -- (c);}
+            \only<+(1)|handout:0>{\draw[-Kite,gray] (4.south) -- (d);}
+            \only<+(1)|handout:0>{\draw[-Kite,gray] (0.south) -- (x);}
+            \only<+(1)|handout:0>{\draw[-Kite,gray] (0.south) -- (y);}
+            \only<+(1)|handout:0>{\draw[-Kite,gray] (0.south) -- (z);}
+        \end{tikzpicture}
+        \item \pause Tabellarisch: \TikzHorner[13]{1,1,0,1}{2}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Aussicht: Hornerschema, \(b\) zu Dezimal (II)}
+    \begin{itemize}[]
+        \item \pause Andere Basis: $\h{\tm11\tm21\tm30\tm41}_{(\tm05)}$.
+        \pause\[((\h{\tm a1}\cdot \tm x5 + \h{\tm b1})\cdot\tm y5 + \h{\tm c0}) \cdot\tm z5 + \h{\tm d1} \pause = (6\cdot5 + \h{0}) \cdot 5 + \h{1} \pause = (30 \cdot 5) + \h{1} = 151_{(10)}.\]
+        \begin{tikzpicture}[remember picture,overlay]
+            \only<+(1)|handout:0>{\draw[-Kite,gray] (0.south) -- (x);}
+            \only<+(1)|handout:0>{\draw[-Kite,gray] (0.south) -- (y);}
+            \only<+(1)|handout:0>{\draw[-Kite,gray] (0.south) -- (z);}
+        \end{tikzpicture}
+        \item \pause Tabellarisch: \TikzHorner[9]{1,1,0,1}{5}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Aussicht: Hornerschema, Dezimal zu \(b\)}
+    \begin{itemize}[]
+        \item \pause \(151_{10}\) zurück zur Basis \(5\).
+        \item \pause Tabellarisch: \TikzHornerReverse[4]{1,1,0,1}{5}
+    \end{itemize}
+\end{frame}
+
+\subsection{Algorithmen}
+\begin{frame}{Aussicht: Algorithmus, was ist das?}
+    \begin{itemize}[<+(1)->]
+        \itemsep11pt
+        \item \emph{Eindeutige} Handlungsvorschrift zur Lösung eines Problems.
+        \item Endlich viele, \emph{wohldefinierte} \info{also nicht mehrdeutige} Einzelschritte.
+        \item Mit der Zeit werden wir mehr Eigenschaften zur Charakterisierung betrachten.% TODO: => Tutorium 1 (Determinismus, Korrektheit,\ldots)
+    \end{itemize}
+\end{frame}
+\begin{frame}{Aussicht: Algorithmus, wie definiere ich das?}
+    \pause\begin{center}
+    \begin{tikzpicture}
+        \node[block,fill=shadeA,draw=paletteA] (A) at(0,0) {Algorithmus};
+        \node (V) at(-5,0) {Vorbedingung};
+        \node (N) at(5,0) {Nachbedingung};
+        \draw[-Kite] (V) edge (A) (A) edge (N);
+    \end{tikzpicture}
+    \end{center}
+    \begin{itemize}[<+(1)->]
+        \item Suche die größte ganze Zahl in einem beliebigen (ganzzahligen, nicht-leeren) Array.
+        \item Information: Die Regeln zum Pseudocode gelten hier nach wie vor!
+        \item Problemspezifikation:
+        \begin{description}[Ganzzahliges Array:]
+            \item[Ganzzahliges Array:] Tupel der Größe \(m \geq 1\) mit: \(t = (t_1, t_2, \ldots, t_m) \in \Z^m\) \info{\(t_i \in \Z\) für alle \(t_i\)}
+            \item[Beliebig:] Die Elemente müssen nicht sortiert vorliegen.\\\info{Also gilt zum Beispiel nicht \(t_1 \leq t_2 \leq \ldots \leq t_m\).}
+            \item[Größte:] Die größte ganze Zahl \(z \in t\) mit \(z = \max(t)\).
+        \end{description}
+        \onslide<+(1)->{Ordentlich wäre rein mathematische\textor axiomatisch belegte Formalisierungen zu nutzen. \onslide<+(1)->{In dieser Veranstaltung beschreiten wir einen Mittelweg.}}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Aussicht: Algorithmus, wie definiere ich das?}
+    \begin{center}
+    \begin{tikzpicture}
+        \node[block,fill=shadeA,draw=paletteA] (A) at(0,0) {Algorithmus};
+        \node (V) at(-5,0) {Vorbedingung};
+        \node (N) at(5,0) {Nachbedingung};
+        \draw[-Kite] (V) edge (A) (A) edge (N);
+    \end{tikzpicture}
+    \end{center}
+    \begin{itemize}[<+(1)->]
+        \item \textcolor{gray}{Suche die größte ganze Zahl in einem beliebigen (ganzzahligen, nicht-leeren) Array.}
+        \item Problemabstraktion:
+        \begin{description}[Gegeben:]
+            \item[Gegeben:] Endliches unsortiertes Array $t$ an ganzen Zahlen \(n \in \Z\).
+            \item[Gesucht:] Maximales ganzzahliges Element \(x = \max(t)\).
+        \end{description}
+        \onslide<+(1)->{In diesem Fall ist die Abstaktion nahezu offensichtlich. \onslide<+(1)->{Es dient der Veranschaulichung des Vorgehens \Laughey.}}
+    \end{itemize}
+\end{frame}
+
+% TODO: anmerken, dass die Aufgabe dann mit Mengenoperationen noch schwerer ist,
+% das hier ist wirklich nur für das formale.
+\begin{frame}[t]{Aussicht: Algorithmus, wie definiere ich das?}
+    \begin{itemize}[<+(1)->]
+        \item Algorithmenentwurf: \info{Annahme eines 0-indizierten Arrays mit Zugriff \T{a[$i$]} für das \(i\)-te Element \(t_i\).}\\
+        \begin{enumerate}\itemsep0pt
+            \item Setze \(max = \text{\T{a[$0$]}}\).
+            \item Setze \(i = 1\).
+            \item \label{alg:loop}Solange \(i < m\):\\
+                \pause{\quad Wenn (\(max < \text{\T{a[$i$]}}\)):}\\
+                \pause{\qquad \(max = \text{\T{a[$i$]}}\).}\\
+                \pause{\quad Inkrementiere \(i\) um \(1\).}
+            \item<+(1)-> Lösung ist \(max\).
+        \end{enumerate}
+        \item Korrektheitsnachweis: \begin{description}[Partiell korrekt:]
+            \item[Terminiert:] Die Schleife aus \ref{alg:loop}. endet sicher, da \(i\) in jeder Iteration um \(1\) inkrementiert wird und damit streng monoton wächst, \onslide<+(1)->{also sicher irgendwann \(i < m\) mit \(m \geq 1\) nicht mehr erfüllt.}
+            \item<+(1)->[Partiell korrekt:] Hier lässt sich leicht zeigen, dass für jeden Schritt in \ref{alg:loop}. gilt, dass \(max \geq (t_1, \ldots, t_i)\). \onslide<+(1)->{Für \(m = 1\) ist weiter \(max = \text{\T{a[$0$]}} = \max\bigl(t_0\bigr)\).}
+        \end{description}
+    \end{itemize}
+\end{frame}
+
+\newsavebox\algobox
+\savebox\algobox{\parbox\linewidth{\scriptsize\begin{enumerate}\itemsep0pt
+    \item \color{csecondary!90!white}\label{alg:a}Setze \(max = \text{\T{a[$0$]}}\).
+    \item \color{csecondary!90!white}\label{alg:b}Setze \(i = 1\).
+    \item \color{csecondary!90!white}\label{alg:loop2}Solange \(i < m\): \\
+        \quad Wenn (\(max < \text{\T{a[$i$]}}\)):\\
+        \qquad \(max = \text{\T{a[$i$]}}\). \\
+        \quad Inkrementiere \(i\) um \(1\).
+    \item \color{csecondary!90!white}Lösung ist \(max\).
+\end{enumerate}}}
+
+\begin{frame}{Aussicht: Algorithmus, wie definiere ich das?}
+\begin{itemize}[]
+    \item Algorithmenentwurf: \info{Annahme eines 0-indizierten Arrays mit Zugriff \T{a[$i$]} für das \(i\)-te Element \(t_i\).}\\
+    \usebox\algobox
+    \item<+(1)-> Aufwandsanalyse:\pause\ Wir machen dies als strukturierten Text: \begin{itemize}
+        \item<+(1)-> \ref{alg:a}. und \ref{alg:b}. entsprechen jeweils einer Elementaroperation.
+        \item<+(1)-> \ref{alg:loop2}. wird genau \(m - 1\) mal ausgeführt. Sie enthält sicher einen Vergleich und ein Inkrement. Eventuell eine Zuweisung.\pause\ Für unseren Fall also drei Elementaroperationen.
+    \end{itemize}
+        \pause Damit ist der Gesamtaufwand \(1 + 1 + (m - 1) \cdot \bigl( 3 \bigr) = 2 + 3m - 3 = 3m - 1\).\medskip\\
+        \pause Für komplexere Szenarien können sich die Analysen auch komplexer gestalten.
+\end{itemize}
+\end{frame}
+
+
+\section{End Pinguuu}
+\begin{frame}[c]
+\hbox{}\vfill
+\centering\begin{tikzpicture}[scale=2.5]
+    \only<2->{\pingu[right wing grab,cup=purple!90!green,name=saphira, left eye wink]}
+\end{tikzpicture}
+\end{frame}
+
+
+\end{document}

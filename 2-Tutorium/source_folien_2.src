@@ -1,0 +1,464 @@
+\RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
+\input ../global.src
+
+\title[Zweites Tutorium -- Übungsblatt 2]{Vom Sieben und Nullenschieben\\\small Tutorium Duatalia}
+\date{\sffamily KW 45}
+
+\usetikzlibrary{decorations.text}
+
+\makeatletter
+\def\calc#1=#2;{\pgfmathsetmacro#1{int(#2)}\xdef#1{#1}}
+\def\calcnext#1{\calc\sieve@step@sq = 2*#1;%
+\calc\sieve@step@nxt = 3*#1;}
+\def\MakeSieveEfficient{\def\calcnext##1{\calc\sieve@step@sq = ##1*##1;%
+\calc\sieve@step@nxt = ##1*##1+##1;}}
+% size : step number
+\def\SieveStep#1#2{%
+\calcnext{#2}%
+\foreach\i in {\sieve@step@sq,\sieve@step@nxt,...,#1}{%
+    % lock it:
+    \expandafter\xdef\csname sieve@\i @\endcsname{#2}%
+}}
+% TODO: degrade by current
+\colorlet{@hlcolout}{lightgray!35!white}
+\def\SievePrintColor#1{%
+    \ifcsname step\endcsname
+    \ifnum#1=\step \colorlet{@col}{shadeB}\else \colorlet{@col}{@hlcolout}\fi
+    \else \colorlet{@col}{@hlcolout}\fi
+}
+% TODO: mark curent
+\def\SievePrintCell#1{
+    \colorlet{@tx}{black}
+    \ifcsname sieve@#1@\endcsname
+        \SievePrintColor{\csuse{sieve@#1@}}%
+    \else
+        \ifcsname step\endcsname
+            \ifnum\step=#1
+                \colorlet{@col}{paletteB}
+                \colorlet{@tx}{white}
+            \else\colorlet{@col}{white}\fi
+        \else \colorlet{@col}{white}\fi
+    \fi
+    \node[minimum size=1.6em,rounded corners=1pt,fill=@col,text=@tx] at (\curx, \cury) {#1};
+    \calc\curx=\curx+1;
+}
+\def\SievePrintLine#1{\calc\cury=\cury-1;\calc\curx=0;}
+\def\SievePrintStepSep#1{\ifnum#1<\maxstep\hfill\faAngleRight\hfill\fi}
+\def\SievePrintWidth{4}
+% reset up to sieve #1
+\def\SieveReset#1{\foreach\i in {1,...,#1}{\csgundef{sieve@\i @}}}
+% #2 is current step
+\def\SievePrintDo#1#2{\SievePrint{#1}}
+\def\SievePrint#1{%
+\tikzpicture[align-half-base,scale=.75]
+\calc\curx=0; \calc\cury=0;
+    \foreach\cell in {1,...,#1}{%
+        \SievePrintCell{\cell}%
+        \calc\check = mod(\cell, \SievePrintWidth);
+        \ifnum\check=0
+            \SievePrintLine{\line}
+        \fi
+    }%
+\endtikzpicture
+}%
+% #4 is intersect after each step and before each sep for pause :D
+\newcommand*\SieveFromTo[4][]{%
+    \SieveReset{#2}\edef\maxstep{#4}%
+    \foreach\step in {#3,...,\maxstep}{%
+        \ifcsname sieve@\step @\endcsname\else
+            \SieveStep{#2}{\step}%
+            \SievePrintDo{#2}{\step}% allows for onslide
+            \relax#1\relax
+            \SievePrintStepSep{\step}%
+        \fi
+    }%
+}
+\newcommand\Sieve[2][]{\SieveFromTo[#1]{#2}{2}{#2}}
+\def\SieveLast#1{\SieveLastTo{#1}{#1}}
+\def\SieveLastTo#1#2{\begingroup
+    \colorlet{@hlcolout}{lightgray!45!white}%
+    \SieveReset{#1}\edef\maxstep{#2}%
+    \foreach\step in {2,...,\maxstep}{%
+        \ifcsname sieve@\step @\endcsname\else
+            \SieveStep{#1}{\step}%
+        \fi
+    }%
+    \let\step\maxstep\SievePrintDo{#1}{\maxstep}% allows for onslide
+\endgroup}
+\makeatother
+
+
+\begin{document}
+\Titlepage{2}
+
+% Tutorial: Scanner
+\section{Exkurs: Scanner}
+
+% \begin{frame}[t,fragile]{Exkurs: Nutzereingaben mit Scanner}
+%     \begin{itemize}[<+(1)->]
+%         \item Dem \bjava{Scanner} übergeben wir, von wo wir die Eingaben lesen möchten.\pause{} In diesem Fall: Die Konsole (\bjava{System.in}):\pause{}
+% \begin{java*}
+% Scanner scanner = new Scanner(System.in);
+% \end{java*}
+%         \item Wir lesen nun mittels \bjava{nextLine()} (nächster String)\pause{} oder \bjava{nextInt()} (nächster Integer).
+%         \item So zum Beispiel:\pause{}
+% \begin{java*}
+% String eingabe = scanner.nextLine();
+% \end{java*}
+%         \item Am Ende des Programms: Scanner mittels \bjava{close()} schließen!\pause{}
+% \begin{java*}
+% scanner.close();
+% \end{java*}
+%     \end{itemize}
+% \end{frame}
+
+\section{Präsenzaufgabe}
+\begin{frame}[c]{Präsenzaufgabe}
+    \begin{aufgabe}{Ju can not desieve mie!}
+        {\small\pause{}Entwickeln Sie ein Programm, welches als Eingabe eine Zahl \(N\) erhält und mit Hilfe des Sieb des Erastothenes alle Primzahlen zwischen \(1\) und \(N\) bestimmt.
+        \pause{}Die Idee hier ist, alle Vielfachen der Zahlen, beginnend bei \(2\) zu markieren, also \say{herauszusieben}.\pause{} Danach wird mit der nächsten unmarkierten Zahl fortgefahren.
+        Hier ein grafisches Beispiel mit \(N=16\):\pause{}\bigskip\par}
+\centerline{\resizebox{.95\linewidth}!{\parbox\linewidth{\SieveFromTo[\pause]{16}{2}{5}\hfill\faAngleRight\hfill\ldots}}}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\begingroup
+% in place update:
+\def\SievePrintWidth{10}
+\def\SievePrintStepSep#1{}%
+\def\SievePrintDo#1#2{\SievePrint{#1}}%
+% size | offset
+\newcounter{animcounter}
+\def\SieveAnim#1#2{\setcounter{animcounter}{0}\begingroup%
+\def\SievePrintDo##1##2{\stepcounter{animcounter}\only<\the\numexpr\arabic{animcounter}+#2\relax|handout:0>{\SievePrint{##1}}}%
+\Sieve{#1}\endgroup%
+}
+\begin{frame}[c]{Präsenzaufgabe - Naive Lösung}
+    \setcounter{algocf}{0}%
+\pause\columns[onlytextwidth]%
+\column{.6\linewidth}
+\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Maximale Zahl \(N\)}
+    \StartCode
+    \pause\(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
+    \pause\lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
+    \pause\Comment{Siebe von \(2\) bis \(N\)}
+    \pause\For{\(i = 2\) \KwTo \(N\) \KwStep 1}{
+        \pause\lIf{\(\mathrm{marker}_i\)}{\KwContinue}
+        \pause Gebe aus: \say{Prim: \(i\)}\;
+        \pause\Comment{Markiere alle Vielfache}
+        \pause\lFor{\(j = 2 \cdot i\) \KwTo \(N\) \KwStep i}{\(\mathrm{marker}_j = \mathrm{true}\)}
+    }
+    \pause\caption{Naives Sieben}
+\end{algorithm}
+\column{.4\linewidth}
+\resizebox{\linewidth}!{%
+    \,\only<1-|handout:0>{\SieveAnim{90}{12}}%
+    \only<0|handout:1>{\SieveLastTo{90}{7}}\,%
+}
+\endcolumns
+\end{frame}
+\endgroup
+
+{\def\SievePrintWidth{5}
+\def\SievePrintDo#1#2{\scalebox{.7}{\SievePrint{#1}}}
+\def\SievePrintStepSep#1{\ifnum#1<19\quad\faAngleRight\quad\fi\ifnum#1=7\\[2em]\fi}
+\begin{frame}[c]{Präsenzaufgabe - Was bemerken wir?}
+\centering\pause\parbox{.95\linewidth}{\centering\Sieve[\pause]{20}}
+\onslide<10-|handout:2>{%
+\begin{tikzpicture}[remember picture,overlay]
+\fill[lightgray!20!white,opacity=.55](current page.south west) rectangle (current page.north east);
+\onslide<11->{%
+\node[text width=.6\linewidth] at ([yshift=-1.15mm]current page.center){
+\begin{itemize}
+    \itemsep10pt
+    \item<11-> Nach \(3\) markieren wir kein neues Feld mehr!
+    \item<12-> Selbst die \(3\) markiert Felder wie \(6\) \say{doppelt}.
+\end{itemize}
+};
+}
+\end{tikzpicture}}%
+\end{frame}}
+%
+\begin{frame}[c]{Präsenzaufgabe - Verbesserung}
+\begin{itemize}[<+(1)->]
+    \itemsep10pt
+    \item Allgemeiner: Wir können beim Markieren bei \(i^2\) anstelle von \(2 \cdot i\) beginnen. Alle Vielfachen \(< i^2\) wurden bereits markiert!
+    \item Damit können wir das Markieren bereits bei \(\sqrt{N}\) stoppen.
+\end{itemize}
+\end{frame}
+
+\begingroup
+% in place update:
+\def\SievePrintWidth{10}
+\def\SievePrintStepSep#1{}%
+\def\SievePrintDo#1#2{\SievePrint{#1}}%
+% size | offset
+\def\SieveAnimEff#1#2{\setcounter{animcounter}{0}\begingroup%
+\def\SievePrintDo##1##2{\stepcounter{animcounter}\only<\the\numexpr\arabic{animcounter}+#2\relax|handout:0>{\SievePrint{##1}}}%
+\MakeSieveEfficient
+% NOTE: i do not go to sqrt(#1) so i have the print directly
+\SieveFromTo{#1}{2}{#1}\endgroup%
+}
+\makeatletter
+% Fake for 8 to get blue hl
+\SetNlSty{textbf}{\ifnum\theAlgoLine=8\color{paletteA}\fi}{}
+\begin{frame}[c]{Präsenzaufgabe - Effizientere Lösung}
+    \setcounter{algocf}{1}%
+\pause\columns[onlytextwidth]%
+\column{.6\linewidth}
+\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Maximale Zahl \(N\)}
+    \StartCode
+    \pause\(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
+    \pause\lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
+    \pause\For{\(i = 2\) \KwTo \paletteB{\(\mathbf{\sqrt{N}}\)} \KwStep 1}{
+        \pause\lIf{\(\mathrm{marker}_i\)}{\KwContinue}
+        \pause Gebe aus: \say{Prim: \(i\)}\;
+        \pause\lFor{\(j = i \cdot {\color{paletteB}\mathbf{i}}\) \KwTo \(N\) \KwStep i}{\(\mathrm{marker}_j = \mathrm{true}\)}
+    }
+    \pause\paletteB{\For{\(i = \sqrt{N} + 1\) \KwTo{N} \KwStep 1}{\lIf{\KwNot \(\mathrm{marker}_i\)}{Gebe aus: \say{Prim: \(i\)}}}}
+    \pause\caption{Optimiertes Sieben}
+\end{algorithm}
+\column{.4\linewidth}
+\resizebox{\linewidth}!{%
+    \,\only<1-|handout:0>{\SieveAnimEff{90}{10}}%
+    \only<0|handout:1>{\MakeSieveEfficient\SieveLastTo{90}{7}}\,%
+}
+\endcolumns
+\end{frame}
+\endgroup
+
+\section{Übungsblatt 2}
+\subsection{Aufgabe 1}
+% We have to break the algorithm
+\begin{frame}[t]{Übungsblatt 2 - Aufgabe 1}
+\begin{itemize}[<+(1)->]
+    \itemsep6pt
+    \item Wenn es heißt \say{dreistellige Dezimalzahl}, ist das \textit{mit} führenden Nullen oder \textit{ohne}?
+    \item Wir nehmen zuerst an, dass führende Nullen \textit{erlaubt} sind.
+    \item Da Prozeduren als solche noch aus fernen Landen stammen, schreiben wir alles als ein Programm.
+\end{itemize}
+\end{frame}
+
+\subsubsection{Variation: Mit führenden Nullen}
+\def\vprint#1{\savebox0{#1}\(\raisebox{-\dp0-2pt}{$\llcorner$}\kern-2pt#1\kern-2pt\raisebox{.33\ht0}{$\urcorner$}\)}
+\begin{frame}[c]{Übungsblatt 2 - Aufgabe 1\hfill Führende Nullen}
+\setcounter{algocf}{2}%
+\SetAlgoVlined
+\small\begin{algorithm}[H]
+    \PreCode
+    \StartCode
+    \pause Wähle zufällig \(z_1, z_2, z_3 \in \{0, \ldots, 9\}\)\;
+    \pause \For{\(round = 1\) \KwTo 3 \KwStep 1}{%
+        \pause\(guesses\_left = 3\)\;
+        \pause\While{true}{
+            \pause Erbitte um Eingabe für Stelle \vprint{round}, bei \vprint{guesses\_left} Versuchen\;
+            \pause \(e ={}\) Eingabe von Nutzer mit \(e \in \{0, \ldots, 9\}\)\;
+            \pause\lIf{\(e = z_{round}\)}{verlasse \emph{while}-Schleife}
+            \pause\Else{%
+            \pause\(guesses\_left = guesses\_left - 1\)\;
+            \pause\If{\(guesses\_left \leq 0\)}{
+                \pause Vermerke scheitern\;
+                    \KwRet\;
+                }
+            }
+        }
+    }
+    \pause Verkünde Gewinn\;
+    \pause\caption{Rate mit führenden Nullen}
+\end{algorithm}
+\end{frame}
+
+\begin{frame}[t]{Übungsblatt 2 - Aufgabe 1\hfill Ohne führende Nullen}
+\begin{itemize}[<+(1)->]
+    \itemsep9pt
+    \item Wir wählen nun zufällig \(z \in \{100, \ldots, 999\}\).
+    \item Doch wie erhalten wir \(z_1\), \(z_2\) und \(z_3\)?
+    \item Wir können beispielsweise Modulon\texttrademark:
+\begin{equation*}
+    \onslide<5->{z_1 = \floor{\sfrac{z}{100}} \bmod 10}\quad \onslide<6->{z_2 = \floor{\sfrac{z}{10}} \bmod 10}\quad \onslide<7->{z_3 = z \bmod 10}\vspace*{-\topsep-\bigskipamount}
+\end{equation*}
+    \item<8-> Der Rest bleibt unverändert.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Übungsblatt 2 - Aufgabe 1, ein paar Bitten}
+    \begin{itemize}[<+(1)->]
+        \itemsep9pt
+        \item Geht mittels verschiedener Simulationen durch den Pseudocode
+        \item Ihr \emph{wollt} beim Überprüfen des Pseudocodes, dass etwas nicht stimmt. \pause\info{Es ist besser einen Fehler früh zu finden als sich irgendwann im Betrieb zu Fragen warum die (Mars-)Rakete auf die Sonne zu steuert.}
+        % \item Zum Beispiel: Der eine aus dem Team schreibt, der andere liest Korrektur.
+        \item Pseudocode ist nicht nur was, was in den Augen des Tutors bestehen muss!
+        \item Nutzt Schleifen und vermeidet Redundanzen wo möglich.\pause{} Bei einer Änderung sollte und darf \say{Alles Ersetzen} \emph{niemals} das Mittel der Wahl sein.
+        \item Hardcoding löst das Problem nicht. \pause{} So wird für die Aufgabenstellung:\pause{} \say{Geben sie von den ganzen Zahlen aus Eins bis Zehn die aus, die gerade sind}\pause{} \emph{nicht} durch \bjava{System.out.println("2,4,8,10")} gelöst!\pause{} \info{Der Compiler kann \emph{loop-unrolling} betreiben,\pause{} der Code würde dann entsprechend optimiert werden.\pause{} Dies löst die Aufgabe allerdings nicht richtig!}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}[c]{Übungsblatt 2 - Aufgabe 2}
+    \pause\centering\begin{tikzpicture}[scale=2.25,every node/.style={transform shape}]
+        \duck[grumpy,lightsaber=red,cape=black!70!white,
+        body=black!85!white]
+        \node[gray!50!white,rounded corners=1,scale=.7] at (0.59,1.76) {\rotatebox{-28}{\faMinus}};
+        \node[gray!50!white,rounded corners=1,scale=.73] at (0.86,1.70) {\rotatebox{-1}{\faMinus}};
+    \end{tikzpicture}%
+    \begin{tikzpicture}[overlay,remember picture]
+        \node[above left=.35cm,yshift=.25cm,scale=.65] at (current page.south east) {Die Ente ist knuffig, die bleibt \Laughey{}};
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[t]{Übungsblatt 2 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \itemsep6pt
+        \item \textit{Name einer Person}\\*
+            \pause{}\bjava{String} der Name einer Person bedient sich der Welt der Buchstaben.
+        \item \textit{Akkustand eines Smartphone}\\*
+            \pause{}Kleinstmöglich ist \bjava{byte}, das genügt für die übliche Prozentdarstellung ohne Nachkommastelle.\pause{} \bjava{float} basierte Darstellungen mögen auch noch in Ordnung sein. \bjava{double} ist aber definitiv overkill.
+        \item \textit{Preis eines Produktes}\\*
+            \pause{}Wenn wir damit nicht rechnen müssen: \bjava{float} oder \bjava{double}.
+        \item \textit{Ergebnis unbenoteter Prüfung}\\*
+            \pause{}Da wir so nur bestanden und nicht bestanden haben, genügt ein \bjava{boolean}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Übungsblatt 2 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \itemsep6pt
+        \item \textit{Raumtemperatur}\\*
+            \pause{}In der Hoffnung, dass wir von Temperaturen sprechen in denen Menschen noch überleben können, sollte ein \bjava{float} absolut ausreichen.
+        \item \textit{Satzzeichen}\\*
+            \pause{}Alle gängigen (und sogar ungängigen \Laughey) Satzzeichen sind als ASCII bzw. Unicode kodiert: ein \bjava{char} reicht in Java aus.
+    \end{itemize}
+\end{frame}
+
+% \pause Beachte Rundungsproblematik vom letzten Foliensatz.\pause{} Lieber Tupel aus \bjava{int, int, int} oder \bjava{long, byte, byte}\ldots\pause{} \info{Die Zeit in Sekunden zu Speichern ist natürlich ebenso valide.}
+
+\begin{frame}[t]{Übungsblatt 2 - Aufgabe 2, zusätzliche Freuden}
+    \begin{itemize}[<+(1)->]
+        \item \textit{Identifikationsnummer eines Nutzers}\\*
+        \pause{}Möglich: \bjava{short} (wenn weniger Nutzer), aber auch \bjava{int} oder \bjava{long}. \pause{}\bjava{String} ist nicht zu empfehlen, da es das Generieren eindeutiger IDs erschwert sowie im Vergleich aufwändiger ist.\smallskip
+        \pause{}\infoblock{Exkurs: Warum? Wenn wir ein String-Objekt erstellen, zum Beispiel durch: \bjava{String duck = "Quack"}, speichert Java in \bjava{duck} nicht die Zeichenkette selbst, sondern nur, wo sie sich im (Arbeits-)Speicher befindet, also die Speicheradresse. So kann Java alle Variablen an einem Ort Verwalten (dem sogenannten Stack), auch wenn sie eine Variable Größe haben, da dort dann nur ein Verweis auf das eigentliche Datenfeld (im sogenannten Heap) abgelegt wird. Wenn wir zwei Zeichenketten in Java mittels \T{==} vergleichen, wird deswegen auch \emph{nie} die eigentliche Zeichenkette sondern nur die Adresse an der sie liegt verglichen. Zwei Strings müssen explizit über \bjava{duck.equals(b)} (wobei hier \T{b} ein anderer String ist) verglichen werden.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Übungsblatt 2 - Aufgabe 2, zusätzliche Freuden}
+\begin{itemize}[<+(1)->]
+    \item \textit{Kontostand}\\*
+    \pause Hier kann man leicht sagen \bjava{int}, nur in z.B. Euro-Cent.\pause{}
+    Aber für die Börse oder Berechnungen empfehlen sich mehr Nachkommastellen.\pause{} \bjava{double} oder \bjava{float} sind aber ganz ganz dumme Ideen!\pause
+
+    Besser wäre zum Beispiel ein Tupel aus (\bjava{int}, \bjava{int}).
+\end{itemize}
+\end{frame}
+
+
+\rExecute{javac Test.java}%
+\begin{frame}[t]{Übungsblatt 2 - Rundungsproblematik}
+    \begin{itemize}
+        \item<2-> Java-Code:\parallelcontent[c]{
+        \onslide<3->{\lstfs{7}\ijava[firstline=3,lastline=11,frame=none,backgroundcolor=,numbers=none,xleftmargin=19pt,xrightmargin=0pt]{Test.java}}}{\onslide<4->{Ausgabe für \rbash[:\lstfs{8}]{java Test}}
+}
+        \item<5-> Ein Fehler von $\sim 1.3$ erscheint wenig, \onslide<6->{Pentium 4 (Jahr 2000) mit $3.2$ GHz: Im Schnitt $3.1$ GFLOPS. \onslide<7->{\info{Giga Floating Point Operations Per Second.}}}
+        \item<8-> Der Fehler beträgt also ungefähr $4$\texteuro{} pro Sekunde (im schlechtesten Fall)
+        \item<9-> Zum Vergleich: GTX 1080 Ti schafft $\sim$ $11.5$ TFLOPS ($\,\widehat{=}\, 11\,500$ GFLOPS) \onslide<10->{das entspricht einem Fehler von ungefähr $15\,000$\texteuro{} die Sekunde. \onslide<11->{\info{Mittlerweile sind wir jenseits der $30$ TFLOPS!}}}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t]{Übungsblatt 2 - Aufgabe 2, zusätzliche Freuden}
+    \begin{itemize}[<+(1)->]
+        \itemsep11pt
+        \item Weiterer \emph{wichtiger} Hinweis: \pause{}Vor allem in Java ist es meistens nicht nötig eine Variable explizit als \bjava{byte} zu Deklarieren um Speicherplatz zu sparen.\pause\smallskip\infoblock{Die meisten Rechner sind \(32\) oder \(64\) Bit Rechner, weswegen Java die Variablen in der Regel in einem \say{großen} Feld ablegt. Mehrere \bjava{byte} in ein $64$-Bit \say{Wort} zu packen würde nämlich die Geschwindigkeit beeinflussen (einmal Aufwand für den Zugriff auf das Wort sowie um im Wort den Start zu finden). Das heißt nicht, dass immer \bjava{long} verwendet werden muss/soll/darf. Allerdings ist es (da es nicht wie in C/C++: \bcpp{register} oder \solGet{keywordA}{int\_fast16\_t}) eher eine künstliche/semantische Schranke.}
+        \item Warum sollte man das trotzdem unbedingt machen?\pause{} Da gibt es eeetliche Gründe:\smallskip \begin{enumerate}
+            \itemsep3pt
+            \item So kann der Compiler/Interpreter entscheiden was besser ist.
+            \item Es liefert Programmieren mehr Informationen über die Verwendung einer Variable.
+            \item Den passenden Datentyp zu finden, fördert das Verständnis für die Domäne.
+            \item Es kann vor Fehlern schützen\pause{} \info{z.B.: wenn man dem Blauwert einer RGB-Farbe \num{35000} zuordnen will}.
+            \item Und viele viele Mehr!
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 3}
+\begin{frame}[c,fragile]{Übungsblatt 2 - Aufgabe 3 a)}
+    \begin{columns}[c,onlytextwidth]\begin{column}{0.59\linewidth}
+    \begin{description}[xIII]
+        \itemsep=11pt
+        \item<2->[I] \bjava{(22 >= 21) && (42 > 21)}~\(\implies\) \bjava{true && true}~\(\implies\) \bjava{true}.
+        \item<3->[II] \bjava{c ^ d}~\(\implies\) \bjava{true ^ false}~\(\implies\) \bjava{true}.
+        \item<4->[III] \bjava{((42 - 21) == 21) && !true}~\(\implies\) \bjava{true && false}~\(\implies\) \bjava{false}.
+        \item<4->[IV] \bjava{(42 == 2 * 21) && (!true || !false)} \(\implies\)~\bjava{true && true}~\(\implies\) \bjava{true}
+\end{description}
+\end{column}
+\begin{column}{0.385\linewidth}
+\lstfs{7}%
+\begin{plainjava}
+int a = 42;
+int b = 21;
+boolean c = true;
+boolean d = false;
+
+if((22 >= b) && (a > b)) { // I
+  if((c || d) && !(c && d)) { // II
+    if(((a - b) == 21) && !c) { // III
+      if((a == 2*b) && (!c || !d)) { // IV
+        System.out.println("A");
+      }
+    } else {
+      System.out.println("B");
+    }
+  } else {
+    System.out.println("C");
+  }
+} else {
+  System.out.println("D");
+}
+\end{plainjava}
+\end{column}\end{columns}
+\end{frame}
+
+\rExecute{javac WeirdBoolean.java}%
+\begin{frame}[t]{Übungsblatt 2 - Aufgabe 3 b)}
+\begin{itemize}[<+(1)->]
+    \itemsep10pt
+    \item Werfen wir einen Blick auf die Ausgabe \rbash[:\pause\lstfs{8}]{java WeirdBoolean}
+    \item Warum? Nun, mit \bjava{true}, \bjava{true}, \bjava{false}, \bjava{true} verlassen wir bereits bei der dritten Unterscheidung das Konstrukt mit \bjava{B}.
+\end{itemize}
+\end{frame}
+
+\section{Bonus}
+\begin{frame}[t,fragile]{Ein Bonus am Rande: Von Präzedenzregeln}
+    \begin{itemize}[<+(1)->]
+        \item Wir erinnern uns an die Präzedenzregeln von Java (stark nach schwach, eine Auswahl): \info{\url{https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html}}
+        {\scriptsize\begin{alignat*}{4}
+            \onslide<3->{\Big[a\text{++},a\text{-\!\! -}\Big]}&\onslide<4->{\to~\Big[!a, -a, \text{++}a,\text{-\!\! -}a\Big]}&&\onslide<5->{\pause\to~\Big[*,/,\%\Big]} &&\onslide<6->{\to~\Big[a+b,a-b\Big]}&&\\
+            &\onslide<7->{\to~\Big[==,>=,<,\ldots\Big]} &&\onslide<8->{\to~\Big[\textasciicircum\Big]}&&\onslide<9->{\to~\Big[\&\&\Big]}&&\onslide<10->{\to~\Big[||\Big]}
+            \onslide<1->
+        \end{alignat*}}
+        \item<11-> Lets have an example:
+        \pause\pause\pause\pause\pause\pause\pause{}{\begin{plainjava}[columns=fixed]
+!*\pause*!(A && !A) || !(5 != 6 ^ (1 > 42) == 23 < 23)
+!*\pause*!  false   || !( !*\pause*!true  ^  !*\pause*!false   ==  !*\pause*!false )
+!*\pause*!  false   || !( !*\pause*!true  ^         !*\pause*!true  )
+!*\pause*!  false   ||      !*\pause*!!(false)
+!*\pause*!  false   ||        !*\pause*!true
+         !*\pause*!true
+        \end{plainjava}}
+    \end{itemize}
+\end{frame}
+
+\section{End Pinguuu}
+\begin{frame}[c]
+    \null\vfill
+    \centering\onslide<2->{\begin{tikzpicture}[scale=1.75]
+        \pingu[name = herbertine, heart=purple!15!pingu@white, eyes wink, left wing hug, right wing wave]
+        \node[above, inner sep=1.5pt,scale=4, pingu@red!70!white] at(herbertine-wing-right-tip) {\faHeart};
+    \end{tikzpicture}\hspace*{-0.4cm}\begin{tikzpicture}[scale=1.75]
+        \pingu[name = herbert, heart=teal!15!pingu@white, right wing hug, eyes shock]
+    \end{tikzpicture}}
+\end{frame}
+\end{document}
