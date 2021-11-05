@@ -19,8 +19,8 @@ retrieve_pdfs: $(TUTS)
 	cp *-Tutorium/folien_*.pdf $(TARGET_DIR)/animated/
 	cp *-Tutorium/noanim_folien_*.pdf $(TARGET_DIR)/
 	# rename them so they are easier to read ($$ escapes for makefile '\' for bash)
-	rename -f "s/folien_([^.]*)\.pdf/eidi_tut_\$$1.pdf/" $(TARGET_DIR)/animated/folien_*.pdf
-	rename -f "s/noanim_folien_([^.]*)\.pdf/eidi_tut_\$$1.pdf/" $(TARGET_DIR)/noanim_folien_*.pdf
+	rename "s/folien_([^.]*)\.pdf/eidi_tut_\$$1.pdf/" $(TARGET_DIR)/animated/folien_*.pdf
+	rename "s/noanim_folien_([^.]*)\.pdf/eidi_tut_\$$1.pdf/" $(TARGET_DIR)/noanim_folien_*.pdf
 	# Now we have to invoke the splitting for the pdfs using pdftk as cpdf is commercial
 	# see: https://github.com/EagleoutIce/pdfsplitter
 	# pdfsplitter -t 4 -c 89 -f -o "$(TARGET_DIR)/animated/{basename}_parts" $(TARGET_DIR)/animated/eidi_tut_*.pdf
