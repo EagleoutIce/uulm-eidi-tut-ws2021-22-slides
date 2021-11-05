@@ -63,54 +63,6 @@
 \institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
 \lstset{add to literate={Member}{{{\solGet{keywordC}{Member}}}}6}
-\usepackage{tikzpingus-old}
-\newsavebox\oldpingus
-\savebox\oldpingus{%
-\begin{tikzpicture}[every node/.style={font=\sffamily}]
-    \newcounter{dotblobcounter}% hihi
-    % Color: #1, whereX #2 whereY #3 | #4 additional features
-    \def\DotBlob#1#2#3#4{\stepcounter{dotblobcounter}\node[circle, minimum width=0.75cm] (db\thedotblobcounter) at(2+1.25*#2,-1.25*#3+0.5/2) {};% auto calc offset, for spacing
-        % \fill[white] (db\thedotblobcounter) circle(0.3);% opacity compensation
-        \begin{scope}[scale=0.25]
-            \pgfmathsetmacro\px{4*(2+1.25*#2)-0.95}
-            \pgfmathsetmacro\py{4*(-1.25*#3+0.5/2)-0.75}
-            \begin{scope}[xshift=\px cm-2.25cm,yshift=\py cm+4.5cm]
-                \edef\pingutmp{\noexpand\pingu[body=#1,heart=#1!20,#4]}\pingutmp
-            \end{scope}
-        \end{scope}
-    }
-    \foreach[count=\y] \lab/\col in {Master/paletteA,Release/paletteB,Develop/paletteC,Peep 1/paletteD,Peep 42/paletteD} {
-        \draw[thin,dotted,black!50!white] (2,-1.25*\y+0.5/2) -- ++(1.25*9.5,0); % nicer for borderoverly if before
-        \draw[\col,fill=\col,rounded corners,thick] (0,-1.25*\y) rectangle ++(2,0.5) node[midway,centered,color=black,font=\fillfont,writ] {\footnotesize\lab};
-    }
-    % Draw the dotblobbs:
-    \foreach[count=\bloby] \blobcol/\blobs in {%
-        paletteA/{1/{},3/{right eye wink,strawhat=paletteA!90!black, strawhat ribbon=paletteA},8/{sunglasses=paletteA!90!black,right eye wink,shirt=paletteA!90!black,wings wave,strawhat=paletteA!90!black, strawhat ribbon=paletteA}},% master
-        paletteB/{7/{sunglasses=paletteB!90!black,shirt=paletteB!90!black,wings wave},8/{sunglasses=paletteB!90!black,shirt=paletteB!90!black,wings wave}},% release
-        paletteC/{2/{sunglasses=paletteC!90!black},3/{sunglasses=paletteC!90!black},4/{sunglasses=paletteC!90!black},6/{sunglasses=paletteC!90!black,shirt=paletteC!90!black},9/{sunglasses=paletteC!90!black,shirt=paletteC!90!black,wings wave}},% develop
-        paletteD/{4/{shirt=paletteD!90!black,sunglasses=paletteD!90!black},5/{shirt=paletteD!90!black,sunglasses=paletteD!90!black}},%feature 1
-        paletteD/{2/{santa=paletteD!90!black,sunglasses=paletteD!90!black},3/{santa=paletteD!90!black,sunglasses=paletteD!90!black},4/{santa=paletteD!90!black,sunglasses=paletteD!90!black},5/{santa=paletteD!90!black,sunglasses=paletteD!90!black}}%feature 2
-    }{
-        \foreach \blobx/\feature in \blobs {
-            \DotBlob{\blobcol}{\blobx}{\bloby}{\feature}
-        }
-    }
-    % draw the paths :D
-    \foreach \dbpath in {{1,2,3},{1,6,7,8,9,10},{9,4,5,10},{5,3},{6,13,14,15,16},{7,11,12,9}}{%
-        \foreach [count=\i,remember=\db as \ldb (initially 0)] \db in \dbpath {%
-            \ifnum\i>1\relax
-                \draw[-Kite] (db\ldb) -- (db\db);
-            \fi
-        }
-    }
-    % lets make the tags:
-    \foreach[count=\i] \x/\lab in {1/{0.1},3/{0.2},8/{1.0}}{
-        \draw[paletteA,fill=shadeA,rounded corners] (1.25*\x+2 - 0.75/2,0) rectangle ++(0.75,0.35) node[midway,centered] {\tiny v\lab};
-        \draw[-Kite] (1.25*\x+2,-0.125) -- (db\i);
-
-    }
-\end{tikzpicture}}
-\let\pingu\relax
 \usepackage[glows]{tikzpingus}
 \pingudefaults{lightsaber left outer glow factor=.05,lightsaber right outer glow factor=.05}
 \usetikzlibrary{decorations.text}
@@ -567,7 +519,8 @@ class X {
 \section{Der End-Pinguuuu}
 \begin{frame}[fragile]
    \pause\begin{center}
-    \usebox\oldpingus
+    % TOOD:
+    % \usebox\oldpingus
    \end{center}
 \end{frame}
 \end{document}

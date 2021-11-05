@@ -63,7 +63,7 @@
 \author{Florian Sihler}
 \institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
-\usepackage{tikzpingus-old}
+\usepackage{tikzpingus}
 \usetikzlibrary{decorations.text}
 
 \hypersetup{colorlinks=false}
@@ -320,7 +320,7 @@ public class IntSieve extends IntFilterQueue {
 \begin{frame}[c]
     \begin{center}
         \scalebox{3}{\begin{tikzpicture}
-        \pingu[left wing wave,right eye=!hide, name=monoci,sign post={\raisebox{14pt}{\scalebox{0.8}{\parbox{1.2cm}{\centering\small Good\\\color{white}Job!\\[-0.65cm]}}}},after code={\fill (monoci-right-eye) circle [radius=0.082cm];\draw[line width=0.245pt,fill=pingu@blue,fill opacity=0.035] (monoci-right-eye) circle [radius=0.15cm];\draw[very thin] ($(monoci-right-eye)+(0.15,0)$) to[bend left,looseness=0.2] ++(-0.01,-0.375) coordinate (dt); \fill (dt) circle (0.65pt);\node[left] at(monoci-left-wing) {~~~~~};}]
+        \pingu[left wing wave,right eye=none, name=monoci,sign post left={\raisebox{14pt}{\scalebox{0.8}{\parbox{1.2cm}{\centering\small Good\\\color{white}Job!\\[-0.65cm]}}}}]\fill (monoci-eye-right) circle [radius=0.082cm];\draw[line width=0.245pt,fill=pingu@blue,fill opacity=0.035] (monoci-eye-right) circle [radius=0.15cm];\draw[very thin] ($(monoci-eye-right)+(0.15,0)$) to[bend left,looseness=0.2] ++(-0.01,-0.375) coordinate (dt); \fill (dt) circle (0.65pt);\node[left] at(monoci-wing-left) {~~~~~};
         \end{tikzpicture}}
     \end{center}
 \end{frame}

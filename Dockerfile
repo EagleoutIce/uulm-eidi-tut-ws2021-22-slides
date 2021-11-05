@@ -15,4 +15,4 @@ USER lithie-user
 RUN pip3 install --no-cache --upgrade pip
 WORKDIR /root/data
 
-CMD [ "make", "-B" ]
+ENTRYPOINT [ "make" ]

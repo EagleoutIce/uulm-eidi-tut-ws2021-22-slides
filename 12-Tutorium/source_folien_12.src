@@ -74,7 +74,7 @@
 \author{Florian Sihler}
 \institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
-\usepackage{tikzpingus-old}
+\usepackage{tikzpingus}
 \usetikzlibrary{decorations.text}
 
 \hypersetup{colorlinks=false}
@@ -347,14 +347,14 @@ PrimeSieve sieve = new PrimeSieve(m);^^J
 
 \begin{frame}[c]
 \pause{}\begin{center}
-\resizebox{.95\linewidth}!{%
-    \tikz{\pingu[left wing grab, sunglasses*, cup straw = !hide, cup* = teal, cup shift=0, cup cover = brown!87!black, cup drops = !hide,name=lenni]}
-    \quad
-    \tikz{\pingu[left wing wave, right eye=!hide, name=steini,sign post={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.25cm}{\centering\small I \textcolor{purple}{\faHeart}\\\color{cwhite}M4g1c\\[-.65cm]}}}}]; \fill (steini-right-eye) circle [radius=0.082cm];\draw[line width=0.245pt,fill=pingu@blue,fill opacity=0.035] (steini-right-eye) circle [radius=0.15cm];\draw[very thin] ($(steini-right-eye)+(0.15,0)$) to[bend left,looseness=0.2] ++(-0.01,-0.375) coordinate (dt); \fill (dt) circle (0.65pt);}
-    \quad
-    \tikz{\pingu[left eye wink, right eye wink,santa,heart=pingu@red!24!white,name=tolgo,eyes wink];}
-    \quad
-    \tikz{\pingu[left patch,halo,right hair=teal,torch,name=flo]}}
+    % \resizebox{.95\linewidth}!{%
+    % \tikz{\pingu[left wing grab, sunglasses, cup straw = !hide, cup* = teal, cup shift=0, cup cover = brown!87!black, cup drops = !hide,name=lenni]}
+    % \quad
+    % \tikz{\pingu[left wing wave, right eye=!hide, name=steini,sign post={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.25cm}{\centering\small I \textcolor{purple}{\faHeart}\\\color{cwhite}M4g1c\\[-.65cm]}}}}]; \fill (steini-right-eye) circle [radius=0.082cm];\draw[line width=0.245pt,fill=pingu@blue,fill opacity=0.035] (steini-right-eye) circle [radius=0.15cm];\draw[very thin] ($(steini-right-eye)+(0.15,0)$) to[bend left,looseness=0.2] ++(-0.01,-0.375) coordinate (dt); \fill (dt) circle (0.65pt);}
+    % \quad
+    % \tikz{\pingu[left eye wink, right eye wink,santa,heart=pingu@red!24!white,name=tolgo,eyes wink];}
+    % \quad
+    % \tikz{\pingu[left patch,halo,right hair=teal,torch,name=flo]}}
 \end{center}
 \end{frame}
 

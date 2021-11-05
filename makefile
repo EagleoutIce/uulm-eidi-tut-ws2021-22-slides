@@ -39,6 +39,9 @@ clean: $(TUTS_CLEAN)
 
 .PHONY: all clean retrieve_pdfs $(TUTS) $(TUTS_CLEAN)
 
+docker:
+	docker build -t 'eidi-ws2021-tut-make' -f 'Dockerfile' .
+
 ifeq ($(VERBOSE),0)
 MAKEFLAGS += --silent
 # Better than defining '.SILENT'

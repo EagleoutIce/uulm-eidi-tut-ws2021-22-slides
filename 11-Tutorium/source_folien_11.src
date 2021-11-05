@@ -66,7 +66,7 @@
 \author{Florian Sihler}
 \institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
-\usepackage{tikzpingus-old}
+\usepackage{tikzpingus}
 \usetikzlibrary{decorations.text}
 
 \hypersetup{colorlinks=false}
@@ -505,7 +505,7 @@
 \begin{frame}[c]
 \pause\begin{center}
     \begin{tikzpicture}[scale=2.5]
-        \pingu[left wing wave, eyes wink, left hair=pingu@green,left torch,name=saphira,sign post=\scalebox{1.35}{Li(s)t!}]
+        \pingu[left wing wave, eyes wink, hair 1=pingu@green,name=saphira,sign post left=\scalebox{1.35}{Li(s)t!}]% torch :C
     \end{tikzpicture}
     \end{center}
 \end{frame}

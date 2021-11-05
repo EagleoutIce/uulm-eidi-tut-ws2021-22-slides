@@ -59,7 +59,7 @@
 \author{Florian Sihler}
 \institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
-\usepackage[glows]{tikzpingus-old}
+\usepackage[glows]{tikzpingus}
 \usetikzlibrary{decorations.text}
 \hypersetup{colorlinks=false}
 
@@ -463,17 +463,17 @@ public void returnFrom(Member member) {
 \end{tikzpicture}}
 \newsavebox{\alice}\savebox{\alice}{%
     \begin{tikzpicture}
-        \pingu[santa,heart=!hide,name=alice,after code={},left wing grab,cup,cup straw=!hide,cup drops=!hide,cup=paletteA,cup cover=coffe,in code={\fill[top color=coffe,bottom color=coffe!60!black] \pingupathExtraCupCover;\draw[paletteA] \pingupathExtraCupCoverOut;},after code={\node[scale=0.115,xshift=-10pt,yscale=0.9] at(alice-bill) {\usebox{\smoke}};}]
+        % \pingu[santa,heart=!hide,name=alice,after code={},left wing grab,cup,cup straw=!hide,cup drops=!hide,cup=paletteA,cup cover=coffe,in code={\fill[top color=coffe,bottom color=coffe!60!black] \pingupathExtraCupCover;\draw[paletteA] \pingupathExtraCupCoverOut;},after code={\node[scale=0.115,xshift=-10pt,yscale=0.9] at(alice-bill) {\usebox{\smoke}};}]
     \end{tikzpicture}
 }%
 \newsavebox{\bob}\savebox{\bob}{%
     \begin{tikzpicture}
-        \pingu[santa=pingu@santa@red!94!black,name=bob,after code={},left eye wink,sign post={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.2cm}{\centering\small I \textcolor{pingu@red!90!black}{\faHeart}\\[-0.1cm]\color{white}\LaTeX\\[-0.65cm]}}}}]
+        % \pingu[santa=pingu@santa@red!94!black,name=bob,after code={},left eye wink,sign post={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.2cm}{\centering\small I \textcolor{pingu@red!90!black}{\faHeart}\\[-0.1cm]\color{white}\LaTeX\\[-0.65cm]}}}}]
     \end{tikzpicture}
 }%
 \newsavebox{\eve}\savebox{\eve}{%
     \begin{tikzpicture}
-        \pingu[santa=pingu@black!80!purple,heart=!hide,name=eve,left wing hug,after code={\node[pingu@black!80!purple] at (eve-heart) {\faWindows}; \begin{pgfinterruptboundingbox}\node[scale=0.25,rotate=13,yshift=1.4em,xshift=0.1em] at (eve-left-wing-tip) {\usebox{\calc}};\end{pgfinterruptboundingbox}},sunglasses*]
+        % \pingu[santa=pingu@black!80!purple,heart=!hide,name=eve,left wing hug,after code={\node[pingu@black!80!purple] at (eve-heart) {\faWindows}; \begin{pgfinterruptboundingbox}\node[scale=0.25,rotate=13,yshift=1.4em,xshift=0.1em] at (eve-left-wing-tip) {\usebox{\calc}};\end{pgfinterruptboundingbox}},sunglasses*]
     \end{tikzpicture}
 }%
 \section{Der End-Pinguuuu}

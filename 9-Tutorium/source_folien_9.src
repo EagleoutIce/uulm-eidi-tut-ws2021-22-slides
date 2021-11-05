@@ -59,7 +59,7 @@
 \author{Florian Sihler}
 \institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
-\usepackage{tikzpingus-old}
+\usepackage{tikzpingus}
 \usetikzlibrary{decorations.text}
 \lstset{lineskip=2.25pt}
 
@@ -577,70 +577,70 @@ class List {
         \begin{tikzpicture}
             \onslide<+(1)->{
             \begin{scope}[scale=1.125,xshift=0cm]
-                \pingu[sign post={\large 2},left wing hug,heart=Crimson!0!Azure]
+                \pingu[sign post left={\large 2},left wing hug,heart=Crimson!0!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=1.25,xshift=1cm]
-                \pingu[sign post={\large 1},left wing hug,heart=Crimson!6!Azure]
+                \pingu[sign post left={\large 1},left wing hug,heart=Crimson!6!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=1.5,xshift=1.45cm]
-                \pingu[sign post={\large 3},left wing hug,heart=Crimson!12!Azure]
+                \pingu[sign post left={\large 3},left wing hug,heart=Crimson!12!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=2,xshift=1.25cm]
-                \pingu[sign post={\Large 4},left wing hug,heart=Crimson!18!Azure]
+                \pingu[sign post left={\Large 4},left wing hug,heart=Crimson!18!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=2.5,xshift=1.125cm]
-                \pingu[sign post={\LARGE 7},left wing hug,heart=Crimson!24!Azure]
+                \pingu[sign post left={\LARGE 7},left wing hug,heart=Crimson!24!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=3.125,xshift=1.25cm]
-                \pingu[sign post={\huge 11},left wing hug,heart=Crimson!30!Azure]
+                \pingu[sign post left={\huge 11},left wing hug,heart=Crimson!30!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=3.75,xshift=1.5cm]
-                \pingu[sign post={\Huge 18},left wing hug,heart=Crimson!36!Azure]
+                \pingu[sign post left={\Huge 18},left wing hug,heart=Crimson!36!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=4.65,xshift=1.5cm]
-                \pingu[sign post={\scalebox{3.5}{29}},left wing hug,
+                \pingu[sign post left={\scalebox{3.5}{29}},left wing hug,
                 heart=Crimson!42!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=5.65,xshift=1.5cm]
-                \pingu[sign post={\scalebox{4.5}{47}},left wing hug,
+                \pingu[sign post left={\scalebox{4.5}{47}},left wing hug,
                 heart=Crimson!48!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=7,xshift=1.5cm]
-                \pingu[sign post={\scalebox{5.5}{76}},left wing hug,
+                \pingu[sign post left={\scalebox{5.5}{76}},left wing hug,
                 heart=Crimson!54!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=8.5,xshift=1.5cm]
-                \pingu[sign post={\scalebox{7}{123}},left wing hug,
+                \pingu[sign post left={\scalebox{7}{123}},left wing hug,
                 heart=Crimson!60!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=10.125,xshift=1.5cm]
-                \pingu[sign post={\scalebox{8}{199}},left wing hug,
+                \pingu[sign post left={\scalebox{8}{199}},left wing hug,
                 heart=Crimson!66!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=12.125,xshift=1.5cm]
-                \pingu[sign post={\scalebox{9}{322}},left wing hug,
+                \pingu[sign post left={\scalebox{9}{322}},left wing hug,
                 heart=Crimson!72!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=14.5,xshift=1.5cm]
-                \pingu[sign post={\scalebox{10}{521}},left wing hug,
+                \pingu[sign post left={\scalebox{10}{521}},left wing hug,
                 heart=Crimson!78!Azure]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=17.5,xshift=1.35cm]
-                \pingu[sign post={\scalebox{12.45}{843}},left wing hug,
+                \pingu[sign post left={\scalebox{12.45}{843}},left wing hug,
                 heart=Crimson!84!Azure]
             \end{scope}}
         \end{tikzpicture}

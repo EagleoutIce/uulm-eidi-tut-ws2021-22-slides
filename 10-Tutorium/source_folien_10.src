@@ -67,7 +67,7 @@
 \author{Florian Sihler}
 \institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
-\usepackage[glows]{tikzpingus-old}
+\usepackage[glows]{tikzpingus}
 \usetikzlibrary{decorations.text}
 
 \hypersetup{colorlinks=false}
@@ -384,49 +384,7 @@
 }
 
 \newsavebox\mommapengu
-\savebox\mommapengu{%
-\begin{tikzpicture}
-    \pingu[name=beate2,scale=1.8,wings wave,eyes=!hide,halo=devilcolor,halo fade,hair=devilcolor,devil]
-    \begin{pgfinterruptboundingbox}
-        \node[below=1.75cm,white] at(beate2-heart) {\foekfamily\MakeUppercase{Keine Liebe ohne Zusatzaufgaben}};
-        \DrawEye{beate2}{left}\DrawEye{beate2}{right}
-        \begin{pgfonlayer}{background}
-        \coordinate (low-heart) at ($(beate2-heart)+(0,-0.65)$);
-        \begin{scope}[canvas is zx plane at y=0]
-            \foreach[count=\i] \a in {0,72,...,359} {
-                \path (low-heart)++(\a-25:1.7cm) coordinate (pent-\i);
-            }
-            \draw[devilcolor,ultra thick,opacity=0.2] (pent-1) -- (pent-3) -- (pent-5) -- (pent-2) -- (pent-4) -- (pent-1);
-            \draw[devilcolor,ultra thick,opacity=0.2] (low-heart) circle[radius=1.85cm];
-            \draw[devilcolor,thick] (pent-1) -- (pent-3) -- (pent-5) -- (pent-2) -- (pent-4) -- (pent-1);
-            \draw[devilcolor,thick] (low-heart) circle[radius=1.85cm];
-            \draw[devilcolor,decoration={text along path,text={|\rotnfamily\tiny|THIS IS SO GOOD, WE HAVE SOOO MUCH FUN, DON'T WE? LOVE XOXO},text color={devilcolor},reverse path=true},decorate] (low-heart) circle[radius=1.95cm];
-        \end{scope}
-    \end{pgfonlayer}
-        \fill[devilcolor!60!pingu@black,rounded corners=3pt] (beate2-bill)++(-1.133cm,0.1cm) to[bend right=22] ++(2.25cm,-0.225cm) coordinate (right up) to[bend left=4] ++(0,-1.7cm) to[bend left=8] ++(-2.25cm,0) to[bend left=4] cycle;
-        \draw[devilcolor!60!pingu@black,ultra thick] (right up)++(-0.05cm,-0.05cm) -- ++(0.085cm,0.23cm);
-        \node[pingu@black] at (beate2-heart) {\faHeart};
-    \end{pgfinterruptboundingbox}
-
-    \node[above,devilcolor,opacity=0.25,scale=2,yshift=-0.95pt] (w) at(beate2-left-wing-tip) {\faWindows};
-    \node[above,devilcolor,scale=1.8] (w) at(beate2-left-wing-tip) {\faWindows};
-    \node[above,devilcolor,opacity=0.25,scale=2,yshift=-0.95pt] (w) at(beate2-right-wing-tip) {\faWindows};
-    \node[above,devilcolor,scale=1.8] (w) at(beate2-right-wing-tip) {\faWindows};
-
-    \foreach \side in {left,right} {
-    \foreach \a in {A,B,C,D} {
-        \WW{$(beate2-\side-wing-tip)+(0.3*rand,0.25*rand)$}{A}
-    }
-    \foreach \a in {E,...,K} {
-        \WW{$(beate2-\side-wing-tip)+(0.35*rand,0.4*rand+0.7)$}{A}
-    }
-    \begin{pgfonlayer}{background}
-        \foreach \a in {Q,...,Z} {
-            \WW{$(beate2-\side-wing-tip)+(0.35*rand,0.35*rand+0.35)$}{A}
-        }
-    \end{pgfonlayer}
-    }
-\end{tikzpicture}}
+\savebox\mommapengu{}% TODO NO OLD PENGUS
 
 {
 \setbeamercolor{background canvas}{bg=black}

@@ -46,17 +46,6 @@
 \author{Florian Sihler}
 \institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
-\usepackage{tikzpingus-old}
-\newsavebox\oldpingus
-\savebox\oldpingus{\begin{tikzpicture}[scale=1.75]
-    \pingu[name = herbertine, heart=purple!15!pingu@white, eyes =!hide, right wing hug, left wing wave]
-    \node[above, inner sep=1.5pt, pingu@red] at(herbertine-left-wing-tip) {\Large\faHeart};
-    \node[inner sep=1.5pt, pingu@red, scale=0.65] at(herbertine-left-eye) {\large\faHeart};
-    \node[inner sep=1.5pt, pingu@red, scale=0.65] at(herbertine-right-eye) {\large\faHeart};
-\end{tikzpicture}\hspace*{-0.095cm}\begin{tikzpicture}[scale=1.75]
-    \pingu[name = herbert, heart=teal!15!pingu@white, left wing hug, sunglasses]
-\end{tikzpicture}}
-\let\pingu\relax
 \usepackage{tikzpingus}
 
 
@@ -231,12 +220,11 @@ if (args.length <= 0) {
 \section{Der End-Pingu}
 \begin{frame}[c]
     \hbox{}\vfill
-    \centering\onslide<2->{\usebox\oldpingus}\bigskip\par
-    ~\onslide<2->{\begin{tikzpicture}[scale=1.15]
+    \onslide<2->{\begin{tikzpicture}[scale=1.15]
         \pingu[name=herbertine, left wing hug, right wing wave, hand cast right=\scalebox{2}{\color{pingu@red!50!white}\faHeart}]
         \pgfonlayer{foreground}
-        \node[inner sep=1.5pt, ,scale=1.25,pingu@red!50!white] at(herbertine-left-eye) {\large\faHeart};
-        \node[inner sep=1.5pt, ,scale=1.25,pingu@red!50!white] at(herbertine-right-eye) {\large\faHeart};
+        \node[inner sep=1.5pt, ,scale=1.25,pingu@red!50!white] at(herbertine-eye-left) {\large\faHeart};
+        \node[inner sep=1.5pt, ,scale=1.25,pingu@red!50!white] at(herbertine-eye-right) {\large\faHeart};
         \endpgfonlayer
         \pingu[name = herbert, xshift=3.1cm,right wing hug, sunglasses,eyes wink]
     \end{tikzpicture}}
