@@ -6,6 +6,8 @@
 
 \usetikzlibrary{decorations.text}
 
+\usepackage{ebl}
+
 \makeatletter
 \def\calc#1=#2;{\pgfmathsetmacro#1{int(#2)}\xdef#1{#1}}
 \def\calcnext#1{\calc\sieve@step@sq = 2*#1;%
@@ -431,6 +433,7 @@ if((22 >= b) && (a > b)) { // I
 \end{frame}
 
 \section{Bonus}
+\subsection{Präzedenzregeln}
 \begin{frame}[t,fragile]{Ein Bonus am Rande: Von Präzedenzregeln}
     \begin{itemize}[<+(1)->]
         \item Wir erinnern uns an die Präzedenzregeln von Java (stark nach schwach, eine Auswahl): \info{\url{https://docs.oracle.com/javase/tutorial/java/nutsandbolts/operators.html}}
@@ -450,6 +453,362 @@ if((22 >= b) && (a > b)) { // I
         \end{plainjava}}
     \end{itemize}
 \end{frame}
+
+\subsection{Was Flo so macht}
+\def\overpeng<#1>#2#3{\savebox0{#2}\usebox0\onslide<#1>{\llap{\makebox[\wd0]{\scalebox{.65}{\tikz[align-base]\pingu[eyes shock,wings shock,eye patch right,#3];}}}}}
+\begin{frame}[c,fragile]{Was Flo so macht}
+\begin{center}
+    \onslide<2->{\huge\textbf{\overpeng<3->{Weinen}{bow tie}, \overpeng<4->{Schreien}{hat,right wing grab,lightsaber right=paletteB} und \overpeng<5->{Kreischen}{small,tie,halo,halo raise=2mm,cloak=darkgray}}}
+\end{center}
+\end{frame}
+
+\begin{frame}[c]{Was Flo so machen muss}
+\footnotesize\begin{columns}[c,onlytextwidth]%
+\column{.5\linewidth}
+\onslide<2->{\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Maximale Zahl \(N\)}
+    \StartCode
+    \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
+    \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
+    \For{\(i = 2\) \KwTo \(\mathbf{\sqrt{N}}\) \KwStep 1}{
+        \lIf{\(\mathrm{marker}_i\)}{\KwContinue}
+         Gebe aus: \say{Prim: \(i\)}\;
+        \lFor{\(j = i \cdot \mathbf{i}\) \KwTo \(N\) \KwStep i}{\(\mathrm{marker}_j = \mathrm{true}\)}
+    }
+    \For{\(i = \sqrt{N} + 1\) \KwTo{N} \KwStep 1}{\lIf{\KwNot \(\mathrm{marker}_i\)}{Gebe aus: \say{Prim: \(i\)}}}
+\end{algorithm}}
+\column{.5\linewidth}
+\onslide<3->{Annahmen:}
+\begin{itemize}
+    \itemsep4pt
+    \item<4-> Wir bleiben heute bei Text. Kein Ti\textit{k}Z.
+    \item<5-> Genutzt werden die Pakete \href{https://www.ctan.org/pkg/pgf}{\T{pgfmath}}, \href{https://www.ctan.org/pkg/pgf}{\T{pgffor}} und \href{https://www.ctan.org/pkg/etoolbox}{\T{etoolbox}}. \onslide<6->{\info{Die sind zwar alle nicht notwendig, aber erlauben einfachere Notationen.}}
+    \item<7-> Wir nutzen \href{https://www.ctan.org/pkg/xcolor}{\T{xcolor}} für Farben.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\ltxpreview{AnimFirst}
+\begin{tcboutputlisting}
+\documentclass{article}
+\usepackage{pgffor,pgfmath}
+\usepackage{etoolbox}
+\usepackage{xcolor}
+
+% Präambel
+
+\begin{document}
+SCHDUBBS!
+\end{document}
+\end{tcboutputlisting}
+\def\DefaultLoad#1{\eblLoadLtx{#1}{graphics options={trim=2cm 22cm 10cm 3cm, clip}}{listing options={style=LSTADVANCED,language=lLatex,morekeywords={[2]pgffor,pgfmath,etoolbox}},before upper={\lstfs{9}},before lower={\onslide<3->}}}
+
+\begin{frame}[c,fragile]{Übersicht}
+\only<2-3|handout:1>{\DefaultLoad{AnimFirst}}
+
+\begin{onlyenv}<4-|handout:2>
+\begin{center}
+    \begin{minipage}{.45\linewidth}
+\begin{plainxlatex}[morekeywords={[2]pgffor,pgfmath,etoolbox},moredelim={[is][{\color{lightgray}}]{|>}{<|}}]
+|>\documentclass{article}<|
+|>\usepackage{pgffor,pgfmath}<|
+|>\usepackage{etoolbox}<|
+|>\usepackage{xcolor}<|
+
+% Präambel
+
+|>\begin{document}<|
+SCHDUBBS!
+|>\end{document}<|
+\end{plainxlatex}
+\end{minipage}
+\end{center}
+\end{onlyenv}
+\end{frame}
+
+\begin{frame}[c,fragile]{Magic Schduff\hfill Präambel}
+\begin{itemize}[<+(1)->]
+    \item Abseits aller Erklärungen, gestattet mir bitte ein Magic-Definition:\pause
+\begin{plainxlatex}[morekeywords={[5]{\\calc}}]
+\def!**!\calc!**!#1=#2;{\pgfmathsetmacro:c:#1{int(#2)}\xdef:c:#1{#1}}
+\end{plainxlatex}
+    \item Was macht das?\pause\ Nich wichtig.\pause\ Was wir machen können:
+\begin{sclatex}[morekeywords={[5]{\\calc,\\mynumber}}]
+Wir machen Mathe.
+\calc \mynumber = sqrt(3 + 2 * 3);
+Jetzt hält mynumber: \mynumber.
+\end{sclatex}
+    \item Wir können also einfach (mit Ganzzahlen) rechnen und Gruppen ignorieren.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Kommandos definieren}
+\begin{itemize}[<+(1)->]
+    \itemsep8pt
+    \item \LaTeX\ liefert uns \bxlatex{\\newcommand}:\pause
+\begin{plainxlatex}
+\newcommand{<cmd>}[<arg-count>]{<body>}
+\end{plainxlatex}
+    \item Die einzelnen Argumente werden von \bxlatex{\#1} an durchnummeriert.
+    \item \T{<arg-count>} wird einfach weggelassen, wenn der Befehl keine Argumente hat!
+    \item \LaTeX\ ersetzt dann einen Aufruf der Form \bxlatex{\\<cmd>\{<\#1>\}\{<\#2>\}} mit dem \bxlatex{<body>}.
+    \item Es geht um einiges eleganter, das reicht uns aber.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Kommandos definieren\hfill Beispiel}
+\begin{itemize}[<+(1)->]
+    \item Betrachten wir einmal:\pause
+\begin{sclatex}[morekeywords={[5]{\\hallo}}][]
+\newcommand{\hallo}[2]
+    {#2: Hallo \textbf{#1}}
+
+Wir schreiben: \hallo{Sonne}{Text Vor}
+\end{sclatex}
+    \item Kommandos können andere Kommandos definieren:\pause
+\begin{sclatex}[morekeywords={[5]{\\Meins,\\M}}][]
+\newcommand{\M}[2]{\csgdef{M#1}{#2}}
+Speichern: \M{eins}{1}.
+Benutzen: \Meins.
+\end{sclatex}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Kommandos definieren\hfill 2. Beispiel}
+    \begin{itemize}[<+(1)->]
+        \itemsep6pt
+        \item Analog zu \bxlatex{\\csgdef\{<cs>\}\{<body>\}} gibt es \bxlatex{\\csuse\{<cs>\}}.
+        \item Dies erlaubt es Befehle durch Argumente zu basteln:\pause
+\begin{sclatex}[morekeywords={[5]{\\StoreA,\\Load}}][]
+\newcommand{\StoreA}{Super A}
+\newcommand{\Load}[1]{\csuse{Store#1}}
+Laden: \Load{A}.
+\end{sclatex}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Schleifen}
+    \begin{itemize}[<+(1)->]
+        \itemsep6pt
+        \item Ich zeige hier nur eine Form der Schleife. Die, die wir brauchen:\pause
+\begin{plainxlatex}[morekeywords={[5]{\\i}}]
+\foreach \i in {<start>,<step-off>,...,<end>} {
+    <body>
+}
+\end{plainxlatex}
+    \item Als Beispiel:\pause
+\begin{sclatex}[morekeywords={[5]{\\i}}][]
+Hallo: \foreach \i in {1,3,...,12} {
+    Sup-\i-du
+}.
+\end{sclatex}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Die Idee}
+\footnotesize\begin{columns}[c,onlytextwidth]%
+\column{.5\linewidth}
+\onslide<2->{\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Maximale Zahl \(N\)}
+    \StartCode
+    \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
+    \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
+    \For{\(i = 2\) \KwTo \(\mathbf{\sqrt{N}}\) \KwStep 1}{
+        \lIf{\(\mathrm{marker}_i\)}{\KwContinue}
+         Gebe aus: \say{Prim: \(i\)}\;
+        \lFor{\(j = i \cdot \mathbf{i}\) \KwTo \(N\) \KwStep i}{\(\mathrm{marker}_j = \mathrm{true}\)}
+    }
+    \For{\(i = \sqrt{N} + 1\) \KwTo{N} \KwStep 1}{\lIf{\KwNot \(\mathrm{marker}_i\)}{Gebe aus: \say{Prim: \(i\)}}}
+\end{algorithm}}
+\column{.5\linewidth}
+\onslide<3->{Ideen:}
+\begin{itemize}
+    \itemsep4pt
+    \item<4-> Schleifen mit \bxlatex{\\foreach}.
+    \item<5-> Marker sind Makros der Form \T{\textbackslash Marker@<number>}.
+    \item<6-> Berechnungen mit \cmd{calc}.
+    \item<7-> Fallunterscheidungen zeige ich noch.
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}[c,fragile]{Hilfsmakros -- Reset}
+    \footnotesize\begin{columns}[c,onlytextwidth]%
+\column{.5\linewidth}
+\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Maximale Zahl \(N\)}
+    \StartCode
+    \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
+    \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
+    \For{\(i = 2\) \KwTo \(\mathbf{\sqrt{N}}\) \KwStep 1}{
+        \lIf{\(\mathrm{marker}_i\)}{\KwContinue}
+         Gebe aus: \say{Prim: \(i\)}\;
+        \lFor{\(j = i \cdot \mathbf{i}\) \KwTo \(N\) \KwStep i}{\(\mathrm{marker}_j = \mathrm{true}\)}
+    }
+    \For{\(i = \sqrt{N} + 1\) \KwTo{N} \KwStep 1}{\lIf{\KwNot \(\mathrm{marker}_i\)}{Gebe aus: \say{Prim: \(i\)}}}
+\end{algorithm}
+\column{.5\linewidth}
+\begin{itemize}[<+(1)->]
+    \item Wir definieren \(N\) global: \bxlatex{\\newcommand\{\\N\}\{25\}}
+    \item \cmd{SieveReset} soll die Marker mit \cmd{csgundef} wieder löschen:\pause
+\begin{plainxlatex}[morekeywords={[5]{\\i}}]
+\newcommand{\SieveReset}{
+    \foreach \i in {1,...,\N}{
+        \csgundef{marker@!**!\i}
+    }
+}
+\end{plainxlatex}
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}[c,fragile]{Hilfsmakros -- Step}
+    \footnotesize\begin{columns}[c,onlytextwidth]%
+\column{.5\linewidth}
+\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Maximale Zahl \(N\)}
+    \StartCode
+    \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
+    \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
+    \For{\(i = 2\) \KwTo \(\mathbf{\sqrt{N}}\) \KwStep 1}{
+        \lIf{\(\mathrm{marker}_i\)}{\KwContinue}
+         Gebe aus: \say{Prim: \(i\)}\;
+        \lFor{\(j = i \cdot \mathbf{i}\) \KwTo \(N\) \KwStep i}{\(\mathrm{marker}_j = \mathrm{true}\)}
+    }
+    \For{\(i = \sqrt{N} + 1\) \KwTo{N} \KwStep 1}{\lIf{\KwNot \(\mathrm{marker}_i\)}{Gebe aus: \say{Prim: \(i\)}}}
+\end{algorithm}
+\column{.5\linewidth}
+\begin{itemize}[<+(1)->]
+    \item Mit \bxlatex{\\SieveStep\{<step>\}} möchten wir den Schritt \T{<step>} durchführen:\pause
+\begin{plainxlatex}[morekeywords={[5]{\\i}}]
+\newcommand{\SieveStep}[1]{
+  \calc \start = #1 * #1;
+  \calc \nx = \start + #1;
+  \foreach \i in {\start,\nx,...,\N}{
+    % store the step that locked it
+    \csgdef{marker@!**!\i}{#1}
+  }
+}
+\end{plainxlatex}
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}[c,fragile]{Hilfsmakros -- Print}
+    \footnotesize\begin{columns}[c,onlytextwidth]%
+\column{.5\linewidth}
+\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Maximale Zahl \(N\)}
+    \StartCode
+    \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
+    \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
+    \For{\(i = 2\) \KwTo \(\mathbf{\sqrt{N}}\) \KwStep 1}{
+        \lIf{\(\mathrm{marker}_i\)}{\KwContinue}
+         Gebe aus: \say{Prim: \(i\)}\;
+        \lFor{\(j = i \cdot \mathbf{i}\) \KwTo \(N\) \KwStep i}{\(\mathrm{marker}_j = \mathrm{true}\)}
+    }
+    \For{\(i = \sqrt{N} + 1\) \KwTo{N} \KwStep 1}{\lIf{\KwNot \(\mathrm{marker}_i\)}{Gebe aus: \say{Prim: \(i\)}}}
+\end{algorithm}
+\column{.5\linewidth}
+\begin{itemize}[<+(1)->]
+    \item Mit \bxlatex{\\SievePrint} möchten wir alles ausgeben. Für dieses Beispiel limitieren wir die Breite auf \(5\):
+\begin{plainxlatex}[morekeywords={[5]{\\i}}]
+!*\onslide<3->*!\newcommand{\SievePrint}{
+  !*\onslide<4->*!\foreach \cell in {1,...,\N}{
+    !*\onslide<5->*!\SievePrintCell{\cell}
+    !*\onslide<6->*!\calc!**!\check = mod(\cell, 5);
+    !*\onslide<7->*!\ifnum!**!\check=0 \newline \fi
+  !*\onslide<4->*!}
+!*\onslide<3->*!}
+\end{plainxlatex}
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}[c,fragile]{Hilfsmakros -- Print}
+    \footnotesize\begin{columns}[c,onlytextwidth]%
+\column{.5\linewidth}
+\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Maximale Zahl \(N\)}
+    \StartCode
+    \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
+    \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
+    \For{\(i = 2\) \KwTo \(\mathbf{\sqrt{N}}\) \KwStep 1}{
+        \lIf{\(\mathrm{marker}_i\)}{\KwContinue}
+         Gebe aus: \say{Prim: \(i\)}\;
+        \lFor{\(j = i \cdot \mathbf{i}\) \KwTo \(N\) \KwStep i}{\(\mathrm{marker}_j = \mathrm{true}\)}
+    }
+    \For{\(i = \sqrt{N} + 1\) \KwTo{N} \KwStep 1}{\lIf{\KwNot \(\mathrm{marker}_i\)}{Gebe aus: \say{Prim: \(i\)}}}
+\end{algorithm}
+\column{.5\linewidth}
+\begin{itemize}[<+(1)->]
+    \item Mit \bxlatex{\\SievePrintCell\{<cell>\}} möchten wir eine Zelle ausgeben:
+\begin{plainxlatex}[morekeywords={[5]{\\i}}]
+!*\onslide<3->*!\newcommand{\SievePrintCell}[1]{
+  !*\onslide<4->*!\makebox[2em]{
+    !*\onslide<5->*!\ifcsundef{marker@#1}{% undefined
+        !*\onslide<6->*!#1
+    }
+    !*\onslide<7->*!{\textcolor{gray}{#1}}
+  !*\onslide<4->*!}
+!*\onslide<3->*!}
+\end{plainxlatex}
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}[c,fragile]{Hauptschleife}
+    \footnotesize\begin{columns}[c,onlytextwidth]%
+\column{.5\linewidth}
+\begin{algorithm}[H]
+    \PreCode
+    \KwIn{Maximale Zahl \(N\)}
+    \StartCode
+    \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
+    \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
+    \For{\(i = 2\) \KwTo \(\mathbf{\sqrt{N}}\) \KwStep 1}{
+        \lIf{\(\mathrm{marker}_i\)}{\KwContinue}
+         Gebe aus: \say{Prim: \(i\)}\;
+        \lFor{\(j = i \cdot \mathbf{i}\) \KwTo \(N\) \KwStep i}{\(\mathrm{marker}_j = \mathrm{true}\)}
+    }
+    \For{\(i = \sqrt{N} + 1\) \KwTo{N} \KwStep 1}{\lIf{\KwNot \(\mathrm{marker}_i\)}{Gebe aus: \say{Prim: \(i\)}}}
+\end{algorithm}
+\column{.5\linewidth}
+\begin{itemize}[<+(1)->]
+    \item Mit \bxlatex{\\Sieve} nun das Sieben:
+\begin{plainxlatex}[morekeywords={[5]{\\i}}]
+!*\onslide<3->*!\newcommand{\Sieve}{
+  !*\onslide<4->*!\SieveReset
+  !*\onslide<5->*!\calc \max = sqrt(\N);
+  !*\onslide<6->*!\foreach \step in {2,...,\max}{
+    !*\onslide<7->*!\ifcsundef{marker@!**!\step}{
+      !*\onslide<8->*!\SieveStep{\step}
+    !*\onslide<7->*!}{}
+  !*\onslide<9->*!} \SievePrint
+!*\onslide<3->*!}
+\end{plainxlatex}
+\end{itemize}
+\end{columns}
+\end{frame}
+
+
+
+
+\begin{frame}[c,fragile]{Das Ergebnis}
+\begin{itemize}[<+(1)->]
+    \item Wir geben das Ganze zwar erst am Ende aus, das Endergebnis ist aber gleich (\only<2->{\textattachfile{sieve/sieve-final.tex}{sieve-final.tex}}) \bxlatex{\\Sieve}:\pause
+\begin{center}
+    \includegraphics[clip,trim=0cm 18cm 5cm 3cm,width=\linewidth]{sieve/sieve-final.pdf}
+\end{center}
+\end{itemize}
+\end{frame}
+
 
 \section{End Pinguuu}
 \begin{frame}[c]

@@ -1,0 +1,116 @@
+%% eagle-beamer-latex.sty
+%%
+%% --------------------------------------------------------------------------
+%%
+%% Autor: Florian Sihler, 11.11.2019
+%%
+%% Dieses Paket hat es zum Ziel Latex code zu kompilieren und
+%% auszuführen. Das Environment zum Anzeigen des Codes kann
+%% konfiguriert werden.
+%%
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{eagle-beamer-latex}[2019/10/25 v1.0.0 Compile and Preview LaTeX2e-Codes in LaTeX-Beamer]
+
+\RequirePackage{tcolorbox}
+\tcbuselibrary{listings}
+
+\definecolor{MudWhite}{RGB}{245,245,243}
+\definecolor{Charcoal}{RGB}{54,69,79}
+
+\definecolor{softred}{RGB}{21, 153, 71}
+\lstdefinelanguage{lxLatex}{
+      language=lLatex,
+      morekeywords={[5]{\\csgdef,\\calc,\\csgundef,\\csuse,\\start,\\stepx,\\stepy,\\step,\\nx,\\cell,\\check,\\makebox,\\ifundef,\\max,\\ifcsundef}},
+      morekeywords={[3]{\\SievePrint,\\SievePrintCell,\\SieveReset,\\SieveStep,\\Sieve,\\N}},
+      keywordstyle=[3]{\color{softred}}
+}
+\RegisterLanguage{xlatex}{lxLatex}
+\def\cmd#1{\solGet{command}{\color{softred}\textbackslash#1}}
+
+\tcbset{
+  lstpresenterstyle/.style={%
+    colback=MudWhite!5,
+    boxrule=1pt,
+    enhanced jigsaw,
+    listing only,
+    breakable=true,
+    opacityback=0.9,
+    arc is angular=5mm,
+    fuzzy halo=0.1mm with MudWhite,
+    top=0.11mm,
+    bottom=0.11mm,
+    colframe=Charcoal,
+  }
+}
+
+\lstdefinestyle{LSTADVANCED}{
+    style=sol@SOPRA,
+    backgroundcolor={},
+    rulecolor={},
+    numberstyle=\color{gray}\footnotesize\sffamily,
+    xleftmargin=12pt,
+    xrightmargin=3pt,
+    frame=l,
+    lineskip=2pt,
+    numbers=left,
+    numbersep=12pt,
+    framexleftmargin=3pt,
+    rulecolor=\color{Charcoal},
+    %frameround=tttt, %% mag backgroundcolor nicht
+    framerule=0.5pt,
+}
+% #1 Name
+\def\ltxpreview#1{\tcbset{listing file=\jobname-#1-slidelst}}
+
+\def\eblLoadLtx#1#2#3{\bgroup%
+\tcbset{listing file=\jobname-#1-slidelst}% <-- Use a unique name
+\tcbinputlisting{
+    lstpresenterstyle,listing outside comment,pdf comment,run pdflatex,
+    lower separated=false,
+    listing options={style=sol@SOPRA,style=LSTADVANCED,language=lxLatex,morekeywords={[5]{\\Dieter,\\borange,\\bgreen,\\bred,\\bcolor,\\bteal}},morekeywords={[3]{episch}}},#3,
+    sidebyside,sidebyside gap=6mm,raster columns=1,comment style={#2, width=0.5\linewidth}
+}\egroup%
+}
+
+\DeclareTCBListing{sclatex}{% preview latex code
+        O{} % Listing Args
+        O{} % TCB Args
+}{%
+  enhanced jigsaw,breakable,blankest,enlarge top by=3pt,enlarge bottom by=3pt,listing side text,righthand width=4.25cm,before lower={\vspace*{-0.75\baselineskip}},
+  listing options={%
+    style=sol@SOPRA,
+    language=lxLatex,#1},#2, after={\\[-0.25\baselineskip]},
+}
+{}
+
+\DeclareDocumentEnvironment{slatex}{}{
+  \presentlst{lxLatex}
+}{\endpresentlst}
+
+\DeclareTCBListing{presentlst}{%
+        O{} % Listing Args
+        O{} % TCB Args
+        m   % Language
+}{%
+  lstpresenterstyle, enlarge top by=3pt,enlarge bottom by=3pt,
+  listing options={%
+    style=sol@SOPRA,style=LSTADVANCED,
+    language=#3,#1},#2%
+}
+{}
+
+\colorlet{sol@colors@lst@keywordA}{cprimary!80!black!90!csecondary}
+\colorlet{sol@colors@lst@keywordB}{csecondary}
+\colorlet{sol@colors@lst@keywordC}{csecondary}
+\colorlet{sol@colors@lst@highlight}{csecondary}
+
+\makeatletter
+\sol@list@define@styles{%
+    {keywordC:      \color{sol@colors@lst@keywordC}\itshape},%
+    {command:       \color{cprimary}},%
+    {highlight:     \color{sol@colors@lst@highlight}},%
+}
+\makeatother
+
+\endinput

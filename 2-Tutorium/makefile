@@ -1,4 +1,4 @@
-SLIDESTEX := $(shell ls folien*.tex) $(shell ls noanim_folien*.tex)
+SLIDESTEX := folien_2.tex noanim_folien_2.tex
 
 SOURCESTEX := $(shell ls *.src)
 SLIDESPDF := $(addsuffix .pdf,$(basename $(SLIDESTEX)))
@@ -12,7 +12,9 @@ all: $(SLIDESPDF)
 	pdflatex -shell-escape -interaction batchmode -draftmode -jobname $(basename $@) $<
 	pdflatex -shell-escape -interaction batchmode -jobname $(basename $@) $<
 	for fd in $(CLEANTARGETS); do rm -f ./$(basename $@).$$fd; done
+	rm $(basename $@)*-slidelst*
 
 clean:
 	for fd in $(CLEANTARGETS); do rm -f *.$$fd; done
+	rm *-slidelst*
 	rm -f *.pdf

@@ -1,0 +1,56 @@
+\documentclass{article}
+\usepackage{pgffor,pgfmath}
+\usepackage{etoolbox}
+\usepackage{xcolor}
+
+\def\calc#1=#2;{\pgfmathsetmacro#1{int(#2)}\xdef#1{#1}}
+
+\newcommand{\SieveReset}{%
+  \foreach \i in {1,...,\N}{%
+    \csgundef{marker@\i}%
+  }%
+}
+
+\newcommand{\SieveStep}[1]{%
+  \calc \start = #1 * #1;%
+  \calc \nx = \start + #1;%
+  \foreach \i in {\start,\nx,...,\N}{%
+    % store the step that locked it
+    \csgdef{marker@\i}{#1}%
+  }%
+}
+
+\newcommand{\SievePrint}{%
+  \foreach \cell in {1,...,\N}{%
+    \SievePrintCell{\cell}%
+    \calc\check = mod(\cell, 5);%
+    \ifnum\check=0 \newline \fi
+  }%
+}
+
+\newcommand{\SievePrintCell}[1]{%
+  \makebox[2em]{%
+  \ifcsundef{marker@#1}{% undefined
+  #1%
+  }%
+  {\textcolor{gray}{#1}}%
+  }%
+}
+
+\newcommand{\Sieve}{%
+  \SieveReset
+  \calc \max = sqrt(\N);%
+  \foreach \step in {2,...,\max}{%
+    \ifcsundef{marker@\step}{%
+      \SieveStep{\step}%
+    }{}%
+  }%
+  \SievePrint
+}
+
+
+\newcommand{\N}{25}
+\begin{document}
+\noindent
+\Sieve
+\end{document}
