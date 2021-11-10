@@ -142,7 +142,7 @@
 \column{.6\linewidth}
 \begin{algorithm}[H]
     \PreCode
-    \KwIn{Maximale Zahl \(N\)}
+    \KwIn{Obergrenze \(N\)}
     \StartCode
     \pause\(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \pause\lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
@@ -157,7 +157,7 @@
 \end{algorithm}
 \column{.4\linewidth}
 \resizebox{\linewidth}!{%
-    \,\only<1-|handout:0>{\SieveAnim{90}{12}}%
+    \,\only<1-|handout:0>{\SieveAnim{90}{11}}%
     \only<0|handout:1>{\SieveLastTo{90}{7}}\,%
 }
 \endcolumns
@@ -206,14 +206,14 @@
 }
 \makeatletter
 % Fake for 8 to get blue hl
-\SetNlSty{textbf}{\ifnum\theAlgoLine=8\color{paletteA}\fi}{}
+\SetNlSty{textbf}{\ifnum\theAlgoLine=8\color{paletteB}\fi}{}
 \begin{frame}[c]{Präsenzaufgabe - Effizientere Lösung}
     \setcounter{algocf}{1}%
 \pause\columns[onlytextwidth]%
 \column{.6\linewidth}
 \begin{algorithm}[H]
     \PreCode
-    \KwIn{Maximale Zahl \(N\)}
+    \KwIn{Obergrenze \(N\)}
     \StartCode
     \pause\(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \pause\lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
@@ -467,7 +467,7 @@ if((22 >= b) && (a > b)) { // I
 \column{.5\linewidth}
 \onslide<2->{\begin{algorithm}[H]
     \PreCode
-    \KwIn{Maximale Zahl \(N\)}
+    \KwIn{Obergrenze \(N\)}
     \StartCode
     \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
@@ -611,7 +611,7 @@ Hallo: \foreach \i in {1,3,...,12} {
 \column{.5\linewidth}
 \onslide<2->{\begin{algorithm}[H]
     \PreCode
-    \KwIn{Maximale Zahl \(N\)}
+    \KwIn{Obergrenze \(N\)}
     \StartCode
     \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
@@ -639,7 +639,7 @@ Hallo: \foreach \i in {1,3,...,12} {
 \column{.5\linewidth}
 \begin{algorithm}[H]
     \PreCode
-    \KwIn{Maximale Zahl \(N\)}
+    \KwIn{Obergrenze \(N\)}
     \StartCode
     \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
@@ -670,7 +670,7 @@ Hallo: \foreach \i in {1,3,...,12} {
 \column{.5\linewidth}
 \begin{algorithm}[H]
     \PreCode
-    \KwIn{Maximale Zahl \(N\)}
+    \KwIn{Obergrenze \(N\)}
     \StartCode
     \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
@@ -703,7 +703,7 @@ Hallo: \foreach \i in {1,3,...,12} {
 \column{.5\linewidth}
 \begin{algorithm}[H]
     \PreCode
-    \KwIn{Maximale Zahl \(N\)}
+    \KwIn{Obergrenze \(N\)}
     \StartCode
     \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
@@ -735,7 +735,7 @@ Hallo: \foreach \i in {1,3,...,12} {
 \column{.5\linewidth}
 \begin{algorithm}[H]
     \PreCode
-    \KwIn{Maximale Zahl \(N\)}
+    \KwIn{Obergrenze \(N\)}
     \StartCode
     \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
@@ -768,7 +768,7 @@ Hallo: \foreach \i in {1,3,...,12} {
 \column{.5\linewidth}
 \begin{algorithm}[H]
     \PreCode
-    \KwIn{Maximale Zahl \(N\)}
+    \KwIn{Obergrenze \(N\)}
     \StartCode
     \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
