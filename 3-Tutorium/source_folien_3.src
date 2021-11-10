@@ -2,13 +2,72 @@
 \RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
 \input ../global.src
 \usepackage{lecture-personal-resize}
+\pgfmathsetseed{\number\pdfrandomseed}
 
 \title[Drittes Tutorium -- Übungsblatt 3]{Lassen wir die Schleifen fließen\\\small Tutorium 3}
 \date{\sffamily KW 46}
 
 \begin{document}
 \Titlepage{3}
+\def\AlphaSlab{\def\rmdefault{AlphaSlabOne-TLF}\rmfamily}
+\def\SayHate{\begingroup\AlphaSlab Hate\endgroup}
+\newcommand\Hate[4][1]{\onslide<#2->{\pgfmathsetmacro\gs{int(100-(\insertslidenumber-#2)*7)}\path[gray!\gs!white] (current page.center) ++(#3) node[scale=#1] {#4\SayHate};}}
+\begin{frame}[plain]
+\tikzpicture[overlay,remember picture]
+\onslide<2-16|handout:0>{
+    \node[scale=-\insertslidenumber/12 + 3] at(current page.center) {\faQuoteRight};
+}
+\Hate{3}{-40:3cm}{\large}
+\Hate{4}{70:3.6cm}{\small}
+\Hate{5}{170:2cm}{\huge}
+\Hate{6}{-60:3.33cm}{\huge}
+\Hate[1.5]{7}{30:4.2cm}{\huge}
+\Hate[1.66]{8}{254:4cm}{\huge}
+\Hate[1.2]{9}{-10:4.1cm}{\Large}
+\Hate[1.33]{10}{210:5.1cm}{\huge}
+\Hate[2]{11}{150:5.33cm}{\huge}
+\Hate[2]{12}{-30:6cm}{\huge}
+\Hate{13}{270:2cm}{\large}
+\Hate{14}{195:4cm}{}
+\Hate{15}{22:1.33cm}{}
+\onslide<17>{
+    \node[scale=5] at(current page.center) {\faQuoteRight};
+}
+\onslide<16->{\path[gray] (current page.center) ++(-15:2cm) node {\AlphaSlab Love};}
+\endtikzpicture
+\end{frame}
 
+{\setbeamercolor{background canvas}{bg=black}
+\newsavebox\pinguA
+\savebox\pinguA{\tikz\pingu[cape=darkgray!90!black,eyes angry,bill=angry];}
+\newsavebox\pinguB
+\savebox\pinguB{\tikz\pingu[cape=darkgray!90!black,eyes angry,bill=angry,right wing raise];}
+\begin{frame}[plain]
+\tikzpicture[overlay,remember picture]
+\onslide<3|handout:0>{\node at(current page.center) {\usebox\pinguA};}
+\onslide<4|handout:1>{\node (main) at(current page.center) {\usebox\pinguB};}
+\onslide<3|handout:0>{\fill[black,fill opacity=.94] (current page.south east) rectangle (current page.north west);}
+\onslide<4|handout:1>{\fill[black,fill opacity=.85] (current page.south east) rectangle (current page.north west);}
+\node[below right=.33cm,white] at(current page.north west) {\large\AlphaSlab Did they\ldots\ \only<2->{hurt you?}};
+\onslide<3->{
+    \node[above left=.33cm,white] at(current page.south east) {\large\AlphaSlab My precious \faQuoteRight};
+}
+\onslide<4->{
+    \coordinate[xshift=1mm,yshift=-3.33mm] (cast) at (main.north west);
+    \foreach \i in {1,...,30} {
+        \fill[fill opacity=.05,pingu@yellow] (cast) circle [radius=10mm-\i*.29mm];
+    }
+    \foreach \i in {1,...,7} {
+        \fill[fill opacity=.05,pingu@yellow] (cast) circle [radius=33mm-\i*4.3mm];
+    }
+    \fill[white] (cast) circle [radius=.45mm];
+    \foreach \i in {1,2,3} {
+        \fill[fill opacity=.05,pingu@yellow] (cast) circle [radius=60mm-\i*13.3mm];
+    }
+    \node[white,scale=.2] at(cast) {\faQuoteRight};
+}
+\endtikzpicture
+\end{frame}}
 
 \section{Allgemeines}
 \begin{frame}[t,fragile]{Allgemeines}
@@ -571,8 +630,6 @@ for (String arg : args) {
 \end{frame}
 \endgroup
 
-
-
 \section{End Pinguuu}
 \begin{frame}[c]
     \hbox{}\vfill
@@ -581,5 +638,4 @@ for (String arg : args) {
         \pingu[name = herbert, xshift=2.75cm, wings grab, cup, eyes shiny, hair 2=pingu@green]
     \end{tikzpicture}}}
 \end{frame}
-
 \end{document}
