@@ -399,8 +399,7 @@
 \begin{column}{0.385\linewidth}
 \lstfs{7}%
 \begin{plainjava}
-int a = 42;
-int b = 21;
+int a = 42; int b = 21;
 boolean c = true;
 boolean d = false;
 
