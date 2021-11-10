@@ -21,14 +21,14 @@
     % lock it:
     \expandafter\xdef\csname sieve@\i @\endcsname{#2}%
 }}
-% TODO: degrade by current
+
 \colorlet{@hlcolout}{lightgray!35!white}
 \def\SievePrintColor#1{%
     \ifcsname step\endcsname
     \ifnum#1=\step \colorlet{@col}{shadeB}\else \colorlet{@col}{@hlcolout}\fi
     \else \colorlet{@col}{@hlcolout}\fi
 }
-% TODO: mark curent
+
 \def\SievePrintCell#1{
     \colorlet{@tx}{black}
     \ifcsname sieve@#1@\endcsname
@@ -187,7 +187,7 @@
 \begin{frame}[c]{Präsenzaufgabe - Verbesserung}
 \begin{itemize}[<+(1)->]
     \itemsep10pt
-    \item Allgemeiner: Wir können beim Markieren bei \(i^2\) anstelle von \(2 \cdot i\) beginnen. Alle Vielfachen \(< i^2\) wurden bereits markiert!
+    \item Allgemeiner: Wir können beim Markieren bei \(i^2\) anstelle von \(2 \cdot i\) beginnen. Alle Vielfachen kleiner \(i^2\) wurden bereits markiert!
     \item Damit können wir das Markieren bereits bei \(\sqrt{N}\) stoppen.
 \end{itemize}
 \end{frame}
