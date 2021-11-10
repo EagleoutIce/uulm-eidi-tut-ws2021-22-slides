@@ -94,7 +94,7 @@
 \Titlepage{2}
 
 % Tutorial: Scanner
-\section{Exkurs: Scanner}
+% \section{Exkurs: Scanner}
 
 % \begin{frame}[t,fragile]{Exkurs: Nutzereingaben mit Scanner}
 %     \begin{itemize}[<+(1)->]
@@ -626,7 +626,7 @@ Hallo: \foreach \i in {1,3,...,12} {
 \begin{itemize}
     \itemsep4pt
     \item<4-> Schleifen mit \bxlatex{\\foreach}.
-    \item<5-> Marker sind Makros der Form \T{\textbackslash Marker@<number>}.
+    \item<5-> Marker sind Makros der Form \T{\textbackslash marker@<number>}.
     \item<6-> Berechnungen mit \cmd{calc}.
     \item<7-> Fallunterscheidungen zeige ich noch.
 \end{itemize}
