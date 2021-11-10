@@ -117,7 +117,7 @@
 \section{Präsenzaufgabe}
 \begin{frame}[c]{Präsenzaufgabe}
     \begin{aufgabe}{Ju can not desieve mie!}
-        {\small\pause{}Entwickeln Sie ein Programm, welches als Eingabe eine Zahl \(N\) erhält und mit Hilfe des Sieb des Erastothenes alle Primzahlen zwischen \(1\) und \(N\) bestimmt.
+        {\small\pause{}Entwickeln Sie ein Programm, welches als Eingabe eine Zahl \(N\) erhält und mit Hilfe des Sieb des Erastothenes alle Primzahlen zwischen \(1\) und \(N\) bestimmt und ausgibt.
         \pause{}Die Idee hier ist, alle Vielfachen der Zahlen, beginnend bei \(2\) zu markieren, also \say{herauszusieben}.\pause{} Danach wird mit der nächsten unmarkierten Zahl fortgefahren.
         Hier ein grafisches Beispiel mit \(N=16\):\pause{}\bigskip\par}
 \centerline{\resizebox{.95\linewidth}!{\parbox\linewidth{\SieveFromTo[\pause]{16}{2}{5}\hfill\faAngleRight\hfill\ldots}}}
@@ -296,7 +296,7 @@
         % \item Zum Beispiel: Der eine aus dem Team schreibt, der andere liest Korrektur.
         \item Pseudocode ist nicht nur was, was in den Augen des Tutors bestehen muss!
         \item Nutzt Schleifen und vermeidet Redundanzen wo möglich.\pause{} Bei einer Änderung sollte und darf \say{Alles Ersetzen} \emph{niemals} das Mittel der Wahl sein.
-        \item Hardcoding löst das Problem nicht. \pause{} So wird für die Aufgabenstellung:\pause{} \say{Geben sie von den ganzen Zahlen aus Eins bis Zehn die aus, die gerade sind}\pause{} \emph{nicht} durch \bjava{System.out.println("2,4,8,10")} gelöst!\pause{} \info{Der Compiler kann \emph{loop-unrolling} betreiben,\pause{} der Code würde dann entsprechend optimiert werden.\pause{} Dies löst die Aufgabe allerdings nicht richtig!}
+        \item Hardcoding löst das Problem nicht. \pause{} So wird für die Aufgabenstellung:\pause{} \say{Geben Sie von den ganzen Zahlen aus Eins bis Zehn die aus, die gerade sind}\pause{} \emph{nicht} durch \bjava{System.out.println("2,4,6,8,10")} gelöst!\pause{} \info{Der Compiler kann \emph{loop-unrolling} betreiben,\pause{} der Code würde dann entsprechend optimiert werden.\pause{} Dies löst die Aufgabe allerdings nicht richtig!}
     \end{itemize}
 \end{frame}
 
@@ -319,7 +319,7 @@
         \item \textit{Name einer Person}\\*
             \pause{}\bjava{String} der Name einer Person bedient sich der Welt der Buchstaben.
         \item \textit{Akkustand eines Smartphone}\\*
-            \pause{}Kleinstmöglich ist \bjava{byte}, das genügt für die übliche Prozentdarstellung ohne Nachkommastelle.\pause{} \bjava{float} basierte Darstellungen mögen auch noch in Ordnung sein. \bjava{double} ist aber definitiv overkill.
+            \pause{}Kleinstmöglich ist \bjava{byte}, das genügt für die übliche Prozentdarstellung ohne Nachkommastelle.\pause{} \bjava{float} basierte Darstellungen mögen auch noch in Ordnung sein. \bjava{double} ist aber definitiv overkill (und dennoch nicht falsch).
         \item \textit{Preis eines Produktes}\\*
             \pause{}Wenn wir damit nicht rechnen müssen: \bjava{float} oder \bjava{double}.
         \item \textit{Ergebnis unbenoteter Prüfung}\\*
