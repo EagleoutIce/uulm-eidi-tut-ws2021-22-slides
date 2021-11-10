@@ -1,77 +1,21 @@
-\errorcontextlines 999999
-\usepackage{attachfile2}
-\attachfilesetup{%
-    author={Florian Sihler},%
-    color=0.2 0.3647 0.4941, icon=Tag, mimetype=text/plain%
-}
 
-\usepackage[%
-    sopra-listings={encoding,cpalette},%
-    sopra-tables,
-    color-palettes={addons},%
-    util,%
-    lithie-boxes={germanenv,koma,overwrite},%
-    lithie-task-boxes={cpalette},%
-    lecture-links={patchurl},%
-    lecture-registers={disable}% would interfere with beamer
-]{lithie-util}
-\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
-\RestyleAlgo{plain}
-\solLoadLanguage{bash,cpp}
-\usepackage[ngerman]{babel}
-\usepackage{xfrac}
+\RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
+\input ../global.src
+\usepackage{lecture-personal-resize}
 
-\colorlet{MaterialHeaderColor}{paletteB}%
-\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
-
-\def\linkstyle#1{\textsf{\paletteD{#1}}}
-\SetAllLinkStyle{\linkstyle{#1}}
-\usepackage{tikzducks,tikzsymbols}
-\usetheme{lucy}
-
-\usetikzlibrary{arrows.meta}
-
-\def\info#1{\begingroup\scriptsize\textcolor{gray}{(#1)}\endgroup}
-
-\newcommand\parallelcontent[3][t]{%
-    \begin{columns}[#1]
-    \begin{column}{0.475\linewidth}
-        #2
-    \end{column}\hfill
-    \begin{column}{0.475\linewidth}
-        #3
-    \end{column}
-    \end{columns}
-}
-
-\title[Drittes Tutorium -- Übungsblatt 3]{Objektive Sequenzen\\\small Tutorium 3}
-\date{\sffamily KW 20}
-\author{Florian Sihler}
-\institute{Institute of Distributed Systems \(\circ\) University Ulm}
-
-\usepackage{tikzpingus}
-\usetikzlibrary{decorations.text}
-
-\hypersetup{colorlinks=false}
+\title[Drittes Tutorium -- Übungsblatt 3]{Lassen wir die Schleifen fließen\\\small Tutorium 3}
+\date{\sffamily KW 46}
 
 \begin{document}
-\begin{frame}[c]
-    \begin{tikzpicture}[overlay]
-        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
-            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
-        \end{scope}
-        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {3};
-    \end{tikzpicture}
-    \titlepage
-\end{frame}
-
+\Titlepage{3}
 
 
 \section{Allgemeines}
 \begin{frame}[t,fragile]{Allgemeines}
     \begin{itemize}[<+(1)->]
         % \item Ihr könnt Altklausuren drucken:\pause{} \url{https://stuve.uni-ulm.de/fin/services/pruefungsprotokolle}
-        \item Übt Java. Beispielprojekte (nach Schwierigkeit): \begin{itemize}
+        \item Übt Java. Beispielprojekte (nach Schwierigkeit):\smallskip \begin{itemize}
+            \itemsep6pt
             \item Taschenrechner:\pause{} Programmiere einen Taschenrechner für die Kommandozeile der die grundlegenden Rechenoperationen wie +, -, * und / beherrscht.
             \item TicTacToe:\pause{} Tic-Tac-Toe mit netter ASCII-Art im Terminal.\pause{} Kleine Herausforderung: Der andere oder auch beide Spieler sollen von einem Computer übernommen werden können.
             \item Wer wird Millionär?\pause{} Fragen sollen aus den jeweiligen Schwierigkeitsgraden zufällige gewählt werden, sonst normales Wer-Wird Millionär, die Joker arbeiten natürlich mit den korrekten Antworten.
@@ -102,185 +46,84 @@
     \end{tikzpicture}
 \end{frame}
 
+\def\encap#1{\makebox[1.25ex]{#1}}
+\def\Pyramid#1{%
+    \def\pyram{}%
+    \foreach \i in {1, ..., #1}{%
+        \edef\last{\the\numexpr#1-\i}%
+        \ifnum\last>0 \foreach \j in {1, ..., \last}{\gappto\pyram{\encap{~}}}\fi
+        \foreach \j in {1, ..., \i}{\ifnum\j=\i \gappto\pyram{\encap{*}}\else\gappto\pyram{\encap{*}\encap{~}}\fi}%
+        \gappto\pyram{\\}\relax
+    }%
+    \pyram
+}
+% could have centered them but that would defeat the purpose :C
+\def\PyramidFromTo#1#2{%
+\downsize{.75\linewidth}{\foreach\step in {#1,...,#2}{%
+~~\tikzpicture
+\fill[gray,opacity=.15,rounded corners=4pt] (-1.5cm,.25cm) rectangle (1.5cm,-2.35cm);
+% shift for the last space ;)
+\node[black,below,align=left] (p) at (0,0) {\Pyramid{\step}};
+\node[below=.4mm] at (0,-2.35cm) {\(N = \step\)};
+\endtikzpicture~~\pause
+}}}
 
 \section{Präsenzaufgabe}
-\tikzset{block/.style={rectangle,draw=gray,minimum width=.7cm,minimum height=.5cm},N/.style={outer sep=0pt,inner sep=0pt}}
-% list | pointer
-\def\bk#1#2{%
-\scalebox{.65}{\begin{tikzpicture}
-\foreach[count=\i] \a in {#1} {
-    \node[block] (\i) at(\i*.7cm,0) {\a};
-    \node[below,gray,font=\footnotesize\sffamily] at (\i.south) {\the\numexpr\i-1\relax};
-}
-\node[left=.55cm,N] (arr) at (1.west) {\bjava{int[] arr}: };
-
-\node[above,yshift=.15cm] at(\the\numexpr#2+1\relax.north) {\faCaretDown};
-\node[above left,yshift=.15cm,N] at(arr.north east) {\bjava{pointer = #2}};
-\end{tikzpicture}}%
-}
-
-\begin{frame}[fragile]{Exkurs: (Array-)Kellerspeicher}
-    \begin{itemize}[<+(1)->]
-        \item Einfache Datenstruktur (Stack). \info{Wir werden später mehr kennenlernen}
-        \item Repräsentiert durch Array und Zeiger (\bjava{int pointer}).
-        \item \strut Betrachten wir ein Array mit 5 Elementen (initial \bjava{pointer = -1}).\smallskip\\
-\scalebox{.65}{\begin{tikzpicture}
-\foreach[count=\i] \a in {0,0,0,0,0} {
-    \node[block] (\i) at(\i*.7cm,0) {\a};
-    \node[below,gray,font=\footnotesize\sffamily] at (\i.south) {\the\numexpr\i-1\relax};
-}
-\node[left=.55cm,N] (arr) at (1.west) {\bjava{int[] arr}: };
-\end{tikzpicture}}%
-    \end{itemize}
-    \begin{multicols}{3}
-    \begin{enumerate}[<+(1)->]
-        \item \strut Hinzufügen von \bjava{8}\\ \bk{8,0,0,0,0}{0}
-        \item \strut Hinzufügen von \bjava{3}\\ \bk{8,3,0,0,0}{1}
-        \item \strut Hinzufügen von \bjava{4}\\ \bk{8,3,4,0,0}{2}
-        \item \strut Hinzufügen von \bjava{9}\\ \bk{8,3,4,9,0}{3}
-        \item \strut Entferne Element\\ \bk{8,3,4,0,0}{2}
-        \item \strut Entferne Element\\ \bk{8,3,0,0,0}{1}
-    \end{enumerate}
-    \end{multicols}
-\end{frame}
-
-\begin{frame}[fragile]{Exkurs: (Array-)Kellerspeicher}
-    \begin{itemize}[<+(1)->]
-        \item Für unser Beispiel, muss die Zahl gar nicht gelöscht werden.
-        \item \strut Es reicht, den Zeiger zu verschieben:\smallskip\\
-\scalebox{.65}{\begin{tikzpicture}
-\foreach[count=\i] \a in {0,0,0,0,0} {
-    \node[block] (\i) at(\i*.7cm,0) {\a};
-    \node[below,gray,font=\footnotesize\sffamily] at (\i.south) {\the\numexpr\i-1\relax};
-}
-\node[left=.55cm,N] (arr) at (1.west) {\bjava{int[] arr}: };
-\end{tikzpicture}}%
-    \end{itemize}
-    \begin{multicols}{3}
-    \begin{enumerate}[<+(1)->]
-        \item \strut Hinzufügen von \bjava{8}\\ \bk{8,0,0,0,0}{0}
-        \item \strut Hinzufügen von \bjava{3}\\ \bk{8,3,0,0,0}{1}
-        \item \strut Hinzufügen von \bjava{4}\\ \bk{8,3,4,0,0}{2}
-        \item \strut Hinzufügen von \bjava{9}\\ \bk{8,3,4,9,0}{3}
-        \item \strut Entferne Element\\ \bk{8,3,4,9,0}{2}
-        \item \strut Entferne Element\\ \bk{8,3,4,9,0}{1}
-    \end{enumerate}
-    \end{multicols}
-\end{frame}
-
-\def\exr#1#2{\bvoid{#1}~$\Rightarrow$~\bvoid{#2}}
-\begin{frame}[fragile]{Exkurs: Umgekehrte polnische Notation}
-    \begin{itemize}[<+(1)->]
-        \item Herkömmliche Darstellung für arithmetischer Ausdrücke: \bvoid{<a> <op> <b>}
-        \item In der umgekehrten polnischen Notation (UPN) ist dies anders!
-        \item Zuerst die Operanden (\bvoid{<a>}, \bvoid{<b>}), dann der Operator (\bvoid{<op>}). \begin{itemize}
-            \item \exr{1 + 2 + 3 + 4}{1 2 + 3 4 + + }
-            \item \exr{(2 * 3) + (20 * 3)}{2 3 * 20 3 * +}
-            \item \exr{13 * 12 * -5 + 4}{13 12 * -5 * 4 +}
-        \end{itemize}
-        \item Wir werden uns auf \say{$+$} und \say{$*$} fokussieren.
-        \item Anstelle von \say{$*$} schreiben wir \say{mult}, anstelle von \say{$+$}, \say{add}. \begin{itemize}
-            \item \exr{1 + 2 + 3 + 4}{1 2 add 3 4 add add}
-            \item \exr{(2 * 3) + (20 * 3)}{2 3 mult 20 3 mult add}
-            \item \exr{13 * 12 * -5 + 4}{13 12 mult -5 mult 4 add}
-        \end{itemize}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Exkurs: Umgekehrte polnische Notation mit Stack}
-    \begin{itemize}[<+(1)->]
-        \item Annahme: Die Ausdrücke mit denen wir arbeiten sind gültig.
-        \item Wir arbeiten von links nach rechts.
-        \item Wir speichern die Operanden auf dem Stack.
-        \item Treffen wir auf einen Operator: \info{Ein Beispiel kommt mit der Lösung der Präsenzaufgabe} \begin{enumerate}
-            \item entnehmen der obersten beiden Elemente des Stack.
-            \item verarbeiten mit dem Operator \info{Multiplikation/Addition}.
-            \item ablegen der Summe/des Produktes auf dem Stack.
-        \end{enumerate}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[c,fragile]{Präsenzaufgabe}
-    \rExecute{javac ReversePolishNotation.java}\setcounter{algocf}{0}
-    \begin{aufgabe}{Do da' UPN}
-        \pause{}Schreiben Sie ein Programm, dass mit (korrekter) UPN gefüttert, den oberen Wert des Stacks ausgibt.\pause{} Die Operanden sollen Integer und die Operatoren \bjava{add} und \bjava{mult} sein. Sie können eine Zeichenkette mit \say{\bjava{Integer.parseInt(x)}} in einen Integer umwandeln.\pause{} Sie können den Stack auf eine kleine Zahl begrenzen.\pause\par
-% \rbash[:\pause]{java ReversePolishNotation 1 2 3 4 5 add}
-\rbash[:\pause]{java ReversePolishNotation 2 3 mult 20 3 mult add}
+\begin{frame}[c]{Präsenzaufgabe}
+    \begin{aufgabe}{Starring Mr. Pyramid}
+        \small\pause Schreiben Sie ein Java-Programm, welches als Eingabe eine positive ganze Zahl \(N\) erwartet und daraufhin ein gleichseitiges Dreieck mit Hilfe von \(*\)- und Leerfeld-Charakteren in der Kommandozeile ausgibt.\pause\ Die Ausgaben für \(1 \leq N \leq 5\) sollten folgendermaßen aussehen:\pause
+        \begin{center}
+            \PyramidFromTo{1}{5}
+        \end{center}
+        \pause\textit{Hinweis:} Überlegen Sie sich eine allgemeine Formel für die Zeileneinrückung. Fügen Sie außerdem Leerzeichen zwischen \(*\)-en für die alternierenden Positionen in den Reihen ein.
         \onslide<1->
     \end{aufgabe}
 \end{frame}
 
-\begingroup
-\lstfs{10}
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+\begin{frame}[t,fragile]{Präsenzaufgabe}
 \begin{itemize}[<+(1)->]
-    \item Das volle Programm findet sich hier: \only<2->{\textattachfile{ReversePolishNotation.java}{ReversePolishNotation.java}}.
-    \item Initialisierung:
-\begin{java}
-int[] stack = new int[100];
-int pointer = -1;
-\end{java}
-    \item Wir iterieren über alle Kommandozeilenargumente:
-\begin{java}[firstnumber=3]
-for (String arg : args) {
-    // Cast epic magic
-}
-
-!*\onslide<+(1)->*!System.out.println(stack[pointer]);
-\end{java}
+    \item Die \(i\)te Zeile ist immer um \(N - i\) Positionen eingerückt.
+    \item Wir erschaffen ein Grundgerüst:
+\begin{plainjava}
+!*\onslide<4->*!public class Pyramid {
+!*\onslide<5->*!    public static void main(String[] args) {
+!*\onslide<6->*!        if(args.length != 1)
+!*\onslide<6->*!            System.exit(1);
+!*\onslide<7->*!        int N = Integer.parseInt(args[0]);
+!*\onslide<7->*!        // Oder auch gerne 'n'
+!*\onslide<4->*!
+!*\onslide<8->*!        // Pyramide Erschaffen +2
+!*\onslide<5->*!    }
+!*\onslide<4->*!}
+\end{plainjava}
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+\begin{frame}[t,fragile]{Präsenzaufgabe}
 \begin{itemize}[<+(1)->]
-    \item Die epic magic der Addition:
-\begin{java}[firstnumber=4]
-!*\onslide<3->*!if (arg.equals("add")) {
-!*\onslide<4->*!    pointer -= 1;
-!*\onslide<4->*!    stack[pointer] += stack[pointer + 1];
-!*\onslide<3->*!}
-\end{java}
-    \item<5-> Die epic magic der Multiplikation:
-\begin{java}[firstnumber=10]
-!*\onslide<6->*!else if (arg.equals("mult")) {
-!*\onslide<7->*!    pointer -= 1;
-!*\onslide<7->*!    stack[pointer] *= stack[pointer + 1];
-!*\onslide<6->*!}
-\end{java}
+    \item Nun basteln wir uns eine Pyramide:
+\begin{plainjava}
+!*\onslide<4->*!for (int i = 1; i <= N; i++) {
+!*\onslide<5->*!    for (int j = 1; j <= N - i; j++) {
+!*\onslide<5->*!        System.out.print(" ");
+!*\onslide<5->*!    }
+!*\onslide<6->*!    for (int j = 1; j <= i; j++) {
+!*\onslide<7->*!        System.out.print("* "); // zusätzlichen Leerzeichen
+!*\onslide<6->*!    }
+!*\onslide<8->*!    System.out.println(); // Zeilenumbruch
+!*\onslide<4->*!}
+\end{plainjava}
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+\rExecute{javac Pyramid.java}
+\begin{frame}[t,fragile]{Präsenzaufgabe}
 \begin{itemize}[<+(1)->]
-    \item Die epic magic der Sonstigkeit:
-\begin{java}[firstnumber=16]
-!*\onslide<3->*!else { // Annahme: Zahl
-!*\onslide<4->*!    pointer += 1;
-!*\onslide<4->*!    stack[pointer] = Integer.parseInt(arg);
-!*\onslide<3->*!}
-\end{java}
+    \item Damit ist alles komplett (\only<2->{\textattachfile{Pyramid.java}{Pyramid.java}}):
+    \item Somit ergibt sich \rbash[:\pause{}]{java Pyramid 8}
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung, ein Beispiel}
-\begin{itemize}[<+(1)->]
-    \item Betrachten wir ein Beispiel für \bjava{3 2 add 5 1 add add 4 mult}
-\end{itemize}\vspace*{-\smallskipamount}
-\begin{multicols}{3}
-\begin{enumerate}[<+(1)->]
-    \item Einlesen von \bjava{3}:\\ \bk{3,0,0,0,0}{0}
-    \item Einlesen von \bjava{2}:\\ \bk{3,2,0,0,0}{1}
-    \item Einlesen von \bjava{add}:\\ \bk{5,2,0,0,0}{0}
-    \item Einlesen von \bjava{5}:\\ \bk{5,5,0,0,0}{1}
-    \item Einlesen von \bjava{1}:\\ \bk{5,5,1,0,0}{2}
-    \item Einlesen von \bjava{add}:\\ \bk{5,6,1,0,0}{1}
-    \item Einlesen von \bjava{add}:\\ \bk{11,6,1,0,0}{0}
-    \item Einlesen von \bjava{4}:\\ \bk{11,4,1,0,0}{1}
-    \item Einlesen von \bjava{mult}:\\ \bk{44,4,1,0,0}{0}
-\end{enumerate}
-\end{multicols}
-\end{frame}
-\endgroup
 
 \section{Eine zweite Präsenzaufgabe}
 
@@ -387,203 +230,127 @@ if(k > 0){
 
 
 \section{Übungsblatt 3}
-\begin{frame}[t]{Übungsblatt 3 - Aufgabe 1}
-    \setcounter{algocf}{1}%
+\subsection{Aufgabe 1}
+\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 1 a)}
     \begin{itemize}[<+(1)->]
-        \item Zur Übung zunächst Pseudocode:\pause{}
-{\footnotesize\begin{algorithm}[H]
-    \PreCode
-    \KwIn{Obergrenze \(n \in \N^+\)}
-    \StartCode
-    \pause $bizz$ = $fuzz$ = $bizzfuzz$ = 0\Comment*[l]{Kardinalitäten}
-    \pause\For(\Comment*[h]{Für \(i \in [1,n]\)}){i = 1 \KwTo n}{
-        \pause\uIf{\(i \bmod 3 = i \bmod 5 = 0\)}{
-            \onslide<+(1)->{bizzfuzz += 1\;}
-        }\uElseIf{\(i \bmod 5 = 0\)}{
-            \onslide<+(1)->{bizz += 1\;}
-        }\ElseIf{\(i \bmod 3 = 0\)}{
-            \onslide<+(1)->{fuzz += 1\;}
-        }
-    }
-    \pause Gebe aus: $bizz$, $fuzz$ und $bizzfuzz$\;
-    \onslide<3->
-    \caption{Fizz-Buzz-Kardinalität}
-\end{algorithm}}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 1}
-    \begin{itemize}[<+(1)->]
-        \item Und nun in Java (\only<2->{\textattachfile{BizzFuzz.java}{BizzFuzz.java}}).\pause{} Zunächst das Einlesen der Obergrenze:
-\begin{java}
-!*\onslide<4->*!Scanner scanner = new Scanner(System.in);
-!*\onslide<4->*!final int n = scanner.nextInt();
-!*\onslide<4->*!scanner.close();
-\end{java}
-        \item<5-> Initialisieren der Variablen:
-\begin{java}[firstnumber=4]
-!*\onslide<6->*!int bizz, buzz, bizzfuzz;
-!*\onslide<6->*!bizz = fuzz = bizzfuzz = 0;
-\end{java}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 1}
-    \begin{itemize}[<+(1)->]
-        \item Die Iteration:
-\begin{java}[firstnumber=6]
-!*\onslide<3->*!for (int i = 1; i <= n; i++) {
-!*\onslide<4->*!    if (i % 3 == 0 && i % 5 == 0)
-!*\onslide<4->*!        bizzfuzzes++;
-!*\onslide<5->*!    else if (i % 5 == 0)
-!*\onslide<5->*!        bizzes++;
-!*\onslide<6->*!    else if (i % 3 == 0)
-!*\onslide<6->*!        fuzzes++;
-!*\onslide<3->*!}
-\end{java}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 1}
-    \begin{itemize}[<+(1)->]
-        \item Zuletzt die Ausgabe:
-\begin{java}[firstnumber=14]
-!*\onslide<3->*!System.out.format("fuzzes: %d, bizzes: %d, bizzfuzz: %d\n",
-!*\onslide<3->*!    fuzzes, bizzes, bizzfuzzes);
-\end{java}
-        \item Wie liese sich das Programm optimieren?
-        \item Sind diese Optimierungen notwendig?
-        \item Was wäre, wenn es \(50\) Mengen sind, die man so konstruiert?
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item Naiver Ansatz: Wir probieren für jede Zahl \(1 < i < n\) ob sie \(n\) teilt.
-        \item Etwas besser: Wir beschränken uns auf \(1 < i \leq \sfrac{n}{2}\)
-        \item Wir beginnen mit dem Einlesen der Zahl (\only<4->{\textattachfile{Prim.java}{Prim.java}}):
-\begin{java}
-!*\onslide<5->*!Scanner scanner = new Scanner(System.in);
-!*\onslide<5->*!final int n = scanner.nextInt();
-!*\onslide<5->*!scanner.close();
-\end{java}
-    \item<6-> Wir initialisieren den möglichen Teiler auf 1:
-\begin{java}[firstnumber=4]
-!*\onslide<7->*!int teiler = 1;
-\end{java}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item Nun die Schleife zum Iterieren über alle möglichen Teiler:
-\begin{java}[firstnumber=5]
-!*\onslide<3->*!for (int i = 2; i < n/2; i++) {
-!*\onslide<4->*!    if (n % i == 0) {
-!*\onslide<5->*!        teiler = i;
+        \item Uns reicht es, wenn dies nur für den zweiten \bjava{if}-\bjava{else}-Block geschieht.
+        \item Damit wird dieser zu:
+\begin{plainjava}
+!*\onslide<4->*!switch (x) {
+!*\onslide<5->*!    case 1:  System.out.println("A");
 !*\onslide<5->*!        break;
-!*\onslide<4->*!    }
+!*\onslide<6->*!    case 2:  System.out.println("B");
+!*\onslide<6->*!        break;
+!*\onslide<7->*!    case 3:  System.out.println("C");
+!*\onslide<7->*!        break;
+!*\onslide<8->*!    default: System.out.println("D");
+!*\onslide<8->*!        break;
+!*\onslide<4->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 1 a)}
+    \begin{itemize}[<+(1)->]
+        \item Fanatiker dürfen aber auch die Kommandozeilenargumente auf diese Weise überprüfen~(\only<2->{\textattachfile{SwitchCaseControlled.java}{SwitchCaseControlled.java}}):\lstfs{10}
+\begin{plainjava}
+!*\onslide<3->*!switch(args.length) {
+!*\onslide<4->*!    case 1: x = Integer.parseInt(args[0]); break;
+!*\onslide<5->*!    default: System.exit(1); return;
 !*\onslide<3->*!}
-\end{java}
-        \item<6-> Die Ausgabe:
-\begin{java}[firstnumber=11]
-!*\onslide<7->*!if (teiler > 1)
-!*\onslide<8->*!    System.out.format("%d ist keine, da %d\n", n, teiler);
-!*\onslide<9->*!else System.out.format("%d ist eine Primzahl\n", n);
-\end{java}
+\end{plainjava}
+        \item Ist das \bjava{switch} hier sinnvoll?\pause\
+        \info{Nicht wirklich. Mindestens drei Fälle sollten es schon sein, damit sich der Schreibaufwand auch reduziert beziehungsweise die Lesbarkeit verbessert.}
+        \item Ist das \bjava{return} hier notwendig?\pause\ \info{Nein, die JVM bricht durch das \bjava{exit} ab.}
+        \item Warum könnte man \bjava{return} eventuell doch brauchen?\pause\ \info{Theoretisch muss sie da nicht enden und auch wenn der Code danach nicht mehr ausgeführt wird, der Java Compiler weiß in der Regel noch nicht, dass es bei \bjava{System.exit} wirklich vorbei ist.}
     \end{itemize}
 \end{frame}
 
 
-\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe}
-    \setcounter{algocf}{2}%
+\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 1 b)}
     \begin{itemize}[<+(1)->]
-        \item Wir können zuerst alle Zahlen einlesen.\pause\ Oder ein Verfahren wählen, bei dem es genügt sie nacheinander zu betrachten.
-        \item Wir beginnen mit Pseudocode, durch \say{next()} wird die nächste Zahl der Liste entnommen \info{und weiter \(0\) geliefert, falls diese leer ist}:\medskip\par\pause
-{\footnotesize\begin{algorithm}[H]
-    \PreCode
-    \KwIn{Liste an Zahlen \(a_1, \ldots, a_n, 0\)}
-    \StartCode
-    \pause $a_i = 0$, $a_{i + 1} =$ next(), akzeptiert = wahr\;
-    \pause\While{akzeptiert}{
-        \onslide<+(1)->{$a_i$ = $a_{i + 1}$\;
-        $a_{i + 1} =$ next()\;}
-        \onslide<+(1)->{\lIf(\Comment*[h]{Sonst undefiniert für negativ}){$a_{i + 1} \leq 0$}{
-            \KwBreak
-        }}
-        \onslide<+(1)->{akzeptiert = prüfe($a_i$, $a_{i + 1}$)\;}
-    }
-    Gebe aus: akzeptiert.
-    \onslide<5->
-    \caption{Sequenzanalyse}
-\end{algorithm}}
+        \item Die Bedingung \bjava{(x < 0) || (x >= 3)} invertiert den Default-Fall!
+        \item Damit genügt~(\only<3->{\textattachfile{SwitchCaseControlledAlternate.java}{SwitchCaseControlledAlternate.java}})
+\begin{plainjava}
+switch (x) {
+    case 0: System.out.println("D"); break;
+    case 1: System.out.println("A"); break;
+    case 2: System.out.println("B"); break;
+    default:
+        System.out.println("C");
+}
+\end{plainjava}
     \end{itemize}
 \end{frame}
 
+\subsection{Aufgabe 2}
 
-\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe}
-    \setcounter{algocf}{3}%
+\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 2 a)\hfill While}
     \begin{itemize}[<+(1)->]
-        \item Nun die Routine für das Prüfen:\medskip\par\pause
-{\footnotesize\begin{algorithm}[H]
-    \PreCode
-    \KwIn{Zwei Zahlen \(a_{i} \geq 0\) und \(a_{i+1} \geq 0\)}
-    \KwOut{Wenn beide gerade/ungerade: \(a_i \leq a_{i + 1}\), sonst \(a_i > a_{i + 1}\).}
-    \StartCode
-    \pause\eIf{\(a_i \bmod 2 = a_{i + 1} \bmod 2\)}{
-        \onslide<+(1)->{\KwRet{$a_i \leq a_{i + 1}$}}
-    }{
-        \onslide<+(1)->{\KwRet{$a_i > a_{i + 1}$}}
-    }
-    \onslide<3->
-    \caption{prüfe($a_i$, $a_{i + 1}$)}
-\end{algorithm}}
+        \item Zunächst mit While~(\only<3->{\textattachfile{FacultyWhileLoop.java}{FacultyWhileLoop.java}}):
+\begin{plainjava}
+!*\onslide<3->*!int faculty = 1;
+!*\onslide<3->*!int i = 0;
+!*\onslide<4->*!while (i <= n) {
+!*\onslide<5->*!    if (i != 0) {
+!*\onslide<6->*!        faculty *= i;
+!*\onslide<5->*!    }
+!*\onslide<7->*!    System.out.println(i + "! = " + faculty);
+!*\onslide<7->*!    i++;
+!*\onslide<5->*!}
+\end{plainjava}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe}
+\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 2 a)\hfill Do-While}
     \begin{itemize}[<+(1)->]
-        \item Nun in Java (\only<2->{\textattachfile{Sequenzanalyse.java}{Sequenzanalyse.java}}). Wir initialisieren:
-\begin{java}
-!*\onslide<3->*!Scanner scanner = new Scanner(System.in);
-!*\onslide<4->*!int prev;
-!*\onslide<5->*!int i = scanner.nextInt();
-!*\onslide<6->*!boolean accept = true;
-\end{java}
+        \item Non mit Do-While~(\only<3->{\textattachfile{FacultyDoWhileLoop.java}{FacultyDoWhileLoop.java}}):
+\begin{plainjava}
+!*\onslide<3->*!int faculty = 1;
+!*\onslide<3->*!int i = 0;
+!*\onslide<4->*!do {
+!*\onslide<5->*!    if (i != 0) {
+!*\onslide<6->*!        faculty *= i;
+!*\onslide<5->*!    }
+!*\onslide<7->*!    System.out.println(i + "! = " + faculty);
+!*\onslide<7->*!    i++;
+!*\onslide<4->*!} while (i <= n);
+\end{plainjava}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe}
+\begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 2 b)}
     \begin{itemize}[<+(1)->]
-    \item Die Hauptschleife:
-\begin{java}[firstnumber=5]
-!*\onslide<3->*!while(i > 0 && accept) {
-!*\onslide<4->*!    prev = i;
-!*\onslide<5->*!    i = scanner.nextInt();
-!*\onslide<6->*!    if (i <= 0) break;
-!*\onslide<7->*!    accept = check(prev, i);
-!*\onslide<3->*!}
-\end{java}
-    \item<8-> Schließlich die Ausgabe:
-\begin{java}[firstnumber=11]
-!*\onslide<9->*!scanner.close();
-!*\onslide<9->*!System.out.println(accept ? "Akzeptiert" : "Abgelehnt");
-\end{java}
+        \itemsep9pt
+        \item \say{Sie möchten alle \(n\) Elemente einer Liste ausgeben.}\smallskip\pause\par
+        Da wir hier das Maximum kennen und nacheinander auf alle Elemente zugreifen, empfiehlt sich eine \bjava{for}-Schleife.
+        \item \say{Sie möchten solange einzelne Zeichen einlesen, bis ein \say{x} eingelesen wird.}\smallskip\pause\par
+        Hier kennen wir nicht das Maximum. Da wir aber mindestens einmal einlesen müssen um auf \say{x} zu prüfen, empfiehlt sich \bjava{do}-\bjava{while}.\pause\ An sich ginge aber auch \bjava{while} wenn wir im Schleifenkopf einlesen.
     \end{itemize}
 \end{frame}
-\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe}
-    \rExecute{javac Sequenzanalyse.java}%
+
+\subsection{Zusatzaufgabe 1/6}
+\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe a)}
     \begin{itemize}[<+(1)->]
-    \item Abschließend die \say{check} Routine:
-\begin{java}[firstnumber=13]
-!*\onslide<3->*!boolean check(int prev, int i) {
-!*\onslide<4->*!    if(prev % 2 == i % 2)
-!*\onslide<5->*!        return prev <= i;
-!*\onslide<4->*!    else
-!*\onslide<6->*!        return prev > i;
-!*\onslide<3->*!}
-\end{java}
-    \item<7-> So erhalten wir zum Beispiel für\Rbash[:\pause]{java Sequenzanalyse}{echo 2 4 6 6 6 3 5 5 5 0 | java Sequenzanalyse}
+        \item Jetzt können wir auch alles über Bord werfen.
+        \item Da der Argumenttest nicht ternär gemacht werden kann, sind wir mal nicht fanatisch \Laughey\ (\only<3->{\textattachfile{EvenOddTernary.java}{EvenOddTernary.java}}):
+\begin{plainjava}
+System.out.println(x + ((x % 2) == 0 ? " ist gerade" :
+                    " ist ungerade"));
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe b)}
+    \begin{itemize}[<+(1)->]
+        \item So schlimm es auch ist, wir können die ternären Operationen verschachteln.
+        \item Der Argumenttest geht aber immer noch nicht (\only<3->{\textattachfile{DivisibleTernary.java}{DivisibleTernary.java}}):
+\begin{plainjava}
+String output = (x % 2) == 0 ? " ist durch 2 teilbar"
+        : (x % 3) == 0 ? " ist durch 3 teilbar"
+        : " ist weder durch 2 noch 3 teilbar";
+\end{plainjava}
     \end{itemize}
 \end{frame}
 
@@ -622,6 +389,188 @@ if(k > 0){
 %         \item Liefert:\pause{} \say{\T{\# \Smiley}}.
 %     \end{itemize}
 % \end{frame}
+
+
+\section{Bonus: Kellerspeicher}
+
+\tikzset{block/.style={rectangle,draw=gray,minimum width=.7cm,minimum height=.5cm},N/.style={outer sep=0pt,inner sep=0pt}}
+% list | pointer
+\def\bk#1#2{%
+\scalebox{.65}{\begin{tikzpicture}
+\foreach[count=\i] \a in {#1} {
+    \node[block] (\i) at(\i*.7cm,0) {\a};
+    \node[below,gray,font=\footnotesize\sffamily] at (\i.south) {\the\numexpr\i-1\relax};
+}
+\node[left=.55cm,N] (arr) at (1.west) {\bjava{int[] arr}: };
+
+\node[above,yshift=.15cm] at(\the\numexpr#2+1\relax.north) {\faCaretDown};
+\node[above left,yshift=.15cm,N] at(arr.north east) {\bjava{pointer = #2}};
+\end{tikzpicture}}%
+}
+
+\begin{frame}[fragile]{Exkurs: (Array-)Kellerspeicher}
+    \begin{itemize}[<+(1)->]
+        \item Einfache Datenstruktur (Stack). \info{Wir werden später mehr kennenlernen}
+        \item Repräsentiert durch Array und Zeiger (\bjava{int pointer}).
+        \item \strut Betrachten wir ein Array mit 5 Elementen (initial \bjava{pointer = -1}).\smallskip\\
+\scalebox{.65}{\begin{tikzpicture}
+\foreach[count=\i] \a in {0,0,0,0,0} {
+    \node[block] (\i) at(\i*.7cm,0) {\a};
+    \node[below,gray,font=\footnotesize\sffamily] at (\i.south) {\the\numexpr\i-1\relax};
+}
+\node[left=.55cm,N] (arr) at (1.west) {\bjava{int[] arr}: };
+\end{tikzpicture}}%
+    \end{itemize}
+    \begin{multicols}{3}
+    \begin{enumerate}[<+(1)->]
+        \item \strut Hinzufügen von \bjava{8}\\ \bk{8,0,0,0,0}{0}
+        \item \strut Hinzufügen von \bjava{3}\\ \bk{8,3,0,0,0}{1}
+        \item \strut Hinzufügen von \bjava{4}\\ \bk{8,3,4,0,0}{2}
+        \item \strut Hinzufügen von \bjava{9}\\ \bk{8,3,4,9,0}{3}
+        \item \strut Entferne Element\\ \bk{8,3,4,0,0}{2}
+        \item \strut Entferne Element\\ \bk{8,3,0,0,0}{1}
+    \end{enumerate}
+    \end{multicols}
+\end{frame}
+
+\begin{frame}[fragile]{Exkurs: (Array-)Kellerspeicher}
+    \begin{itemize}[<+(1)->]
+        \item Für unser Beispiel, muss die Zahl gar nicht gelöscht werden.
+        \item \strut Es reicht, den Zeiger zu verschieben:\smallskip\\
+\scalebox{.65}{\begin{tikzpicture}
+\foreach[count=\i] \a in {0,0,0,0,0} {
+    \node[block] (\i) at(\i*.7cm,0) {\a};
+    \node[below,gray,font=\footnotesize\sffamily] at (\i.south) {\the\numexpr\i-1\relax};
+}
+\node[left=.55cm,N] (arr) at (1.west) {\bjava{int[] arr}: };
+\end{tikzpicture}}%
+    \end{itemize}
+    \begin{multicols}{3}
+    \begin{enumerate}[<+(1)->]
+        \item \strut Hinzufügen von \bjava{8}\\ \bk{8,0,0,0,0}{0}
+        \item \strut Hinzufügen von \bjava{3}\\ \bk{8,3,0,0,0}{1}
+        \item \strut Hinzufügen von \bjava{4}\\ \bk{8,3,4,0,0}{2}
+        \item \strut Hinzufügen von \bjava{9}\\ \bk{8,3,4,9,0}{3}
+        \item \strut Entferne Element\\ \bk{8,3,4,9,0}{2}
+        \item \strut Entferne Element\\ \bk{8,3,4,9,0}{1}
+    \end{enumerate}
+    \end{multicols}
+\end{frame}
+
+\def\exr#1#2{\bvoid{#1}~$\Rightarrow$~\bvoid{#2}}
+\begin{frame}[fragile]{Exkurs: Umgekehrte polnische Notation}
+    \begin{itemize}[<+(1)->]
+        \item Herkömmliche Darstellung für arithmetischer Ausdrücke: \bvoid{<a> <op> <b>}
+        \item In der umgekehrten polnischen Notation (UPN) ist dies anders!
+        \item Zuerst die Operanden (\bvoid{<a>}, \bvoid{<b>}), dann der Operator (\bvoid{<op>}). \begin{itemize}
+            \item \exr{1 + 2 + 3 + 4}{1 2 + 3 4 + + }
+            \item \exr{(2 * 3) + (20 * 3)}{2 3 * 20 3 * +}
+            \item \exr{13 * 12 * -5 + 4}{13 12 * -5 * 4 +}
+        \end{itemize}
+        \item Wir werden uns auf \say{$+$} und \say{$*$} fokussieren.
+        \item Anstelle von \say{$*$} schreiben wir \say{mult}, anstelle von \say{$+$}, \say{add}. \begin{itemize}
+            \item \exr{1 + 2 + 3 + 4}{1 2 add 3 4 add add}
+            \item \exr{(2 * 3) + (20 * 3)}{2 3 mult 20 3 mult add}
+            \item \exr{13 * 12 * -5 + 4}{13 12 mult -5 mult 4 add}
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Exkurs: Umgekehrte polnische Notation mit Stack}
+    \begin{itemize}[<+(1)->]
+        \item Annahme: Die Ausdrücke mit denen wir arbeiten sind gültig.
+        \item Wir arbeiten von links nach rechts.
+        \item Wir speichern die Operanden auf dem Stack.
+        \item Treffen wir auf einen Operator: \info{Ein Beispiel kommt mit der Lösung der alten Präsenzaufgabe} \begin{enumerate}
+            \item entnehmen der obersten beiden Elemente des Stack.
+            \item verarbeiten mit dem Operator \info{Multiplikation/Addition}.
+            \item ablegen der Summe/des Produktes auf dem Stack.
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Eine alte Präsenzaufgabe}
+    \rExecute{javac ReversePolishNotation.java}\setcounter{algocf}{0}
+    \begin{aufgabe}{Do da' UPN}
+        \pause{}Schreiben Sie ein Programm, dass mit (korrekter) UPN gefüttert, den oberen Wert des Stacks ausgibt.\pause{} Die Operanden sollen Integer und die Operatoren \bjava{add} und \bjava{mult} sein. Sie können eine Zeichenkette mit \say{\bjava{Integer.parseInt(x)}} in einen Integer umwandeln.\pause{} Sie können den Stack auf eine kleine Zahl begrenzen.\pause\par
+% \rbash[:\pause]{java ReversePolishNotation 1 2 3 4 5 add}
+\rbash[:\pause]{java ReversePolishNotation 2 3 mult 20 3 mult add}
+        \onslide<1->
+    \end{aufgabe}
+\end{frame}
+
+\begingroup
+\lstfs{10}
+\begin{frame}[t,fragile]{Eine alte Präsenzaufgabe - Lösung}
+\begin{itemize}[<+(1)->]
+    \item Das volle Programm findet sich hier: \only<2->{\textattachfile{ReversePolishNotation.java}{ReversePolishNotation.java}}.
+    \item Initialisierung:
+\begin{java}
+int[] stack = new int[100];
+int pointer = -1;
+\end{java}
+    \item Wir iterieren über alle Kommandozeilenargumente:
+\begin{java}[firstnumber=3]
+for (String arg : args) {
+    // Cast epic magic
+}
+
+!*\onslide<+(1)->*!System.out.println(stack[pointer]);
+\end{java}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Eine alte Präsenzaufgabe - Lösung}
+\begin{itemize}[<+(1)->]
+    \item Die epic magic der Addition:
+\begin{java}[firstnumber=4]
+!*\onslide<3->*!if (arg.equals("add")) {
+!*\onslide<4->*!    pointer -= 1;
+!*\onslide<4->*!    stack[pointer] += stack[pointer + 1];
+!*\onslide<3->*!}
+\end{java}
+    \item<5-> Die epic magic der Multiplikation:
+\begin{java}[firstnumber=10]
+!*\onslide<6->*!else if (arg.equals("mult")) {
+!*\onslide<7->*!    pointer -= 1;
+!*\onslide<7->*!    stack[pointer] *= stack[pointer + 1];
+!*\onslide<6->*!}
+\end{java}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Eine alte Präsenzaufgabe - Lösung}
+\begin{itemize}[<+(1)->]
+    \item Die epic magic der Sonstigkeit:
+\begin{java}[firstnumber=16]
+!*\onslide<3->*!else { // Annahme: Zahl
+!*\onslide<4->*!    pointer += 1;
+!*\onslide<4->*!    stack[pointer] = Integer.parseInt(arg);
+!*\onslide<3->*!}
+\end{java}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Eine alte Präsenzaufgabe - Lösung, ein Beispiel}
+\begin{itemize}[<+(1)->]
+    \item Betrachten wir ein Beispiel für \bjava{3 2 add 5 1 add add 4 mult}
+\end{itemize}\vspace*{-\smallskipamount}
+\begin{multicols}{3}
+\begin{enumerate}[<+(1)->]
+    \item Einlesen von \bjava{3}:\\ \bk{3,0,0,0,0}{0}
+    \item Einlesen von \bjava{2}:\\ \bk{3,2,0,0,0}{1}
+    \item Einlesen von \bjava{add}:\\ \bk{5,2,0,0,0}{0}
+    \item Einlesen von \bjava{5}:\\ \bk{5,5,0,0,0}{1}
+    \item Einlesen von \bjava{1}:\\ \bk{5,5,1,0,0}{2}
+    \item Einlesen von \bjava{add}:\\ \bk{5,6,1,0,0}{1}
+    \item Einlesen von \bjava{add}:\\ \bk{11,6,1,0,0}{0}
+    \item Einlesen von \bjava{4}:\\ \bk{11,4,1,0,0}{1}
+    \item Einlesen von \bjava{mult}:\\ \bk{44,4,1,0,0}{0}
+\end{enumerate}
+\end{multicols}
+\end{frame}
+\endgroup
+
 
 
 \section{End Pinguuu}
