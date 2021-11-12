@@ -117,7 +117,7 @@
 \section{Präsenzaufgabe}
 \begin{frame}[c]{Präsenzaufgabe}
     \begin{aufgabe}{Ju can not desieve mie!}
-        {\small\pause{}Entwickeln Sie ein Programm, welches als Eingabe eine Zahl \(N\) erhält und mit Hilfe des Sieb des Erastothenes alle Primzahlen zwischen \(1\) und \(N\) bestimmt und ausgibt.
+        {\small\pause{}Entwickeln Sie ein Programm, welches als Eingabe eine Zahl \(N\) erhält und mit Hilfe des Sieb des Eratosthenes alle Primzahlen zwischen \(1\) und \(N\) bestimmt und ausgibt.
         \pause{}Die Idee hier ist, alle Vielfachen der Zahlen, beginnend bei \(2\) zu markieren, also \say{herauszusieben}.\pause{} Danach wird mit der nächsten unmarkierten Zahl fortgefahren.
         Hier ein grafisches Beispiel mit \(N=16\):\pause{}\bigskip\par}
 \centerline{\resizebox{.95\linewidth}!{\parbox\linewidth{\SieveFromTo[\pause]{16}{2}{5}\hfill\faAngleRight\hfill\ldots}}}
@@ -142,7 +142,7 @@
 \column{.6\linewidth}
 \begin{algorithm}[H]
     \PreCode
-    \KwIn{Obergrenze \(N\)}
+    \KwIn{Obergrenze \(N \in \N\)~~(da Primzahlen)}
     \StartCode
     \pause\(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \pause\lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
@@ -189,6 +189,7 @@
     \itemsep10pt
     \item Allgemeiner: Wir können beim Markieren bei \(i^2\) anstelle von \(2 \cdot i\) beginnen. Alle Vielfachen kleiner \(i^2\) wurden bereits markiert!
     \item Damit können wir das Markieren bereits bei \(\sqrt{N}\) stoppen.
+    \item \textit{Hinweis:} Im folgenden Pseudocode gehen wir davon aus, dass \textbf{for} nur ganzzahlige Schritte macht.\pause\ Für \say{\textbf{for} \(i = \sqrt{N} + 1\)} gehen wir also beispielsweise davon aus, dass der Algorithmus immer abrundet.
 \end{itemize}
 \end{frame}
 
@@ -213,7 +214,7 @@
 \column{.6\linewidth}
 \begin{algorithm}[H]
     \PreCode
-    \KwIn{Obergrenze \(N\)}
+    \KwIn{Obergrenze \(N \in \N\)}
     \StartCode
     \pause\(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \pause\lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
@@ -466,7 +467,7 @@ if((22 >= b) && (a > b)) { // I
 \column{.5\linewidth}
 \onslide<2->{\begin{algorithm}[H]
     \PreCode
-    \KwIn{Obergrenze \(N\)}
+    \KwIn{Obergrenze \(N \in \N\)}
     \StartCode
     \(\mathrm{marker} = (\mathrm{marker}_1, \ldots, \mathrm{marker}_N)\)\;
     \lFor{\(i = 1\) \KwTo \(N\)}{\(\mathrm{marker}_i = \mathrm{false}\)}
