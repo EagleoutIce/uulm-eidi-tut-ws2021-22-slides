@@ -630,6 +630,37 @@ for (String arg : args) {
 \end{frame}
 \endgroup
 
+\section{Abgabekommentar}
+\newsavebox\shocked
+\savebox\shocked{\tikz\pingu[eyes=shock,wings=shock,tie,headband];}
+
+\mode
+<beamer>
+\begin{frame}[c,plain]
+\null\vfill\vfill\null\hspace*{-1cm}\foreach \i in {1,...,11}{%
+\only<\the\numexpr\i+1>{\includegraphics[scale=.5]{images/\i.png}%
+\tikzpicture[overlay,remember picture]
+\node[scale=1 + \i*.175,above right=-7mm,xshift=-1mm] at(current page.south west) {\rotatebox{-45}{\usebox\shocked}};
+\endtikzpicture
+}%
+}\vfill\null
+\end{frame}
+
+\mode
+<handout>
+
+\begin{frame}[c,plain]
+\null\vfill\vfill\null\hspace*{-1cm}
+\includegraphics[scale=.5]{images/1.png}%
+\tikzpicture[overlay,remember picture]
+\node[scale=2.33,above right=-7mm,xshift=-1mm] at(current page.south west) {\rotatebox{-45}{\usebox\shocked}};
+\endtikzpicture
+\vfill\null
+\end{frame}
+
+\mode
+<all>
+
 \section{End Pinguuu}
 \begin{frame}[c]
     \hbox{}\vfill
