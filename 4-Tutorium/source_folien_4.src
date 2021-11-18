@@ -1,48 +1,11 @@
-\errorcontextlines 999999
-\usepackage{attachfile2}
-\attachfilesetup{%
-    author={Florian Sihler},%
-    color=0.2 0.3647 0.4941, icon=Tag, mimetype=text/plain%
-}
 
-\usepackage[%
-    sopra-listings={encoding,cpalette},%
-    sopra-tables,color-palettes={addons},%
-    util,lithie-boxes={germanenv,koma,overwrite},%
-    lithie-task-boxes={cpalette},%
-    lecture-links={patchurl},%
-    lecture-registers={disable}% would interfere with beamer
-]{lithie-util}
-\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
-\RestyleAlgo{plain}
-\solLoadLanguage{bash,cpp}
-\usepackage[ngerman]{babel}
+\RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
+\input ../global.src
+\usepackage{lecture-personal-resize}
+\pgfmathsetseed{\number\pdfrandomseed}
 
-\colorlet{MaterialHeaderColor}{paletteB}%
-\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
-
-\def\linkstyle#1{\textsf{\paletteD{#1}}}
-\SetAllLinkStyle{\linkstyle{#1}}
-\usepackage{tikzducks,tikzsymbols}
-\usetheme{lucy}
-
-\usetikzlibrary{arrows.meta}
-
-\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
-
-\newcommand\parallelcontent[3][t]{%
-    \begin{columns}[#1]
-    \begin{column}{0.475\linewidth}
-        #2
-    \end{column}\hfill
-    \begin{column}{0.475\linewidth}
-        #3
-    \end{column}
-    \end{columns}
-}
-
-\title[Viertes Tutorium -- Übungsblatt 4]{Kommandozeilenargumente\\\small Tutorium 4}
-\date{\sffamily KW 21}
+\title[Viertes Tutorium -- Übungsblatt 4]{Schau mal -- ein Vokal\\\small Die Hexenjagd 4}
+\date{\sffamily KW 47}
 \author{Florian Sihler}
 \institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
@@ -54,172 +17,309 @@
 \hypersetup{colorlinks=false}
 
 \begin{document}
-\begin{frame}[c]
-    \begin{tikzpicture}[overlay]
-        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
-            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
-        \end{scope}
-        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {4};
-    \end{tikzpicture}
-    \titlepage
-\end{frame}
+\Titlepage{4}
 
+\newsavebox\pingubox
+\savebox\pingubox{\smash{\resizebox*!{.75\baselineskip}{\tikz\pingu[sunglasses,bow tie=pingu@black,cloak=pingu@black,eyes wink];}}}
+\newsavebox\shockpingu
+\savebox\shockpingu{\tikz\pingu[eyes angry,left wing shock, right wing wave,bill angry];}
+\newsavebox\happypingu
+\savebox\happypingu{\tikz\pingu[eyes wink,left wing shock, right wing wave,heart=shadeB];}
+\newsavebox\holdpingu
+\savebox\holdpingu{\tikz\pingu[wings raise,left eye angry,right eye devil,bill angry,pants=paletteB!60!pingu@black,body=pingu@black,small,pants bands];}
 \section{Präsenzaufgabe}
 \begin{frame}[c,fragile]{Präsenzaufgabe}
-    \begin{aufgabe}{Matrix reversed}
-        \pause{}Implementieren Sie zwei Java-Methoden: \begin{enumerate}[<+(1)->]
-            \item \bjava{public static int[] reverse(int[] toReverse)}\par
-                  Lässt \T{toReverse} unverändert und liefert ein neues Array zurück, dass die Elemente von \T{toReverse} in umgekehrter Reihenfolge enthält.
-            \item \bjava{public static void reverseInPlace(int[] reverse)}\par
-                  Kehrt die Reihenfolge des übergebenen Arrays direkt um.
-        \end{enumerate}
+    \begin{aufgabe}{Maximal Medium --- Charakterlimit erreicht}
+\begin{onlyenv}<2-4|handout:0>
+\begin{plainjava}
+public class Statistics {
+    public static void main(String[] args) {
+        // Zwischen 10 und 20
+        int length = (int) (Math.random() * 11 + 10);
+        int randoms[] = new int[arrayLength];
+
+        for(int i = 0; i < length; i++) {
+            // Zwischen 1 und 100
+            randoms[i] = (int) (Math.random() * 100 + 1);
+        }
+
+        // !*\usebox\pingubox*! Platzhalterpingu
+    }
+}
+\end{plainjava}
+\end{onlyenv}
+\begin{uncoverenv}<5-|handout:1>
+\vspace*{-.33\baselineskip}\lstfs{9}%
+\begin{plainjava}[aboveskip=0pt,belowskip=0pt,lineskip=1pt]
+public class Statistics {
+    public static void main(String[] args) {
+        // Zwischen 10 und 20
+        int length = (int) (Math.random() * 11 + 10);
+        int[] randoms = new int[arrayLength];
+
+        for(int i = 0; i < length; i++) {
+            // Zwischen 1 und 100
+            randoms[i] = (int) (Math.random() * 100 + 1);
+        }
+
+        // !*\usebox\pingubox*! Platzhalterpingu
+    }
+}
+\end{plainjava}
+\end{uncoverenv}
         \onslide<1->
     \end{aufgabe}
+\begin{tikzpicture}[overlay,remember picture]
+\onslide<3-4|handout:0>{
+    \node[above left=2mm,yshift=3mm] (p) at(current page.south east) {\usebox\shockpingu};
+}
+\onslide<5|handout:0>{
+    \node[above left=2mm,yshift=3mm] (p2) at(current page.south east) {\usebox\happypingu};
+    \node[above,rounded corners=2pt,fill=white] at(p2.north) {~~~~~~Better};
+}
+\onslide<4|handout:0>{
+    \node[above,align=center,rounded corners=2pt,fill=white] at(p.north) {That does not\\look right\ldots};
+}
+% break slide!
+\onslide<7->{
+    \node[above left=2mm,yshift=3.9mm,xshift=-1cm] (p) at(current page.south east) {\usebox\holdpingu};
+    \pgfonlayer{background}
+\onslide<7->{
+    \node[rectangle,rounded corners=1.25pt,fill=white,thick,above,draw=gray,text width=4.7cm,minimum height=3.4cm,font=\footnotesize] at([yshift=-8.75mm]p.north) {Ersetzen Sie \usebox\pingubox\ mit Code zur Berechnung der folgenden statistische Kenngrößen für \T{randoms}: 1)~Minimum, 2)~Maximum,\\3)~Mittelwert und 4)~Median.\\Geben Sie sie aus.\vspace*{14pt}};
+}
+    \endpgfonlayer
+}
+
+\onslide<8->{
+    \node[rectangle,rounded corners=1.25pt,fill=white,thick,above,draw=gray,rotate=-10,font=\footnotesize] (nms) at([xshift=5mm,yshift=12mm]current page.south) {\bjava{Arrays::sort} sortiert ein Array!};
+    \draw[line width=2.5pt,line cap=round,pingu@bronze] ([xshift=1.2pt,yshift=-1.2pt]nms.east) -- ++(1.44cm,2.22cm);
+}
+\onslide<9->{
+    \node[rectangle,rounded corners=1.25pt,fill=white,thick,above,draw=gray,rotate=5.55,font=\footnotesize,above right] at(nms.north) {\bjava{java.util.Arrays}};
+}
+\end{tikzpicture}%
 \end{frame}
 
 \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
-    \item Der gesamte Code ist wieder hier: \only<2->{\textattachfile{Reverse.java}{Reverse.java}}\par\info{Er enthält eine Anwendung für Tabs und Assertions.}
-    \item Zunächst \bjava{reverse}:
+    \item Der gesamte Code ist wieder hier: \only<2->{\textattachfile{Statistics.java}{Statistics.java}}
+    \item Sortieren macht das finden von Mini- und Maximum leicht:
 \begin{plainjava}
-!*\onslide<4->*!public static int[] reverse(int[] toReverse){
-!*\onslide<5->*!    int[] newArr = new int[toReverse.length];
-!*\onslide<6->*!    for(int i = 0; i < toReverse.length; i++) {
-!*\onslide<7->*!        newArr[newArr.length-i-1]  = toReverse[i];
-!*\onslide<6->*!    }
-!*\onslide<8->*!    return newArr;
+!*\onslide<4->*!Arrays.sort(randoms);
+
+!*\onslide<4->*!int min = randoms[0]; // first
+!*\onslide<4->*!int max = randoms[length-1]; // last
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+    \item Es geht mir mittelmäßig. Ich komm schon drüber weg\ldots
+\begin{plainjava}
+!*\onslide<3->*!double avg = 0.0;
+!*\onslide<4->*!for(int i = 0; i < length; i++) {
+!*\onslide<5->*!    avg += randoms[i];
+!*\onslide<4->*!}
+!*\onslide<6->*!avg /= length; // avg = avg / length;
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+    \item Der Median ist bei ungerade vielen Elementen das mittlere und sonst der Durchschnitt der mittleren Elemente:
+\begin{plainjava}
+!*\onslide<3->*!double med = 0.0;
+!*\onslide<4->*!if(length % 2 == 1) {
+!*\onslide<5->*!    med = randoms[(length / 2) + 1];
+!*\onslide<4->*!} else {
+!*\onslide<6->*!    med = randoms[(length / 2) - 1] + randoms[(length / 2)];
+!*\onslide<6->*!    med /= 2; // med = med / 2;
 !*\onslide<4->*!}
 \end{plainjava}
 \end{itemize}
 \end{frame}
-% TODO: auch möglich: kopie
+
+\rExecute{javac Statistics.java}
 \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
-    \item Nun \bjava{reverseInPlace}:
+    \item Und nun der shout-out an die Fans:
 \begin{plainjava}
-!*\onslide<3->*!public static void reverseInPlace(int[] reverse) {
-!*\onslide<4->*!    for (int i = 0; i < reverse.length / 2; i++) {
-!*\onslide<5->*!        // swap i and length-i-1
-!*\onslide<6->*!        int tmp = reverse[i];
-!*\onslide<6->*!        reverse[i] = reverse[reverse.length - i - 1];
-!*\onslide<6->*!        reverse[reverse.length - i - 1] = tmp;
-!*\onslide<4->*!    }
-!*\onslide<3->*!}
+!*\onslide<3->*!System.out.println("Minimum: " + min);
+!*\onslide<3->*!System.out.println("Maximum: " + max);
+!*\onslide<3->*!System.out.println("Mittelwert: " + avg);
+!*\onslide<3->*!System.out.println("Median: " + med);
 \end{plainjava}
+    \item \rbash[:\pause]{java Statistics}
 \end{itemize}
 \end{frame}
-
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
-\only<1->{\rExecute{javac Reverse.java}}
-\begin{itemize}[<+(1)->]
-    \item So weit so gut \Laughey. \pause\info{Es wäre auch möglich in \bjava{reverse(int[])} eine Kopie von \bjava{toReverse} zu erstellen und dann \bjava{reverseInPlace} zu verwenden.}
-    \item Ein Beispiel mit dem Array \bjava{\{1, 2, 3, 4, 5, 6, 7\}} \rbash[:\pause]{java Reverse}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
-    \begin{itemize}[<+(1)->]
-        \item Vorteile von \bjava{reverse} (gegenüber \bjava{reverseInPlace}): \begin{itemize}
-            \item Nebeneffekte von Methoden sind generell schlecht! \say{out-Parameter} sollten vermieden werden (wo nicht unbedingt notwendig).
-        \end{itemize}
-        \item Nachteile von \bjava{reverse} (gegenüber \bjava{reverseInPlace}): \begin{itemize}
-            \item Der benötigte Speicher wird verdoppelt (was, wenn das Array riesig ist?)
-        \end{itemize}
-        \item Was ist nun besser?
-            \begin{itemize}
-                \item In der Regel \bjava{reverse}. Die unerwarteten/ungewollten Seiteneffekte können Kaskaden schwer zu findender Fehler verursachen.
-                \item Sollten wirklich große Arrays erwartet werden, sollte man sich unter Umständen ein grundlegend anderes System überlegen.
-            \end{itemize}
-    \end{itemize}
-    \end{frame}
-
 
 \section{Übungsblatt 4}
 \subsection{Aufgabe 1}
 \begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 1}
     \begin{itemize}[<+(1)->]
-        \item Die volle Aufgabe findet sich hier: \only<2->{\textattachfile{Aufgabe1.java}{Aufgabe1.java}}.
-        \item Wir beginnen mit der Wertinitialisierung:
+        \item Banale Vokale \only<2->{\textattachfile{CountVowels.java}{CountVowels.java}}
 \begin{plainjava}
-!*\onslide<4->*!double min = Double.POSITIVE_INFINITY;
-!*\onslide<4->*!double max = Double.NEGATIVE_INFINITY;
-!*\onslide<4->*!double sum = 0;
-\end{plainjava}
-        \item<5-> Wir fangen eine leere Eingabe ab:
-\begin{plainjava}[firstnumber=4]
-if (args.length <= 0) {
-    System.err.println("Keine Argumente übergeben. Ende.");
-    System.exit(1);
-    return; // Nicht notwendig
-}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 1}
-    \begin{itemize}[<+(1)->]
-        \item Die Hauptschleife zur Akkumulation:
-\begin{plainjava}
-!*\onslide<3->*!for (String arg : args) {
-!*\onslide<4->*!    double val = Double.parseDouble(arg);
-!*\onslide<5->*!    min = val < min ? val : min;
-!*\onslide<5->*!    max = val > max ? val : max;
-!*\onslide<5->*!    sum += val;
-!*\onslide<3->*!}
-\end{plainjava}
-        \item<6-> Die Ausgabe zum Schluss:
-\begin{plainjava}
-!*\onslide<7->*!System.out.println("     Minimum: " + min);
-!*\onslide<7->*!System.out.println("     Maximum: " + max);
-!*\onslide<7->*!System.out.format( "Durchschnitt: %f\n", (sum / args.length));
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 1}
-    \rExecute{javac Aufgabe1.java}
-    \begin{itemize}[<+(1)->]
-        \item Ein Beispiel (beachte \bjava{System.out::format})\par
-        \Rbash{java Aufgabe1 12 13.5 -:c:9 .125}{java Aufgabe1 12 13.5 -9 .125}
-    \end{itemize}
-\end{frame}
-
-
-\subsection{Aufgabe 2}
-\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item Die volle Aufgabe findet sich hier: \only<2->{\textattachfile{Aufgabe2.java}{Aufgabe2.java}}.
-        \item Ich verwende hier eine separate Methode:
-\begin{plainjava}
-!*\onslide<4->*!public static void main(String[] args) {
-!*\onslide<5->*!    for (String arg : args) {
-!*\onslide<6->*!        System.out.println(reverse(arg));
+!*\onslide<3->*!int a = 0, e = 0, i = 0, o = 0, u = 0;
+!*\onslide<3->*!
+!*\onslide<4->*!for(int j = 0; j < input.length(); j++) {
+!*\onslide<5->*!    switch(input.toLowerCase().charAt(j)) {
+!*\onslide<6->*!        case 'a': a++; break;
+!*\onslide<7->*!        case 'e': e++; break;
+!*\onslide<7->*!        case 'i': i++; break;
+!*\onslide<7->*!        case 'o': o++; break;
+!*\onslide<7->*!        case 'u': u++; break;
 !*\onslide<5->*!    }
 !*\onslide<4->*!}
 \end{plainjava}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2}
+\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 1}
     \begin{itemize}[<+(1)->]
-        \item Und hier die extra Methode:
+        \item Und die Ausgabe:
 \begin{plainjava}
-!*\onslide<3->*!public static String reverse(final String arg) {
-!*\onslide<4->*!    char[] orig = arg.toCharArray();
-!*\onslide<4->*!    char[] rev = new char[orig.length];
-!*\onslide<3->*!
-!*\onslide<5->*!    for (int i = 0; i < orig.length; i++) {
-!*\onslide<6->*!        rev[orig.length - i - 1] = orig[i];
-!*\onslide<5->*!    }
-!*\onslide<7->*!    return new String(rev);
-!*\onslide<3->*!}
+!*\onslide<3->*!System.out.println("a: " + a);
+!*\onslide<3->*!System.out.println("e: " + e);
+!*\onslide<3->*!System.out.println("i: " + i);
+!*\onslide<3->*!System.out.println("o: " + o);
+!*\onslide<3->*!System.out.println("u: " + u);
 \end{plainjava}
     \end{itemize}
 \end{frame}
 
+\begin{frame}[c]{Übungsblatt 4 - Aufgabe 1}
+\begin{center}
+    \LARGE\pause\textbf{Und nun\ldots}\\
+    \pause Entdecke den \textbf{Overengineer-Kavalier} in dir\bigskip\\
+    \pause \scriptsize Schnabeltier
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile,c]{Übungsblatt 4 - Aufgabe 1\hfill Schweigender Bonus}
+\begin{columns}[onlytextwidth,c]
+\column{.375\linewidth}
+\lstfs{6}\pause
+\begin{plainjava}
+int a = 0, e = 0, i = 0, o = 0, u = 0;
+
+for(int j = 0; j < input.length(); j++) {
+    switch(input.toLowerCase().charAt(j)) {
+        case 'a': a++; break;
+        case 'e': e++; break;
+        case 'i': i++; break;
+        case 'o': o++; break;
+        case 'u': u++; break;
+    }
+}
+
+System.out.println("a: " + a);
+System.out.println("e: " + e);
+System.out.println("i: " + i);
+System.out.println("o: " + o);
+System.out.println("u: " + u);
+\end{plainjava}
+\column{.625\linewidth}
+\lstfs{9}\pause
+\begin{plainjava}
+!*\onslide<3->*!char[] arr  = input.toLowerCase().toCharArray();
+!*\onslide<4->*!int[] counters = new int[26];
+
+!*\onslide<5->*!for(int j = 0; j < arr.length; j++) {
+!*\onslide<6->*!    char c = arr[j];
+!*\onslide<7->*!    if('a' <= c && c <= 'z')
+!*\onslide<8->*!        counters[c - 'a'] += 1;
+!*\onslide<5->*!}
+
+!*\onslide<9->*!for(char c : new char[]{'a', 'e', 'i', 'o', 'u'}) {
+!*\onslide<10->*!    System.out.println(c+": " + counters[c - 'a']);
+!*\onslide<9->*!}
+\end{plainjava}
+\end{columns}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \item Isch bin ene Primeel: \only<2->{\textattachfile{PrimeFactors.java}{PrimeFactors.java}}.
+        \item Starting with the guardians of the C:\lstfs{10}
+\begin{plainjava}
+!*\onslide<4->*!if (args.length != 1) System.exit(1);
+!*\onslide<4->*!
+!*\onslide<5->*!int N = Integer.parseInt(args[0]);
+!*\onslide<6->*!if (N < 1) {
+!*\onslide<7->*!    System.exit(1);
+!*\onslide<6->*!} else if (N == 1) {
+!*\onslide<8->*!    System.out.println("Die Zahl 1 besitzt keine Primfaktorzerlegung");
+!*\onslide<8->*!    return;
+!*\onslide<6->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \item Wir verwenden die Hinweise und Sieben:
+\begin{plainjava}
+!*\onslide<3->*!boolean marker[] = new boolean[N + 1];
+!*\onslide<4->*!for (int i = 0; i <= N; i++)
+!*\onslide<4->*!    marker[i] = false; // Sicha ist Sicha!
+!*\onslide<3->*!
+!*\onslide<5->*!for (int i = 2; i < Math.sqrt(N); i++) {
+!*\onslide<6->*!    if (!marker[i]) {
+!*\onslide<7->*!        for (int j = i * i; j <= N; j += i) {
+!*\onslide<8->*!            marker[j] = true;
+!*\onslide<7->*!        }
+!*\onslide<6->*!    }
+!*\onslide<5->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \item Und nun mit den Primlies verhackseln:\lstfs{10}
+\begin{plainjava}
+!*\onslide<3->*!System.out.print("Die Primfaktorzerlegung von " + N + " lautet: ");
+!*\onslide<4->*!while (N >= 2) {
+!*\onslide<5->*!    for (int i = 2; i < marker.length; i++) {
+!*\onslide<6->*!        if (marker[i]) continue;
+!*\onslide<7->*!        if ((N % i) == 0) {
+!*\onslide<8->*!            N /= i; // N = N / i;
+!*\onslide<9->*!            System.out.print((N >= 2) ? i + " * " : i);
+!*\onslide<10->*!            break; // Notwendig?
+!*\onslide<7->*!        }
+!*\onslide<5->*!    }
+!*\onslide<4->*!}
+!*\onslide<3->*!System.out.println();
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\rExecute{javac PrimeFactors.java}
+\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2 \hfill Alternativ}
+    \begin{itemize}[<+(1)->]
+        \item Oder direkt wiederholt anwenden:\lstfs{10}
+\begin{plainjava}
+!*\onslide<3->*!System.out.print("Die Primfaktorzerlegung von " + N + " lautet: ");
+!*\onslide<4->*!for (int i = 2; i < marker.length; i++) {
+!*\onslide<5->*!    if (marker[i]) continue;
+!*\onslide<6->*!    while ((N % i) == 0) {
+!*\onslide<7->*!        N /= i;
+!*\onslide<8->*!        System.out.print((N >= 2) ? i + " * " : i);
+!*\onslide<6->*!    }
+!*\onslide<4->*!}
+!*\onslide<3->*!System.out.println("");
+\end{plainjava}
+    \item<9-> \lstfs{9}\rbash[:\pause]{java PrimeFactors 12301234}
+    \end{itemize}
+\end{frame}
+
+
 \section{Der End-Pingu}
 \begin{frame}[c]
-    \hbox{}\vfill
+    \hbox{}\hfill
     \onslide<2->{\begin{tikzpicture}[scale=1.15]
         \pingu[name=herbertine, left wing hug, right wing wave, hand cast right=\scalebox{2}{\color{pingu@red!50!white}\faHeart}]
         \pgfonlayer{foreground}
@@ -227,6 +327,6 @@ if (args.length <= 0) {
         \node[inner sep=1.5pt, ,scale=1.25,pingu@red!50!white] at(herbertine-eye-right) {\large\faHeart};
         \endpgfonlayer
         \pingu[name = herbert, xshift=3.1cm,right wing hug, sunglasses,eyes wink]
-    \end{tikzpicture}}
+    \end{tikzpicture}}\hfill\null
 \end{frame}
 \end{document}
