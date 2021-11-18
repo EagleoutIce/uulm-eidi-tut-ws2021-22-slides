@@ -316,6 +316,25 @@ System.out.println("u: " + u);
     \end{itemize}
 \end{frame}
 
+\rExecute{javac PrimeFactorsAlternate.java}
+\begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2 \hfill Die alternative Alternative}
+    \begin{itemize}[<+(1)->]
+        \item Wir können das Sieb direkt integrieren\ldots\ (\only<2->{\textattachfile{PrimeFactorsAlternate.java}{PrimeFactorsAlternate.java}})\lstfs{10}
+\begin{plainjava}
+!*\onslide<3->*!System.out.print("Die Primfaktorzerlegung von " + N + " lautet: ");
+!*\onslide<4->*!int max = N;
+!*\onslide<5->*!for (int i = 2; i <= max; i++) {
+!*\onslide<6->*!    while ((N % i) == 0) {
+!*\onslide<7->*!        N /= i;
+!*\onslide<7->*!        System.out.print((N >= 2) ? i + " * " : i);
+!*\onslide<6->*!    }
+!*\onslide<5->*!}
+!*\onslide<3->*!System.out.println("");
+\end{plainjava}
+    \item<8-> \lstfs{9}\rbash[:\pause]{java PrimeFactorsAlternate 12301234}
+    \end{itemize}
+\end{frame}
+
 
 \section{Der End-Pingu}
 \begin{frame}[c]
