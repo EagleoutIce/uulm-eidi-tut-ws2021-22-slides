@@ -38,278 +38,80 @@
 
 \section{Präsenzaufgabe}
 \begin{frame}[fragile, c]{Präsenzaufgabe, zum Auflockern}
-    \begin{aufgabe}{Was tun Sie?!}
-~\\[-\baselineskip]\begin{minipage}{0.475\linewidth}
-    \pause{}Was produziert der rechts abgebildete Code, wobei:
-        \pause{}{\lstfs{9}\begin{plainjava}
-static int a = 5;
-static int b = 10;
-static boolean c = true;
-        \end{plainjava}}
-\end{minipage}\quad\pause{}\qquad\begin{minipage}{0.5\linewidth}
-    ~\lstfs{7}\begin{plainjava}
-public static void main(String[] args) {
-    methode1(b, a);
-    methode2(a, c);
-}
+    \begin{aufgabe}{Flippn' Amazing -- Watch me Flip-Flip\ldots}
+        \vspace*{-.125\topsep-\baselineskip}\par\small\pause Implementieren Sie die Methoden \bjava{public static void flipInPlace(char[] x)} und \bjava{public static char[] flipInCopy(char[] x)}, welche beide die Groß- und Kleinschreibung in den Arrays umkehren (nur ASCII).\pause\ \T{flipInPlace} soll das übergeben Array modifizieren, \T{flipInCopy} soll \T{x} aber nicht verändern und eine \say{geflippte} Kopie zurückliefern.
 
-static void methode1(int a, int b) {
-    boolean c = false;
-    b = b * a;
-    System.out.println(a + " " + b + " " + c);
-}
+        \pause Zum Erstellen einer Kopie können Sie \bjava{char[] copy = x.clone()} verwenden.\pause\ Nutzen Sie aber nicht \bjava{Character::toUpperCase} oder vergleichbare Methoden,\pause\ sondern machen Sie sich die Unicode-Kodierung von \bjava{char} zunutze (\(A\)--\(Z\) ist \(65\)--\(90\), \(a\)--\(z\) ist \(97\)--\(122\)).
 
-static void methode2(int b, boolean d) {
-    b = a - b;
-    System.out.println(a + " " + b + " " +
-                        c + " " + d);
-}
-\end{plainjava}
-\end{minipage}
-\end{aufgabe}
+        \pause Beantworten Sie weiter:\vspace*{-.66\topsep} \begin{enumerate}[<+(1)->]
+            \itemsep0pt
+            \item Was sind die Vor- und Nachteile beider Ansätze?
+            \item Warum reicht keine einfache Zuweisung zur Kopie des Arrays?
+            \item Warum funktioniert kein for-each, wenn man die Einträge   modifizieren möchte.
+        \end{enumerate}
+        \onslide<1->
+    \end{aufgabe}
 \end{frame}
 
 \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
-        \item Die Ausgabe lautet:\pause{}
-\begin{java}[style=lecture@BashOutput]
-10 50 false
-5 0 true true
-\end{java}
-        \item Warum?\pause{} \bjava{false} kommt über das lokale \T{c},\pause{} die \bjava{10} über das lokale \T{a}, welches als Parameter den Wert des globalen \T{b} erhält.\pause{} Die \bjava{50} über \bjava{b * a}, wobei hier die globalen Werte verwendet werden\pause{} \info{allerdings heißt \T{a} jetzt \T{b} und \T{b} jetzt \T{a}}.
-        \item Warum?\pause{}  Die \bjava{5} kommt durch das globale \T{a}, da es kein lokales Pendant besitzt.\pause{} Die \bjava{0} daher,\pause{} dass das \emph{lokale} \T{b} über die Parameter den Wert des globalen \T{a} trägt\pause{} und somit (informal) \bjava{b = a - a} gerechnet wird.\pause{} Das \T{d} entspricht dem Wert des globalen \T{c},\pause{} welches in \T{methode1} nicht überschrieben sonder überlagert wurde.
-    \end{itemize}
-\end{frame}
-
-\subsection{Präzisierung: Überlagern}
-\begin{frame}[t,fragile]{Präzise Antworten: Überlagerung}
-    \begin{itemize}[<+(1)->]
-        \item In Java gibt es verschiedene Sichtbarkeiten. \pause{} Wir werden uns hier ansehen, was bei gleichnamigen Variablen geschieht.
-        \item Wir werden in diesem Kontext \emph{nicht} auf den Stack eingehen.
-        \item Grundlegend sprechen wir von \emph{globaler} und \emph{lokaler} Sichtbarkeit einer Variable:\pause{}{\lstfs{9}
+        \item We do se flippin place (mit \T{x} als \T{flipMyLetters}):
 \begin{plainjava}
-// Global:
-!*\pause*!public static int globaleZahl; // !*\solGet{comments}{$\leftarrow$}*! Überall wo Klasse sichtbar
-!*\pause*!private static int klasseZahl; // !*\solGet{comments}{$\leftarrow$}*! Überall innerhalb der Klasse
-!*\pause*!public static int main(String[] args){
-!*\pause*!    // Lokal:
-    int lokaleZahl;!*\pause*! // !*\solGet{comments}{$\leftarrow$}*! Nur innerhalb von main
-}
-\end{plainjava}}
-    \item Nun mal sehen, wie die Variablen überschrieben werden.
-    \end{itemize}
-\end{frame}
-
-\rExecute{javac Verdraengung.java}
-\begin{frame}[t,fragile]{Verdrängungs'v'reuden}
-    \begin{itemize}[<+(1)->]
-        \item Es können in Methoden nur globale Variablen überschrieben werden.
-        \item Überschrieben werden sie entweder durch die Erstellung einer gleichnamige Variable\pause{} oder einem Parameter mit gleichem Namen.
-        \item Der Typ spielt \emph{keine} Rolle. So erzeugt:\pause{}
-        {\lstfs{11}%
-        \ijava[firstline=3,lastline=7,firstnumber=3]{Verdraengung.java}
-        }
-        \pause{}die Ausgabe \rbash{java Verdraengung}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Super-Lokal mit Blöcken}
-    \begin{itemize}[<+(1)->]
-        \item Wir können in Java (fast) überall geschwungene Klammerpaare setzen. \pause{}
-              Sie fassen Anweisungen wieder zu einem lokalen Block zusammen.
-        \item In diesem Block existieren alle Variablen der äußeren Blöcke,\pause{} wir können also keine neuen erstellen. Allerdings überleben die Variablen nur den Block.
-        \item Zuerstmal ein eher sinnfreies Beispiel\ldots{}
-    \end{itemize}
-\end{frame}
-
-\rExecute{javac Block.java}
-\begin{frame}[t,fragile]{Super-Lokal mit Blöcken}
-    \begin{itemize}[<+(1)->]
-        \item Der Code
-{\lstfs{8}\begin{plainjava}
-!*\pause*!static int test = 0;
-!*\pause*!public static void main(String[] args) {
-    !*\pause*!System.out.print(test + " ");
-    !*\pause*!{
-        int test = 15; // Überlagere lokal
-        System.out.print(test + " ");
-    }
-    !*\pause*!System.out.print(test);
-}
-\end{plainjava}}
-        \pause{}erzeugt die Ausgabe \rbash[:\pause{}]{java Block}
-        \item Wann ist dies von Interesse?\pause{} Bei \bjava{if} zum Beispiel \ldots
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Wie, wir kannten Blöcke schon?}
-    \begin{itemize}[<+(1)->]
-        \item Wenn wir nach einem \bjava{if}/\bjava{while}/\ldots{} Kopf eine geschwungene Klammer setzen,\pause{} starten wir einen neuen Block.
-        \item Hinweis: Bei Methoden, Klassen, Enums, \ldots{} gehören die Klammern dazu (und sind deswegen anders).
-        \item Allgmein noch: \pause{}\textit{achtet auf eine präzise Beschreibung!}\pause{} \say{Java weiß dann nicht was es tun soll} klingt zwar süß,\pause{} aber erklärt nicht warum.
-    \end{itemize}
-\end{frame}
-
-\section{Präsenzaufgabe, mit Vektoren}
-\begin{frame}{Präsenzaufgabe, nun Vektoriell}
-    \begin{itemize}[<+(1)->]
-        \item Im Folgenden soll eine Vektor Klasse konstruiert werden.
-        \item Zu unterstützen sind \(n\) Dimensionen \(\R^n\) (\(n \in \N\), \(n > 0\)).
-        \item Ein Objekt der Vektor-Klasse hat die folgenden Informationen zu halten:
-\begin{description}[Vektorkomponenten:]
-    \item[Vektorkomponenten:] Eine Folge von \(n\) Werten, die nach der Instanziierung alle \emph{nicht mehr} verändert werden dürfen.
-    \item[Betrag des Vektors:] Der Betrag des Vektors (ebenfalls unveränderbar).
-\end{description}
-        \item Um die Präsenzaufgabe übersichtlicher zu gestalten, teile ich sie in mehrere auf.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile, c]{Vectorias, the great one}
-\begin{aufgabe}{We please the mighty}
-Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
-    \item Schreiben Sie eine Klasse \bjava{Vector}, welche alle notwendigen Attribute (unveränderbare Vektorkomponenten, unveränderbarer Betrag), enthält.
-    \item Schreiben Sie eine \bjava{public String toString()}-Methode. Die nach Java-Standard alle Attribute ausgibt.\pause{} Hier eine beispielhafte Ausgabe. Das genau Format ist Ihnen überlassen:
-\begin{plainjava}
-{ magnitude: 2.0, values: [0.0, 2.0, 0.0, 0.0, 0.0] }
-\end{plainjava}
-\end{enumerate}
-\onslide<1->
-\end{aufgabe}
-\end{frame}
-
-\begin{frame}[fragile, c]{Vectorias, the great second}
-\begin{aufgabe}{We cheese the mighty}
-Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
-    \setcounter{enumi}{2}
-    \item Implementieren Sie \bjava{public static Vector create(double... values)}, welche die Einschränkungen prüft. Sind Sie erfüllt, soll ein neuer unveränderbarer Vektor und sonst \bjava{null} zurückgegeben werden.\pause{} Beispiele:
-\begin{plainjava}
-Vector a = Vector.create(0, 2, 0, 0, 0);
-Vector b = Vector.create(13, 2.5, 3.2);
-System.out.println(a); // :yields: Ausgabe von toString()
-\end{plainjava}
-\end{enumerate}
-\onslide<1->
-\end{aufgabe}
-\end{frame}
-
-\begin{frame}[fragile, c]{Vectorias, the great third}
-\begin{aufgabe}{We freeze the mighty}
-\pause Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
-    \setcounter{enumi}{3}
-    \item Implementieren Sie eine Methode \bjava{public double[] getValues()}, welche die übergebenen Werte zurückliefert, aber die Unveränderbarkeit sicher stellt.\pause{}
-\begin{plainjava}
-Vector a = Vector.create(0, 2, 0);
-double[] v = a.getValues();
-v[0] = 3;
-System.out.println(Arrays.toString(v)); // :yields: [3.0, 2.0, 0.0]
-System.out.println(a); // :yields: original vector
-\end{plainjava}
-\end{enumerate}
-\onslide<1->
-\end{aufgabe}
-\end{frame}
-
-
-\begin{frame}[fragile, c]{Vectorias, the great fourth}
-\begin{aufgabe}{We freeze the brighty}
-Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
-    \setcounter{enumi}{4}
-    \item Implementieren Sie eine Methode \bjava{public Vector normalize()}, welche einen neuen normalisierten Vektor erzeugt.\pause{}
-    Dieser hat die selbe Richtung, wie das Original, aber einen Betrag von \(1\). Die Normalisierung kann durch die folgende Formel erfolgen: \begin{equation*}
-        \vec{n} = \frac{\vec{v}}{||\vec{v}||}
-    \end{equation*}
-\end{enumerate}
-\onslide<1->
-\end{aufgabe}
-\end{frame}
-
-\begin{frame}[fragile]{Vectori-bras, the great solver}
-    \begin{itemize}[<+(1)->]
-        \item Hier die Klasse an sich: \only<2->{\textattachfile{Vector.java}{Vector.java}}
-        \item Zunächst die unveränderlichen Attribute:
-\begin{plainjava}
-!*\onslide<4->*!public class Vector {
-!*\onslide<5->*!    private final double[] values; // darf nicht public sein
-!*\onslide<5->*!    public final double magnitude; // oder mit getter
-!*\onslide<4->*!}
-\end{plainjava}
-        \item<6-> Die \bjava{toString()}-Methode:
-\begin{plainjava}
-!*\onslide<7->*!public String toString() {
-!*\onslide<8->*!    return "{ magnitude: " + magnitude
-!*\onslide<8->*!         + ", values: " + Arrays.toString(values)
-!*\onslide<8->*!         + " }";
-!*\onslide<7->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Vectori-bras, the late solver}
-    \begin{itemize}[<+(1)->]
-        \item Die \bjava{create(double...)}-Methode:
-\begin{plainjava}
-!*\onslide<6->*!// expects: valid vector (auch möglich: Exceptions)
-!*\onslide<6->*!private Vector(double[] values) {
-!*\onslide<7->*!    this.values = values; // to be completely sure: another copy
-!*\onslide<7->*!    this.magnitude = calculateMagnitude(values);
-!*\onslide<6->*!}
-!*\onslide<3->*!
-!*\onslide<3->*!public static Vector create(double... values) {
-!*\onslide<4->*!    if(values.length <= 0)
-!*\onslide<4->*!        return null;
-!*\onslide<5->*!    return new Vector(values);
+!*\onslide<3->*!public static void flipInPlace(char[] flipMyLetters) {
+!*\onslide<4->*!  int shift = 'a' - 'A';
+!*\onslide<5->*!  for (int i = 0; i < flipMyLetters.length; i++) {
+!*\onslide<6->*!    if ('A' <= flipMyLetters[i] && flipMyLetters[i] <= 'Z') {
+!*\onslide<7->*!      flipMyLetters[i] += shift;
+!*\onslide<6->*!    } else if ('a' <= flipMyLetters[i] && flipMyLetters[i] <= 'z') {
+!*\onslide<8->*!      flipMyLetters[i] -= shift;
+!*\onslide<6->*!    }
+!*\onslide<5->*!  }
 !*\onslide<3->*!}
 \end{plainjava}
     \end{itemize}
 \end{frame}
 
-
-\begin{frame}[fragile]{Vectori-bras, the bait resolver}
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
-        \item Hier noch die Hilfsmethode für den Betrag:
+        \item Und nun mit der Kopie! Wir könnten das ja nochmal schreiben\ldots
 \begin{plainjava}
-!*\onslide<3->*!private static double calculateMagnitude(double[] values) {
-!*\onslide<4->*!    double sumOfSquares = 0;
-!*\onslide<5->*!    for (double value : values) {
-!*\onslide<6->*!        sumOfSquares += Math.pow(value, 2);
-!*\onslide<5->*!    }
-!*\onslide<7->*!    return Math.sqrt(sumOfSquares);
+!*\onslide<3->*!public static char[] flipInCopy(char[] flipMyLetters) {
+!*\onslide<4->*!    char[] copy = flipMyLetters.clone();
+!*\onslide<5->*!    flipInPlace(copy);
+!*\onslide<6->*!    return copy;
 !*\onslide<3->*!}
 \end{plainjava}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Vectori-was? The quest revolver}
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
-        \item Zum Erhalten der Werte erzeugen wir eine Kopie:
-\begin{plainjava}
-!*\onslide<3->*!public double[] getValues() {
-!*\onslide<4->*!    return copyArray(this.values);
-!*\onslide<3->*!}
-!*\onslide<3->*!
-!*\onslide<5->*!private double[] copyArray(double[] arr) {
-!*\onslide<6->*!    double[] copy = new double[arr.length];
-!*\onslide<7->*!    for (int i = 0; i < copy.length; i++) {
-!*\onslide<8->*!        copy[i] = arr[i];
-!*\onslide<7->*!    }
-!*\onslide<9->*!    return copy;
-!*\onslide<5->*!}
-\end{plainjava}
+        \itemsep12pt
+        \item Vorteile einer Kopie (gegenüber in-place): \begin{itemize}
+            \item Nebeneffekte von Methoden sind generell schlecht! \say{out-Parameter} sollten vermieden werden (wo nicht unbedingt notwendig).
+        \end{itemize}
+        \item Nachteile einer Kopie (gegenüber in-place): \begin{itemize}
+            \item Der benötigte Speicher wird verdoppelt (was, wenn das Array riesig ist?)
+        \end{itemize}
+        \item Was ist nun besser?
+            \begin{itemize}
+                \item In der Regel die Variante mit Kopie. Die unerwarteten/ungewollten Seiteneffekte können Kaskaden schwer zu findender Fehler verursachen.
+                \item Sollten wirklich große Arrays erwartet werden, sollte man sich unter Umständen ein grundlegend anderes System überlegen.
+            \end{itemize}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Vectori-das, the final wolf}
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
-        \item Nun noch die Normalisierung:
+        \itemsep8pt
+        \item Warum reicht \bjava{char[] clone = x;} nicht für eine Kopie?\smallskip\\*
+            \pause Arrays sind komplexe Datenstrukturen (\say{ReferenceType}).\pause\ Mit \bjava{clone = x} lassen wit \T{clone} auf die gleiche Speicheradresse wie \T{x} zeigen.\pause\ Wir verändern dasselbe Array.
+        \item Warum keine for-each Schleife?\smallskip\\*
+            \pause Damit erhalten wir nur die Werte an der jeweiligen Stelle, aber nicht den Index den es zu verändern gilt:\pause
 \begin{plainjava}
-!*\onslide<3->*!public Vector normalize() {
-!*\onslide<4->*!    double[] normalizedValues = new double[this.values.length];
-!*\onslide<5->*!    for (int i = 0; i < normalizedValues.length; i++) {
-!*\onslide<6->*!        normalizedValues[i] = this.values[i] / this.magnitude;
-!*\onslide<5->*!    }
-!*\onslide<7->*!    return Vector.create(normalizedValues);
-!*\onslide<3->*!}
+for(char c : flipMyLetters) { /* hier haben wir nur c */ }
 \end{plainjava}
+        \pause Wir könnten zwar einen Zeiger inkrementieren, aber wer garantiert uns dann die Reihenfolge der Iteration?\pause\ Und selbst wenn das passt\ldots\pause\ Im Endeffekt haben wir dann wieder eine for-Schleife.
     \end{itemize}
 \end{frame}
 
@@ -515,7 +317,7 @@ for(int i = N-1; i >= 1; i--) {
             if (j % 2 == 1) System.out.print("* ");
             else System.out.print("  ");
         }
-        for (int j = i/2; j >= 1; j--) {// Rechte Hälfte
+        for (int j = i/2; j >= 1; j--) { // Rechte Hälfte
             if (j % 2 == 1) System.out.print("* ");
             else System.out.print("  ");
         }
@@ -568,7 +370,287 @@ for(int i = N-1; i >= 1; i--) {
     \end{itemize}
 \end{frame}
 
-\section{Alte Zusatzaufgabe}
+\section{Altes Gedönse}
+
+\subsection{Alte Präsenzaufgabe -- Was passiert?}
+\begin{frame}[fragile, c]{Präsenzaufgabe, zum Auflockern}
+    \begin{aufgabe}{Was tun Sie?!}
+~\\[-\baselineskip]\begin{minipage}{0.475\linewidth}
+    \pause{}Was produziert der rechts abgebildete Code, wobei:
+        \pause{}{\lstfs{9}\begin{plainjava}
+static int a = 5;
+static int b = 10;
+static boolean c = true;
+        \end{plainjava}}
+\end{minipage}\quad\pause{}\qquad\begin{minipage}{0.5\linewidth}
+    ~\lstfs{7}\begin{plainjava}
+public static void main(String[] args) {
+    methode1(b, a);
+    methode2(a, c);
+}
+
+static void methode1(int a, int b) {
+    boolean c = false;
+    b = b * a;
+    System.out.println(a + " " + b + " " + c);
+}
+
+static void methode2(int b, boolean d) {
+    b = a - b;
+    System.out.println(a + " " + b + " " +
+                        c + " " + d);
+}
+\end{plainjava}
+\end{minipage}
+\end{aufgabe}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \item Die Ausgabe lautet:\pause{}
+\begin{java}[style=lecture@BashOutput]
+10 50 false
+5 0 true true
+\end{java}
+        \item Warum?\pause{} \bjava{false} kommt über das lokale \T{c},\pause{} die \bjava{10} über das lokale \T{a}, welches als Parameter den Wert des globalen \T{b} erhält.\pause{} Die \bjava{50} über \bjava{b * a}, wobei hier die globalen Werte verwendet werden\pause{} \info{allerdings heißt \T{a} jetzt \T{b} und \T{b} jetzt \T{a}}.
+        \item Warum?\pause{}  Die \bjava{5} kommt durch das globale \T{a}, da es kein lokales Pendant besitzt.\pause{} Die \bjava{0} daher,\pause{} dass das \emph{lokale} \T{b} über die Parameter den Wert des globalen \T{a} trägt\pause{} und somit (informal) \bjava{b = a - a} gerechnet wird.\pause{} Das \T{d} entspricht dem Wert des globalen \T{c},\pause{} welches in \T{methode1} nicht überschrieben sonder überlagert wurde.
+    \end{itemize}
+\end{frame}
+
+\subsection{Präzisierung: Überlagern}
+\begin{frame}[t,fragile]{Präzise Antworten: Überlagerung}
+    \begin{itemize}[<+(1)->]
+        \item In Java gibt es verschiedene Sichtbarkeiten. \pause{} Wir werden uns hier ansehen, was bei gleichnamigen Variablen geschieht.
+        \item Wir werden in diesem Kontext \emph{nicht} auf den Stack eingehen.
+        \item Grundlegend sprechen wir von \emph{globaler} und \emph{lokaler} Sichtbarkeit einer Variable:\pause{}{\lstfs{9}
+\begin{plainjava}
+// Global:
+!*\pause*!public static int globaleZahl; // !*\solGet{comments}{$\leftarrow$}*! Überall wo Klasse sichtbar
+!*\pause*!private static int klasseZahl; // !*\solGet{comments}{$\leftarrow$}*! Überall innerhalb der Klasse
+!*\pause*!public static int main(String[] args){
+!*\pause*!    // Lokal:
+    int lokaleZahl;!*\pause*! // !*\solGet{comments}{$\leftarrow$}*! Nur innerhalb von main
+}
+\end{plainjava}}
+    \item Nun mal sehen, wie die Variablen überschrieben werden.
+    \end{itemize}
+\end{frame}
+
+\rExecute{javac Verdraengung.java}
+\begin{frame}[t,fragile]{Verdrängungs'v'reuden}
+    \begin{itemize}[<+(1)->]
+        \item Es können in Methoden nur globale Variablen überschrieben werden.
+        \item Überschrieben werden sie entweder durch die Erstellung einer gleichnamige Variable\pause{} oder einem Parameter mit gleichem Namen.
+        \item Der Typ spielt \emph{keine} Rolle. So erzeugt:\pause{}
+        {\lstfs{11}%
+        \ijava[firstline=3,lastline=7,firstnumber=3]{Verdraengung.java}
+        }
+        \pause{}die Ausgabe \rbash{java Verdraengung}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Super-Lokal mit Blöcken}
+    \begin{itemize}[<+(1)->]
+        \item Wir können in Java (fast) überall geschwungene Klammerpaare setzen. \pause{}
+              Sie fassen Anweisungen wieder zu einem lokalen Block zusammen.
+        \item In diesem Block existieren alle Variablen der äußeren Blöcke,\pause{} wir können also keine neuen erstellen. Allerdings überleben die Variablen nur den Block.
+        \item Zuerstmal ein eher sinnfreies Beispiel\ldots{}
+    \end{itemize}
+\end{frame}
+
+\rExecute{javac Block.java}
+\begin{frame}[t,fragile]{Super-Lokal mit Blöcken}
+    \begin{itemize}[<+(1)->]
+        \item Der Code
+{\lstfs{8}\begin{plainjava}
+!*\pause*!static int test = 0;
+!*\pause*!public static void main(String[] args) {
+    !*\pause*!System.out.print(test + " ");
+    !*\pause*!{
+        int test = 15; // Überlagere lokal
+        System.out.print(test + " ");
+    }
+    !*\pause*!System.out.print(test);
+}
+\end{plainjava}}
+        \pause{}erzeugt die Ausgabe \rbash[:\pause{}]{java Block}
+        \item Wann ist dies von Interesse?\pause{} Bei \bjava{if} zum Beispiel \ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Wie, wir kannten Blöcke schon?}
+    \begin{itemize}[<+(1)->]
+        \item Wenn wir nach einem \bjava{if}/\bjava{while}/\ldots{} Kopf eine geschwungene Klammer setzen,\pause{} starten wir einen neuen Block.
+        \item Hinweis: Bei Methoden, Klassen, Enums, \ldots{} gehören die Klammern dazu (und sind deswegen anders).
+        \item Allgmein noch: \pause{}\textit{achtet auf eine präzise Beschreibung!}\pause{} \say{Java weiß dann nicht was es tun soll} klingt zwar süß,\pause{} aber erklärt nicht warum.
+    \end{itemize}
+\end{frame}
+
+\subsection{Präsenzaufgabe -- Vektoren}
+\begin{frame}{Präsenzaufgabe, nun Vektoriell}
+    \begin{itemize}[<+(1)->]
+        \item Im Folgenden soll eine Vektor Klasse konstruiert werden.
+        \item Zu unterstützen sind \(n\) Dimensionen \(\R^n\) (\(n \in \N\), \(n > 0\)).
+        \item Ein Objekt der Vektor-Klasse hat die folgenden Informationen zu halten:
+\begin{description}[Vektorkomponenten:]
+    \item[Vektorkomponenten:] Eine Folge von \(n\) Werten, die nach der Instanziierung alle \emph{nicht mehr} verändert werden dürfen.
+    \item[Betrag des Vektors:] Der Betrag des Vektors (ebenfalls unveränderbar).
+\end{description}
+        \item Um die Präsenzaufgabe übersichtlicher zu gestalten, teile ich sie in mehrere auf.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile, c]{Vectorias, the great one}
+\begin{aufgabe}{We please the mighty}
+Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
+    \item Schreiben Sie eine Klasse \bjava{Vector}, welche alle notwendigen Attribute (unveränderbare Vektorkomponenten, unveränderbarer Betrag), enthält.
+    \item Schreiben Sie eine \bjava{public String toString()}-Methode. Die nach Java-Standard alle Attribute ausgibt.\pause{} Hier eine beispielhafte Ausgabe. Das genau Format ist Ihnen überlassen:
+\begin{plainjava}
+{ magnitude: 2.0, values: [0.0, 2.0, 0.0, 0.0, 0.0] }
+\end{plainjava}
+\end{enumerate}
+\onslide<1->
+\end{aufgabe}
+\end{frame}
+
+\begin{frame}[fragile, c]{Vectorias, the great second}
+\begin{aufgabe}{We cheese the mighty}
+Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
+    \setcounter{enumi}{2}
+    \item Implementieren Sie \bjava{public static Vector create(double... values)}, welche die Einschränkungen prüft. Sind Sie erfüllt, soll ein neuer unveränderbarer Vektor und sonst \bjava{null} zurückgegeben werden.\pause{} Beispiele:
+\begin{plainjava}
+Vector a = Vector.create(0, 2, 0, 0, 0);
+Vector b = Vector.create(13, 2.5, 3.2);
+System.out.println(a); // :yields: Ausgabe von toString()
+\end{plainjava}
+\end{enumerate}
+\onslide<1->
+\end{aufgabe}
+\end{frame}
+
+\begin{frame}[fragile, c]{Vectorias, the great third}
+\begin{aufgabe}{We freeze the mighty}
+\pause Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
+    \setcounter{enumi}{3}
+    \item Implementieren Sie eine Methode \bjava{public double[] getValues()}, welche die übergebenen Werte zurückliefert, aber die Unveränderbarkeit sicher stellt.\pause{}
+\begin{plainjava}
+Vector a = Vector.create(0, 2, 0);
+double[] v = a.getValues();
+v[0] = 3;
+System.out.println(Arrays.toString(v)); // :yields: [3.0, 2.0, 0.0]
+System.out.println(a); // :yields: original vector
+\end{plainjava}
+\end{enumerate}
+\onslide<1->
+\end{aufgabe}
+\end{frame}
+
+
+\begin{frame}[fragile, c]{Vectorias, the great fourth}
+\begin{aufgabe}{We freeze the brighty}
+Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{enumerate}[<+(1)->]
+    \setcounter{enumi}{4}
+    \item Implementieren Sie eine Methode \bjava{public Vector normalize()}, welche einen neuen normalisierten Vektor erzeugt.\pause{}
+    Dieser hat die selbe Richtung, wie das Original, aber einen Betrag von \(1\). Die Normalisierung kann durch die folgende Formel erfolgen: \begin{equation*}
+        \vec{n} = \frac{\vec{v}}{||\vec{v}||}
+    \end{equation*}
+\end{enumerate}
+\onslide<1->
+\end{aufgabe}
+\end{frame}
+
+\begin{frame}[fragile]{Vectori-bras, the great solver}
+    \begin{itemize}[<+(1)->]
+        \item Hier die Klasse an sich: \only<2->{\textattachfile{Vector.java}{Vector.java}}
+        \item Zunächst die unveränderlichen Attribute:
+\begin{plainjava}
+!*\onslide<4->*!public class Vector {
+!*\onslide<5->*!    private final double[] values; // darf nicht public sein
+!*\onslide<5->*!    public final double magnitude; // oder mit getter
+!*\onslide<4->*!}
+\end{plainjava}
+        \item<6-> Die \bjava{toString()}-Methode:
+\begin{plainjava}
+!*\onslide<7->*!public String toString() {
+!*\onslide<8->*!    return "{ magnitude: " + magnitude
+!*\onslide<8->*!         + ", values: " + Arrays.toString(values)
+!*\onslide<8->*!         + " }";
+!*\onslide<7->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Vectori-bras, the late solver}
+    \begin{itemize}[<+(1)->]
+        \item Die \bjava{create(double...)}-Methode:
+\begin{plainjava}
+!*\onslide<6->*!// expects: valid vector (auch möglich: Exceptions)
+!*\onslide<6->*!private Vector(double[] values) {
+!*\onslide<7->*!    this.values = values; // to be completely sure: another copy
+!*\onslide<7->*!    this.magnitude = calculateMagnitude(values);
+!*\onslide<6->*!}
+!*\onslide<3->*!
+!*\onslide<3->*!public static Vector create(double... values) {
+!*\onslide<4->*!    if(values.length <= 0)
+!*\onslide<4->*!        return null;
+!*\onslide<5->*!    return new Vector(values);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Vectori-bras, the bait resolver}
+    \begin{itemize}[<+(1)->]
+        \item Hier noch die Hilfsmethode für den Betrag:
+\begin{plainjava}
+!*\onslide<3->*!private static double calculateMagnitude(double[] values) {
+!*\onslide<4->*!    double sumOfSquares = 0;
+!*\onslide<5->*!    for (double value : values) {
+!*\onslide<6->*!        sumOfSquares += Math.pow(value, 2);
+!*\onslide<5->*!    }
+!*\onslide<7->*!    return Math.sqrt(sumOfSquares);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Vectori-was? The quest revolver}
+    \begin{itemize}[<+(1)->]
+        \item Zum Erhalten der Werte erzeugen wir eine Kopie:
+\begin{plainjava}
+!*\onslide<3->*!public double[] getValues() {
+!*\onslide<4->*!    return copyArray(this.values);
+!*\onslide<3->*!}
+!*\onslide<3->*!
+!*\onslide<5->*!private double[] copyArray(double[] arr) {
+!*\onslide<6->*!    double[] copy = new double[arr.length];
+!*\onslide<7->*!    for (int i = 0; i < copy.length; i++) {
+!*\onslide<8->*!        copy[i] = arr[i];
+!*\onslide<7->*!    }
+!*\onslide<9->*!    return copy;
+!*\onslide<5->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Vectori-das, the final wolf}
+    \begin{itemize}[<+(1)->]
+        \item Nun noch die Normalisierung:
+\begin{plainjava}
+!*\onslide<3->*!public Vector normalize() {
+!*\onslide<4->*!    double[] normalizedValues = new double[this.values.length];
+!*\onslide<5->*!    for (int i = 0; i < normalizedValues.length; i++) {
+!*\onslide<6->*!        normalizedValues[i] = this.values[i] / this.magnitude;
+!*\onslide<5->*!    }
+!*\onslide<7->*!    return Vector.create(normalizedValues);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\subsection{Alte Zusatzaufgabe}
 \begin{frame}[fragile]{Alte Zusatzaufgabe}
     \begin{itemize}[<+(1)->]
         \item Schach! \begin{center}
@@ -1283,84 +1365,16 @@ print((byte) 15);
 % vielleicht noch was zu null
 \makeatletter
 \section{End-Pinguuu}
-\begin{frame}
-%     \begin{center}
-%         \parbox{0.45\linewidth}{\centering\begin{tikzpicture}[scale=2.25]
-%             \duck[santa=red!80!black, jacket=red!80!gray, tshirt=white,water=cprimary!80!black];
-
-%     %This prompts the beard%
-%     \fill[white!80!brown](1.3,1.3) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (1.2,1.15) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.5,1.05) ellipse (0.1 and 0.1);
-%     \fill[white!80!brown](0.525,0.90) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.525,0.75) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.65,0.65) ellipse (0.14 and 0.14);
-%     \fill[white!80!brown] (0.75,0.75) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.85,0.85) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.95,0.95) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (1.05,1.05) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (1.15,1.25) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (1,1.20) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.85,1.20) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.75,1.15) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.65,1.10) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.58,1.07) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.42,1.46) ellipse (0.07 and 0.07);
-%     \fill[white!80!brown] (0.52,1.45) ellipse (0.07 and 0.07);
-%     \fill[white!80!brown] (0.6,1.44) ellipse (0.07 and 0.07);
-%     \fill[white!80!brown] (0.68,1.40) ellipse (0.07 and 0.07);
-%     \fill[white!80!brown] (0.76,1.36) ellipse (0.07 and 0.07);
-%     \fill[white!80!brown] (0.8,1.25) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.85,1.28) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (0.38,1.44) ellipse (0.05 and 0.05);
-%     \fill[white!80!brown] (1,1.28) ellipse (0.12 and 0.12);
-%     \fill[white!80!brown] (1.3,1.3) -- (0.5,1.05) -- (0.65,0.65) -- cycle;
-%         \end{tikzpicture}}\qquad%
-%         \parbox{0.45\linewidth}{\centering\begin{tikzpicture}[scale=2.25]
-%             \pingu[name = herbert, right eye wink,santa,before code={%
-% \begin{scope}[shift=(herbert-bill),xshift=-20pt,yshift=30pt,y=22.80pt, x=22.80pt,yscale=-1]
-%     \draw[pingu@black] (0.2,1.22) to[bend right=12] ++(1.4,0.3);
-% \end{scope}},in code={%
-% \begin{scope}[shift=(herbert-bill),xshift=-20pt,yshift=30pt,y=22.80pt, x=22.80pt,yscale=-1]
-% \fill[white!80!brown](1.3,1.3) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (1.2,1.15) ellipse (0.12 and 0.12);
-% \fill[white!80!brown](0.525,0.90) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.525,0.75) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.62,0.65) ellipse (0.13 and 0.13);
-% \fill[white!80!brown] (0.75,0.75) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.85,0.85) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.95,0.95) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (1.05,1.05) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (1.15,1.25) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (1,1.20) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.85,1.20) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.75,1.15) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.65,1.10) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.75,0.85) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.75,0.95) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.9,1.05) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.6,0.85) ellipse (0.12 and 0.12);
-% \fill[white!80!brown] (0.6,0.95) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (0.45,1.15) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (0.45,1.05) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (0.5,0.95) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (0.55,0.85) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (1.25,1.15) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (0.6,1.15) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (0.75,0.6) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (0.79,0.6) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (0.85,0.65) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (0.95,0.7) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (1.05,0.78) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (1.1,0.85) ellipse (0.1 and 0.1);
-% \fill[white!80!brown] (1.2,0.95) ellipse (0.11 and 0.12);
-% \fill[white!80!brown] (1.27,1.05) ellipse (0.12 and 0.13);
-% \fill[white!80!brown] (1.32,1.25) ellipse (0.11 and 0.11);
-% \end{scope}%
-% \pingu@path{\pingu@color@bill}{\pingupathBill}}]
-%         \end{tikzpicture}}\bigskip\\
-%         Jaja, damals war Weihnachten, \ldots
-%     \end{center}
+\begin{frame}[c]
+\hbox{}\hfill
+\onslide<2->{\begin{tikzpicture}[scale=1.15]
+	\pingu[crown 2d=pingu@bronze,
+	       medal=pingu@purple, tie,
+	       eye patch left=teal,
+	       eye patch right=orange,
+	       right wing wave, sunglasses,
+	       glow thick=yellow]
+\end{tikzpicture}}\hfill\null
 \end{frame}
 
 
