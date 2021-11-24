@@ -132,7 +132,7 @@ public class Statistics {
 \begin{plainjava}
 !*\onslide<3->*!double med = 0.0;
 !*\onslide<4->*!if(length % 2 == 1) {
-!*\onslide<5->*!    med = randoms[(length / 2) + 1];
+!*\onslide<5->*!    med = randoms[(length / 2)];
 !*\onslide<4->*!} else {
 !*\onslide<6->*!    med = randoms[(length / 2) - 1] + randoms[(length / 2)];
 !*\onslide<6->*!    med /= 2; // med = med / 2;

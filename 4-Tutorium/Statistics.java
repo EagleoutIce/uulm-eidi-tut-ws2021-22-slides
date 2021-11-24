@@ -27,7 +27,7 @@ public class Statistics {
       double med = 0.0;
       if (length % 2 == 1) {
          // Falls die Länge ungerade ist, ist es der mittlere Wert der Reihe
-         med = randoms[(length / 2) + 1];
+         med = randoms[(length / 2)];
       } else {
          // Falls nicht, der Durchschnitt der zwei mittleren Werte
          med += randoms[(length / 2) - 1];
