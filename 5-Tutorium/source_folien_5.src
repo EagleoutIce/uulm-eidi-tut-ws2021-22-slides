@@ -331,7 +331,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe b) \hfill Eleganter}
     \begin{itemize}
         \item<2-> Wir möchten nun alle Rauten durch \(\abs{x} + \abs{y} \leq N - 1\).
-        \item<3-> Da wir aber nur je die mit Längen \(- 4\) haben wollen: \(\abs{x} + \abs{y} \equiv N - 1 \mod 4\). \onslide<4->{Mathe ist liebe.}
+        \item<3-> Da wir aber nur je die mit Längen \(- 4\) haben wollen: \(\abs{x} + \abs{y} \equiv N - 1 \mod 4\). \onslide<4->{Mathe ist Liebe.}
 \columns[c,onlytextwidth]
 \column{.25cm}
 \column{5.35cm}
