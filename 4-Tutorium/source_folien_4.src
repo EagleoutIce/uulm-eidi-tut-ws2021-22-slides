@@ -11,13 +11,13 @@
 
 \usepackage{tikzpingus}
 
-
-\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.pathreplacing,decorations.text}
 
 \hypersetup{colorlinks=false}
 
 \begin{document}
 \Titlepage{4}
+
 
 \newsavebox\pingubox
 \savebox\pingubox{\smash{\resizebox*!{.75\baselineskip}{\tikz\pingu[sunglasses,bow tie=pingu@black,cloak=pingu@black,eyes wink];}}}
@@ -151,8 +151,73 @@ public class Statistics {
 !*\onslide<3->*!System.out.println("Mittelwert: " + avg);
 !*\onslide<3->*!System.out.println("Median: " + med);
 \end{plainjava}
-    \item \rbash[:\pause]{java Statistics}
+    \item<4-> \rbash[:\pause]{java Statistics}
 \end{itemize}
+\end{frame}
+
+\section{Abgabeformalitäten}
+\begin{frame}[c,plain]{}
+\tikzpicture[overlay,remember picture]
+\fill[pingu@black] (current page.south east) rectangle (current page.north west);
+\onslide<2->{\node[pingu@white,above,scale=1.66] (c) at (current page.center) {\bfseries They've come\ldots};}
+\onslide<3->{\node[pingu@white,below,scale=1.66] at (c.south) {The Abgabeformalitäten are here.};}
+\endtikzpicture
+\end{frame}
+
+\newsavebox\pinguitembox \savebox\pinguitembox{\strut\resizebox*!{.66\baselineskip}{\tikz\pingu[left wing wave,eyes shiny,halo];}}
+\begin{frame}[c]{Abgabeformalitäten}
+\begin{itemize}[<+(1)->]
+    \item Java-Programmieraufgaben:\par
+\tikzpicture
+    \node[text width=.525\linewidth] (b) at(0,0) {\begin{itemize}
+        \item[\usebox\pinguitembox] Nichts handschriftliches oder Pseudocode.
+        \item[\usebox\pinguitembox] Nur \T{.java}-Dateien
+        \item[\usebox\pinguitembox] (Teil-)Aufgabe in separaten \T{.java}-Dateien.
+        \item[\usebox\pinguitembox] Formatierung nicht wie bei Hempels unterm Sofa.
+    \end{itemize}};
+    \only<7->{%
+    \draw[decoration={brace,amplitude=6pt},decorate] (b.north east) -- (b.south east) node[pos=.5,right=2mm,text width=.475\linewidth] {Sonst (über Blätter hinweg): \begin{enumerate}
+        \item<8-> Mal: \(-25\%\) der Punkte der Teilaufgabe
+        \item<9-> Mal: \(-50\%\) der Punkte der Teilaufgabe
+        \item<10-> Mal: \(-100\%\) der Punkte der Teilaufgabe
+    \end{enumerate}};
+    }
+    \endtikzpicture
+    \item<11-> Sie müssen \usebox\pinguitembox~\textbf{immer}~\reflectbox{\usebox\pinguitembox} lauffähig sein. \begin{itemize}
+        \item<12-> Fehlerhaften Code auskommentieren
+        \item<13-> Anmerken, was das Ziel war.
+    \end{itemize}
+    \onslide<14->{Sonst \textit{null Punkte}.}
+\end{itemize}
+\end{frame}
+
+\tikzset{path image/.style={
+    path picture={
+    \node at (path picture bounding box.center) {
+    \includegraphics[width=4.35cm]{#1}
+    };}}}
+\begin{frame}[c]{Abgabeformalitäten\hfill II}
+\begin{itemize}[<+(1)->]
+    \itemsep=13pt
+    \item Textaufgaben:
+    \begin{itemize}
+        \item Handschriftlich ist Ok, sofern lesbar.
+        \item \LaTeX\ ist tsöööön (\resizebox*!{.66\baselineskip}{\tikz{\pingu[wings grab,eyes shiny,heart=pingu@purple!20!white,name=pingu]; \node[pingu@red] at(pingu-belly-center) {\faHeart};}}) aber \textbf{nicht verpflichtend}.
+        \item Wir öffnen nur \T{.java}, \T{.txt} und \T{.pdf} Formate.
+    \end{itemize}
+    \item Allgemein
+    \begin{itemize}
+        \item Sprecht mit anderen und tauscht eure \textbf{Ideen} aus.
+        \item Aber bitte nicht eure Lösungen.
+        \item Es soll übermotivierte Tutoren geben, die an Clone-Detection arbeiten\ldots\\
+        und die sich alle Abgaben und Bewertungen ansehen.
+        \item<9-|handout:0> Koko hat hier noch tolle Memes. Ich nicht. \onslide<10->{Odeeeer?}
+    \end{itemize}
+\end{itemize}
+\onslide<11-|handout:0>{\begin{tikzpicture}[overlay,remember picture]
+    \draw[path image=meme.png,gray,rounded corners=2pt] ([xshift=-.45cm,yshift=-1.85cm]current page.north east) rectangle ++(-4.35cm,-3.75cm);
+    % \node[below left=.5cm,yshift=-1.35cm,inner sep=0pt,draw,rounded corners=2pt] at(current page.north east) {\includegraphics[width=4.35cm]{meme.png}};
+\end{tikzpicture}}
 \end{frame}
 
 \section{Übungsblatt 4}
