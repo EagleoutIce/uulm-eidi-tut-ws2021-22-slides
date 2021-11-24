@@ -1,25 +1,22 @@
-\errorcontextlines 999999
-\usepackage{attachfile2}
-\attachfilesetup{%
-    author={Florian Sihler},%
-    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
-}
+\RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
+\input ../global.src
+\usepackage{lecture-personal-resize}
+\pgfmathsetseed{\number\pdfrandomseed}
 
-\usepackage[%
-    sopra-listings={encoding,cpalette,highlights},%
-    sopra-tables, color-palettes={addons},%
-    util, lithie-boxes={germanenv,koma,overwrite},%
-    lithie-task-boxes={cpalette}, lecture-links={patchurl},%
-    lecture-registers={disable}% would interfere with beamer
-]{lithie-util}
+\title[Fünftes Tutorium -- Übungsblatt 5]{Raute-Hashtag-Matrizen\\\small Mathemann 5}
+\date{\sffamily KW 48}
+\author{Florian Sihler}
+\institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
-\def\solcustom{fill=paletteA!30,draw=paletteA!30}
+\usepackage{tikzpingus}
 
-\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
-\RestyleAlgo{plain}
-\solLoadLanguage{bash,cpp}
+\usetikzlibrary{decorations.pathreplacing,decorations.text}
+
+\hypersetup{colorlinks=false}
+
 \lstset{add to literate={Vector}{{{\solGet{keywordC}{Vector}}}}6}
-\usepackage[ngerman]{babel}
+\usepackage{tikzducks,tikzsymbols}
+
 
 \usepackage[chess]{eagle-maps}
 \colorlet{chesswhite}{paletteA!90!white}
@@ -30,41 +27,14 @@
 
 \def\linkstyle#1{\textsf{\paletteD{#1}}}
 \SetAllLinkStyle{\linkstyle{#1}}
-\usepackage{tikzducks,tikzsymbols}
-\usetheme{lucy}
 
 \colorlet{chessfieldblack}{lightgray}
 
 \usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
 
-\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
-
-\newcommand\parallelcontent[3][t]{%
-    \begin{columns}[#1]
-    \begin{column}{.475\linewidth}#2\end{column}\hfill
-    \begin{column}{.475\linewidth}#3\end{column}
-    \end{columns}
-}
-
-\title[Fünftes Tutorium -- Übungsblatt 5]{Saure-Basen-Basisspiele\\\small Tutorium 5}
-\date{\sffamily KW 22}
-\author{Florian Sihler}
-\institute{Institute of Distributed Systems \(\circ\) University Ulm}
-
-\usepackage{tikzpingus}
-\usetikzlibrary{decorations.text}
-\hypersetup{colorlinks=false}
 
 \begin{document}
-\begin{frame}[c]
-    \begin{tikzpicture}[overlay]
-        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
-            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
-        \end{scope}
-        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {5};
-    \end{tikzpicture}
-    \titlepage
-\end{frame}
+\Titlepage{5}
 
 \section{Präsenzaufgabe}
 \begin{frame}[fragile, c]{Präsenzaufgabe, zum Auflockern}
@@ -348,135 +318,258 @@ Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{en
 \subsection{Aufgabe 1}
 \begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 a)}
     \begin{itemize}[<+(1)->]
-        \item Der volle Code befindet sich hier: \only<2->{\textattachfile{Conversion.java}{Conversion.java}}.
-        \item Wir bauen \bjava{intArrayToInt(int[] digits, int base)}.
-        \item Zunächst überspringen wir führende Leerzeichen:
+        \item Der volle Code befindet sich hier: \only<2->{\textattachfile{DotProduct.java}{DotProduct.java}}.
+        \item Wir berechnen \(d = a \cdot b = (\begin{smallmatrix}
+            a_1 & \ldots & a_n
+        \end{smallmatrix}) \cdot (\begin{smallmatrix}
+            b_1 & \ldots & b_n
+        \end{smallmatrix}) = \sum_{i = 1}^n a_i \cdot b_i\)
+        \item Oder als Java-Code:
 \begin{plainjava}
-!*\onslide<5->*!int begin = 0; // Start der eigentlichen Zahl im String
-!*\onslide<6->*!while (numberString.length() > begin &&
-!*\onslide<6->*!        numberString.charAt(begin) == ' ') {
-!*\onslide<7->*!    begin += 1;
+!*\onslide<5->*!int d = 0;
+!*\onslide<6->*!for(int i = 0; i < length; i++) {
+!*\onslide<6->*!    d += vector1[i] * vector2[i];
 !*\onslide<6->*!}
-!*\onslide<8->*!if (begin >= numberString.length())
-!*\onslide<9->*!    return null;
+!*\onslide<5->*!
+!*\onslide<7->*!System.out.println("Das Skalarprodukt ist: " + d);
 \end{plainjava}
     \end{itemize}
 \end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 a)}
-    \begin{itemize}[<+(1)->]
-        \item Nun kreieren wir das Array für die Zahlenwerte:
-\begin{plainjava}
-!*\onslide<3->*!int[] digits = new int[numberString.length() - begin];
-!*\onslide<4->*!for (int i = begin; i < numberString.length(); i++) {
-!*\onslide<5->*!    // Konvertierung...
-!*\onslide<4->*!}
-!*\onslide<6->*!return digits;
-\end{plainjava}
-        \item<7-> Bei der Konvertierung können wir die Zeichen, wie \bjava{'0'}, in arithmetischen Operationen verwenden. \onslide<8->{Java konvertiert sie implizit zu ihrem Unicode-Wert.}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 a)}
-    \begin{itemize}[<+(1)->]
-        \item Wir konvertieren eine einzelne Zahl:
-\begin{plainjava}
-!*\onslide<3->*!int digit;
-!*\onslide<4->*!final char c = Character.toUpperCase(numberString.charAt(i));
-!*\onslide<5->*!if ('0' <= c && c <= '9') // ist Zahl
-!*\onslide<6->*!    digit = c - '0';
-!*\onslide<5->*!else if ('A' <= c && c <= 'Z') // ist Buchstabe
-!*\onslide<7->*!    digit = c - 'A' + 10;
-!*\onslide<5->*!else return null;
-!*\onslide<3->*!
-!*\onslide<8->*!if (digit >= base || digit < 0)
-!*\onslide<8->*!    return null;
-!*\onslide<9->*!digits[i - begin] = digit;
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
 
 \begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 b)}
     \begin{itemize}[<+(1)->]
-        \item Mit dem Hornerschema erfolgt die Konvertierung nahezu trivial:
+        \item Der volle Code befindet sich hier: \only<2->{\textattachfile{Transpose.java}{Transpose.java}}.
+        \item Wir vertauschen! Aus \(a_{i, j}\) wird \(a'_{j, i}\).
+        \item Oder als Java-Code:
 \begin{plainjava}
-!*\onslide<3->*!public static int intArrayToInt(int[] digits, int base) {
-!*\onslide<4->*!    int sum = digits[0];
-!*\onslide<5->*!    for (int i = 1; i < digits.length; i++) {
-!*\onslide<6->*!        sum = sum * base + digits[i];
-!*\onslide<5->*!    }
-!*\onslide<7->*!    return sum;
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 c)}
-    \begin{itemize}[<+(1)->]
-        \item Zunächst kümmern wir uns um das Verarbeiten der Eingabe:
-\begin{plainjava}
-!*\onslide<3->*!void assertOnlyOneArgument(String[] args) {
-!*\onslide<4->*!    if (args.length != 1) {
-!*\onslide<5->*!        System.err.println("[...]. Gegeben: " + args.length);
-!*\onslide<5->*!        System.exit(1);
-!*\onslide<4->*!    }
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 c)}
-    \begin{itemize}[<+(1)->]
-        \item Auf der Basis verarbeiten wir die Eingabe:
-\begin{plainjava}
-!*\onslide<3->*!private static int getBaseFromArgs(String[] args) {
-!*\onslide<4->*!    assertOnlyOneArgument(args);
-!*\onslide<4->*!    final int base = Integer.parseInt(args[0]);
-!*\onslide<5->*!    if (base < 2 || base > 36) {
-!*\onslide<6->*!        System.err.println("[...]. Gegeben: " + base);
-!*\onslide<6->*!        System.exit(2);
-!*\onslide<5->*!    }
-!*\onslide<7->*!    return base;
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 c)}
-    \begin{itemize}[<+(1)->]
-        \item Damit sieht die Hauptroutine wie folgt aus:
-\begin{plainjava}
-!*\onslide<3->*!int base = getBaseFromArgs(args);
-!*\onslide<3->*!Scanner scanner = new Scanner(System.in);
-!*\onslide<4->*!while (scanner.hasNextLine()) {
-!*\onslide<5->*!    // Verarbeitung...
-!*\onslide<4->*!}
-!*\onslide<6->*!scanner.close();
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 c)}
-    \begin{itemize}[<+(1)->]
-        \item Die Verarbeitung der Eingaben verläuft dann wie folgt:
-\begin{plainjava}
-!*\onslide<3->*!final String input = scanner.nextLine();
-!*\onslide<4->*!if (input.isEmpty())
-!*\onslide<4->*!    continue;
-!*\onslide<5->*!int[] digits = stringToIntArray(input, base);
-!*\onslide<6->*!if (digits == null) {
-!*\onslide<7->*!    System.err.println(input+" ist keine Zahl zur Basis "+base);
-!*\onslide<6->*!} else {
-!*\onslide<8->*!    int number = intArrayToInt(digits, base);
-!*\onslide<8->*!    System.out.println(number);
+!*\onslide<5->*!int[][] transposed = new int[M][N];
+!*\onslide<6->*!for (int i = 0; i <M; i++) {
+!*\onslide<7->*!    for (int j = 0; j < N; j++) {
+!*\onslide<8->*!        transposed[i][j] = matrix[j][i];
+!*\onslide<8->*!        System.out.print(transposed[i][j] + " ");
+!*\onslide<7->*!    }
+!*\onslide<9->*!    System.out.println("");
 !*\onslide<6->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 2}
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \item Der volle Code befindet sich hier: \only<2->{\textattachfile{MatrixMultiplication.java}{MatrixMultiplication.java}}.
+        \item Zunächst eine zweite Matrix:
+\begin{plainjava}
+!*\onslide<4->*!int[][] matrix2 = new int[M][N];
+!*\onslide<5->*!for(int i = 0; i < M; i++) {
+!*\onslide<6->*!    for (int j = 0; j < N; j++) {
+!*\onslide<7->*!        matrix2[i][j] = (int) (Math.random() * 10);
+!*\onslide<8->*!        System.out.print(matrix2[i][j] + " ");
+!*\onslide<6->*!    }
+!*\onslide<9->*!    System.out.println("");
+!*\onslide<5->*!}
+!*\onslide<10->*!System.out.println("");
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 2}
+    \begin{itemize}[<+(1)->]
+        \item Und nun multiplizieren wir! Da wir davon ausgehen können, dass es klappt, gilt:
+        \onslide<3->{\(c_{i, k} = \sum_{j = 1}^m a_{i, j} \cdot b_{j, k}\).}\lstfs{10}
+\begin{plainjava}
+!*\onslide<4->*!int[][] result = new int[N][N];
+!*\onslide<5->*!for(int i = 0; i < N; i++) {
+!*\onslide<6->*!    for (int j = 0; j < N; j++) {
+!*\onslide<7->*!        int tmp = 0;
+!*\onslide<8->*!        for (int k = 0; k < M; k++) {
+!*\onslide<9->*!            tmp += matrix1[i][k] * matrix2[k][j];
+!*\onslide<8->*!        }
+!*\onslide<10->*!        result[i][j] = tmp;
+!*\onslide<11->*!        System.out.print(result[i][j] + " ");
+!*\onslide<6->*!    }
+!*\onslide<12->*!    System.out.println();
+!*\onslide<5->*!}
 \end{plainjava}
     \end{itemize}
 \end{frame}
 
 \subsection{Zusatzaufgabe}
-\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe}
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe a)}
+    \begin{itemize}[<+(1)->]
+        \item Wir machen ein Rhombus (\only<2->{\textattachfile{Rhombus.java}{Rhombus.java}}).
+        \item Naiv, können wir die bekannte Dreiecksstruktur nehmen und ein Dreieck für die obere und eines für die untere Hälfte basteln:
+\begin{plainjava}
+!*\onslide<4->*!// oben
+!*\onslide<4->*!for(int i = 1; i <= N; i++) {
+!*\onslide<5->*!    for(int j = 1; j <= N-i; j++) System.out.print(" ");
+!*\onslide<4->*!
+!*\onslide<6->*!    for(int j = 1; j <= i; j++) {
+!*\onslide<7->*!        if((j == 1) || (j == i)) System.out.print("* ");
+!*\onslide<8->*!        else System.out.print("  ");
+!*\onslide<6->*!    }
+!*\onslide<9->*!    System.out.println("");
+!*\onslide<4->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe a)}
+    \begin{itemize}[<+(1)->]
+        \item Für unten spiegeln wir:
+\begin{plainjava}
+!*\onslide<3->*!for(int i = N; i > 1; i--) {
+!*\onslide<4->*!    for(int j = i-1; j < N; j++) System.out.print(" ");
+!*\onslide<3->*!
+!*\onslide<5->*!    for(int j = i; j >= 2; j--) {
+!*\onslide<6->*!        if((j == 2) || (j == i)) System.out.print("* ");
+!*\onslide<7->*!        else System.out.print("  ");
+!*\onslide<5->*!    }
+!*\onslide<8->*!    System.out.println("");
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe a) \hfill Eleganter}
+    \begin{itemize}[<+(1)->]
+        \item Wir haben eine Menge zu der alle Punkte zählen für die gilt: \(\abs{x} + \abs{y} = N - 1\).
+        \item \(N - 1\) rührt daher, da wir ja für \(N = 1\) sonst auch in \(y\)-Richtung je \(1\) hätten.\smallskip
+\columns[c,onlytextwidth]
+\column{.25cm}
+\column{5.35cm}
+\onslide<4->{\resizebox{5.1cm}!{\begin{tikzpicture}
+    \draw[-Kite] (-4.5,0) -- (4.5,0);
+    \draw[-Kite] (0,-4.5) -- (0,4.5);
+    \foreach \i in {-4,-3,...,-1,1,2,...,4} {
+        \draw (\i,.1) -- ++(0,-.2) node[below] {\(\i\)};
+        \draw (.1,\i) -- ++(-.2,0) node[left] {\(\i\)};
+    }
+    \foreach \i/\col in {1/paletteA,2/paletteB,3/paletteC,4/paletteD} {
+        \edef\nxt{\the\numexpr4+\i}
+        \onslide<\nxt->{\draw[\col,thick] (0,\i) -- (-\i,0) -- (0,-\i) -- (\i,0) -- cycle;}
+    }
+    \node[above left,align=right,scale=1.33] at(current bounding box.south east) {\paletteA{\(N = 1\)}\\\paletteB{\(N = 2\)}\\\paletteC{\(N = 3\)}\\\paletteD{\(N = 4\)}};
+\end{tikzpicture}}}
+\column{\linewidth-5.6cm}
+\lstfs{10}\begin{plainjava}
+!*\onslide<9->*!if(args.length != 1) System.exit(1);
+!*\onslide<9->*!int N = Integer.parseInt(args[0]) - 1;
+!*\onslide<9->*!
+!*\onslide<10->*!for (int i = -N; i <= N; i++) {
+!*\onslide<11->*!    for (int j = -N; j <= N; j++) {
+!*\onslide<12->*!        if (Math.abs(i) + Math.abs(j) == N)
+!*\onslide<12->*!            System.out.print("*");
+!*\onslide<13->*!        else System.out.print(" ");
+!*\onslide<11->*!    }
+!*\onslide<14->*!    System.out.println();
+!*\onslide<10->*!}
+\end{plainjava}
+\endcolumns
+\onslide<15->{\begin{tikzpicture}[overlay,remember picture]
+    \node[above left=.55cm] at(current page.south east) {\only<15->{\textattachfile{RhombusElegant.java}{RhombusElegant.java}}};
+\end{tikzpicture}}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe b)}
+    \begin{itemize}[<+(1)->]
+        \item Die Musterlösung (\only<2->{\textattachfile{NestedRhombus.java}{NestedRhombus.java}}).\lstfs{7}
+\begin{plainjava}
+for(int i = 1; i <= N; i++) {
+    for(int j = 1; j <= N-i; j++) System.out.print(" ");
+    if(i % 2 == 1) {
+        for (int j = 1; j <= i; j++) {
+            if (j % 2 == 1) System.out.print("* ");
+            else System.out.print("  ");
+        }
+    } else {
+        for (int j = 1; j <= i / 2; j++) { // Linke Hälfte
+            if (j % 2 == 1) System.out.print("* ");
+            else System.out.print("  ");
+        }
+        for (int j = i/2; j >= 1; j--) { // Rechte Hälfte
+            if (j % 2 == 1) System.out.print("* ");
+            else System.out.print("  ");
+        }
+    }
+    System.out.println("");
+}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe b)}
+    \begin{itemize}[<+(1)->]
+        \item Die Musterlösung der unteren Hälfte:\lstfs{7}
+\begin{plainjava}
+for(int i = N-1; i >= 1; i--) {
+    for(int j = i; j < N; j++) System.out.print(" ");
+    if(i % 2 == 1) {
+        for (int j = 1; j <= i; j++) {
+            if (j % 2 == 1) System.out.print("* ");
+            else System.out.print("  ");
+        }
+    } else {
+        for (int j = 1; j <= i / 2; j++) { // Linke Hälfte
+            if (j % 2 == 1) System.out.print("* ");
+            else System.out.print("  ");
+        }
+        for (int j = i/2; j >= 1; j--) {// Rechte Hälfte
+            if (j % 2 == 1) System.out.print("* ");
+            else System.out.print("  ");
+        }
+    }
+    System.out.println("");
+}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe b) \hfill Eleganter}
+    \begin{itemize}[<+(1)->]
+        \item Wir möchten nun alle Rauten durch \(\abs{x} + \abs{y} \leq N - 1\).
+        \item Da wir aber nur je die mit Längen \(- 4\) haben wollen: \(\abs{x} + \abs{y} \equiv N - 1 \mod 4\). \onslide<4->{Mathe ist liebe.}
+\columns[c,onlytextwidth]
+\column{.25cm}
+\column{5.35cm}
+\onslide<5->{\resizebox{4.71cm}!{\begin{tikzpicture}
+    \draw[-Kite] (-6.5,0) -- (6.5,0);
+    \draw[-Kite] (0,-6.5) -- (0,6.5);
+    \foreach \i in {-6,-5,...,-1,1,2,...,6} {
+        \draw (\i,.1) -- ++(0,-.2) node[below] {\(\i\)};
+        \draw (.1,\i) -- ++(-.2,0) node[left] {\(\i\)};
+    }
+    \foreach[count=\j] \i/\col in {2/paletteB,6/paletteB} {
+        \edef\nxt{\the\numexpr5+\j}
+        \onslide<\nxt->{\draw[\col,very thick] (0,\i) -- (-\i,0) -- (0,-\i) -- (\i,0) -- cycle;}
+    }
+    \node[above left,align=right,scale=1.33] at(current bounding box.south east) {\paletteB{\(N = 6\)}};
+\end{tikzpicture}}}
+\column{\linewidth-5.6cm}
+\lstfs{9}\begin{plainjava}
+!*\onslide<8->*!if (args.length != 1) System.exit(1);
+!*\onslide<8->*!int N = Integer.parseInt(args[0]) - 1;
+!*\onslide<8->*!
+!*\onslide<9->*!for (int i = -N; i <= N; i++) {
+!*\onslide<10->*!    for (int j = -N; j <= N; j++) {
+!*\onslide<11->*!       int radius = Math.abs(i) + Math.abs(j);
+!*\onslide<11->*!       if (radius <= N && radius % 4 == N % 4)
+!*\onslide<11->*!           System.out.print("*");
+!*\onslide<12->*!       else System.out.print(" ");
+!*\onslide<10->*!    }
+!*\onslide<13->*!    System.out.println();
+!*\onslide<9->*!}
+\end{plainjava}
+\endcolumns
+\onslide<15->{\begin{tikzpicture}[overlay,remember picture]
+    \node[above left=.55cm] at(current page.south east) {\only<15->{\textattachfile{NestedRhombusElegant.java}{NestedRhombusElegant.java}}};
+\end{tikzpicture}}
+    \end{itemize}
+\end{frame}
+
+\section{Alte Zusatzaufgabe}
+\begin{frame}[fragile]{Alte Zusatzaufgabe}
     \begin{itemize}[<+(1)->]
         \item Schach! \begin{center}
 \only<2|handout:0>{%
@@ -511,7 +604,7 @@ Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{en
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe}
+\begin{frame}[fragile]{Alte Zusatzaufgabe}
     \begin{itemize}[<+(1)->]
         \item Für Türme lässt sich die Aufgabe leicht umformulieren (\only<2->{\textattachfile{Zusatz.java}{Zusatz.java}}):\par
               \say{In jeder Zeile und jeder Spalte darf es maximal einen Turm geben}
@@ -528,7 +621,7 @@ Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{en
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,c]{Übungsblatt 5 - Zusatzaufgabe}
+\begin{frame}[fragile,c]{Alte Zusatzaufgabe}
 \begin{plainjava}
 !*\pause*!// für jedes i
 !*\pause*!int rooksHorizontal = 0;
@@ -546,7 +639,7 @@ Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{en
 \end{plainjava}
 \end{frame}
 
-\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe}
+\begin{frame}[fragile]{Alte Zusatzaufgabe}
     \begin{itemize}[<+(1)->]
         \item Zuletzt noch die Auswertung:
 \begin{plainjava}
@@ -558,7 +651,7 @@ Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{en
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe, Alternative}
+\begin{frame}[fragile]{Alte Zusatzaufgabe, Alternative}
     \begin{itemize}[<+(1)->]
         \item Betrachten wir eine Prüfroutine für ein gegebenes Feld (\only<2->{\textattachfile{ZusatzB.java}{ZusatzB.java}})
 \begin{plainjava}
@@ -573,7 +666,7 @@ Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{en
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe, Alternative}
+\begin{frame}[fragile]{Alte Zusatzaufgabe, Alternative}
     \begin{itemize}[<+(1)->]
         \item Nun können wir über das Feld iterieren und alle Turmpositionen prüfen:
 \begin{plainjava}

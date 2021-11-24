@@ -6,7 +6,7 @@
 }
 
 \usepackage[%
-    sopra-listings={encoding,cpalette,print},%
+    sopra-listings={encoding,cpalette,print,highlights},%
     sopra-tables,
     color-palettes={addons},%
     util,beamer-extra,%
