@@ -55,15 +55,15 @@
 
 \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
-        \item We do se flippin place (mit \T{x} als \T{flipMyLetters}):
+        \item We do se flippin place (mit \T{x} als \T{flipEm}):
 \begin{plainjava}
-!*\onslide<3->*!public static void flipInPlace(char[] flipMyLetters) {
+!*\onslide<3->*!public static void flipInPlace(char[] flipEm) {
 !*\onslide<4->*!  int shift = 'a' - 'A';
-!*\onslide<5->*!  for (int i = 0; i < flipMyLetters.length; i++) {
-!*\onslide<6->*!    if ('A' <= flipMyLetters[i] && flipMyLetters[i] <= 'Z') {
-!*\onslide<7->*!      flipMyLetters[i] += shift;
-!*\onslide<6->*!    } else if ('a' <= flipMyLetters[i] && flipMyLetters[i] <= 'z') {
-!*\onslide<8->*!      flipMyLetters[i] -= shift;
+!*\onslide<5->*!  for (int i = 0; i < flipEm.length; i++) {
+!*\onslide<6->*!    if ('A' <= flipEm[i] && flipEm[i] <= 'Z') {
+!*\onslide<7->*!      flipEm[i] += shift;
+!*\onslide<6->*!    } else if ('a' <= flipEm[i] && flipEm[i] <= 'z') {
+!*\onslide<8->*!      flipEm[i] -= shift;
 !*\onslide<6->*!    }
 !*\onslide<5->*!  }
 !*\onslide<3->*!}
@@ -75,8 +75,8 @@
     \begin{itemize}[<+(1)->]
         \item Und nun mit der Kopie! Wir könnten das ja nochmal schreiben\ldots
 \begin{plainjava}
-!*\onslide<3->*!public static char[] flipInCopy(char[] flipMyLetters) {
-!*\onslide<4->*!    char[] copy = flipMyLetters.clone();
+!*\onslide<3->*!public static char[] flipInCopy(char[] flipEm) {
+!*\onslide<4->*!    char[] copy = flipEm.clone();
 !*\onslide<5->*!    flipInPlace(copy);
 !*\onslide<6->*!    return copy;
 !*\onslide<3->*!}
@@ -109,7 +109,7 @@
         \item Warum keine for-each Schleife?\smallskip\\*
             \pause Damit erhalten wir nur die Werte an der jeweiligen Stelle, aber nicht den Index den es zu verändern gilt:\pause
 \begin{plainjava}
-for(char c : flipMyLetters) { /* hier haben wir nur c */ }
+for(char c : flipEm) { /* hier haben wir nur c */ }
 \end{plainjava}
         \pause Wir könnten zwar einen Zeiger inkrementieren, aber wer garantiert uns dann die Reihenfolge der Iteration?\pause\ Und selbst wenn das passt\ldots\pause\ Im Endeffekt haben wir dann wieder eine for-Schleife.
     \end{itemize}
@@ -145,7 +145,7 @@ for(char c : flipMyLetters) { /* hier haben wir nur c */ }
         \item Oder als Java-Code:
 \begin{plainjava}
 !*\onslide<5->*!int[][] transposed = new int[M][N];
-!*\onslide<6->*!for (int i = 0; i <M; i++) {
+!*\onslide<6->*!for (int i = 0; i < M; i++) {
 !*\onslide<7->*!    for (int j = 0; j < N; j++) {
 !*\onslide<8->*!        transposed[i][j] = matrix[j][i];
 !*\onslide<8->*!        System.out.print(transposed[i][j] + " ");
@@ -234,9 +234,9 @@ for(char c : flipMyLetters) { /* hier haben wir nur c */ }
 \end{frame}
 
 \begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe a) \hfill Eleganter}
-    \begin{itemize}[<+(1)->]
-        \item Wir haben eine Menge zu der alle Punkte zählen für die gilt: \(\abs{x} + \abs{y} = N - 1\).
-        \item \(N - 1\) rührt daher, da wir ja für \(N = 1\) sonst auch in \(y\)-Richtung je \(1\) hätten.\smallskip
+    \begin{itemize}
+        \item<2-> Wir haben eine Menge zu der alle Punkte zählen für die gilt: \(\abs{x} + \abs{y} = N - 1\).
+        \item<3-> \(N - 1\) rührt daher, da wir ja für \(N = 1\) sonst auch in \(y\)-Richtung je \(1\) hätten.\smallskip
 \columns[c,onlytextwidth]
 \column{.25cm}
 \column{5.35cm}
@@ -251,10 +251,10 @@ for(char c : flipMyLetters) { /* hier haben wir nur c */ }
         \edef\nxt{\the\numexpr4+\i}
         \onslide<\nxt->{\draw[\col,thick] (0,\i) -- (-\i,0) -- (0,-\i) -- (\i,0) -- cycle;}
     }
-    \node[above left,align=right,scale=1.33] at(current bounding box.south east) {\paletteA{\(N = 1\)}\\\paletteB{\(N = 2\)}\\\paletteC{\(N = 3\)}\\\paletteD{\(N = 4\)}};
+    \only<8->{\node[above left,align=right,scale=1.33] at(current bounding box.south east) {\paletteA{\(N = 1\)}\\\paletteB{\(N = 2\)}\\\paletteC{\(N = 3\)}\\\paletteD{\(N = 4\)}};}
 \end{tikzpicture}}}
 \column{\linewidth-5.6cm}
-\lstfs{10}\begin{plainjava}
+\lstfs{10}\begin{plainjava}[lineskip=1.75pt]
 !*\onslide<9->*!if(args.length != 1) System.exit(1);
 !*\onslide<9->*!int N = Integer.parseInt(args[0]) - 1;
 !*\onslide<9->*!
@@ -269,7 +269,7 @@ for(char c : flipMyLetters) { /* hier haben wir nur c */ }
 \end{plainjava}
 \endcolumns
 \onslide<15->{\begin{tikzpicture}[overlay,remember picture]
-    \node[above left=.55cm] at(current page.south east) {\only<15->{\textattachfile{RhombusElegant.java}{RhombusElegant.java}}};
+    \node[above left=.55cm,xshift=.25cm] at(current page.south east) {\only<15->{\textattachfile{RhombusElegant.java}{RhombusElegant.java}}};
 \end{tikzpicture}}
     \end{itemize}
 \end{frame}
@@ -278,25 +278,25 @@ for(char c : flipMyLetters) { /* hier haben wir nur c */ }
     \begin{itemize}[<+(1)->]
         \item Die Musterlösung (\only<2->{\textattachfile{NestedRhombus.java}{NestedRhombus.java}}).\lstfs{7}
 \begin{plainjava}
-for(int i = 1; i <= N; i++) {
-    for(int j = 1; j <= N-i; j++) System.out.print(" ");
-    if(i % 2 == 1) {
-        for (int j = 1; j <= i; j++) {
-            if (j % 2 == 1) System.out.print("* ");
-            else System.out.print("  ");
-        }
-    } else {
-        for (int j = 1; j <= i / 2; j++) { // Linke Hälfte
-            if (j % 2 == 1) System.out.print("* ");
-            else System.out.print("  ");
-        }
-        for (int j = i/2; j >= 1; j--) { // Rechte Hälfte
-            if (j % 2 == 1) System.out.print("* ");
-            else System.out.print("  ");
-        }
-    }
-    System.out.println("");
-}
+!*\onslide<3->*!for(int i = 1; i <= N; i++) {
+!*\onslide<4->*!    for(int j = 1; j <= N-i; j++) System.out.print(" ");
+!*\onslide<5->*!    if(i % 2 == 1) {
+!*\onslide<6->*!        for (int j = 1; j <= i; j++) {
+!*\onslide<7->*!            if (j % 2 == 1) System.out.print("* ");
+!*\onslide<7->*!            else System.out.print("  ");
+!*\onslide<6->*!        }
+!*\onslide<5->*!    } else {
+!*\onslide<8->*!        for (int j = 1; j <= i / 2; j++) { // Linke Hälfte
+!*\onslide<9->*!            if (j % 2 == 1) System.out.print("* ");
+!*\onslide<9->*!            else System.out.print("  ");
+!*\onslide<8->*!        }
+!*\onslide<10->*!        for (int j = i/2; j >= 1; j--) { // Rechte Hälfte
+!*\onslide<11->*!            if (j % 2 == 1) System.out.print("* ");
+!*\onslide<11->*!            else System.out.print("  ");
+!*\onslide<10->*!        }
+!*\onslide<5->*!    }
+!*\onslide<12->*!    System.out.println("");
+!*\onslide<3->*!}
 \end{plainjava}
     \end{itemize}
 \end{frame}
@@ -305,33 +305,33 @@ for(int i = 1; i <= N; i++) {
     \begin{itemize}[<+(1)->]
         \item Die Musterlösung der unteren Hälfte:\lstfs{7}
 \begin{plainjava}
-for(int i = N-1; i >= 1; i--) {
-    for(int j = i; j < N; j++) System.out.print(" ");
-    if(i % 2 == 1) {
-        for (int j = 1; j <= i; j++) {
-            if (j % 2 == 1) System.out.print("* ");
-            else System.out.print("  ");
-        }
-    } else {
-        for (int j = 1; j <= i / 2; j++) { // Linke Hälfte
-            if (j % 2 == 1) System.out.print("* ");
-            else System.out.print("  ");
-        }
-        for (int j = i/2; j >= 1; j--) { // Rechte Hälfte
-            if (j % 2 == 1) System.out.print("* ");
-            else System.out.print("  ");
-        }
-    }
-    System.out.println("");
-}
+!*\onslide<3->*!for(int i = N-1; i >= 1; i--) {
+!*\onslide<4->*!    for(int j = i; j < N; j++) System.out.print(" ");
+!*\onslide<5->*!    if(i % 2 == 1) {
+!*\onslide<6->*!        for (int j = 1; j <= i; j++) {
+!*\onslide<7->*!            if (j % 2 == 1) System.out.print("* ");
+!*\onslide<7->*!            else System.out.print("  ");
+!*\onslide<6->*!        }
+!*\onslide<5->*!    } else {
+!*\onslide<8->*!        for (int j = 1; j <= i / 2; j++) { // Linke Hälfte
+!*\onslide<9->*!            if (j % 2 == 1) System.out.print("* ");
+!*\onslide<9->*!            else System.out.print("  ");
+!*\onslide<8->*!        }
+!*\onslide<10->*!        for (int j = i/2; j >= 1; j--) { // Rechte Hälfte
+!*\onslide<11->*!            if (j % 2 == 1) System.out.print("* ");
+!*\onslide<11->*!            else System.out.print("  ");
+!*\onslide<10->*!        }
+!*\onslide<5->*!    }
+!*\onslide<12->*!    System.out.println("");
+!*\onslide<3->*!}
 \end{plainjava}
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe b) \hfill Eleganter}
-    \begin{itemize}[<+(1)->]
-        \item Wir möchten nun alle Rauten durch \(\abs{x} + \abs{y} \leq N - 1\).
-        \item Da wir aber nur je die mit Längen \(- 4\) haben wollen: \(\abs{x} + \abs{y} \equiv N - 1 \mod 4\). \onslide<4->{Mathe ist liebe.}
+    \begin{itemize}
+        \item<2-> Wir möchten nun alle Rauten durch \(\abs{x} + \abs{y} \leq N - 1\).
+        \item<3-> Da wir aber nur je die mit Längen \(- 4\) haben wollen: \(\abs{x} + \abs{y} \equiv N - 1 \mod 4\). \onslide<4->{Mathe ist liebe.}
 \columns[c,onlytextwidth]
 \column{.25cm}
 \column{5.35cm}
@@ -346,26 +346,26 @@ for(int i = N-1; i >= 1; i--) {
         \edef\nxt{\the\numexpr5+\j}
         \onslide<\nxt->{\draw[\col,very thick] (0,\i) -- (-\i,0) -- (0,-\i) -- (\i,0) -- cycle;}
     }
-    \node[above left,align=right,scale=1.33] at(current bounding box.south east) {\paletteB{\(N = 6\)}};
+    \only<7->{\node[above left,align=right,scale=1.33] at(current bounding box.south east) {\paletteB{\(N = 6\)}};}
 \end{tikzpicture}}}
 \column{\linewidth-5.6cm}
-\lstfs{9}\begin{plainjava}
+\lstfs{9}\begin{plainjava}[lineskip=1.75pt]
 !*\onslide<8->*!if (args.length != 1) System.exit(1);
 !*\onslide<8->*!int N = Integer.parseInt(args[0]) - 1;
 !*\onslide<8->*!
 !*\onslide<9->*!for (int i = -N; i <= N; i++) {
 !*\onslide<10->*!    for (int j = -N; j <= N; j++) {
 !*\onslide<11->*!       int radius = Math.abs(i) + Math.abs(j);
-!*\onslide<11->*!       if (radius <= N && radius % 4 == N % 4)
-!*\onslide<11->*!           System.out.print("*");
-!*\onslide<12->*!       else System.out.print(" ");
+!*\onslide<12->*!       if (radius <= N && radius % 4 == N % 4)
+!*\onslide<12->*!           System.out.print("*");
+!*\onslide<13->*!       else System.out.print(" ");
 !*\onslide<10->*!    }
-!*\onslide<13->*!    System.out.println();
+!*\onslide<14->*!    System.out.println();
 !*\onslide<9->*!}
 \end{plainjava}
 \endcolumns
 \onslide<15->{\begin{tikzpicture}[overlay,remember picture]
-    \node[above left=.55cm] at(current page.south east) {\only<15->{\textattachfile{NestedRhombusElegant.java}{NestedRhombusElegant.java}}};
+    \node[above left=.55cm,xshift=.25cm] at(current page.south east) {\only<15->{\textattachfile{NestedRhombusElegant.java}{NestedRhombusElegant.java}}};
 \end{tikzpicture}}
     \end{itemize}
 \end{frame}

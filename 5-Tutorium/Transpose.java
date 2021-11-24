@@ -14,7 +14,7 @@ public class Transpose {
 
        System.out.println("\nTransponierte Matrix\n");
        int[][] transposed = new int[M][N];
-       for (int i = 0; i <M; i++) {
+       for (int i = 0; i < M; i++) {
            for (int j = 0; j < N; j++) {
                transposed[i][j] = matrix[j][i];
                System.out.print(transposed[i][j] + " ");
