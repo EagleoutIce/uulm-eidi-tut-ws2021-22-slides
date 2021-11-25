@@ -107,7 +107,7 @@
         \item Warum reicht \bjava{char[] clone = x;} nicht für eine Kopie?\smallskip\\*
             \pause Arrays sind komplexe Datenstrukturen (\say{ReferenceType}).\pause\ Mit \bjava{clone = x} lassen wit \T{clone} auf die gleiche Speicheradresse wie \T{x} zeigen.\pause\ Wir verändern dasselbe Array.
         \item Warum keine for-each Schleife?\smallskip\\*
-            \pause Damit erhalten wir nur die Werte an der jeweiligen Stelle, aber nicht den Index den es zu verändern gilt:\pause
+            \pause Damit erhalten wir nur die Werte an der jeweiligen Stelle, aber nicht den Index den es zu verändern gilt. Der Iterator erzeugt eine Kopie:\pause
 \begin{plainjava}
 for(char c : flipEm) { /* hier haben wir nur c */ }
 \end{plainjava}
