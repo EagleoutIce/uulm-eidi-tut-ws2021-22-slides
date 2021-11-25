@@ -370,6 +370,30 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
     \end{itemize}
 \end{frame}
 
+
+\begin{frame}[fragile]{Can we do it in one line?}
+    \begin{itemize}[<+(1)->]
+        \item Nicht klausurrelevant, aber durch Anfrage (\only<2->{\textattachfile{NestedRhombusOneLine.java}{NestedRhombusOneLine.java}})
+\lstfs{8}
+\begin{plainjava}
+!*\onslide<3->*!System.out.println(args.length != 1 ? "invalid argument" :
+!*\onslide<4->*!    IntStream.rangeClosed(-Integer.parseInt(args[0]) + 1, Integer.parseInt(args[0]) - 1)
+!*\onslide<5->*!    .boxed()
+!*\onslide<6->*!    .map(s -> Map.entry(s, IntStream.rangeClosed(
+!*\onslide<6->*!           -Integer.parseInt(args[0]) + 1,
+!*\onslide<6->*!           Integer.parseInt(args[0]) - 1).boxed()))
+!*\onslide<7->*!    .map(s -> s.getValue()
+!*\onslide<8->*!        .map(x -> Math.abs(s.getKey()) + Math.abs(x) <= (Integer.parseInt(args[0]) - 1) &&
+!*\onslide<9->*!            (Math.abs(s.getKey()) + Math.abs(x)) % 4 == (Integer.parseInt(args[0]) - 1) % 4
+!*\onslide<9->*!            ? "*" : " "
+!*\onslide<8->*!        ).reduce("", (a, b) -> a + b)
+!*\onslide<7->*!    )
+!*\onslide<10->*!    .collect(Collectors.joining("\n"))
+!*\onslide<3->*!);
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
 \section{Altes Gedönse}
 
 \subsection{Alte Präsenzaufgabe -- Was passiert?}
