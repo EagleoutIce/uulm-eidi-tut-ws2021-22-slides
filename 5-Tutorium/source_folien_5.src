@@ -258,9 +258,9 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 !*\onslide<9->*!if(args.length != 1) System.exit(1);
 !*\onslide<9->*!int N = Integer.parseInt(args[0]) - 1;
 !*\onslide<9->*!
-!*\onslide<10->*!for (int i = -N; i <= N; i++) {
-!*\onslide<11->*!    for (int j = -N; j <= N; j++) {
-!*\onslide<12->*!        if (Math.abs(i) + Math.abs(j) == N)
+!*\onslide<10->*!for (int y = -N; y <= N; i++) {
+!*\onslide<11->*!    for (int x = -N; x <= N; j++) {
+!*\onslide<12->*!        if (Math.abs(y) + Math.abs(x) == N)
 !*\onslide<12->*!            System.out.print("*");
 !*\onslide<13->*!        else System.out.print(" ");
 !*\onslide<11->*!    }
@@ -353,9 +353,9 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 !*\onslide<8->*!if (args.length != 1) System.exit(1);
 !*\onslide<8->*!int N = Integer.parseInt(args[0]) - 1;
 !*\onslide<8->*!
-!*\onslide<9->*!for (int i = -N; i <= N; i++) {
-!*\onslide<10->*!    for (int j = -N; j <= N; j++) {
-!*\onslide<11->*!       int radius = Math.abs(i) + Math.abs(j);
+!*\onslide<9->*!for (int y = -N; y <= N; i++) {
+!*\onslide<10->*!    for (int x = -N; x <= N; j++) {
+!*\onslide<11->*!       int radius = Math.abs(y) + Math.abs(x);
 !*\onslide<12->*!       if (radius <= N && radius % 4 == N % 4)
 !*\onslide<12->*!           System.out.print("*");
 !*\onslide<13->*!       else System.out.print(" ");
