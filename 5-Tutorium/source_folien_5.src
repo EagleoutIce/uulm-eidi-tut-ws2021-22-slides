@@ -496,27 +496,38 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
     \end{itemize}
 \end{frame}
 
-
 \begin{frame}[fragile]{Can we do it in one line?}
     \begin{itemize}[<+(1)->]
-        \item Nicht klausurrelevant, aber durch Anfrage (\only<2->{\textattachfile{NestedRhombusOneLine.java}{NestedRhombusOneLine.java}}):
+        \item \textbf{Nicht klausurrelevant}, aber durch Anfrage (\only<2->{\textattachfile{NestedRhombusOneLine.java}{NestedRhombusOneLine.java}}):
 \lstfs{8}
 \begin{plainjava}
 !*\onslide<3->*!System.out.println(args.length != 1 ? "invalid argument" :
 !*\onslide<4->*!    IntStream.rangeClosed(-Integer.parseInt(args[0]) + 1, Integer.parseInt(args[0]) - 1)
 !*\onslide<5->*!    .boxed()
-!*\onslide<6->*!    .map(s -> Map.entry(s, IntStream.rangeClosed(
-!*\onslide<6->*!           -Integer.parseInt(args[0]) + 1,
-!*\onslide<6->*!           Integer.parseInt(args[0]) - 1).boxed()))
+!*\onslide<6->*!    .map(s -> Map.entry(s, !*\onslide<7->*!IntStream.rangeClosed(
+!*\onslide<7->*!           -Integer.parseInt(args[0]) + 1,
+!*\onslide<7->*!           Integer.parseInt(args[0]) - 1).boxed()!*\onslide<6->*!))
 !*\onslide<7->*!    .map(s -> s.getValue()
-!*\onslide<8->*!        .map(x -> Math.abs(s.getKey()) + Math.abs(x) <= (Integer.parseInt(args[0]) - 1) &&
+!*\onslide<8->*!        .map(x -> !*\onslide<9->*!Math.abs(s.getKey()) + Math.abs(x) <= (Integer.parseInt(args[0]) - 1) &&
 !*\onslide<9->*!            (Math.abs(s.getKey()) + Math.abs(x)) % 4 == (Integer.parseInt(args[0]) - 1) % 4
 !*\onslide<9->*!            ? "*" : " "
-!*\onslide<8->*!        ).reduce("", (a, b) -> a + b)
+!*\onslide<8->*!        )!*\onslide<10->*!.reduce("", (a, b) -> a + b)
 !*\onslide<7->*!    )
-!*\onslide<10->*!    .collect(Collectors.joining("\n"))
+!*\onslide<11->*!    .collect(Collectors.joining("\n"))
 !*\onslide<3->*!);
 \end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe\hfill Weiter Kommentare}
+    \begin{itemize}[<+(1)->]
+        \itemsep6pt
+        \item Man kann das Problem auch leicht rekursiv lösen. Das war so aber nicht gedacht.\pause \infoblock{Man kann jede Zeile auf die Basisfälle \say{Nichts}, \say{\bjava{*}}, \say{\bjava{* *}},~\ldots\ reduzieren und somit rekursiv bauen. Auch ne nette one-liner Idee\ldots\ Was sind aber die Nachteile der Rekursion?}
+        \item Was würde sich ändern, wenn wir andere Formen wie eine Ellipse möchten oder gar mehrere Formen kombinieren?
+        \item Ich kann Zusatzaufgaben wie diese nur wärmstens empfehlen. Versucht es!
+        \item Wer sich unterfordert fühlt, kann immer noch nach Handicaps oder weiteren Aufgaben fragen.
+        \item Code-Kommentare sollten nicht redundanterweise erklären, was die jeweilige Zeile macht, sondern maximal was die Idee/das Konzept dahinter war. Kommentare sind an sich auch Code! Nur für menschliche \say{Compiler}. \info{Oder sowas wie GPT-3.}
     \end{itemize}
 \end{frame}
 
@@ -767,7 +778,7 @@ Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{en
 
 \begin{frame}[fragile]{Vectori-was? The quest revolver}
     \begin{itemize}[<+(1)->]
-        \item Zum Erhalten der Werte erzeugen wir eine Kopie:
+        \item Zum Erhalt der Werte erzeugen wir eine Kopie:
 \begin{plainjava}
 !*\onslide<3->*!public double[] getValues() {
 !*\onslide<4->*!    return copyArray(this.values);
