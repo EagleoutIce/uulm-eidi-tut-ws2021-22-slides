@@ -499,7 +499,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 
 \begin{frame}[fragile]{Can we do it in one line?}
     \begin{itemize}[<+(1)->]
-        \item Nicht klausurrelevant, aber durch Anfrage (\only<2->{\textattachfile{NestedRhombusOneLine.java}{NestedRhombusOneLine.java}})
+        \item Nicht klausurrelevant, aber durch Anfrage (\only<2->{\textattachfile{NestedRhombusOneLine.java}{NestedRhombusOneLine.java}}):
 \lstfs{8}
 \begin{plainjava}
 !*\onslide<3->*!System.out.println(args.length != 1 ? "invalid argument" :
