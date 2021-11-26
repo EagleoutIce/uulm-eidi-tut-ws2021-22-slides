@@ -233,6 +233,131 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
     \end{itemize}
 \end{frame}
 
+\begin{frame}[c,plain]{}
+\tikzpicture[overlay,remember picture]
+\fill[pingu@black] (current page.south east) rectangle (current page.north west);
+\onslide<2->{\node[pingu@white,above,scale=1.66] (c) at (current page.center) {So tell me\ldots};}
+\onslide<3->{\node[pingu@white,below,scale=1.66] at (c.south) {What is it, you \textit{desire}?};}
+\onslide<4->{
+    \path (current page.center)++(50:3cm) node[pingu@white,below,scale=1.3,rotate=-20] {\bfseries Math!};
+}
+\onslide<5->{
+    \path (current page.center)++(-210:4.25cm) node[pingu@white,below,scale=1.9,rotate=15] {\bfseries Math!};
+}
+\onslide<6->{
+    \path (current page.center)++(-60:3.25cm) node[pingu@white,below,scale=1.45,rotate=45] {\bfseries Math!};
+}
+\onslide<7->{
+    \path (current page.center)++(215:3.75cm) node[pingu@white,below,scale=1.85,rotate=-5] {\bfseries Math!};
+}
+\onslide<8->{
+    \path (current page.center)++(24:5.95cm) node[pingu@white,below,scale=0.75,rotate=-19] {\bfseries \LaTeX-Penguins!};
+}
+\onslide<9->{
+    \path (current page.center)++(-16:6.75cm) node[pingu@white,below,scale=1.65,rotate=-15] {\bfseries Math!};
+}
+\endtikzpicture
+\end{frame}
+
+\newsavebox\whitepingu
+\savebox\whitepingu{\tikz\pingu[body=pingu@white,bill color=pingu@white,feet color=pingu@white,eyes color=pingu@white,heart=pingu@black];}
+\begin{frame}[c,plain]{}
+\tikzpicture[overlay,remember picture]
+\fill[pingu@black] (current page.south east) rectangle (current page.north west);
+\node[pingu@white,scale=1.66] (c) at (current page.center) {So Math it is\ldots};
+\onslide<2->{\node[above left=3mm,scale=.75] at(current page.south east) {\usebox\whitepingu};}
+\endtikzpicture
+\end{frame}
+
+\begin{frame}[c,plain]{}
+\tikzpicture[overlay,remember picture]
+\fill[pingu@black] (current page.south east) rectangle (current page.north west);
+\only<1-2>{\node[below right=3mm,pingu@white] at(current page.north west) {\large\ttfamily \textcolor{purple!80!white}{Love}~\faAngleRight\ \textcolor{purple!40!white}{Real \scalebox{.8}{\faHeart}}~\faAngleRight\ \textcolor{green!40!white}{Math}};}
+\node[above left=3mm,pingu@white,scale=.8] (pn) at(current page.south east) {\footnotesize\insertframenumber\thinspace/\thinspace\totalframes};
+\only<1-2>{\node[above right=3mm,pingu@white,scale=.33] at(current page.south west) {\footnotesize Manuell Layouts im Foliensatz zu ändern macht Spaß. Wirkt aber fast, als hätte ich das hier geklaut :/ Das hab ich nich!};}
+
+\onslide<2->{\scope[shift={([yshift=-6pt]current page.center)},pingu@white,scale=.675,every path/.append style={line cap=round}]
+
+\draw[->] (-5.5,0) -- (5.5,0);
+\draw[->] (0,-5.5) -- (0,5.5);
+\only<2>{\foreach \i in {-5,-4,...,-1,1,2,...,5} {
+    \draw (\i,.1) -- ++(0,-.2) node[below,scale=.875] {\(\i\)};
+    \draw (.1,\i) -- ++(-.2,0) node[left,scale=.875] {\(\i\)};
+}}
+\only<3-|handout:0>{\foreach \i in {-5,-4,...,-1,1,2,...,5} {
+    \draw (\i,.1) -- ++(0,-.2);
+    \draw (.1,\i) -- ++(-.2,0);
+}}
+
+\only<4-5>{
+    \colorlet{major}{paletteB!20!white}
+    \only<handout:0>{\node[below left,outer sep=0pt,inner sep=0pt,major] at (5.5,5.5) {\vphantom{$\sqrt{y^2}$}\(x + y \leq 1\)};}
+    \only<5>{\fill[fill opacity=.33,major,rounded corners=.5pt] (-4.5,5.5) -- (5.5,-4.5) -- (5.5,-5.5) -| (-5.5,5.5) -- cycle;
+    \draw[major,thick] (-4.5,5.5) -- (5.5,-4.5);}
+}
+
+\only<6-7>{
+    \colorlet{major}{paletteB!20!white}
+    \only<handout:0>{\node[below left,outer sep=0pt,inner sep=0pt,major] at (5.5,5.5) {\vphantom{$\sqrt{y^2}$}\(\sqrt{x^2 + y^2} \leq 3\)};}
+    \only<7>{\filldraw[major,fill opacity=.33,thick] (0,0) circle [radius=3cm];}
+}
+
+\only<8>{
+    \colorlet{major}{paletteB!20!white}
+    \only<handout:0>{\node[below left,outer sep=0pt,inner sep=0pt,major] at (5.5,5.5) {\vphantom{$\sqrt{y^2}$}\(\sqrt{x^2 + y^2} = 3\)};}
+    \draw[major,thick] (0,0) circle [radius=3cm];
+}
+
+\only<9-10>{
+    \colorlet{major}{paletteB!20!white}
+    \only<handout:0>{\node[below left,outer sep=0pt,inner sep=0pt,major] at (5.5,5.5) {\vphantom{$\sqrt{y^2}$}\(\abs{x - y} + \abs{x + y} \leq 4\)};}
+    \only<10>{\filldraw[major,fill opacity=.33,thick] (-2,-2) rectangle ++(4,4);}
+}
+
+\only<11-12>{s
+    \colorlet{major}{paletteB!20!white}
+    \only<handout:0>{\node[below left,outer sep=0pt,inner sep=0pt,major] at (5.5,5.5) {\vphantom{$\sqrt{y^2}$}\(\abs{x} + \abs{y} \leq 3\)};}
+    \only<12>{\filldraw[major,fill opacity=.33,thick] (0,3) -- (-3,0) -- (0,-3) -- (3,0) -- cycle;}
+}
+\only<0|handout:1>{
+\scope[every node/.append style={below left,scale=.8,outer xsep=0pt,inner xsep=0pt,major}]
+    \node (1) at (5.5,5.5) {\(x + y \leq 1\)};
+    \node (2) at (1.south east) {\(\sqrt{x^2 + y^2} \leq 3\)};
+    \node (3) at (2.south east) {\(\abs{x - y} + \abs{x + y} \leq 4\)};
+    \node (4) at (3.south east) {\(\abs{x} + \abs{x} \leq 4\)};
+\scope[shift={([xshift=5mm,yshift=.9mm]1.east)},scale=.3]
+    \draw[major] (-.75,1) -- (1,-.75);
+    \fill[fill opacity=.33,major,rounded corners=.175pt] (-.75,1) -- (1,-.75) -- (1,-1) -| (-1,1) -- cycle;
+\endscope
+\scope[shift={([xshift=5mm,yshift=.5mm]2.east)},scale=.3]
+    \filldraw[major,fill opacity=.33] (0,0) circle [radius=1cm];
+\endscope
+\scope[shift={([xshift=5mm,yshift=.9mm]3.east)},scale=.3]
+    \filldraw[major,fill opacity=.33] (-.9,-.9) rectangle (.9,.9);
+\endscope
+\scope[shift={([xshift=5mm,yshift=.9mm]4.east)},scale=.3]
+    \filldraw[major,fill opacity=.33] (0,.9) -- (-.9,0) -- (0,-.9) -- (.9,0) -- cycle;
+\endscope
+\endscope
+}
+
+\endscope}
+\endtikzpicture
+\end{frame}
+
+\begin{frame}[c,plain]{}
+\tikzpicture[overlay,remember picture]
+\fill[pingu@black] (current page.south east) rectangle (current page.north west);
+\node[above left=3mm,pingu@white,scale=.8] (pn) at(current page.south east) {\footnotesize\insertframenumber\thinspace/\thinspace\totalframes};
+\onslide<2->{\node[pingu@white,above=7.75mm,scale=1.66] (c) at (current page.center) {\textcolor{green!20!white}{Int}eressier\textcolor{teal!39!white}{t}?};}
+\onslide<3->{\node[pingu@white,below,scale=1.66] at (c.south) {\textcolor{purple!30!white}{S}igned \textcolor{purple!30!white}{D}istance \textcolor{purple!30!white}{F}unctions};}
+
+\onslide<4->{\node[pingu@white,below=2.25cm,scale=1] (h) at (c.south) {For the horde. For the rabbit hole!};}
+\onslide<4->{\node[pingu@white,below,scale=1] at (h.south) {\disablehyper\textcolor{paletteB!30!white}{\href{https://iquilezles.org/}{Inigo Quilez}}~~\textbullet~~\textcolor{paletteB!30!white}{\href{https://www.youtube.com/watch?v=1iuLxJmQII0}{DeepSDF}}};}
+
+\endtikzpicture
+\end{frame}
+
 \begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe a) \hfill Eleganter}
     \begin{itemize}
         \item<2-> Wir haben eine Menge zu der alle Punkte zählen für die gilt: \(\abs{x} + \abs{y} = N - 1\).
@@ -257,7 +382,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \lstfs{10}\begin{plainjava}[lineskip=1.75pt]
 !*\onslide<9->*!if(args.length != 1) System.exit(1);
 !*\onslide<9->*!int N = Integer.parseInt(args[0]) - 1;
-!*\onslide<9->*!
+!*\onslide<10->*!// Diskretisieren
 !*\onslide<10->*!for (int y = -N; y <= N; i++) {
 !*\onslide<11->*!    for (int x = -N; x <= N; j++) {
 !*\onslide<12->*!        if (Math.abs(y) + Math.abs(x) == N)
@@ -273,6 +398,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \end{tikzpicture}}
     \end{itemize}
 \end{frame}
+
 
 \begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe b)}
     \begin{itemize}[<+(1)->]
@@ -1400,6 +1526,4 @@ print((byte) 15);
 	       glow thick=yellow]
 \end{tikzpicture}}\hfill\null
 \end{frame}
-
-
 \end{document}
