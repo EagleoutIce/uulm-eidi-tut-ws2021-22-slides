@@ -1,7 +1,8 @@
 public class MatrixMultiplication {
     public static void main(String[] args) {
-        int N = (int) (Math.random() * 8 + 3);
-        int M = (int) (Math.random() * 8 + 3);
+        // Note: i shortened the maximum to 7 for my slides :/
+        int N = (int) (Math.random() * 7 + 3);
+        int M = (int) (Math.random() * 7 + 3);
 
         // Damit es schön untereinander ist, formatiere ich mit
         // System.out.format
@@ -19,7 +20,7 @@ public class MatrixMultiplication {
                     tmp += matrix1[i][k] * matrix2[k][j];
                 }
                 result[i][j] = tmp;
-                System.out.format("%4d ", result[i][j]);
+                System.out.format("%3d ", result[i][j]);
             }
             System.out.println("");
         }

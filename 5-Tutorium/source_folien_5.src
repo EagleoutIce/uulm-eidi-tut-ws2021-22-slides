@@ -235,7 +235,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 2}
     \def\rbashcurrentinject{multicols=2}%
     \begin{itemize}[<+(1)->]
-        \item \lstfs{9}Als beispielhafte (formatierte) Ausgabe für \rbash[:\pause]{java MatrixMultiplication}
+        \item \lstfs{8}Als beispielhafte (formatierte) Ausgabe für \rbash[:\pause]{java MatrixMultiplication}
     \end{itemize}
 \end{frame}
 
