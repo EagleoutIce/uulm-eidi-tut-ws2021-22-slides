@@ -133,8 +133,34 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 !*\onslide<6->*!    d += vector1[i] * vector2[i];
 !*\onslide<6->*!}
 !*\onslide<5->*!
-!*\onslide<7->*!System.out.println("Das Skalarprodukt ist: " + d);
+!*\onslide<7->*!System.out.println("Vector1: " + vectorToString(vector1));
+!*\onslide<7->*!System.out.println("Vector2: " + vectorToString(vector2));
+!*\onslide<5->*!
+!*\onslide<8->*!System.out.println("Das Skalarprodukt ist: " + d);
 \end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 a)}
+    \begin{itemize}[<+(1)->]
+        \item Nun noch Ausgabe der Vektoren:
+\begin{plainjava}
+!*\onslide<3->*!public static String vectorToString(int[] vector) {
+!*\onslide<4->*!    String result = "(";
+!*\onslide<5->*!    for (int i = 0; i < vector.length; i++) {
+!*\onslide<6->*!        if (i > 0) result += ", ";
+!*\onslide<7->*!        result += vector[i];
+!*\onslide<5->*!    }
+!*\onslide<8->*!    return result + ")";
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\rExecute{javac DotProduct.java}
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 a)}
+    \begin{itemize}[<+(1)->]
+        \item Als beispielhafte Ausgabe für \rbash[:\pause]{java DotProduct}
     \end{itemize}
 \end{frame}
 
@@ -155,6 +181,15 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \end{plainjava}
     \end{itemize}
 \end{frame}
+
+\rExecute{javac Transpose.java}
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 b)}
+    \def\rbashcurrentinject{multicols=2}%
+    \begin{itemize}[<+(1)->]
+        \item \lstfs{9}Als beispielhafte Ausgabe für \rbash[:\pause]{java Transpose}
+    \end{itemize}
+\end{frame}
+
 
 \subsection{Aufgabe 2}
 \begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 2}
@@ -196,10 +231,18 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
     \end{itemize}
 \end{frame}
 
+\rExecute{javac MatrixMultiplication.java}
+\begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 2}
+    \def\rbashcurrentinject{multicols=2}%
+    \begin{itemize}[<+(1)->]
+        \item \lstfs{9}Als beispielhafte (formatierte) Ausgabe für \rbash[:\pause]{java MatrixMultiplication}
+    \end{itemize}
+\end{frame}
+
 \subsection{Zusatzaufgabe}
 \begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe a)}
     \begin{itemize}[<+(1)->]
-        \item Wir machen ein Rhombus (\only<2->{\textattachfile{Rhombus.java}{Rhombus.java}}).
+        \item Wir machen eine Raute (\only<2->{\textattachfile{Rhombus.java}{Rhombus.java}}).
         \item Naiv, können wir die bekannte Dreiecksstruktur nehmen und ein Dreieck für die obere und eines für die untere Hälfte basteln:
 \begin{plainjava}
 !*\onslide<4->*!// oben
@@ -230,6 +273,36 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 !*\onslide<8->*!    System.out.println("");
 !*\onslide<3->*!}
 \end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe a)}
+    \begin{itemize}[<+(1)->]
+        \item Negative Zahlen erlauben es, beide Hälften in einer Schleife zu behandeln:
+\begin{plainjava}
+!*\onslide<3->*!for(int i = N-1; i > -N; i--) {
+!*\onslide<4->*!    for(int j = 1; j <= Math.abs(i); j++)
+!*\onslide<5->*!        System.out.print(" ");
+!*\onslide<3->*!
+!*\onslide<6->*!    for(int j = 1; j <= N - Math.abs(i); j++) {
+!*\onslide<7->*!        if((j == 1) || (j == N - Math.abs(i)))
+!*\onslide<8->*!            System.out.print("* ");
+!*\onslide<7->*!        else
+!*\onslide<8->*!            System.out.print("  ");
+!*\onslide<6->*!    }
+!*\onslide<9->*!    System.out.println("");
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\onslide<10->{\begin{tikzpicture}[overlay,remember picture]
+    \node[above left=.55cm,xshift=.25cm] at(current page.south east) {\only<10->{\textattachfile{RhombusNegative.java}{RhombusNegative.java}}};
+\end{tikzpicture}}
+\end{frame}
+
+\rExecute{javac RhombusNegative.java}
+\begin{frame}[t,fragile]{Übungsblatt 5 - Zusatzaufgabe a)}
+    \lstfs{9}\begin{itemize}[<+(1)->]
+        \item So ergibt sich beispielsweise \rbash[:\pause]{java RhombusNegative 9}
     \end{itemize}
 \end{frame}
 
