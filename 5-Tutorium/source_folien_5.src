@@ -213,7 +213,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 2}
     \begin{itemize}[<+(1)->]
         \item Und nun multiplizieren wir! Da wir davon ausgehen können, dass es klappt, gilt:
-        \onslide<3->{\(c_{i, k} = \sum_{j = 1}^m a_{i, j} \cdot b_{j, k}\).}\lstfs{10}
+        \onslide<3->{\(c_{i, j} = \sum_{k = 1}^m a_{i, k} \cdot b_{k, j}\).}\lstfs{10}
 \begin{plainjava}
 !*\onslide<4->*!int[][] result = new int[N][N];
 !*\onslide<5->*!for(int i = 0; i < N; i++) {
