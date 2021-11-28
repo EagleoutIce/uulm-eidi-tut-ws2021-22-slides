@@ -17,6 +17,8 @@
 ]{lithie-util}
 \usepackage{lecture-personal-tikz,lecture-personal-extra-units,tikzsymbols}
 
+\def\solcustom{fill=paletteB!30,draw=paletteB!30}
+
 
 \UsePalette{GreenWater}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
 \colorlet{MaterialHeaderColor}{paletteB!75!white}%
