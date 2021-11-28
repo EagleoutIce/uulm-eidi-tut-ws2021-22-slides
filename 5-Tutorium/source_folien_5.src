@@ -1534,10 +1534,10 @@ print((byte) 15);
 \onslide<2->{\begin{tikzpicture}[scale=1.15]
 	\pingu[crown 2d=pingu@bronze,
 	       medal=pingu@purple, tie,
-	       eye patch left=teal,
-	       eye patch right=orange,
+	       eye patch left,
+	       eye patch right,
 	       right wing wave, sunglasses,
-	       glow thick=yellow]
+	       glow thick=pingu@yellow]
 \end{tikzpicture}}\hfill\null
 \end{frame}
 \end{document}
