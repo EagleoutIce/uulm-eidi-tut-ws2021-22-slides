@@ -456,8 +456,8 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 !*\onslide<9->*!if(args.length != 1) System.exit(1);
 !*\onslide<9->*!int N = Integer.parseInt(args[0]) - 1;
 !*\onslide<10->*!// Diskretisieren
-!*\onslide<10->*!for (int y = -N; y <= N; i++) {
-!*\onslide<11->*!    for (int x = -N; x <= N; j++) {
+!*\onslide<10->*!for (int y = N; y >= -N; y--) {
+!*\onslide<11->*!    for (int x = -N; x <= N; x++) {
 !*\onslide<12->*!        if (Math.abs(y) + Math.abs(x) == N)
 !*\onslide<12->*!            System.out.print("*");
 !*\onslide<13->*!        else System.out.print(" ");
@@ -552,8 +552,8 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 !*\onslide<8->*!if (args.length != 1) System.exit(1);
 !*\onslide<8->*!int N = Integer.parseInt(args[0]) - 1;
 !*\onslide<8->*!
-!*\onslide<9->*!for (int y = -N; y <= N; i++) {
-!*\onslide<10->*!    for (int x = -N; x <= N; j++) {
+!*\onslide<9->*!for (int y = N; y >= -N; y--) {
+!*\onslide<10->*!    for (int x = -N; x <= N; x++) {
 !*\onslide<11->*!       int radius = Math.abs(y) + Math.abs(x);
 !*\onslide<12->*!       if (radius <= N && radius % 4 == N % 4)
 !*\onslide<12->*!           System.out.print("*");
