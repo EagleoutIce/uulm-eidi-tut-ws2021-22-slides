@@ -1,83 +1,22 @@
-\errorcontextlines 999999
-\usepackage{attachfile2}
-\attachfilesetup{%
-    author={Florian Sihler},%
-    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
-}
 
-\usepackage[%
-    sopra-listings={encoding,cpalette,highlights,numinpar},%
-    sopra-tables, color-palettes={addons}, util,%
-    lithie-boxes={germanenv,koma,overwrite},%
-    lithie-task-boxes={cpalette}, lecture-links={patchurl},%
-    lecture-registers={disable}% would interfere with beamer
-]{lithie-util}
+\input ../global.src
+\usepackage{lecture-personal-resize}
+\pgfmathsetseed{\number\pdfrandomseed}
 
-\RequirePackage{lecture-personal-tikz}
-
-\usepackage[ngerman]{babel}
-
-\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
-\RestyleAlgo{plain}
-\solLoadLanguage{bash,cpp}
-
-\def\lhnselementformat#1{\texttt{#1}\hfill\hbox{}}
-\def\lhnsielementformat#1{\textbf{\vphantom{A}#1}}
-\long\def\lhnselementbox#1#2{\parbox{#1}{~#2~}}%
-\makeatletter
-\lhns@minborderheight=5.4cm
-\makeatother
-
-\tikzset{lhns@impstyle/.style={}}%
-
-\def\solcustom{fill=paletteA!30,draw=paletteA!30}
-
-
-\usepackage[chess]{eagle-maps}
-\colorlet{chesswhite}{paletteA!90!white}
-\colorlet{chessblack}{paletteB!90!white}
-
-\colorlet{MaterialHeaderColor}{paletteB}%
-\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
-
-\def\linkstyle#1{\textsf{\paletteD{#1}}}
-\SetAllLinkStyle{\linkstyle{#1}}
-\usepackage{tikzducks,tikzsymbols}
-\usetheme{lucy}
-
-\colorlet{chessfieldblack}{lightgray}
-
-\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
-
-\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
-
-\newcommand\parallelcontent[3][t]{%
-\begin{columns}[#1]
-    \begin{column}{0.475\linewidth}#2\end{column}\hfill
-    \begin{column}{0.475\linewidth}#3\end{column}
-\end{columns}}
-
-\title[Sechstes Tutorium -- Übungsblatt 6]{Miau Miau Wuff Miau\\\small Tutorium 6}
-\date{\sffamily KW 23}
+\title[Sechstes Tutorium -- Übungsblatt 6]{Tik-Tok Victoryyy\\\small Sieg auf ganzer Linie, 6}
+\date{\sffamily KW 49}
 \author{Florian Sihler}
 \institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
-\lstset{add to literate={Member}{{{\solGet{keywordC}{Member}}}}6}
+\usepackage[prefix=]{xcolor-material}
+
 \usepackage[glows]{tikzpingus}
-\pingudefaults{lightsaber left outer glow factor=.05,lightsaber right outer glow factor=.05}
 \usetikzlibrary{decorations.text}
 \hypersetup{colorlinks=false}
+\pingudefaults{lightsaber left outer glow factor=.05,lightsaber right outer glow factor=.05}
 
 \begin{document}
-\begin{frame}[c]
-    \begin{tikzpicture}[overlay]
-        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
-            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
-        \end{scope}
-        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {6};
-    \end{tikzpicture}
-    \titlepage
-\end{frame}
+\Titlepage{6}
 
 \section{Präsenzaufgabe}
 \begin{frame}[fragile]{Präsenzaufgabe}
@@ -343,184 +282,84 @@ class X {
 \subsection{Aufgabe 1a)}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1a)}
     \begin{itemize}[<+(1)->]
-        \item Hier die Klasse an sich: \only<2->{\textattachfile{User.java}{User.java}}
-        \item Zunächst die Basisklasse mit Attributen:
-\begin{plainjava}
-!*\onslide<4->*!public class User {
-!*\onslide<5->*!    private static int nextId = 0;
-!*\onslide<5->*!    public final int id; // oder mit Getter
-!*\onslide<4->*!
-!*\onslide<6->*!    private String userName;
-!*\onslide<6->*!    private int passwordHash;
-!*\onslide<6->*!    private boolean loggedIn;
-!*\onslide<4->*!}
-\end{plainjava}
+        \item
     \end{itemize}
 \end{frame}
 
 \subsection{Aufgabe 1b)}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1b)}
     \begin{itemize}[<+(1)->]
-        \item Die \bjava{toString()}-Implementation:
-\begin{plainjava}
-!*\onslide<3->*!public String toString() {
-!*\onslide<4->*!    return "User [id=" + id
-!*\onslide<4->*!        +  ", loggedIn=" + loggedIn
-!*\onslide<4->*!        +  ", passwordHash=" + passwordHash
-!*\onslide<4->*!        +  ", userName=" + userName
-!*\onslide<4->*!        +  "]";
-!*\onslide<3->*!}
-\end{plainjava}
+        \item
     \end{itemize}
 \end{frame}
 
 \subsection{Aufgabe 1c)}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1c)}
     \begin{itemize}[<+(1)->]
-        \item How to create Users online fast:
-\begin{plainjava}
-!*\onslide<6->*!private User(String userName, String password) {
-!*\onslide<7->*!    this.id = nextId;
-!*\onslide<7->*!    nextId += 1; // This is bad. Why?
-!*\onslide<8->*!    this.userName = userName;
-!*\onslide<8->*!    this.passwordHash = password.hashCode();
-!*\onslide<8->*!    this.loggedIn = false;
-!*\onslide<6->*!}
-!*\onslide<3->*!public static User create(String userName, String password) {
-!*\onslide<4->*!    if(!isUsernameValid(userName) || !isPasswordValid(password))
-!*\onslide<4->*!        return null;
-!*\onslide<5->*!    return new User(userName, password);
-!*\onslide<3->*!}
-\end{plainjava}
+        \item
+
     \end{itemize}
 \end{frame}
 
 
-\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1c)}
-    \begin{itemize}[<+(1)->]
-        \item Helpie-Help-Methods:
-\begin{plainjava}
-!*\onslide<3->*!private static boolean isUsernameValid(String userName) {
-!*\onslide<4->*!    if(userName == null || userName.length() <= 0)
-!*\onslide<4->*!        return false;
-!*\onslide<5->*!    for (char c : userName.toCharArray()) {
-!*\onslide<6->*!        if(!isCharInUsernameValid(c))
-!*\onslide<6->*!            return false;
-!*\onslide<5->*!    }
-!*\onslide<7->*!    return true;
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1c)}
-    \begin{itemize}[<+(1)->]
-        \item Helpie-Help-Methods, Klappe Halpie-2:
-\begin{plainjava}
-!*\onslide<3->*!private static boolean isCharInUsernameValid(char c) {
-!*\onslide<4->*!    return ('a' <= c && c <= 'z') || ('A' <= c && c <= 'Z');
-!*\onslide<3->*!}
-!*\onslide<3->*!
-!*\onslide<5->*!private static boolean isPasswordValid(String password) {
-!*\onslide<6->*!    return password != null && password.length() >= 6;
-!*\onslide<5->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
+\definecolor{bee}{RGB}{255, 224, 108}
+\definecolor{wings}{RGB}{205, 245, 253}
+\colorlet{wings}{wings!70!white}
+\newsavebox\beebox
+\def\lbody{ (left) to[out=270,in=150] (0,-.725) to[out=30,in=270] (right)}
+\savebox\beebox{\begin{tikzpicture}[body/.style={pingu@black!82!BlueGrey50},scale=4,very path/.append style={line join=round}]
+% wings
+\coordinate (wl) at(20:2.55mm);
+\coordinate (wr) at(160:2.55mm);
+\draw[very thick,body,fill=wings!80!white,rotate around=-32:(wl)] (wl) ellipse [x radius=6.15mm, y radius=2.75mm];
+\draw[very thick,body,fill=wings!80!white,rotate around=32:(wr)] (wr) ellipse [x radius=6.15mm, y radius=2.75mm];
+\draw[very thick,body,fill=wings,rotate around=19:(wl)] (wl) ellipse [x radius=6.55mm, y radius=3.125mm];
+\draw[very thick,body,fill=wings,rotate around=-19:(wr)] (wr) ellipse [x radius=6.55mm, y radius=3.125mm];
+% body
+\path (-.375,0) coordinate (left) -- (.375,0) coordinate (right);
+\filldraw[ultra thick,body]\lbody;
+\scope\clip\lbody;
+\foreach \angl in {30,1} {
+\fill[bee] (-\angl:.75) to[bend left=14] (180+\angl:.75) -- ++(0,-1.75mm)
+                     to[bend right=14] (-\angl-14:.75) -- cycle;
+}\endscope
+% left and right arm
+\foreach\m/\s/\k in {right/-2.45/95,left/-.75/80} {
+\scope[shift=(\m),yshift=\s,rotate around=\k:(\m),scale=.166]
+\fill[body] (-.965,0) arc(270:90:.29) -- ++(1.233,0) arc (90:-90:.29) -- cycle;
+\endscope}
+% sting
+\draw[line cap=round,body,thick] (0,-.725) -- ++(0,-.035);
+% head
+\draw[ultra thick,body,fill=bee,rounded corners=6pt] (.85mm,-.55mm) to[bend right=30,looseness=.9] ([xshift=1.45mm,yshift=1.35mm]right) arc(0:180:{(.75cm+2*1.45mm)/2} and {(.75cm+2*1.45mm)/2.05}) to[bend right=30,looseness=.9] (-.85mm,-.55mm) -- cycle;
+% eyes [intersect with left and right]
+\fill[body] (left|-0,2.265mm)++(.6mm,0) coordinate (el) circle[radius=.6mm];
+\coordinate (ell) at ([yshift=-.8mm]el);
+\fill[red!21!bee,rotate around=3:(ell)] ([yshift=-.8mm]el) ellipse[x radius=.412mm, y radius=.165mm];
+\fill[body] (right|-0,2.265mm)++(-.6mm,0) coordinate (er) circle[radius=.6mm];
+\coordinate (err) at ([yshift=-.8mm]er);
+\fill[red!21!bee,rotate around=-1:(err)] ([yshift=-.8mm]er) ellipse[x radius=.4mm, y radius=.155mm];
+% mouth
+\scope[yshift=1mm]
+\draw[thick,line cap=round] (-.6mm,0) arc (180:360:.6mm and .415mm);
+% antenna
+\draw[body,line cap=round,ultra thick] (123:4mm) to[out=110,in=-41] ++(-1mm,3mm) coordinate (@);
+\fill[body,rotate around=-41:(@)] ([xshift=-.1mm,yshift=-.185mm]@) ellipse[x radius=.55mm,y radius=.35mm];
+\draw[body,line cap=round,ultra thick] (57:4mm) to[out=70,in=180+41] ++(1mm,3mm) coordinate (@);
+\fill[body,rotate around=41:(@)] ([xshift=-.1mm,yshift=-.2mm]@) ellipse[x radius=.55mm,y radius=.35mm];
+\endscope
+\end{tikzpicture}}
 
-\subsection{Aufgabe 1d)}
-\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
-    \begin{itemize}[<+(1)->]
-        \item Die \bjava{verify(String, String)}-Methode:
-\begin{plainjava}
-!*\onslide<3->*!public boolean verify(String userName, String password) {
-!*\onslide<4->*!    return Objects.equals(this.userName, userName) &&
-!*\onslide<4->*!        this.passwordHash == Objects.hashCode(password);
-!*\onslide<3->*!}
-\end{plainjava}
-        \item Bonusfrage: warum hier \say{\bjava{Objects.equals(a, b)}}?\par
-        \info{Wenn \T{userName} den Wert \bjava{null} hat, ergibt \bjava{userName.equals(this.userName)} eine \bjava{NullPointerException}.}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
-    \begin{itemize}[<+(1)->]
-        \item Die \bjava{login(String, String)}-Methode:
-\begin{plainjava}
-!*\onslide<3->*!public void login(String userName, String password) {
-!*\onslide<4->*!    if(this.verify(userName, password)) {
-!*\onslide<5->*!        this.loggedIn = true;
-!*\onslide<5->*!        System.out.println("Nutzer " + this.id + " [...].");
-!*\onslide<4->*!    } else {
-!*\onslide<6->*!        System.err.println("Kein Nutzer [...].");
-!*\onslide<4->*!    }
-!*\onslide<3->*!}
-\end{plainjava}
-        \item<5-> Mit \bjava{\"[...]\"} kürze ich lange Ausgaben für die Folien.
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
-    \begin{itemize}[<+(1)->]
-        \item Die \bjava{logout(String)}-Methode:
-\begin{plainjava}
-!*\onslide<3->*!public void logout(String userName) {
-!*\onslide<4->*!    if(Objects.equals(this.userName, userName)) {
-!*\onslide<5->*!        this.loggedIn = false;
-!*\onslide<5->*!        System.out.println("Nutzer " + this.id + " [...].");
-!*\onslide<4->*!    } else {
-!*\onslide<6->*!        System.err.println("Kein Nutzer [...].");
-!*\onslide<4->*!    }
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\subsection{Aufgabe 1e)}
-\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1e)}
-    \begin{itemize}[<+(1)->]
-        \item Das Ändern eines Passworts:
-\begin{plainjava}
-!*\onslide<3->*!public void changePassword(String userName, String oldPassword, String newPassword) {
-!*\onslide<4->*!    if(this.verify(userName, oldPassword) &&
-!*\onslide<4->*!            isPasswordValid(newPassword)) {
-!*\onslide<5->*!        this.passwordHash = newPassword.hashCode();
-!*\onslide<5->*!        System.out.println("Passwort erfolgreich geändert!");
-!*\onslide<4->*!    } else {
-!*\onslide<6->*!        System.err.println("Kein Nutzer [...].");
-!*\onslide<4->*!    }
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1e)}
-    \begin{itemize}[<+(1)->]
-        \item Das Ändern durch Passworteingabe:\lstfs{10}
-\begin{plainjava}
-!*\onslide<3->*!public void changePassword(String userName, String oldPassword) {
-!*\onslide<4->*!    Scanner scanner = new Scanner(System.in);
-!*\onslide<5->*!    System.out.print("Neues Passwort: ");
-!*\onslide<5->*!    String newPassword = scanner.nextLine();
-!*\onslide<6->*!    System.out.print("Passwort wiederholen: ");
-!*\onslide<6->*!    String repetition = scanner.nextLine();
-!*\onslide<6->*!    scanner.close();
-!*\onslide<7->*!    if(!Objects.equals(newPassword, repetition)) {
-!*\onslide<8->*!        System.err.println("[...] stimmen nicht überein!");
-!*\onslide<8->*!        return;
-!*\onslide<7->*!    }
-!*\onslide<9->*!    changePassword(userName, oldPassword, newPassword);
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-
+\newsavebox\pingudoc
+\savebox\pingudoc{\tikz\pingu[body=pingu@black,shirt=pingu@red!80!pingu@black!70!white,bow tie=orange!90!purple, left wing wave, cape=pingu@white!75!gray, halo, halo raise=1.55mm,halo above,cloak wings=false,right eye wink,right,cloak cap=pingu@white!75!gray,monocle left,monocle left glass=pingu@bronze,cane right=pingu@bronze!90!pingu@black, cane right raise=-1.65mm];}
 \section{Der End-Pinguuuu}
-\begin{frame}[fragile]
+\begin{frame}[c]
    \pause\begin{center}
-    % TOOD:
-    % \usebox\oldpingus
+    \scalebox{1.25}{\begin{tikzpicture}
+        \node[scale=.265,rotate=-13] (bb) at (0,0) {\usebox\beebox};
+        \node[left,yshift=-16mm,scale=1.33] at (bb.west) {\usebox\pingudoc};
+    \end{tikzpicture}}
    \end{center}
-\end{frame}
+\end{frame}% TODO: cape only? not above? just shirt above? hemd vielleicht?
 \end{document}
