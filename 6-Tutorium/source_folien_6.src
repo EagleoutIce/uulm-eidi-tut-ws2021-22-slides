@@ -11,98 +11,363 @@
 \usepackage[prefix=]{xcolor-material}
 
 \usepackage[glows]{tikzpingus}
-\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.text,matrix}
 \hypersetup{colorlinks=false}
 \pingudefaults{lightsaber left outer glow factor=.05,lightsaber right outer glow factor=.05}
 
 \begin{document}
 \Titlepage{6}
-
 \section{Präsenzaufgabe}
-\begin{frame}[fragile]{Präsenzaufgabe}
-    \begin{aufgabe}{Natürlich bin ich ein Teil von dir}
-        \pause{}Implementieren Sie eine \bjava{Member}-Klasse für Mitglieder einer Bibliothek.
-        Diese soll einen nicht-leeren Namen und Vornamen (veränderbar), sowie ein Geburtsdatum im Format \T{TT.MM.YYYY} (unveränderbar) verwalten.
-\begin{enumerate}[<+(1)->]
-    \item Definieren Sie die Klasse, inklusive aller notwendiger Attribute und mit sinnvollen Modifikatoren.\pause{} Fügen sie \textit{Getter}-Methoden so hinzu, dass die Objekte von außen nicht mehr geändert werden können.\pause{}\par
-    {\footnotesize\textit{Hinweis:} Ein Datum kann mit der Klasse \bjava{SimpleDateFormat} geparsed werden.\pause{} Nutzen Sie \bjava{SimpleDateFormat::parse} und \bjava{SimpleDateFormat::format}, zur Konversion von \bjava{String} in \bjava{java.util.Date} und umgekehrt.\pause{} Übergeben Sie dem Konstruktor das Datumsformat als \bjava{\"dd.MM.yyyy\"}. Ein Datum kann durch \bjava{Date::clone} kopiert werden.\par}
-\end{enumerate}\vspace*{-\medskipamount}
-        \onslide<1->
-    \end{aufgabe}
-\end{frame}
-
-\begin{frame}[fragile]{Präsenzaufgabe}
-    \begin{aufgabe}{Natürlich bin ich ein Teil von wir}
-        \pause Implementieren Sie eine \bjava{Member}-Klasse mit nicht-leerem Namen und Vornamen, sowie ein Geburtsdatum im Format \T{TT.MM.YYYY}.
-\begin{enumerate}[<+(1)->]
-    \setcounter{enumi}{1}
-    \item Implementieren Sie einen Konstruktor \bjava{Member(String, String, String)}, der alle Attribute übergeben bekommt \textit{und} überprüft. Wird auch nur eine Bedingung verletzt, soll eine \bjava{IllegalArgumentException} geworfen werden.\smallskip\pause{}\par
-    {\footnotesize\textit{Hinweis:} \bjava{SimpleDateFormat::parse} wirft eine \bjava{java.text.ParseException}, wenn der String \textit{nicht} dem gewünschten Format entspricht.\par}
+\newsavebox\angypingu
+\savebox\angypingu{\tikz{\pingu[eyes angry,wings raise]}}
+\begin{frame}[c]{Präsenzaufgabe}
+    \begin{aufgabe}{Glückselig sind die Studierenden}
+        \vspace*{-1.45\topsep}\par\pause{}%
+\only<2-3|handout:0>{In dieser Aufgabe sollen Sie ihre ersten Schritte mit Objektorientierter Programmierung machen, indem Sie ein einfaches Glücksrad implementieren. Dieses Glücksrad soll eine bestimmte Anzahl an Slots besitzen, welche mit Einträgen gefüllt werden können und bei einer Drehung soll ein zufälliger Eintrag ausgewählt werden.\\
+Erstellen Sie dafür eine Klasse \bjava{WheelOfFortune}, welche ein \bjava{String} Array namens \bjava{slots} und einen Integer \bjava{nextSlot} als Instanzvariablen besitzt. Die Klasse soll einen Konstruktor besitzen der einen Integer \bjava{numSlots} als Parameter besitzt, welcher die Größe des Arrays bestimmt. Der Konstruktor soll beide Instanzvariablen außerdem geeignet initialisieren.
+Implementieren Sie dann zusätzlich die folgenden Methoden:
+\begin{enumerate}
+\item Die Methode \bjava{public boolean addEntry(String entry)} soll den übergebenen Wert in den nächsten freien Slot schreiben. Stellen Sie dabei sicher, dass Sie nicht mehr Einträge in das Array schreiben als dessen Größe zulässt. Geben Sie anschließend einen \bjava{Boolean} zurück der angibt ob die Operation erfolgreich war.
+\item Die Methode \bjava{public boolean removeEntry()} soll den jeweils letzten Eintrag aus Glücksrad wieder entfernen. Geben Sie dabei ebenfalls einen \bjava{Boolean} zurück, der angibt ob die Operation erfolgreich war.
+\item Die Methode \bjava{public int getNumEntries()} soll die Anzahl der gesetzten Einträge zurückgeben.
+\item Die Methode \bjava{public String spin()} soll schließlich einen zufälligen Eintrag auswählen und diesen zurückgeben. Achten Sie darauf, dass Sie nur die Indizes des Arrays betrachten bei denen auch Einträge eingefügt wurden. Sollte kein Eintrag im Array vorhanden sein, geben Sie einen leeren \bjava{String} zurück.
 \end{enumerate}
+Erzeugen Sie sich dann in der \bjava{main}-Methode eine Instanz dieser Klasse und rufen Sie ihre implementierten Methoden sinnvoll auf.}%
+\onslide<4->{\footnotesize Implementieren Sie ein veränderbares \bjava{WheelOfFortune}.\vspace*{-4pt} \begin{enumerate}[<+(1)->]
+    \itemsep=-1pt
+    \item<5-> Erstellen Sie eine Klasse \bjava{WheelOfFortune} welches ein String Array \bjava{slots} fester Größe und eine Instanzvariablen \bjava{int nextSlot} besitzt.
+    \item<6-> \bjava{public boolean addEntry(String entry)} fügt einen Eintrag hinzu, sofern es die Größe zulässt (der Rückgabewert kennzeichnet den Erfolg).
+    \item<7-> \bjava{public boolean removeEntry()} entfernt den letzten hinzugefügten Eintrag wieder (der Rückgabewert kennzeichnet ob ein Eintrag entfernt wurde).
+    \item<8-> \bjava{public int getNumEntries()} soll die Gesamtanzahl der Einträge liefern.
+    \item<9-> \bjava{public String spin()} dreht das Glücksrad und liefert den Eintrag zurück. Gibt es keinen Eintrag wünschen wir einen leeren String.
+\end{enumerate}}
+\onslide<10->{\parbox{6.5cm}{\footnotesize Erzeugen Sie zudem eine \bjava{main}-Methode welche das Rad sinnvoll benutzt.}}\null\onslide<5->{\hfill\smash{\raisebox{2.75\baselineskip}{\llap{\rotatebox{-90}{\tikzpicture
+    \draw[rounded corners=2pt] (0,1/4) rectangle ++(1.25,3.5);
+    \foreach[count=\i] \k in {Super,Pech,Mega,Powa,{},{},{}} {
+        \node at(1.25/2,\i/2) {\tiny\k};
+        \node[left] at(0,\i/2) {\ifnum\i=5\color{paletteB}\fi\tiny\the\numexpr\i-1};
+        \ifnum\i>1
+            \draw (0,\i/2-1/2+1/4) -- ++(1.25,0);
+        \fi
+    }
+    \node[below=5mm] at(current bounding box.south) {\rotatebox{90}{\bjava{nextSlot = 4}}};
+\endtikzpicture}}}}}\\[-3pt]
         \onslide<1->
     \end{aufgabe}
+\begin{tikzpicture}[overlay,remember picture]
+    \only<3|handout:0>{\node at(current page.center) {\usebox\angypingu};}
+\end{tikzpicture}
 \end{frame}
 
-\begin{frame}[fragile]{Präsenzaufgabe}
-    \begin{aufgabe}{Natürlich bin ich ein Teil von mir}
-        \pause Implementieren Sie eine \bjava{Member}-Klasse mit nicht-leerem Namen und Vornamen, sowie ein Geburtsdatum im Format \T{TT.MM.YYYY}.
-\begin{enumerate}[<+(1)->]
-    \setcounter{enumi}{2}
-    \item Implementieren Sie eine Methode der Gestalt: \bjava{public boolean equals(Member other)}, welche das \bjava{Member}-Objekt mit \bjava{other} vergleicht.\pause{} Hat \bjava{other} den Wert \bjava{null}, so soll eine \bjava{NullPointerException} geworfen werden.
-\end{enumerate}
-        \onslide<1->
-    \end{aufgabe}
-\end{frame}
-
-\begin{frame}[fragile]{Präsenzaufgabe -- Übersicht}
-    \begin{aufgabe}{Oh schau mal, da sind sie!}
-        \bjava{Member}: nicht-leere Namen, Vornamen und Geburtsdatum (fest, \T{dd.MM.yyyy}).
-\begin{enumerate}[<+(1)->]
-    \item Attribute (samt Modifikatoren). \textit{Getter}, die Änderungen von außen verhindern.
-    \item Konstruktor \bjava{Member(String, String, String)}, der Parameter \textit{auch} überprüft. Bei Fehler: \bjava{IllegalArgumentException}.\smallskip\pause{}\par
-    {\footnotesize\textit{Hinweis:} \bjava{SimpleDateFormat::parse} wirft \bjava{java.text.ParseException}.\par}
-    \item \bjava{public boolean equals(Member other)}, welches das \bjava{Member}-Objekt mit \bjava{other} vergleicht (\bjava{NullPointerException} wenn \bjava{other} \bjava{null} ist).
-\end{enumerate}
-        \onslide<1->
-    \end{aufgabe}
-\end{frame}
-
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung\hfill Das Gerüst}
     \begin{itemize}[<+(1)->]
-        \item Die ganze Freude befindet sich hier: \only<2->{\textattachfile{Member.java}{Member.java}}.
-        \item Wir beginnen mit den bloßen Attributen:
+        \item Eine Basis (\only<2->{\textattachfile{WheelOfFortune.java}{WheelOfFortune.java}}):\lstfs{10}
 \begin{plainjava}
-!*\onslide<4->*!public class Member {
-!*\onslide<5->*!    private String name;
-!*\onslide<5->*!    private String surname;
-!*\onslide<5->*!    private final Date birthday;
-!*\onslide<4->*!}
+!*\onslide<3->*!public class WheelOfFortune {
+!*\onslide<4->*!    private String[] slots;
+!*\onslide<5->*!    private int nextSlot;
+!*\onslide<3->*!
+!*\onslide<6->*!    public WheelOfFortune(int numSlots) {
+!*\onslide<7->*!        nextSlot = 0;
+!*\onslide<8->*!        slots = new String[Math.max(numSlots, 0)];
+!*\onslide<9->*!        // Am Anfang setzen wir alle auf leer
+!*\onslide<9->*!        for(int i = 0; i < slots.length; i++)
+!*\onslide<9->*!            slots[i] = "";
+!*\onslide<6->*!    }
+!*\onslide<3->*!}
 \end{plainjava}
-        \item<6-> Frage: was bedeutet das \bjava{final} bei \bjava{birthday}?\par\info{Es schützt nur die Variable \bjava{birthday} vor einer Neuzuweisung. Nicht eine Änderung der Werte \emph{in} dem zugewiesenen Datum. \onslide<7->{Übrigens: bei Strings schützt \bjava{final} jede Veränderung, obwohl es sich auch bei \bjava{String} um eine Klasse handelt. Dies liegt daran, dass Strings in Java \emph{immutable} sind. Bei jeder Veränderung wird ein neues String-Objekt erzeugt.}}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
-    \begin{itemize}[<+(1)->]
-        \item Nun die Getter:
+\begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill Hinzufügen}
 \begin{plainjava}
-!*\onslide<3->*!public String getName() { return this.name; }
+!*\onslide<2->*!public boolean addEntry(String entry) {
+!*\onslide<3->*!    if(nextSlot == slots.length) // Sind wir voll?
+!*\onslide<3->*!        return false;
+!*\onslide<2->*!
+!*\onslide<4->*!    slots[nextSlot] = entry;
+!*\onslide<4->*!    nextSlot++;
+!*\onslide<5->*!    return true;
+!*\onslide<2->*!}
+\end{plainjava}
+\end{frame}
+
+\begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill Entfernen}
+\begin{plainjava}
+!*\onslide<2->*!public boolean removeEntry() {
+!*\onslide<3->*!    if(nextSlot == 0) // Sind wir leer?
+!*\onslide<3->*!        return false;
 !*\onslide<3->*!
-!*\onslide<4->*!public String getSurname() { return this.surname; }
-!*\onslide<3->*!
-!*\onslide<5->*!public Date getBirthday() {
-!*\onslide<6->*!    return (Date) this.birthday.clone();
+!*\onslide<4->*!    nextSlot--;
+!*\onslide<4->*!    slots[nextSlot] = "";
+!*\onslide<5->*!    return false;
+!*\onslide<2->*!}
+\end{plainjava}
+\end{frame}
+
+\begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill Zählen}
+\begin{plainjava}
+!*\onslide<2->*!public int getNumEntries() {
+!*\onslide<3->*!    return nextSlot;
+!*\onslide<2->*!}
+\end{plainjava}
+\end{frame}
+
+\begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill Es geht wieder loooos}
+\begin{plainjava}
+!*\onslide<2->*!public String spin() {
+!*\onslide<3->*!    if(slots.length == 0) // Sind wir leer?
+!*\onslide<3->*!        return "";
+!*\onslide<2->*!
+!*\onslide<4->*!    int slot = (int) (Math.random() * nextSlot);
+!*\onslide<5->*!    return slots[slot];
+!*\onslide<2->*!}
+\end{plainjava}
+\end{frame}
+
+
+\begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill Use the world}
+\lstfs{9}
+\begin{plainjava}
+public static void main(String[] args) {
+    int numSlots = 6;
+    WheelOfFortune wheel = new WheelOfFortune(numSlots);
+
+    for(int i = 0; i < numSlots + 1; i++) {
+        String entry = "Eintrag " + (char) ('A' + i);
+        if(wheel.addEntry(entry))
+            System.out.println("Eintrag " + entry + " hinzugefügt");
+        else System.out.println("Glücksrad ist voll");
+    }
+
+    String result = wheel.spin();
+    System.out.println("Ergebnis einer Drehung: " + result);
+    while(wheel.getNumEntries() > 0)
+        wheel.removeEntry();
+    result = wheel.spin();
+    System.out.println("Drehen des leeren Glücksrades ergibt: " + result);
+}
+\end{plainjava}
+\end{frame}
+
+
+\makeatletter
+\newcount\c@ttt@rs
+\protected\def\ttt#1{\c@ttt@rs0\leavevmode\bgroup\vb@xt@\z@\bgroup\@iterttt#1\relax}
+\def\@iterttt{\afterassignment\@@iterttt\let\tmp= }
+\def\@@iterttt{%
+\ifx\tmp\@sptoken\egroup\ \vb@xt@\z@\bgroup\let\next\@iterttt
+\else\ifx\tmp\relax\egroup\egroup\let\next\relax
+\else\@curttt{\tmp}\let\next\@iterttt\fi\fi
+\next}
+\def\@curttt#1{%
+\global\advance\c@ttt@rs1\relax
+\expandafter\expandafter\expandafter\global\expandafter\let\csname ttt@\number\c@ttt@rs\endcsname=#1\relax
+}
+
+{\def\:{\global\let\tttvoid=-} \: }
+{\def\:{\global\let\pOne=X} \: }
+{\def\:{\global\let\pTwo=O} \: }
+\def\IsWinCell#1->#2#3{\edef\tmpa{#1}\ifx\tmpa\win@a#2\else\ifx\tmpa\win@b#2\else\ifx\tmpa\win@c#2\else#3\fi\fi\fi}
+\def\@tttcell@#1#2{\IsWinCell{#1}->{\textbf{#2}}{#2}}
+\def\tttcell#1{\xdef\@tmp{\csname ttt@#1\endcsname}\expandafter\ifx\@tmp\tttvoid \node[@]{\color{gray}#1}\else\expandafter\ifx\@tmp\pOne\node[@=shadeB]{\@tttcell@{#1}{\pOne}}\else\node[@=shadeD]{\@tttcell@{#1}{\pTwo}}\fi\fi;}
+\def\printscale{1}
+\def\currenttttlabel{}
+\def\printtt{\getwinner\@ifstar\@printtt{\scalebox{\printscale}{\begin{tikzpicture}[ampersand replacement=\&,align-half-base]\@printtt\end{tikzpicture}}}}
+% get winner:
+\newcommand\@printtt{%
+\matrix[@/.style={rounded corners=1pt,fill=##1,minimum size=2em},@/.default=gray!20!white,column sep=1ex,row sep=1ex] (m) {
+    \tttcell1 \& \tttcell2 \& \tttcell3 \\
+    \tttcell4 \& \tttcell5 \& \tttcell6 \\
+    \tttcell7 \& \tttcell8 \& \tttcell9 \\
+};
+\pgfinterruptboundingbox
+\expandafter\ifx\win\tttvoid\ifx\currenttttlabel\@empty
+\else\node[below left] at(m.south east) {\color{gray}\itshape\footnotesize\currenttttlabel};\fi
+\else
+\node[below left] at(m.south east) {Winner: \win};
+\fi\endpgfinterruptboundingbox
+}
+% tokens \win
+\def\getwinner{%
+\global\let\win\tttvoid
+\global\let\win@a\relax \global\let\win@b\relax \global\let\win@c\relax
+\foreach\a/\b/\c in {1/2/3,4/5/6,7/8/9,1/4/7,2/5/8,3/6/9,1/5/9,3/5/7}{\@winsame\a\b->{\@winsame\b\c->{\xdef\win{\csname ttt@\a\endcsname}\global\let\win@a\a\global\let\win@b\b\global\let\win@c\c}}}}%
+\def\@winsame#1#2->#3{\edef\@tmpa{\csname ttt@#1\endcsname}\edef\@tmpb{\csname ttt@#2\endcsname}\expandafter\expandafter\expandafter\ifx\expandafter\@tmpa\@tmpb#3\fi}%
+% set #1 to #2
+\newcount\c@score
+\newcount\c@move
+\newcount\c@curscore
+\newcount\c@curmove
+\def\@setc#1#2{\csname c@#1\endcsname#2\relax}
+\def\step#1<-#2;{\expandafter\let\csname ttt@#1\endcsname=#2\relax}
+\def\gstep#1<-#2;{\expandafter\global\expandafter\let\csname ttt@#1\endcsname=#2\relax}
+% X | O
+\def\tttdumpcell#1{\expandafter\ifx\csname ttt@#1\endcsname\pOne1\else\expandafter\ifx\csname ttt@#1\endcsname\pTwo2\else-\fi\fi}
+\def\doBestMoveFor#1{\nextmovefor{#1}\step{\number\c@move}<-#1;}
+\def\nextmovefor{\c@move0\c@score-2\relax\@nextmovefor}
+\def\@nextmovefor#1{\let\@cur=#1\relax%
+\getwinner% min max:
+\@setc{curmove}{0}\relax
+\@setc{curscore}{-2}\relax
+\expandafter\ifx\win\tttvoid% no winner so far
+\foreach\trymove in {1,2,3,4,5,6,7,8,9} {%
+    \edef\@tmp{\csname ttt@\trymove\endcsname}%
+    \expandafter\ifx\@tmp\tttvoid% valid move
+        \typeout{\tttdumpcell1 \tttdumpcell2 \tttdumpcell3^^J\tttdumpcell4 \tttdumpcell5 \tttdumpcell6^^J\tttdumpcell7 \tttdumpcell8 \tttdumpcell9}%
+        \typeout{trying: \trymove>}%
+        \begingroup
+            % try; is local will be erased by group
+            \step\trymove<-\@cur;%
+            \edef\@tmp{\noexpand\@nextmovefor{\ifx\@cur\pOne\pTwo\else\pOne\fi}}\@tmp
+            \ifnum\c@curscore>-2
+                \setcounter{curscore}{-\number\c@curscore}%invert on raise
+            \fi
+            % now we do have updates in \@move and \@score; score is interpreted negative
+            \ifnum\c@score>\c@curscore\relax
+                \typeout{\ifx\@cur\pOne2\else1\fi-Besting: \trymove|\number\c@curscore|\number\c@curmove|by: \number\c@score}%
+                \setcounter{curscore}{\number\c@score}%
+                \setcounter{curmove}{\trymove}%
+            \else
+                \typeout{\ifx\@cur\pOne2\else1\fi-Loosing: \trymove|\number\c@curscore|\number\c@curmove|by: \number\c@score}%
+            \fi
+        \endgroup
+    \fi
+}%
+\@setc{move}{\number\c@curmove}%
+\ifnum\c@curmove=0% no move found
+\@setc{score}{0}%
+\else
+\@setc{score}{\number\c@curscore}%
+\fi
+\typeout{Set: \number\c@move|with: \number\c@score || from: \number\c@curmove|\number\c@curscore}%
+\else
+\@setc{move}{\number\c@curmove}%
+\expandafter\ifx\win\@cur % good for player
+\@setc{score}{1}\relax
+\else % bad for player
+\@setc{score}{-1}\relax
+\fi\fi
+% TODO: return move
+}
+% #2 User with X
+% #1 initial field
+% \ifx\@cur\pOne\pTwo\else\pOne\fi
+\newcommand\SimulateTTTPlay[3][--- --- ---]{%
+\let\@cur\pOne
+\ttt{#1}\printtt\foreach[count=\i]\playerDoes in {#2} {%
+    \edef\from{\the\numexpr#3+\i-1\relax}\relax
+    \onslide<\from->{\def\currenttttlabel{Player \say{\@cur}: \playerDoes}\gstep\playerDoes<-\@cur;\relax$~~\to~~$\printtt
+    \ifx\@cur\pOne\global\let\@cur\pTwo\else\global\let\@cur\pOne\fi}
+}}
+\makeatother
+
+\newsavebox\tttbox
+\savebox\tttbox{\ttt{--- --- ---}\printtt}
+\newsavebox\codebox
+\savebox\codebox{%
+\parbox{3.65cm}{%
+\begin{plainvoid}[columns=fixed]^^J
++---+---+---+^^J
+|\ \ \ |\ \ \ |\ \ \ |^^J
++---+---+---+^^J
+|\ \ \ |\ \ \ |\ \ \ |^^J
++---+---+---+^^J
+|\ \ \ |\ \ \ |\ \ \ |^^J
++---+---+---+^^J
+\end{plainvoid}
+}}
+\section{Übungsblatt 6}
+\begin{frame}[c]{}
+    % TODO: start animation slide as optional argument. than: update for each anim
+    % furhtermore: show action by player at the bottom
+    \downsize\linewidth{\SimulateTTTPlay{5, 3, 2, 8}{2}}
+\end{frame}
+\subsection{Aufgabe 1a)}
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1a)}
+    \begin{itemize}[<+(1)->]
+        \item We wanta print a board (\only<2->{\textattachfile{TicTacToe.java}{TicTacToe.java}}):
+\begin{plainjava}
+!*\onslide<3->*!public static void printBoard(char[][] board) {
+!*\onslide<4->*!    for (char[] row : board) {
+!*\onslide<5->*!        System.out.println("+---+---+---+");
+!*\onslide<6->*!        for (char cell : row)
+!*\onslide<6->*!            System.out.print("| " + (cell != 0 ? cell : ' ') + " ");
+!*\onslide<7->*!        System.out.println("|");
+!*\onslide<4->*!    }
+!*\onslide<8->*!    System.out.println("+---+---+---+\n");
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<9->{\node[below left=.35cm,yshift=-1.25cm,scale=.8] at(current page.north east) {\usebox\tttbox};}
+    \onslide<10->{\node[above left=.35cm,yshift=.5cm,inner sep=1pt,scale=.65,align=left,fill=shadeA,rounded corners=2pt] at(current page.south east) {\usebox\codebox};}
+\end{tikzpicture}
+\end{frame}
+
+\subsection{Aufgabe 1b)}
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1b)}
+    \def\printscale{.35}
+    \begin{itemize}[<+(1)->]
+        \item Request from the best:
+\begin{plainjava}
+!*\onslide<3->*!public static char[][] getMove(int player, char[][] board) {
+!*\onslide<4->*!    System.out.println("Spieler " + player + " ist am Zug:");
+!*\onslide<4->*!    int move = 0;
+!*\onslide<5->*!    do {
+!*\onslide<6->*!        move = scanner.nextInt();
+!*\onslide<5->*!    } while !*\onslide<7->*!(!|custom|isMoveValid|custom|(board, move));
+!*\onslide<8->*!    return |custom|makeMove|custom|(board, move, player);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1b)}
+    \def\printscale{.35}
+    \begin{itemize}[<+(1)->]
+        \item Check it and regret it:
+\begin{plainjava}
+!*\onslide<3->*!private static boolean isMoveValid(char[][] board, int move) {
+!*\onslide<4->*!    return move >= 0 && move <= 9
+!*\onslide<5->*!        && board[|custom|getY|custom|(move)][|custom|getX|custom|(move)] == 0;
+!*\onslide<3->*!}
+
+!*\onslide<5->*!public static int getX(int cellNumber) {
+!*\onslide<6->*!    return (cellNumber - 1) % 3;
 !*\onslide<5->*!}
+
+!*\onslide<7->*!public static int getY(int cellNumber) {
+!*\onslide<7->*!    return (cellNumber - 1) / 3;
+!*\onslide<7->*!}
 \end{plainjava}
-        \item<7-> Have you ever heard the tragedy of Darth Clon\textbf{e}able the wise? \onslide<8->{Well, then prepare yourself for\ldots\ something at least.}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<5->{\node[above left=.35cm,yshift=.5cm,scale=.8] at(current page.south east) {\usebox\tttbox};}
+\end{tikzpicture}
     \end{itemize}
 \end{frame}
 
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1b)}
+    \begin{itemize}[<+(1)->]
+        \item Execute Order 66:\lstfs{9}
+\begin{plainjava}
+private static char[][] makeMove(char[][] board, int cellNumber, int player) {
+    char[][] newBoard = board.clone();
+    newBoard[|custom|getY|custom|(cellNumber)][|custom|getX|custom|(cellNumber)] = |custom|getPlayerSymbol|custom|(player);
+    return newBoard;
+}
+\end{plainjava}
+        \item Wo wir schon bei Star Wars\texttrademark sind\ldots
+        \item Have you ever heard the tragedy of Darth Clon\textbf{e}able the wise? \pause Well, then prepare yourself for\ldots\ something at least.
+    \end{itemize}
+\end{frame}
+
+\subsection{Interlude Cloneable}
 {
 \setbeamercolor{background canvas}{bg=black}
 \begin{frame}[c,plain]{}
 \vspace*{1.5em}\centering
-\begin{tikzpicture}
+\begin{tikzpicture}[overlay,remember picture]
     \pgfinterruptboundingbox% to avoid clanky changes
     \only<2|handout:0>{\pingu[eyes wink]}
     \only<3|handout:0>{\pingu[right wing grab, lightsaber right, lightsaber right disabled]}
@@ -110,7 +375,9 @@
     \only<5|handout:0>{\pingu[right wing wave, eyes angry, lightsaber right=purple]}
     \only<6|handout:0>{\pingu[right wing wave, eyes angry, lightsaber right=purple,right item angle=-70],bill angry}
     \only<7|handout:0>{\pingu[right wing wave, eyes angry, lightsaber right=purple,lightsaber right double,right item angle=-70],bill angry}
-    \only<8->{\pingu[right wing grab, eyes angry, lightsaber right=purple,lightsaber right double,right item angle=-70,bill angry,right item angle=-80,lightsaber right yshift=-.45mm]}
+    \only<9->{\node[white!14!black,scale=9] at(current page.center) {\Large\textsc{clone}};}
+    \only<8-9|handout:0>{\pingu[right wing grab, eyes angry, lightsaber right=purple,lightsaber right double,right item angle=-70,bill angry,right item angle=-80,lightsaber right yshift=-.45mm]}
+    \only<10->{\pingu[right wing grab, eyes angry, lightsaber right=purple,lightsaber right double,right item angle=-70,bill angry,right item angle=-80,lightsaber right yshift=-.45mm,left eye devil]}
     \endpgfinterruptboundingbox
 \end{tikzpicture}~~~~~~~~~~~~~~
 \end{frame}
@@ -202,10 +469,10 @@ class X {
 
 \begin{frame}[t,fragile]{Präsenzaufgabe - Exkurs: Long story short}
     \begin{itemize}[<+(1)->]
-        \item Manche Java Klassen implementieren \bjava{Cloneable} korrekt.\pause{} \info{Wie \bjava{Date}}.
+        \item Manche Java Klassen implementieren \bjava{Cloneable} korrekt.\pause{} \info{Wie \bjava{Date}.}
         \item Ansonsten haben sich andere Prinzipien durchgesetzt. So beispielsweise Copy-Konstruktoren.
         \item Diesen werden noch später im Semester begegnen.
-        \item Also kehren wir uns lieber von der dunklen Seite ab und zur Präsenzaufgabe zurück\ldots
+        \item Also kehren wir uns lieber von der dunklen Seite ab und zur Aufgabe zurück\ldots
     \end{itemize}
 \end{frame}
 
@@ -221,13 +488,13 @@ class X {
         \pingu[]
     }
     \only<3|handout:0>{
-        \pingu[xshift=-3cm,yshift=.5cm,right wing grab, lightsaber right, lightsaber right disabled,]
-        \pingu[xshift=3cm,yshift=.5cm,left wing grab, lightsaber left, lightsaber left disabled]
+        \pingu[xshift=-3cm,yshift=.5cm,right wing grab, lightsaber right, lightsaber right disabled,eyes wink]
+        \pingu[xshift=3cm,yshift=.5cm,left wing grab, lightsaber left, lightsaber left disabled,eyes wink]
         \pingu[right wing grab, lightsaber right, lightsaber right disabled, eyes shiny,left wing wave, lightsaber left, lightsaber left disabled,right item angle=-80,lightsaber right yshift=-.5mm,left item angle=75]
     }
     \only<4->{
-        \pingu[xshift=-3cm,yshift=.5cm,right wing grab, lightsaber right=orange]
-        \pingu[xshift=3cm,yshift=.5cm,left wing grab, lightsaber left=orange]
+        \pingu[xshift=-3cm,yshift=.5cm,right wing grab, lightsaber right=orange,eyes wink]
+        \pingu[xshift=3cm,yshift=.5cm,left wing grab, lightsaber left=orange,eyes wink]
         \pingu[right wing grab, lightsaber right=pingu@blue, eyes shiny,left wing wave, lightsaber left=green,right item angle=-80,lightsaber right double,lightsaber right yshift=-.5mm,left item angle=75]
     }
     \endpgfinterruptboundingbox
@@ -235,72 +502,108 @@ class X {
 \end{frame}
 }
 
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
-    \begin{itemize}[<+(1)->]
-        \item Der Konstruktor samt Prüfung:\pause{} \info{Bonusfrage: was ist mit \bjava{throws}? Warum ist es nicht nötig?}
-\lstfs{9}
-\begin{plainjava}
-!*\onslide<4->*!public Member(String name, String surname, String birthday) {
-!*\onslide<5->*!    if (name.length() <= 0)
-!*\onslide<5->*!        throw new IllegalArgumentException("Name ist leer");
-!*\onslide<6->*!    if (surname.length() <= 0)
-!*\onslide<6->*!        throw new IllegalArgumentException("Nachname ist leer");
-!*\onslide<4->*!
-!*\onslide<7->*!    this.name = name;
-!*\onslide<7->*!    this.surname = surname;
-!*\onslide<8->*!    try {
-!*\onslide<9->*!        this.birthday = dateFormat.parse(birthday);
-!*\onslide<8->*!    } catch(ParseException e) {
-!*\onslide<10->*!        throw new IllegalArgumentException("Kein gültiges Datum", e);
-!*\onslide<8->*!    }
-!*\onslide<4->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
-    \begin{itemize}[<+(1)->]
-        \item Nun noch unsere Variante der \bjava{equals} Methode.\pause{} \info{Diese gleicht \emph{nicht} der \bjava{Object::equals}-Methode!\pause{} Die kommt später.}
-\lstfs{9}
-\begin{plainjava}
-!*\onslide<4->*!public boolean equals(Member other) {
-!*\onslide<5->*!    if (other == null)
-!*\onslide<5->*!        throw new NullPointerException();
-!*\onslide<4->*!
-!*\onslide<6->*!    return this.name.equals(other.name)
-!*\onslide<6->*!        && this.surname.equals(other.surname)
-!*\onslide<6->*!        && this.birthday.equals(other.birthday);
-!*\onslide<4->*!}
-\end{plainjava}
-        \item<7-> Ist die \bjava{if}-Abfrage hier notwendig? \onslide<8->{\info{Nein. \bjava{others.name} würde auch eine \bjava{NullPointerException} werfen.}}
-        \item<9-> Ist sie doch gut? \onslide<10->{\info{Ja-ein. Sie macht das Wissen über die möglichen werte von \bjava{other} explizit. An sich sollte man aber eher eine eigene Exception dafür konstruieren und diese dann werfen, oder direkt \bjava{false} zurückliefern.}}
-    \end{itemize}
-\end{frame}
-
-
-\section{Übungsblatt 6}
-\subsection{Aufgabe 1a)}
-\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1a)}
-    \begin{itemize}[<+(1)->]
-        \item
-    \end{itemize}
-\end{frame}
-
-\subsection{Aufgabe 1b)}
-\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1b)}
-    \begin{itemize}[<+(1)->]
-        \item
-    \end{itemize}
-\end{frame}
-
 \subsection{Aufgabe 1c)}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1c)}
     \begin{itemize}[<+(1)->]
-        \item
-
+        \item Outstanding Move:
+\begin{plainjava}
+!*\onslide<3->*!public static boolean winningMove(int player, char[][] board) {
+!*\onslide<4->*!    char c = |custom|getPlayerSymbol|custom|(player);
+!*\onslide<5->*!    return |custom|winsHorizontal|custom|(board, c) || |custom|winsVertical|custom|(board, c)
+!*\onslide<5->*!        || |custom|winsDiagonal|custom|(board, c);
+!*\onslide<3->*!}
+\end{plainjava}
+        \item<6-> Für das Spielersymbol:
+\begin{plainjava}
+!*\onslide<7->*!public static char getPlayerSymbol(int player) {
+!*\onslide<8->*!    return (player == 1) ? 'x' : 'o';
+!*\onslide<7->*!}
+\end{plainjava}
     \end{itemize}
 \end{frame}
 
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1c)}
+    \begin{itemize}[<+(1)->]
+        \item Win me Baby:\lstfs{8}
+\begin{plainjava}
+!*\onslide<3->*!private static boolean winsHorizontal(char[][] board, char player) {
+!*\onslide<4->*!    return ((board[0][0] == c) && (board[0][1] == c) && (board[0][2] == c)) ||
+!*\onslide<4->*!        ((board[1][0] == c) && (board[1][1] == c) && (board[1][2] == c)) ||
+!*\onslide<4->*!        ((board[2][0] == c) && (board[2][1] == c) && (board[2][2] == c));
+!*\onslide<3->*!}
+!*\onslide<3->*!
+!*\onslide<5->*!private static boolean winsVertical(char[][] board, char player) {
+!*\onslide<6->*!    return ((board[0][0] == c) && (board[1][0] == c) && (board[2][0] == c)) ||
+!*\onslide<6->*!        ((board[0][1] == c) && (board[1][1] == c) && (board[2][1] == c)) ||
+!*\onslide<6->*!        ((board[0][2] == c) && (board[1][2] == c) && (board[2][2] == c));
+!*\onslide<5->*!}
+!*\onslide<3->*!
+!*\onslide<7->*!private static winsDiagonal(char[][] board, char player) {
+!*\onslide<8->*!    return ((board[0][0] == c) && (board[1][1] == c) && (board[2][2] == c)) ||
+!*\onslide<8->*!            ((board[2][0] == c) && (board[1][1] == c) && (board[0][2] == c));
+!*\onslide<7->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Aufgabe 1d)}
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
+    \begin{itemize}[<+(1)->]
+        \item The main:\lstfs{9}
+\begin{plainjava}
+int player = 1; // Start player 1
+char[][] board = |custom|initializeBoard|custom|();
+
+for (int i = 0; i < 9; i++) { // Game loop
+    board = |custom|getMove|custom|(player, board);
+   :ws:|custom|printBoard|custom|(board);
+    if (|custom|winningMove|custom|(player, board)) {
+        System.out.println("Spieler " + player + " hat gewonnen!");
+        return;
+    }
+    player = |custom|otherPlayer|custom|(player);
+}
+System.out.println("Unentschieden");
+scanner.close(); // wichtig
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
+    \begin{itemize}[<+(1)->]
+        \item Initialize the board:
+\begin{plainjava}
+!*\onslide<3->*!public static char[][] initializeBoard() {
+!*\onslide<4->*!    char[][] board = new char[3][3];
+!*\onslide<5->*!    for (int i = 0; i < 3; i++) {
+!*\onslide<6->*!        for (int j = 0; j < 3; j++) {
+!*\onslide<7->*!            board[i][j] = 0;
+!*\onslide<6->*!        }
+!*\onslide<5->*!    }
+!*\onslide<8->*!    return board;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
+    \begin{itemize}[<+(1)->]
+        \item Toggle den Spieler in dir:
+\begin{plainjava}
+!*\onslide<3->*!public static int otherPlayer(int player) {
+!*\onslide<4->*!    return player == 1 ? 2 : 1;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[c]
+    \begin{tikzpicture}[remember picture,overlay]
+        \only<2->{\node[align=center] (b) at(current page.center) {\Large\bfseries What if i don't have friends?};}
+        \only<3->{\node[below,align=center] (c) at(b.south) {How about AI?};}
+        \only<4>{\node[below=1cm,align=center] at(c.south) {Maybe on a later day.};}
+    \end{tikzpicture}
+\end{frame}
 
 
 \definecolor{bee}{RGB}{255, 224, 108}
@@ -361,5 +664,5 @@ class X {
         \node[left,yshift=-16mm,scale=1.33] at (bb.west) {\usebox\pingudoc};
     \end{tikzpicture}}
    \end{center}
-\end{frame}% TODO: cape only? not above? just shirt above? hemd vielleicht?
+\end{frame}
 \end{document}
