@@ -47,7 +47,7 @@
             \itemsep0pt
             \item Was sind die Vor- und Nachteile beider Ansätze?
             \item Warum reicht keine einfache Zuweisung zur Kopie des Arrays?
-            \item Warum funktioniert kein for-each, wenn man die Einträge   modifizieren möchte.
+            \item Warum funktioniert kein for-each, wenn man die Einträge modifizieren möchte?
         \end{enumerate}
         \onslide<1->
     \end{aufgabe}
