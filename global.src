@@ -4,6 +4,7 @@
     author={Florian Sihler},%
     color=0.2 0.3647 0.4941, icon=Tag, mimetype=text/plain%
 }
+\usepackage[prefix=]{xcolor-material}
 
 \usepackage[%
     sopra-listings={encoding,cpalette,print,highlights},%
@@ -92,3 +93,25 @@
 \colorlet{chessfieldblack}{lightgray}
 
 \InputIfFileExists{ebl.sty}{}{}
+
+\newsavebox\pinguexplainbox
+\savebox\pinguexplainbox{}
+\definecolor{pingu-board-green}{RGB}{58, 77, 57}
+\pingudefaults{lightsaber left outer glow factor=.05,lightsaber right outer glow factor=.05}
+
+
+\makeatletter
+\def\LstBoardStyle{%
+\sol@list@define@styles{%
+ {keywordB: \@declaredcolor{sol@colors@lst@keywordB}\itshape},%
+ {keywordC: \@declaredcolor{sol@colors@lst@keywordC}\itshape},%
+}\lstcolorlet{numbers}{white}\lstcolorlet{keywordA}{white}\lstcolorlet{keywordB}{white}\lstcolorlet{keywordC}{pingu@white}\lstcolorlet{comments}{pingu-board-green!40!white}\lstcolorlet{literals}{pingu@white}\lstset{aboveskip=0pt,belowskip=0pt,xleftmargin=0pt}}
+
+% [node] | pingu | text
+\newcommand\MakeThePinguExplainIt[3][]{%
+\savebox\pinguexplainbox{%
+\begin{tikzpicture}
+  \pingu[body=pingu@black!70!pingu@main,glasses,right wing wave,staff right,left wing grab,cup=pingu@green!80!pingu@black,right item angle=-10,right eye wink,staff right length=23mm,cap=pingu@bronze!50!pingu@black!70!pingu@main, cap extra height=1.125mm,name=pingu,#2]
+
+  \node[above left=-2.66mm,fill=pingu-board-green,draw=pingu@bronze!50!pingu@black!70!pingu@main!80!white,line width=.6mm,rounded corners=2pt,text width=5.25cm,minimum height=1.5cm,text=white,inner sep=8pt,align=justify,#1] at (pingu-staff-top) {\LstBoardStyle\topsep=0pt\ignorespaces#3};
+\end{tikzpicture}}}
