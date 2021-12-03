@@ -18,7 +18,7 @@
 \let\oldinputif\InputIfFileExists
 
 \makeatletter
-% sub | title | path | file | KW
+% sub | title | path | file | num | KW
 \newcommand\Load[5][]{%
 \section{\protect\strut#2}
 \ifx!\detokenize{#1}!\else\def\beamer@shorttitle{#1}\fi
@@ -62,10 +62,10 @@
 \end{frame}
 \setcounter{tocdepth}{5}
 \Load[Organisatiorisches Tutorium]{Organisatiorisches Tutorium}{Org-Tutorium}{org}{43}
-\Load[Tutorium 0]{Tutorium zu Blatt 0}{0-Tutorium}{0}{43}
-\Load[Tutorium 1]{Tutorium zu Blatt 1}{1-Tutorium}{1}{44}
-\Load[Tutorium 2]{Tutorium zu Blatt 2}{2-Tutorium}{2}{45}
-\Load[Tutorium 3]{Tutorium zu Blatt 3}{3-Tutorium}{3}{46}
-\Load[Tutorium 4]{Tutorium zu Blatt 4}{4-Tutorium}{4}{47}
-\Load[Tutorium 5]{Tutorium zu Blatt 5}{5-Tutorium}{5}{48}
+\Load[Tutorium 0]{Blatt 0 --- Hello World}{0-Tutorium}{0}{43}
+\Load[Tutorium 1]{Blatt 1 --- Zahlen \& Algorithmen}{1-Tutorium}{1}{44}
+\Load[Tutorium 2]{Blatt 2 --- Raten, Typen \& Booleans}{2-Tutorium}{2}{45}
+\Load[Tutorium 3]{Blatt 3 --- Programmfluss \& Schleifen}{3-Tutorium}{3}{46}
+\Load[Tutorium 4]{Blatt 4 --- Schleifen, Vokale \& Prim}{4-Tutorium}{4}{47}
+\Load[Tutorium 5]{Blatt 5 --- Arrays, Matrizen \& Vektoren}{5-Tutorium}{5}{48}
 \end{document}
