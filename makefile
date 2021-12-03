@@ -10,7 +10,7 @@ TUTS_CLEAN := $(TUTS:=-clean)
 TARGET_DIR := all_pdfs
 VERBOSE := 0
 
-all: retrieve_pdfs
+all: retrieve_pdfs retrieve_compact
 	echo -e "\033[32mRun for: $(TUTS)\033[m"
 
 retrieve_pdfs: $(TUTS)
@@ -21,6 +21,9 @@ retrieve_pdfs: $(TUTS)
 	# custom rename :D
 	rename "s/folien_([^.]*)\.pdf/eidi_tut_\1.pdf/" "$(TARGET_DIR)/animated/folien_*.pdf"
 	rename "s/noanim_folien_([^.]*)\.pdf/eidi_tut_\1.pdf/" "$(TARGET_DIR)/noanim_folien_*.pdf"
+
+retrieve_compact: compact
+	cp eidi-tut-compact.pdf "$(TARGET_DIR)/eidi-tut-compact.pdf"
 
 $(TUTS):
 	+echo "Building: '$@'"
@@ -35,6 +38,9 @@ clean: $(TUTS_CLEAN)
 	rm -rI $(TARGET_DIR)
 
 .PHONY: all clean retrieve_pdfs $(TUTS) $(TUTS_CLEAN)
+
+compact:
+	sltxrc eidi-tut-compact.tex
 
 docker:
 	docker build -t 'eidi-ws2021-tut-make' -f 'Dockerfile' .
