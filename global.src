@@ -16,6 +16,7 @@
     lecture-registers={disable}% would interfere with beamer
 ]{lithie-util}
 \usepackage{lecture-personal-tikz,lecture-personal-extra-units,tikzsymbols}
+\InputIfFileExists{ebl.sty}{}{}
 
 \def\solcustom{fill=paletteB!30,draw=paletteB!30}
 
@@ -45,7 +46,8 @@
 }
 
 % well.... if something should not get out :D
-\usepackage{../tikz-horner}
+\providecommand\thpath{..}
+\usepackage{\thpath/tikz-horner}
 
 \usepackage[glows]{tikzpingus}
 
@@ -63,5 +65,29 @@
    \titlepage
 \end{frame}}
 
+\newif\iffull
+\fulltrue
+
+\def\curpath{./}
+
 \author{Florian Sihler}
 \institute{Institute of Distributed Systems \(\circ\) University Ulm}
+
+\usepackage{lecture-personal-resize}
+\pgfmathsetseed{\number\pdfrandomseed}
+
+\usetikzlibrary{decorations.pathreplacing,decorations.text,arrows.meta,decorations,decorations.pathreplacing}
+\usepackage{tikzducks,tikzsymbols}
+
+
+\usepackage[chess]{eagle-maps}
+\colorlet{chesswhite}{paletteA!90!white}
+\colorlet{chessblack}{paletteB!90!white}
+
+\colorlet{MaterialHeaderColor}{paletteB}%
+\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
+
+\def\linkstyle#1{\textsf{\paletteD{#1}}}
+\SetAllLinkStyle{\linkstyle{#1}}
+
+\colorlet{chessfieldblack}{lightgray}
