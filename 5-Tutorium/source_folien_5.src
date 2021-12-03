@@ -224,7 +224,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \end{frame}
 \fi
 
-\subsection{Zusatzaufgabe}
+\subsection{Zusatzaufgabe 2/6}
 \begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe a)}
     \begin{itemize}[<+(1)->]
         \item Wir machen eine Raute (\only<2->{\textattachfile{\curpath Rhombus.java}{Rhombus.java}}).
