@@ -1,5 +1,5 @@
 
-\input ../global.src
+\InputIfFileExists{../global.src}\relax\relax
 \usepackage{lecture-personal-resize}
 \pgfmathsetseed{\number\pdfrandomseed}
 

@@ -1,12 +1,12 @@
 \RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
-\input ../global.src
+\InputIfFileExists{../global.src}\relax\relax
 
+\iffull
 \title[Zweites Tutorium -- Übungsblatt 2]{Vom Sieben und Nullenschieben\\\small Tutorium Duatalia}
 \date{\sffamily KW 45}
 
 \usetikzlibrary{decorations.text}
-
-\usepackage{ebl}
+\fi
 
 \makeatletter
 \def\calc#1=#2;{\pgfmathsetmacro#1{int(#2)}\xdef#1{#1}}
@@ -89,10 +89,10 @@
 \endgroup}
 \makeatother
 
-
+\iffull
 \begin{document}
 \Titlepage{2}
-
+\fi
 % Tutorial: Scanner
 % \section{Exkurs: Scanner}
 
@@ -167,9 +167,14 @@
 {\def\SievePrintWidth{5}
 \def\SievePrintDo#1#2{\scalebox{.7}{\SievePrint{#1}}}
 \def\SievePrintStepSep#1{\ifnum#1<19\quad\faAngleRight\quad\fi\ifnum#1=7\\[2em]\fi}
+\iffull
+\def\secondslide{2}
+\else
+\def\secondslide{1}
+\fi
 \begin{frame}[c]{Präsenzaufgabe - Was bemerken wir?}
 \centering\pause\parbox{.95\linewidth}{\centering\Sieve[\pause]{20}}
-\onslide<10-|handout:2>{%
+\onslide<10-|handout:\secondslide>{%
 \begin{tikzpicture}[remember picture,overlay]
 \fill[lightgray!20!white,opacity=.55](current page.south west) rectangle (current page.north east);
 \onslide<11->{%
@@ -340,6 +345,7 @@
 
 % \pause Beachte Rundungsproblematik vom letzten Foliensatz.\pause{} Lieber Tupel aus \bjava{int, int, int} oder \bjava{long, byte, byte}\ldots\pause{} \info{Die Zeit in Sekunden zu Speichern ist natürlich ebenso valide.}
 
+\iffull
 \begin{frame}[t]{Übungsblatt 2 - Aufgabe 2, zusätzliche Freuden}
     \begin{itemize}[<+(1)->]
         \item \textit{Identifikationsnummer eines Nutzers}\\*
@@ -358,12 +364,11 @@
 \end{itemize}
 \end{frame}
 
-
 \rExecute{javac Test.java}%
 \begin{frame}[t]{Übungsblatt 2 - Rundungsproblematik}
     \begin{itemize}
         \item<2-> Java-Code:\parallelcontent[c]{
-        \onslide<3->{\lstfs{7}\ijava[firstline=3,lastline=11,frame=none,backgroundcolor=,numbers=none,xleftmargin=19pt,xrightmargin=0pt]{Test.java}}}{\onslide<4->{Ausgabe für \rbash[:\lstfs{8}]{java Test}}
+        \onslide<3->{\lstfs{7}\ijava[firstline=3,lastline=11,frame=none,backgroundcolor=,numbers=none,xleftmargin=19pt,xrightmargin=0pt]{Test.java}}}{\onslide<4->{Ausgabe für \Rbash[:\lstfs{8}]{java Test}{java -cp "\curpath" Test}}
 }
         \item<5-> Ein Fehler von $\sim 1.3$ erscheint wenig, \onslide<6->{Pentium 4 (Jahr 2000) mit $3.2$ GHz: Im Schnitt $3.1$ GFLOPS. \onslide<7->{\info{Giga Floating Point Operations Per Second.}}}
         \item<8-> Der Fehler beträgt also ungefähr $4$\texteuro{} pro Sekunde (im schlechtesten Fall)
@@ -385,6 +390,7 @@
         \end{enumerate}
     \end{itemize}
 \end{frame}
+\fi
 
 \subsection{Aufgabe 3}
 \begin{frame}[c,fragile]{Übungsblatt 2 - Aufgabe 3 a)}
@@ -423,15 +429,22 @@ if((22 >= b) && (a > b)) { // I
 \end{column}\end{columns}
 \end{frame}
 
-\rExecute{javac WeirdBoolean.java}%
-\begin{frame}[t]{Übungsblatt 2 - Aufgabe 3 b)}
+\iffull\rExecute{javac WeirdBoolean.java}\fi
+\begin{frame}[t,fragile]{Übungsblatt 2 - Aufgabe 3 b)}
+\iffull
 \begin{itemize}[<+(1)->]
     \itemsep10pt
-    \item Werfen wir einen Blick auf die Ausgabe \rbash[:\pause\lstfs{8}]{java WeirdBoolean}
-    \item Warum? Nun, mit \bjava{true}, \bjava{true}, \bjava{false}, \bjava{true} verlassen wir bereits bei der dritten Unterscheidung das Konstrukt mit \bjava{B}.
+    \item Werfen wir einen Blick auf die Ausgabe \Rbash[:\pause\lstfs{8}]{java WeirdBoolean}{java WeirdBoolean}
+    \item  Warum? Nun, mit \bjava{true}, \bjava{true}, \bjava{false}, \bjava{true} verlassen wir bereits bei der dritten Unterscheidung das Konstrukt mit \bjava{B}.
 \end{itemize}
+\else
+\begin{itemize}
+    \item Nun, mit \bjava{true}, \bjava{true}, \bjava{false}, \bjava{true} verlassen wir bereits bei der dritten Unterscheidung das Konstrukt mit \bjava{B}.
+\end{itemize}
+\fi
 \end{frame}
 
+\iffull
 \section{Bonus}
 \subsection{Präzedenzregeln}
 \begin{frame}[t,fragile]{Ein Bonus am Rande: Von Präzedenzregeln}
@@ -808,7 +821,7 @@ Hallo: \foreach \i in {1,3,...,12} {
 \end{center}
 \end{itemize}
 \end{frame}
-
+\fi
 
 \section{End Pinguuu}
 \begin{frame}[c]
@@ -820,4 +833,4 @@ Hallo: \foreach \i in {1,3,...,12} {
         \pingu[name = herbert, heart=teal!15!pingu@white, right wing hug, eyes shock]
     \end{tikzpicture}}
 \end{frame}
-\end{document}
+\iffull\end{document}\fi

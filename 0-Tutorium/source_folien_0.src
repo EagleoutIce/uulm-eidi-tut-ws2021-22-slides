@@ -1,6 +1,6 @@
 \RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
-\input ../global.src
-
+\InputIfFileExists{../global.src}\relax\relax
+\iffull
 \title[Nulltes Tutorium -- Übungsblatt 0]{Mein Compiler und ich.\\\small Tutorium ZeroHero}
 \date{\sffamily KW 43}
 
@@ -9,7 +9,7 @@
 \begin{document}
 
 \Titlepage{0}
-
+\fi
 \section{Präsenzaufgabe}
 \begin{frame}{Präsenzaufgabe}
 \begin{aufgabe}{Schau mal, ich bin schon groß!}
@@ -85,7 +85,7 @@
 \end{center}
 \end{frame}
 
-
+\iffull
 \section{Bonus: Pseudocode}
 \def\tpingu{\raisebox{-1pt}{\tikz[scale=0.15]{\pingu}}}
 \def\tagent{\pingu[sunglasses,wings wave,heart=paletteA,eyes wink]}
@@ -160,6 +160,7 @@ Wenn kein Pingu super war:
     Gebe Mega-Pingu (!*\raisebox{-1pt}{\tikz[scale=0.15]{\tagent}}*!) zurück.
 \end{plainvoid}
 \end{frame}
+\fi
 
 \section{Übungsblatt 0}
 \subsection{Aufgabe 1}
@@ -173,14 +174,16 @@ Wenn kein Pingu super war:
 \end{frame}
 
 \subsection{Aufgabe 2}
+\rExecute{javac Hello.java}
 \begin{frame}[t]{Übungsblatt 0 - Aufgabe 2}
     \only<-5>{\begin{itemize}[<+(1)->]
         \item Tipp, tipp, tipp, \ldots \ijava{Hello.java}
-        \item Sowie: \cbash{javac Hello.java}\rExecute{javac Hello.java}%
-        \item Und dann: \rbash[:\pause]{java Hello}
+        \item Sowie: \cbash{javac Hello.java}%
+        \item Und dann: \iffull\Rbash[:\pause]{java Hello}{java Hello}\else\cbash{java Hello}.\fi
     \end{itemize}}
 \end{frame}
 
+\iffull
 \section{Aussicht: Übungsblatt 1}
 \subsection{Hornerschema}
 \def\h#1{\textcolor{cprimary}{#1}}
@@ -317,7 +320,7 @@ Wenn kein Pingu super war:
         \pause Für komplexere Szenarien können sich die Analysen auch komplexer gestalten.
 \end{itemize}
 \end{frame}
-
+\fi
 
 \section{End Pinguuu}
 \begin{frame}[c]
@@ -327,5 +330,4 @@ Wenn kein Pingu super war:
 \end{tikzpicture}
 \end{frame}
 
-
-\end{document}
+\iffull\end{document}\fi

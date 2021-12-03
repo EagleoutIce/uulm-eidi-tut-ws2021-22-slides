@@ -1,23 +1,19 @@
 
 \RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
-\input ../global.src
-\usepackage{lecture-personal-resize}
-\pgfmathsetseed{\number\pdfrandomseed}
+\InputIfFileExists{../global.src}\relax\relax
 
+\iffull
 \title[Viertes Tutorium -- Übungsblatt 4]{Schau mal -- ein Vokal\\\small Die Hexenjagd 4}
 \date{\sffamily KW 47}
-\author{Florian Sihler}
-\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+
 
 \usepackage{tikzpingus}
-
-\usetikzlibrary{decorations.pathreplacing,decorations.text}
 
 \hypersetup{colorlinks=false}
 
 \begin{document}
 \Titlepage{4}
-
+\fi
 
 \newsavebox\pingubox
 \savebox\pingubox{\smash{\resizebox*!{.75\baselineskip}{\tikz\pingu[sunglasses,bow tie=pingu@black,cloak=pingu@black,eyes wink];}}}
@@ -102,7 +98,7 @@ public class Statistics {
 
 \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
-    \item Der gesamte Code ist wieder hier: \only<2->{\textattachfile{Statistics.java}{Statistics.java}}
+    \item Der gesamte Code ist wieder hier: \only<2->{\textattachfile{\curpath Statistics.java}{Statistics.java}}
     \item Sortieren macht das finden von Mini- und Maximum leicht:
 \begin{plainjava}
 !*\onslide<4->*!Arrays.sort(randoms);
@@ -141,7 +137,7 @@ public class Statistics {
 \end{itemize}
 \end{frame}
 
-\rExecute{javac Statistics.java}
+\iffull\rExecute{javac Statistics.java}\fi
 \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
     \item Und nun der shout-out an die Fans:
@@ -151,11 +147,12 @@ public class Statistics {
 !*\onslide<3->*!System.out.println("Mittelwert: " + avg);
 !*\onslide<3->*!System.out.println("Median: " + med);
 \end{plainjava}
-    \item<4-> \rbash[:\pause]{java Statistics}
+    \iffull\item<4-> \rbash[:\pause]{java Statistics}\fi
 \end{itemize}
 \end{frame}
 
 \section{Abgabeformalitäten}
+\iffull
 \begin{frame}[c,plain]{}
 \tikzpicture[overlay,remember picture]
 \fill[pingu@black] (current page.south east) rectangle (current page.north west);
@@ -163,6 +160,7 @@ public class Statistics {
 \onslide<3->{\node[pingu@white,below,scale=1.66] at (c.south) {The Abgabeformalitäten are here.};}
 \endtikzpicture
 \end{frame}
+\fi
 
 \newsavebox\pinguitembox \savebox\pinguitembox{\strut\resizebox*!{.66\baselineskip}{\tikz\pingu[left wing wave,eyes shiny,halo];}}
 \begin{frame}[c]{Abgabeformalitäten}
@@ -214,17 +212,17 @@ public class Statistics {
         \item<9-|handout:0> Koko hat hier noch tolle Memes. Ich nicht. \onslide<10->{Odeeeer?}
     \end{itemize}
 \end{itemize}
-\onslide<11-|handout:0>{\begin{tikzpicture}[overlay,remember picture]
+\iffull\onslide<11-|handout:0>{\begin{tikzpicture}[overlay,remember picture]
     \draw[path image=meme.png,gray,rounded corners=2pt] ([xshift=-.45cm,yshift=-1.85cm]current page.north east) rectangle ++(-4.35cm,-3.75cm);
     % \node[below left=.5cm,yshift=-1.35cm,inner sep=0pt,draw,rounded corners=2pt] at(current page.north east) {\includegraphics[width=4.35cm]{meme.png}};
-\end{tikzpicture}}
+\end{tikzpicture}}\fi
 \end{frame}
 
 \section{Übungsblatt 4}
 \subsection{Aufgabe 1}
 \begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 1}
     \begin{itemize}[<+(1)->]
-        \item Banale Vokale \only<2->{\textattachfile{CountVowels.java}{CountVowels.java}}
+        \item Banale Vokale \only<2->{\textattachfile{\curpath CountVowels.java}{CountVowels.java}}
 \begin{plainjava}
 !*\onslide<3->*!int a = 0, e = 0, i = 0, o = 0, u = 0;
 !*\onslide<3->*!
@@ -254,6 +252,7 @@ public class Statistics {
     \end{itemize}
 \end{frame}
 
+\iffull
 \begin{frame}[c]{Übungsblatt 4 - Aufgabe 1}
 \begin{center}
     \LARGE\pause\textbf{Und nun\ldots}\\
@@ -261,6 +260,7 @@ public class Statistics {
     \pause \scriptsize Schnabeltier
 \end{center}
 \end{frame}
+\fi
 
 \begin{frame}[fragile,c]{Übungsblatt 4 - Aufgabe 1\hfill Schweigender Bonus}
 \begin{columns}[onlytextwidth,c]
@@ -307,7 +307,7 @@ System.out.println("u: " + u);
 \subsection{Aufgabe 2}
 \begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2}
     \begin{itemize}[<+(1)->]
-        \item Isch bin ene Primeel: \only<2->{\textattachfile{PrimeFactors.java}{PrimeFactors.java}}.
+        \item Isch bin ene Primeel: \only<2->{\textattachfile{\curpath PrimeFactors.java}{PrimeFactors.java}}.
         \item Starting with the guardians of the C:\lstfs{10}
 \begin{plainjava}
 !*\onslide<4->*!if (args.length != 1) System.exit(1);
@@ -377,14 +377,14 @@ System.out.println("u: " + u);
 !*\onslide<4->*!}
 !*\onslide<3->*!System.out.println("");
 \end{plainjava}
-    \item<9-> \lstfs{9}\rbash[:\pause]{java PrimeFactors 12301234}
+    \iffull\item<9-> \lstfs{9}\rbash[:\pause]{java PrimeFactors 12301234}\fi
     \end{itemize}
 \end{frame}
 
 \rExecute{javac PrimeFactorsAlternate.java}
 \begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2 \hfill Die alternative Alternative}
     \begin{itemize}[<+(1)->]
-        \item Wir können das Sieb direkt integrieren\ldots\ (\only<2->{\textattachfile{PrimeFactorsAlternate.java}{PrimeFactorsAlternate.java}})\lstfs{10}
+        \item Wir können das Sieb direkt integrieren\ldots\ (\only<2->{\textattachfile{\curpath PrimeFactorsAlternate.java}{PrimeFactorsAlternate.java}})\lstfs{10}
 \begin{plainjava}
 !*\onslide<3->*!System.out.print("Die Primfaktorzerlegung von " + N + " lautet: ");
 !*\onslide<4->*!int max = N;
@@ -396,7 +396,7 @@ System.out.println("u: " + u);
 !*\onslide<5->*!}
 !*\onslide<3->*!System.out.println("");
 \end{plainjava}
-    \item<8-> \lstfs{9}\rbash[:\pause]{java PrimeFactorsAlternate 12301234}
+    \iffull\item<8-> \lstfs{9}\rbash[:\pause]{java PrimeFactorsAlternate 12301234}\fi
     \end{itemize}
 \end{frame}
 
@@ -413,4 +413,4 @@ System.out.println("u: " + u);
         \pingu[name = herbert, xshift=3.1cm,right wing hug, sunglasses,eyes wink]
     \end{tikzpicture}}\hfill\null
 \end{frame}
-\end{document}
+\iffull\end{document}\fi

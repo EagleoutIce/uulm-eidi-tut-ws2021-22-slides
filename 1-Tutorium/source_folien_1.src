@@ -1,5 +1,6 @@
 \RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
-\input ../global.src
+\InputIfFileExists{../global.src}\relax\relax
+\iffull
 \usepackage{foekfont,addfont,punk,bbold,inslrmin}
 \usepackage{xfrac}
 
@@ -9,11 +10,9 @@
 \title[Erstes Tutorium -- Übungsblatt 1]{Mathe. Haha. Kann ich.\\\small Tutorium Unostasio}
 \date{\sffamily KW 44}
 
-
 \begin{document}
 
 \Titlepage{1}
-
 % space pingu stage
 \begin{frame}[c,plain]
     \centering
@@ -43,6 +42,7 @@
         \node[white,xshift=7mm,yshift=10mm,xscale=1.33] at(a-wing-right-tip.north) {\bjava[showspaces]{\ }};
     \end{tikzpicture}}\hspace*{-1em}\null
 \end{frame}
+\fi
 
 \section{Präsenzaufgabe}
 \begin{frame}{Präsenzaufgabe}
@@ -192,6 +192,7 @@
 \newcommand<>\hlkw[1]{{\savebox0{#1}\only#2{\bfseries\color{paletteA}}\makebox[\dimexpr\wd0+.285ex]{\strut#1}}}
 \newcommand<>\hloutkw[1]{{\savebox0{#1}\only#2{\bfseries\color{paletteB}}\makebox[\dimexpr\wd0+.285ex]{\strut#1}}}
 \def\g#1{{#1}}\def\k#1{{\savebox0{#1}\makebox[\dimexpr\wd0+.285ex]{\strut#1}}}
+\iffull
 \begin{frame}[c]{Übungsblatt 1 - Aufgabe 2}
     \pause\centering \parbox{.65\linewidth}{%
     \footnotesize\only<3->{\color{gray}}Angenommen, Sie überlegen sich ein \g{neues Tablet} für die \g{Uni} zu kaufen.
@@ -220,7 +221,7 @@
     }
 \end{frame}
 }
-
+\fi
 \begin{frame}{Übungsblatt 1 - Aufgabe 2 a) \& b)}
     \begin{enumerate}[a)]
         \itemsep8pt
@@ -350,6 +351,7 @@
     \end{enumerate}
 \end{frame}
 
+\iffull
 \section{Aussicht: IEEE 754}
 \begin{frame}{Aussicht: Das IEEE 754 Format}
     \begin{itemize}[<+(1)->]
@@ -425,7 +427,7 @@
 \begin{frame}{Das IEEE 754 Format - Rundungsproblematik}
     \begin{itemize}
         \rExecute{javac RoundingProblem.java}%
-        \item \textbf{Leider nein}:\rbash[:\pause]{java RoundingProblem}
+        \item \textbf{Leider nein}:\Rbash[:\pause]{java RoundingProblem}{java RoundingProblem}
         \item\pause{}Warum?\pause{}\newline{}$0.1_{(10)} \pause{}\,\widehat{=}\, 0.000110011001100110011\ldots_{(2)} \pause\neq 0.1_{(10)}$ da Mantisse begrenzt.
     \end{itemize}
 \end{frame}
@@ -567,7 +569,7 @@
     \end{enumerate}
 \end{frame}
 
-
+\fi
 
 \section{End Pinguuu}
 \begin{frame}[c]
@@ -581,4 +583,4 @@
             % \HerbertMarkers
         \end{tikzpicture}}
 \end{frame}
-\end{document}
+\iffull\end{document}\fi

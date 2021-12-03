@@ -1,9 +1,7 @@
 
 \RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
-\input ../global.src
-\usepackage{lecture-personal-resize}
-\pgfmathsetseed{\number\pdfrandomseed}
-
+\InputIfFileExists{../global.src}\relax\relax
+\iffull
 \title[Drittes Tutorium -- Übungsblatt 3]{Lassen wir die Schleifen fließen\\\small Tutorium 3}
 \date{\sffamily KW 46}
 
@@ -104,6 +102,7 @@
     %\fill[red,rounded corners=1] (0.60,1.92) -- ++(0.135,-0.125) -- ++ (0.125,-0.135);
     \end{tikzpicture}
 \end{frame}
+\fi
 
 \def\encap#1{\makebox[1.25ex]{#1}}
 \def\Pyramid#1{%
@@ -167,22 +166,24 @@
 !*\onslide<5->*!        System.out.print(" ");
 !*\onslide<5->*!    }
 !*\onslide<6->*!    for (int j = 1; j <= i; j++) {
-!*\onslide<7->*!        System.out.print("* "); // zusätzlichen Leerzeichen
+!*\onslide<7->*!        System.out.print("* "); // zusätzliche Leerzeichen
 !*\onslide<6->*!    }
 !*\onslide<8->*!    System.out.println(); // Zeilenumbruch
 !*\onslide<4->*!}
 \end{plainjava}
+    \iffull\else\item Damit ist alles komplett (\only<2->{\textattachfile{\curpath Pyramid.java}{Pyramid.java}}).\fi
 \end{itemize}
 \end{frame}
 
+\iffull
 \rExecute{javac Pyramid.java}
 \begin{frame}[t,fragile]{Präsenzaufgabe}
 \begin{itemize}[<+(1)->]
-    \item Damit ist alles komplett (\only<2->{\textattachfile{Pyramid.java}{Pyramid.java}}):
+    \item Damit ist alles komplett (\only<2->{\textattachfile{\curpath Pyramid.java}{Pyramid.java}}).
     \item Somit ergibt sich \rbash[:\pause{}]{java Pyramid 8}
 \end{itemize}
 \end{frame}
-
+\fi
 
 \section{Eine zweite Präsenzaufgabe}
 
@@ -312,7 +313,7 @@ if(k > 0){
 
 \begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 1 a)}
     \begin{itemize}[<+(1)->]
-        \item Fanatiker dürfen aber auch die Kommandozeilenargumente auf diese Weise überprüfen~(\only<2->{\textattachfile{SwitchCaseControlled.java}{SwitchCaseControlled.java}}):\lstfs{10}
+        \item Fanatiker dürfen aber auch die Kommandozeilenargumente auf diese Weise überprüfen~(\only<2->{\textattachfile{\curpath SwitchCaseControlled.java}{SwitchCaseControlled.java}}):\lstfs{10}
 \begin{plainjava}
 !*\onslide<3->*!switch(args.length) {
 !*\onslide<4->*!    case 1: x = Integer.parseInt(args[0]); break;
@@ -330,7 +331,7 @@ if(k > 0){
 \begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 1 b)}
     \begin{itemize}[<+(1)->]
         \item Die Bedingung \bjava{(x < 0) || (x >= 3)} invertiert den Default-Fall!
-        \item Damit genügt~(\only<3->{\textattachfile{SwitchCaseControlledAlternate.java}{SwitchCaseControlledAlternate.java}})
+        \item Damit genügt~(\only<3->{\textattachfile{\curpath SwitchCaseControlledAlternate.java}{SwitchCaseControlledAlternate.java}})
 \begin{plainjava}
 switch (x) {
     case 0: System.out.println("D"); break;
@@ -347,7 +348,7 @@ switch (x) {
 
 \begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 2 a)\hfill While}
     \begin{itemize}[<+(1)->]
-        \item Zunächst mit While~(\only<3->{\textattachfile{FacultyWhileLoop.java}{FacultyWhileLoop.java}}):
+        \item Zunächst mit While~(\only<3->{\textattachfile{\curpath FacultyWhileLoop.java}{FacultyWhileLoop.java}}):
 \begin{plainjava}
 !*\onslide<3->*!int faculty = 1;
 !*\onslide<3->*!int i = 0;
@@ -364,7 +365,7 @@ switch (x) {
 
 \begin{frame}[t,fragile]{Übungsblatt 3 - Aufgabe 2 a)\hfill Do-While}
     \begin{itemize}[<+(1)->]
-        \item Non mit Do-While~(\only<3->{\textattachfile{FacultyDoWhileLoop.java}{FacultyDoWhileLoop.java}}):
+        \item Non mit Do-While~(\only<3->{\textattachfile{\curpath FacultyDoWhileLoop.java}{FacultyDoWhileLoop.java}}):
 \begin{plainjava}
 !*\onslide<3->*!int faculty = 1;
 !*\onslide<3->*!int i = 0;
@@ -393,7 +394,7 @@ switch (x) {
 \begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe a)}
     \begin{itemize}[<+(1)->]
         \item Jetzt können wir auch alles über Bord werfen.
-        \item Da der Argumenttest nicht ternär gemacht werden kann, sind wir mal nicht fanatisch \Laughey\ (\only<3->{\textattachfile{EvenOddTernary.java}{EvenOddTernary.java}}):
+        \item Da der Argumenttest nicht ternär gemacht werden kann, sind wir mal nicht fanatisch \Laughey\ (\only<3->{\textattachfile{\curpath EvenOddTernary.java}{EvenOddTernary.java}}):
 \begin{plainjava}
 System.out.println(x + ((x % 2) == 0 ? " ist gerade" :
                     " ist ungerade"));
@@ -404,7 +405,7 @@ System.out.println(x + ((x % 2) == 0 ? " ist gerade" :
 \begin{frame}[t,fragile]{Übungsblatt 3 - Zusatzaufgabe b)}
     \begin{itemize}[<+(1)->]
         \item So schlimm es auch ist, wir können die ternären Operationen verschachteln.
-        \item Der Argumenttest geht aber immer noch nicht (\only<3->{\textattachfile{DivisibleTernary.java}{DivisibleTernary.java}}):
+        \item Der Argumenttest geht aber immer noch nicht (\only<3->{\textattachfile{\curpath DivisibleTernary.java}{DivisibleTernary.java}}):
 \begin{plainjava}
 String output = (x % 2) == 0 ? " ist durch 2 teilbar"
         : (x % 3) == 0 ? " ist durch 3 teilbar"
@@ -450,6 +451,7 @@ String output = (x % 2) == 0 ? " ist durch 2 teilbar"
 % \end{frame}
 
 
+\iffull
 \section{Bonus: Kellerspeicher}
 
 \tikzset{block/.style={rectangle,draw=gray,minimum width=.7cm,minimum height=.5cm},N/.style={outer sep=0pt,inner sep=0pt}}
@@ -562,7 +564,7 @@ String output = (x % 2) == 0 ? " ist durch 2 teilbar"
 \lstfs{10}
 \begin{frame}[t,fragile]{Eine alte Präsenzaufgabe - Lösung}
 \begin{itemize}[<+(1)->]
-    \item Das volle Programm findet sich hier: \only<2->{\textattachfile{ReversePolishNotation.java}{ReversePolishNotation.java}}.
+    \item Das volle Programm findet sich hier: \only<2->{\textattachfile{\curpath ReversePolishNotation.java}{ReversePolishNotation.java}}.
     \item Initialisierung:
 \begin{java}
 int[] stack = new int[100];
@@ -660,6 +662,7 @@ for (String arg : args) {
 
 \mode
 <all>
+\fi
 
 \section{End Pinguuu}
 \begin{frame}[c]
@@ -669,4 +672,6 @@ for (String arg : args) {
         \pingu[name = herbert, xshift=2.75cm, wings grab, cup, eyes shiny, hair 2=pingu@green]
     \end{tikzpicture}}}
 \end{frame}
+\iffull
 \end{document}
+\fi

@@ -1,12 +1,9 @@
 \RequirePackage[cmintegrals,cmbraces,ebgaramond]{newtxmath}
-\input ../global.src
-\usepackage{lecture-personal-resize}
-\pgfmathsetseed{\number\pdfrandomseed}
+\InputIfFileExists{../global.src}\relax\relax
 
+\iffull
 \title[Fünftes Tutorium -- Übungsblatt 5]{Raute-Hashtag-Matrizen\\\small Mathemann 5}
 \date{\sffamily KW 48}
-\author{Florian Sihler}
-\institute{Institute of Distributed Systems \(\circ\) University Ulm}
 
 \usepackage{tikzpingus}
 
@@ -15,27 +12,10 @@
 \hypersetup{colorlinks=false}
 
 % \lstset{add to literate={Vector}{{{\solGet{keywordC}{Vector}}}}6}
-\usepackage{tikzducks,tikzsymbols}
-
-
-\usepackage[chess]{eagle-maps}
-\colorlet{chesswhite}{paletteA!90!white}
-\colorlet{chessblack}{paletteB!90!white}
-
-\colorlet{MaterialHeaderColor}{paletteB}%
-\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
-
-\def\linkstyle#1{\textsf{\paletteD{#1}}}
-\SetAllLinkStyle{\linkstyle{#1}}
-
-\colorlet{chessfieldblack}{lightgray}
-
-\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
-
 
 \begin{document}
 \Titlepage{5}
-
+\fi
 \section{Präsenzaufgabe}
 \begin{frame}[fragile, c]{Präsenzaufgabe, zum Auflockern}
     \begin{aufgabe}{Flippn' Amazing -- Watch me Flip-Flip\ldots}
@@ -120,7 +100,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \subsection{Aufgabe 1}
 \begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 a)}
     \begin{itemize}[<+(1)->]
-        \item Der volle Code befindet sich hier: \only<2->{\textattachfile{DotProduct.java}{DotProduct.java}}.
+        \item Der volle Code befindet sich hier: \only<2->{\textattachfile{\curpath DotProduct.java}{DotProduct.java}}.
         \item Wir berechnen \(d = a \cdot b = (\begin{smallmatrix}
             a_1 & \ldots & a_n
         \end{smallmatrix}) \cdot (\begin{smallmatrix}
@@ -157,16 +137,18 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
     \end{itemize}
 \end{frame}
 
+\iffull
 \rExecute{javac DotProduct.java}
 \begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 a)}
     \begin{itemize}[<+(1)->]
         \item Als beispielhafte Ausgabe für \rbash[:\pause]{java DotProduct}
     \end{itemize}
 \end{frame}
+\fi
 
 \begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 b)}
     \begin{itemize}[<+(1)->]
-        \item Der volle Code befindet sich hier: \only<2->{\textattachfile{Transpose.java}{Transpose.java}}.
+        \item Der volle Code befindet sich hier: \only<2->{\textattachfile{\curpath Transpose.java}{Transpose.java}}.
         \item Wir vertauschen! Aus \(a_{i, j}\) wird \(a'_{j, i}\).
         \item Oder als Java-Code:
 \begin{plainjava}
@@ -182,6 +164,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
     \end{itemize}
 \end{frame}
 
+\iffull
 \rExecute{javac Transpose.java}
 \begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 1 b)}
     \def\rbashcurrentinject{multicols=2}%
@@ -189,12 +172,12 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
         \item \lstfs{9}Als beispielhafte Ausgabe für \rbash[:\pause]{java Transpose}
     \end{itemize}
 \end{frame}
-
+\fi
 
 \subsection{Aufgabe 2}
 \begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 2}
     \begin{itemize}[<+(1)->]
-        \item Der volle Code befindet sich hier: \only<2->{\textattachfile{MatrixMultiplication.java}{MatrixMultiplication.java}}.
+        \item Der volle Code befindet sich hier: \only<2->{\textattachfile{\curpath MatrixMultiplication.java}{MatrixMultiplication.java}}.
         \item Zunächst eine zweite Matrix:
 \begin{plainjava}
 !*\onslide<4->*!int[][] matrix2 = new int[M][N];
@@ -231,6 +214,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
     \end{itemize}
 \end{frame}
 
+\iffull
 \rExecute{javac MatrixMultiplication.java}
 \begin{frame}[t,fragile]{Übungsblatt 5 - Aufgabe 2}
     \def\rbashcurrentinject{multicols=2}%
@@ -238,11 +222,12 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
         \item \lstfs{8}Als beispielhafte (formatierte) Ausgabe für \rbash[:\pause]{java MatrixMultiplication}
     \end{itemize}
 \end{frame}
+\fi
 
 \subsection{Zusatzaufgabe}
 \begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe a)}
     \begin{itemize}[<+(1)->]
-        \item Wir machen eine Raute (\only<2->{\textattachfile{Rhombus.java}{Rhombus.java}}).
+        \item Wir machen eine Raute (\only<2->{\textattachfile{\curpath Rhombus.java}{Rhombus.java}}).
         \item Naiv, können wir die bekannte Dreiecksstruktur nehmen und ein Dreieck für die obere und eines für die untere Hälfte basteln:
 \begin{plainjava}
 !*\onslide<4->*!// oben
@@ -295,10 +280,11 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \end{plainjava}
     \end{itemize}
 \onslide<10->{\begin{tikzpicture}[overlay,remember picture]
-    \node[above left=.55cm,xshift=.25cm] at(current page.south east) {\only<10->{\textattachfile{RhombusNegative.java}{RhombusNegative.java}}};
+    \node[above left=.55cm,xshift=.25cm] at(current page.south east) {\only<10->{\textattachfile{\curpath RhombusNegative.java}{RhombusNegative.java}}};
 \end{tikzpicture}}
 \end{frame}
 
+\iffull
 \rExecute{javac RhombusNegative.java}
 \begin{frame}[t,fragile]{Übungsblatt 5 - Zusatzaufgabe a)}
     \lstfs{9}\begin{itemize}[<+(1)->]
@@ -341,6 +327,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \onslide<2->{\node[above left=3mm,scale=.75] at(current page.south east) {\usebox\whitepingu};}
 \endtikzpicture
 \end{frame}
+\fi
 
 \begin{frame}[c,plain]{}
 \tikzpicture[overlay,remember picture]
@@ -467,7 +454,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \end{plainjava}
 \endcolumns
 \onslide<15->{\begin{tikzpicture}[overlay,remember picture]
-    \node[above left=.55cm,xshift=.25cm] at(current page.south east) {\only<15->{\textattachfile{RhombusElegant.java}{RhombusElegant.java}}};
+    \node[above left=.55cm,xshift=.25cm] at(current page.south east) {\only<15->{\textattachfile{\curpath RhombusElegant.java}{RhombusElegant.java}}};
 \end{tikzpicture}}
     \end{itemize}
 \end{frame}
@@ -475,7 +462,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 
 \begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe b)}
     \begin{itemize}[<+(1)->]
-        \item Die Musterlösung (\only<2->{\textattachfile{NestedRhombus.java}{NestedRhombus.java}}).\lstfs{7}
+        \item Die Musterlösung (\only<2->{\textattachfile{\curpath NestedRhombus.java}{NestedRhombus.java}}).\lstfs{7}
 \begin{plainjava}
 !*\onslide<3->*!for(int i = 1; i <= N; i++) {
 !*\onslide<4->*!    for(int j = 1; j <= N-i; j++) System.out.print(" ");
@@ -564,14 +551,15 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \end{plainjava}
 \endcolumns
 \onslide<15->{\begin{tikzpicture}[overlay,remember picture]
-    \node[above left=.55cm,xshift=.25cm] at(current page.south east) {\only<15->{\textattachfile{NestedRhombusElegant.java}{NestedRhombusElegant.java}}};
+    \node[above left=.55cm,xshift=.25cm] at(current page.south east) {\only<15->{\textattachfile{\curpath NestedRhombusElegant.java}{NestedRhombusElegant.java}}};
 \end{tikzpicture}}
     \end{itemize}
 \end{frame}
 
+\iffull
 \begin{frame}[fragile]{Can we do it in one line?}
     \begin{itemize}[<+(1)->]
-        \item \textbf{Nicht klausurrelevant}, aber durch Anfrage (\only<2->{\textattachfile{NestedRhombusOneLine.java}{NestedRhombusOneLine.java}}):
+        \item \textbf{Nicht klausurrelevant}, aber durch Anfrage (\only<2->{\textattachfile{\curpath NestedRhombusOneLine.java}{NestedRhombusOneLine.java}}):
 \lstfs{8}
 \begin{plainjava}
 !*\onslide<3->*!System.out.println(args.length != 1 ? "invalid argument" :
@@ -603,7 +591,9 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
         \item Code-Kommentare sollten nicht redundanterweise erklären, was die jeweilige Zeile macht, sondern maximal was die Idee/das Konzept dahinter war. Kommentare sind an sich auch Code! Nur für menschliche \say{Compiler}. \info{Oder sowas wie GPT-3.}
     \end{itemize}
 \end{frame}
+\fi
 
+\iffull
 \section{Altes Gedönse}
 
 \subsection{Alte Präsenzaufgabe -- Was passiert?}
@@ -795,7 +785,7 @@ Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{en
 
 \begin{frame}[fragile]{Vectori-bras, the great solver}
     \begin{itemize}[<+(1)->]
-        \item Hier die Klasse an sich: \only<2->{\textattachfile{Vector.java}{Vector.java}}
+        \item Hier die Klasse an sich: \only<2->{\textattachfile{\curpath Vector.java}{Vector.java}}
         \item Zunächst die unveränderlichen Attribute:
 \begin{plainjava}
 !*\onslide<4->*!public class Vector {
@@ -922,7 +912,7 @@ Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{en
 
 \begin{frame}[fragile]{Alte Zusatzaufgabe}
     \begin{itemize}[<+(1)->]
-        \item Für Türme lässt sich die Aufgabe leicht umformulieren (\only<2->{\textattachfile{Zusatz.java}{Zusatz.java}}):\par
+        \item Für Türme lässt sich die Aufgabe leicht umformulieren (\only<2->{\textattachfile{\curpath Zusatz.java}{Zusatz.java}}):\par
               \say{In jeder Zeile und jeder Spalte darf es maximal einen Turm geben}
         \item Das Grundgerüst:
 \begin{plainjava}
@@ -969,7 +959,7 @@ Für einen unveränderbaren Vektor \(\R^n\) (\(n \in \N\), \(n > 0\)): \begin{en
 
 \begin{frame}[fragile]{Alte Zusatzaufgabe, Alternative}
     \begin{itemize}[<+(1)->]
-        \item Betrachten wir eine Prüfroutine für ein gegebenes Feld (\only<2->{\textattachfile{ZusatzB.java}{ZusatzB.java}})
+        \item Betrachten wir eine Prüfroutine für ein gegebenes Feld (\only<2->{\textattachfile{\curpath ZusatzB.java}{ZusatzB.java}})
 \begin{plainjava}
 !*\onslide<3->*!boolean isRookPositionValid(int x, int y, boolean[][] field) {
 !*\onslide<4->*!    for (int i = 0; i < field.length; i++) {
@@ -1170,7 +1160,7 @@ public int add (int a, int b) { /* ... */ }
 
 \begin{frame}[t,fragile]{Beispiele zur Überladung}
     \begin{itemize}[<+->]
-        \item Es sei (die volle Datei: \textattachfile{Ueberladen.java}{Ueberladen.java}):\pause{}
+        \item Es sei (die volle Datei: \textattachfile{\curpath Ueberladen.java}{Ueberladen.java}):\pause{}
 \begin{java}
 public static void print(short a)   {
     System.out.println("Short: " + a);
@@ -1598,7 +1588,7 @@ print((byte) 15);
         \end{pmatrix}\).
     \end{itemize}
 \end{frame}
-
+\fi
 % vielleicht noch was zu null
 \makeatletter
 \section{End-Pinguuu}
@@ -1613,4 +1603,4 @@ print((byte) 15);
 	       glow thick=pingu@yellow]
 \end{tikzpicture}}\hfill\null
 \end{frame}
-\end{document}
+\iffull\end{document}\fi

@@ -10,7 +10,7 @@ public class Pyramid {
             System.out.print(" ");
          }
          for (int j = 1; j <= i; j++) {
-            System.out.print("* "); // zusätzlichen Leerzeichen
+            System.out.print("* "); // zusätzliche Leerzeichen
          }
          System.out.println(); // Zeilenumbruch
       }
