@@ -25,10 +25,10 @@
 {\setbeamercolor{background canvas}{bg=paletteB}
 \begin{frame}[c,plain]{}
    \begin{center}
-      \vspace*{2.25mm}\par
+      \vspace*{4.25mm}\par
       \huge\bfseries\color{pingu@white}
          #2\\[1.25mm]
-         \smash{\normalsize\color{paletteB!70!white}KW #5}
+         \smash{\normalsize\color{paletteB!68!white}KW #5}
    \end{center}
 \end{frame}
 }
@@ -53,6 +53,17 @@
 \begin{document}
 \Titlepage{0--\maxtut}
 \setcounter{tocdepth}{1}
+{\setbeamercolor{background canvas}{bg=paletteB}
+\def\ImpT#1{\textit{\color{pingu@white}#1}}
+\begin{frame}[c,plain]{}
+   \begin{center}
+      \vspace*{5.25mm}\par
+      \bfseries\color{paletteB!68!white}
+         Diese \ImpT{Kompaktversion} ist dazu gedacht die wichtigsten Kommentare und Lösungen zu sammeln.
+         Sie ist allerdings \ImpT{ohne jede Garantie auf Vollständigkeit} aufzufassen. Zusätzliche Inhalte finden sich in den Folien zu den einzelnen Tutorien.
+   \end{center}
+\end{frame}
+}
 \section*{Übersicht}
 \pdfbookmark[0]{Übersicht}{eidi@overview}
 \begin{frame}[c,plain]{Eine Sammlung~--- schnief~--- ohne Liebe}
