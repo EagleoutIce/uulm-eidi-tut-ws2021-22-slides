@@ -22,7 +22,7 @@ retrieve_pdfs: $(TUTS)
 	rename "s/folien_([^.]*)\.pdf/eidi_tut_\1.pdf/" "$(TARGET_DIR)/animated/folien_*.pdf"
 	rename "s/noanim_folien_([^.]*)\.pdf/eidi_tut_\1.pdf/" "$(TARGET_DIR)/noanim_folien_*.pdf"
 
-retrieve_compact: compact
+retrieve_compact:
 	cp eidi_tut_compact.pdf "$(TARGET_DIR)/eidi_tut_compact.pdf"
 
 $(TUTS):
