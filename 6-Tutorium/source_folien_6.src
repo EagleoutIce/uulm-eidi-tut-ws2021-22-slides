@@ -1,22 +1,17 @@
 
 \InputIfFileExists{../global.src}\relax\relax
-\usepackage{lecture-personal-resize}
-\pgfmathsetseed{\number\pdfrandomseed}
 
+\iffull
 \title[Sechstes Tutorium -- Übungsblatt 6]{Tik-Tok Victoryyy\\\small Sieg auf ganzer Linie, 6}
 \date{\sffamily KW 49}
-\author{Florian Sihler}
-\institute{Institute of Distributed Systems \(\circ\) University Ulm}
-
-\usepackage[prefix=]{xcolor-material}
 
 \usepackage[glows]{tikzpingus}
 \usetikzlibrary{decorations.text,matrix}
 \hypersetup{colorlinks=false}
-\pingudefaults{lightsaber left outer glow factor=.05,lightsaber right outer glow factor=.05}
 
 \begin{document}
 \Titlepage{6}
+\fi
 \section{Präsenzaufgabe}
 \newsavebox\angypingu
 \savebox\angypingu{\tikz{\pingu[eyes angry,wings raise]}}
@@ -59,6 +54,7 @@ Erzeugen Sie sich dann in der \bjava{main}-Methode eine Instanz dieser Klasse un
 \end{tikzpicture}
 \end{frame}
 
+\MakeThePinguExplainIt{}{Von \textbf{Klassen} lassen sich durch den \textbf{Konstruktor} \textbf{Objekte} erzeugen. Der \textbf{Zustand} eines Objekts ist durch die \textbf{Instanzvariablen} definiert. Jedes Objekt hat seinen \textit{eigenen Zustand}.}
 \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung\hfill Das Gerüst}
     \begin{itemize}[<+(1)->]
         \item Eine Basis (\only<2->{\textattachfile{WheelOfFortune.java}{WheelOfFortune.java}}):\lstfs{10}
@@ -69,14 +65,18 @@ Erzeugen Sie sich dann in der \bjava{main}-Methode eine Instanz dieser Klasse un
 !*\onslide<3->*!
 !*\onslide<6->*!    public WheelOfFortune(int numSlots) {
 !*\onslide<7->*!        nextSlot = 0;
+!*\onslide<8->*!        // keine negative Länge
 !*\onslide<8->*!        slots = new String[Math.max(numSlots, 0)];
-!*\onslide<9->*!        // Am Anfang setzen wir alle auf leer
+!*\onslide<9->*!        // Am Anfang setzen wir alle auf den leeren String
 !*\onslide<9->*!        for(int i = 0; i < slots.length; i++)
-!*\onslide<9->*!            slots[i] = "";
+!*\onslide<9->*!            slots[i] = ""; // vs. new String("");
 !*\onslide<6->*!    }
 !*\onslide<3->*!}
 \end{plainjava}
     \end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<10->{\node[left=-7mm,scale=.8] at(current page.0) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill Hinzufügen}
@@ -113,16 +113,26 @@ Erzeugen Sie sich dann in der \bjava{main}-Methode eine Instanz dieser Klasse un
 \end{plainjava}
 \end{frame}
 
+\MakeThePinguExplainIt[text width=7cm]{}{(Pseudo-)\textbf{Zufall} ist ein spannendes Thema. Anstelle von \bjava{Math.random()} können wir uns direkt ein \say{Random-Objekt} bauen:
+\begin{plainjava}^^J
+Random rnd = new Random();^^J
+rnd.nextInt(15); // \{0,...,14\}^^J
+\end{plainjava}}
 \begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill Es geht wieder loooos}
+\vspace*{1em}
 \begin{plainjava}
 !*\onslide<2->*!public String spin() {
-!*\onslide<3->*!    if(slots.length == 0) // Sind wir leer?
+!*\onslide<3->*!    // Sind wir leer?
+!*\onslide<3->*!    if(slots.length == 0)
 !*\onslide<3->*!        return "";
 !*\onslide<2->*!
 !*\onslide<4->*!    int slot = (int) (Math.random() * nextSlot);
 !*\onslide<5->*!    return slots[slot];
 !*\onslide<2->*!}
 \end{plainjava}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<6->{\node[left=-7mm,scale=.8] at(current page.-2) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
 
 
@@ -278,11 +288,13 @@ public static void main(String[] args) {
 \end{plainvoid}
 }}
 \section{Übungsblatt 6}
+\iffull
 \begin{frame}[c]{}
     % TODO: start animation slide as optional argument. than: update for each anim
     % furhtermore: show action by player at the bottom
     \downsize\linewidth{\SimulateTTTPlay{5, 3, 2, 8}{2}}
 \end{frame}
+\fi
 \subsection{Aufgabe 1a)}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1a)}
     \begin{itemize}[<+(1)->]
@@ -306,6 +318,7 @@ public static void main(String[] args) {
 \end{frame}
 
 \subsection{Aufgabe 1b)}
+\MakeThePinguExplainIt[text width=13.5cm]{right item angle=-136}{Wir versuchen \textbf{lesbaren Code} zu schreiben. Anstelle einfach \bjava{isMoveValid} und \bjava{makeMove} zu integrieren, lagern wir den Code in Subroutinen aus, welche dessen Semantik als Namen tragen. In späteren Veranstaltungen ist dies im Rahmen der \textbf{Testbarkeit} und \textbf{Lesbarkeit} von Interesse.}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1b)}
     \def\printscale{.35}
     \begin{itemize}[<+(1)->]
@@ -316,11 +329,14 @@ public static void main(String[] args) {
 !*\onslide<4->*!    int move = 0;
 !*\onslide<5->*!    do {
 !*\onslide<6->*!        move = scanner.nextInt();
-!*\onslide<5->*!    } while !*\onslide<7->*!(!|custom|isMoveValid|custom|(board, move));
-!*\onslide<8->*!    return |custom|makeMove|custom|(board, move, player);
+!*\onslide<5->*!    } while !*\onslide<7->*!(!isMoveValid(board, move));
+!*\onslide<8->*!    return makeMove(board, move, player);
 !*\onslide<3->*!}
 \end{plainjava}
     \end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<7->{\node[left=-7mm,scale=.8] at(current page.-21) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1b)}
@@ -330,7 +346,7 @@ public static void main(String[] args) {
 \begin{plainjava}
 !*\onslide<3->*!private static boolean isMoveValid(char[][] board, int move) {
 !*\onslide<4->*!    return move >= 0 && move <= 9
-!*\onslide<5->*!        && board[|custom|getY|custom|(move)][|custom|getX|custom|(move)] == 0;
+!*\onslide<5->*!        && board[getY(move)][getX(move)] == 0;
 !*\onslide<3->*!}
 
 !*\onslide<5->*!public static int getX(int cellNumber) {
@@ -353,7 +369,7 @@ public static void main(String[] args) {
 \begin{plainjava}
 private static char[][] makeMove(char[][] board, int cellNumber, int player) {
     char[][] newBoard = board.clone();
-    newBoard[|custom|getY|custom|(cellNumber)][|custom|getX|custom|(cellNumber)] = |custom|getPlayerSymbol|custom|(player);
+    newBoard[getY(cellNumber)][getX(cellNumber)] = getPlayerSymbol(player);
     return newBoard;
 }
 \end{plainjava}
@@ -362,7 +378,9 @@ private static char[][] makeMove(char[][] board, int cellNumber, int player) {
     \end{itemize}
 \end{frame}
 
+\iffull
 \subsection{Interlude Cloneable}
+\fi
 {
 \setbeamercolor{background canvas}{bg=black}
 \begin{frame}[c,plain]{}
@@ -383,6 +401,7 @@ private static char[][] makeMove(char[][] board, int cellNumber, int player) {
 \end{frame}
 }
 
+\iffull
 \begin{frame}[t,fragile]{Präsenzaufgabe - Exkurs: Object}
     \begin{itemize}[<+(1)->]
         \item \bjava{Object} ist die Klasse, welche die grundlegenden Eigenschaften für jede andere Klassen zur Verfügung stellt.
@@ -501,16 +520,18 @@ class X {
 \end{tikzpicture}~~~~~~~~~~~~~~
 \end{frame}
 }
+\fi
 
 \subsection{Aufgabe 1c)}
+\MakeThePinguExplainIt[text width=8.75cm,minimum height=1cm]{right item angle=-136}{Hier könnte man auch eine Enumeration verwenden.}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1c)}
     \begin{itemize}[<+(1)->]
         \item Outstanding Move:
 \begin{plainjava}
 !*\onslide<3->*!public static boolean winningMove(int player, char[][] board) {
-!*\onslide<4->*!    char c = |custom|getPlayerSymbol|custom|(player);
-!*\onslide<5->*!    return |custom|winsHorizontal|custom|(board, c) || |custom|winsVertical|custom|(board, c)
-!*\onslide<5->*!        || |custom|winsDiagonal|custom|(board, c);
+!*\onslide<4->*!    char c = getPlayerSymbol(player);
+!*\onslide<5->*!    return winsHorizontal(board, c) || winsVertical(board, c)
+!*\onslide<5->*!        || winsDiagonal(board, c);
 !*\onslide<3->*!}
 \end{plainjava}
         \item<6-> Für das Spielersymbol:
@@ -520,6 +541,9 @@ class X {
 !*\onslide<7->*!}
 \end{plainjava}
     \end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<9->{\node[left=-7mm,scale=.8] at(current page.-21) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1c)}
@@ -552,16 +576,16 @@ class X {
         \item The main:\lstfs{9}
 \begin{plainjava}
 int player = 1; // Start player 1
-char[][] board = |custom|initializeBoard|custom|();
+char[][] board = initializeBoard();
 
 for (int i = 0; i < 9; i++) { // Game loop
-    board = |custom|getMove|custom|(player, board);
-   :ws:|custom|printBoard|custom|(board);
-    if (|custom|winningMove|custom|(player, board)) {
+    board = getMove(player, board);
+   :ws:printBoard(board);
+    if (winningMove(player, board)) {
         System.out.println("Spieler " + player + " hat gewonnen!");
         return;
     }
-    player = |custom|otherPlayer|custom|(player);
+    player = otherPlayer(player);
 }
 System.out.println("Unentschieden");
 scanner.close(); // wichtig
@@ -569,6 +593,8 @@ scanner.close(); // wichtig
     \end{itemize}
 \end{frame}
 
+\MakeThePinguExplainIt[text width=10.33cm]{right item angle=-70}{Ist eine solche Initialisierung \textbf{notwendig}? Nein. Java weist Variablen \say{Default-Werte} zu (\say{die \(0\)}). Zahlen werden \(0\), booleans \bjava{false}, chars kriegen das Zeichen mit ASCII \(0\),~\ldots\medskip\\
+Dennoch, \say{explicit is better than implicit}. Andere Sprachen machen das andes, was das Lesen erschwert. Zudem zwingt explizit dazu, sich über den \say{Standardwert} Gedanken zu machen.}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
     \begin{itemize}[<+(1)->]
         \item Initialize the board:
@@ -584,6 +610,9 @@ scanner.close(); // wichtig
 !*\onslide<3->*!}
 \end{plainjava}
     \end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<8->{\node[left=-7mm,scale=.8] at(current page.-21) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
@@ -597,14 +626,15 @@ scanner.close(); // wichtig
     \end{itemize}
 \end{frame}
 
+\iffull
 \begin{frame}[c]
     \begin{tikzpicture}[remember picture,overlay]
         \only<2->{\node[align=center] (b) at(current page.center) {\Large\bfseries What if i don't have friends?};}
         \only<3->{\node[below,align=center] (c) at(b.south) {How about AI?};}
-        \only<4>{\node[below=1cm,align=center] at(c.south) {Maybe on a later day.};}
+        \only<4>{\node[below=1cm,align=center] at(c.south) {Maybe on a later day (die ganze \LaTeX-KI umsonst).};}
     \end{tikzpicture}
 \end{frame}
-
+\fi
 
 \definecolor{bee}{RGB}{255, 224, 108}
 \definecolor{wings}{RGB}{205, 245, 253}
