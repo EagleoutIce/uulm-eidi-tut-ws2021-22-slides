@@ -23,7 +23,7 @@ retrieve_pdfs: $(TUTS)
 	rename "s/noanim_folien_([^.]*)\.pdf/eidi_tut_\1.pdf/" "$(TARGET_DIR)/noanim_folien_*.pdf"
 
 retrieve_compact: compact
-	cp eidi-tut-compact.pdf "$(TARGET_DIR)/eidi-tut-compact.pdf"
+	cp eidi_tut_compact.pdf "$(TARGET_DIR)/eidi_tut_compact.pdf"
 
 $(TUTS):
 	+echo "Building: '$@'"
@@ -40,7 +40,7 @@ clean: $(TUTS_CLEAN)
 .PHONY: all clean retrieve_pdfs $(TUTS) $(TUTS_CLEAN)
 
 compact:
-	sltxrc eidi-tut-compact.tex
+	sltxrc eidi_tut_compact.tex
 
 docker:
 	docker build -t 'eidi-ws2021-tut-make' -f 'Dockerfile' .
