@@ -1160,7 +1160,7 @@ public int add (int a, int b) { /* ... */ }
 
 \begin{frame}[t,fragile]{Beispiele zur Überladung}
     \begin{itemize}[<+->]
-        \item Es sei (die volle Datei: \textattachfile{\curpath Ueberladen.java}{Ueberladen.java}):\pause{}
+        \item Es sei (die volle Datei: \only<1->{\textattachfile{\curpath Ueberladen.java}{Ueberladen.java}}):\pause{}
 \begin{java}
 public static void print(short a)   {
     System.out.println("Short: " + a);

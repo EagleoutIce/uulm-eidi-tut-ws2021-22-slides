@@ -368,7 +368,7 @@
 \begin{frame}[t]{Übungsblatt 2 - Rundungsproblematik}
     \begin{itemize}
         \item<2-> Java-Code:\parallelcontent[c]{
-        \onslide<3->{\lstfs{7}\ijava[firstline=3,lastline=11,frame=none,backgroundcolor=,numbers=none,xleftmargin=19pt,xrightmargin=0pt]{Test.java}}}{\onslide<4->{Ausgabe für \Rbash[:\lstfs{8}]{java Test}{java -cp "\curpath" Test}}
+        \onslide<3->{\lstfs{7}\ijava[firstline=3,lastline=11,frame=none,backgroundcolor=,numbers=none,xleftmargin=19pt,xrightmargin=0pt]{Test.java}}}{\onslide<4->{Ausgabe für \Rbash[:\lstfs{8}]{java Test}{java Test}}
 }
         \item<5-> Ein Fehler von $\sim 1.3$ erscheint wenig, \onslide<6->{Pentium 4 (Jahr 2000) mit $3.2$ GHz: Im Schnitt $3.1$ GFLOPS. \onslide<7->{\info{Giga Floating Point Operations Per Second.}}}
         \item<8-> Der Fehler beträgt also ungefähr $4$\texteuro{} pro Sekunde (im schlechtesten Fall)

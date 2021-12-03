@@ -16,14 +16,13 @@
     lecture-registers={disable}% would interfere with beamer
 ]{lithie-util}
 \usepackage{lecture-personal-tikz,lecture-personal-extra-units,tikzsymbols}
-\InputIfFileExists{ebl.sty}{}{}
 
 \def\solcustom{fill=paletteB!30,draw=paletteB!30}
 
-
-\UsePalette{GreenWater}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
+\UsePalette{GreenWater}\colorlet{cprimary}{paletteB}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
 \colorlet{MaterialHeaderColor}{paletteB!75!white}%
 \colorlet{NextMaterialHeaderColor}{paletteB!65!white}%
+
 
 \RestyleAlgo{plain}
 \solLoadLanguage{latex,bash,cpp}
@@ -91,3 +90,5 @@
 \SetAllLinkStyle{\linkstyle{#1}}
 
 \colorlet{chessfieldblack}{lightgray}
+
+\InputIfFileExists{ebl.sty}{}{}
