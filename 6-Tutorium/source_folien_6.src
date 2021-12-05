@@ -92,7 +92,7 @@ Erzeugen Sie sich dann in der \bjava{main}-Methode eine Instanz dieser Klasse un
 \end{plainjava}
 \end{frame}
 
-\begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill Entfernen}
+\begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill Entfernen\iffull\else\ \& Zählen\fi}
 \begin{plainjava}
 !*\onslide<2->*!public boolean removeEntry() {
 !*\onslide<3->*!    if(nextSlot == 0) // Sind wir leer?
@@ -103,16 +103,23 @@ Erzeugen Sie sich dann in der \bjava{main}-Methode eine Instanz dieser Klasse un
 !*\onslide<5->*!    return false;
 !*\onslide<2->*!}
 \end{plainjava}
+\iffull\else
+\begin{plainjava}
+!*\onslide<2->*!public int getNumEntries() {
+!*\onslide<3->*!    return nextSlot;
+!*\onslide<2->*!}
+\end{plainjava}
+\fi
 \end{frame}
 
-\begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill Zählen}
+\iffull \begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill Zählen}
 \begin{plainjava}
 !*\onslide<2->*!public int getNumEntries() {
 !*\onslide<3->*!    return nextSlot;
 !*\onslide<2->*!}
 \end{plainjava}
 \end{frame}
-
+\fi
 \MakeThePinguExplainIt[text width=7cm]{}{(Pseudo-)\textbf{Zufall} ist ein spannendes Thema. Anstelle von \bjava{Math.random()} können wir uns direkt ein \say{Random-Objekt} bauen:
 \begin{plainjava}^^J
 Random rnd = new Random();^^J
