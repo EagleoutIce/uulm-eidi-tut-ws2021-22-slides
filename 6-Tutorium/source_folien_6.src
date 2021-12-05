@@ -387,7 +387,7 @@ public static void main(String[] args) {
         \item Execute Order 66:\lstfs{9}
 \begin{plainjava}
 !*\onslide<3->*!private static char[][] makeMove(char[][] board, int cellNumber, int player) {
-!*\onslide<4->*!    char[][] newBoard = board.clone();
+!*\onslide<4->*!    char[][] newBoard = board.clone(); // odeeeer?
 !*\onslide<5->*!    newBoard[getY(cellNumber)][getX(cellNumber)] = getPlayerSymbol(player);
 !*\onslide<6->*!    return newBoard;
 !*\onslide<3->*!}
@@ -542,6 +542,20 @@ class X {
 \end{frame}
 }
 \fi
+\subsection{Aufgabe 1b) -- Fortsetzung}
+\begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1b)\hfill Fortsetzung}
+    \begin{itemize}[<+(1)->]
+        \item Outstanding Deep-Copy:
+\begin{plainjava}
+!*\onslide<3->*!char[][] newBoard = new char[3][3];
+!*\onslide<4->*!for (int i = 0; i < 3; i++) {
+!*\onslide<5->*!    for (int j = 0; j < 3; j++) {
+!*\onslide<6->*!        newBoard[i][j] = board[i][j];
+!*\onslide<5->*!    }
+!*\onslide<4->*!}
+\end{plainjava}
+\end{itemize}
+\end{frame}
 
 \subsection{Aufgabe 1c)}
 \MakeThePinguExplainIt[text width=8.75cm,minimum height=1cm]{right item angle=-136}{Hier könnte man auch eine Enumeration verwenden.}

@@ -25,7 +25,12 @@ public class TicTacToe {
    }
 
    private static char[][] makeMove(char[][] board, int cellNumber, int player) {
-      char[][] newBoard = board.clone();
+      char[][] newBoard = new char[3][3];
+      for (int i = 0; i < 3; i++) {
+         for (int j = 0; j < 3; j++) {
+            newBoard[i][j] = board[i][j];
+         }
+      }
       newBoard[getY(cellNumber)][getX(cellNumber)] = getPlayerSymbol(player);
       return newBoard;
    }
