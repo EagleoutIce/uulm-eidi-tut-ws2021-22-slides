@@ -318,7 +318,7 @@ public static void main(String[] args) {
 \end{frame}
 
 \subsection{Aufgabe 1b)}
-\MakeThePinguExplainIt[text width=13.5cm]{right item angle=-136}{Wir versuchen \textbf{lesbaren Code} zu schreiben. Anstelle einfach \bjava{isMoveValid} und \bjava{makeMove} zu integrieren, lagern wir den Code in Subroutinen aus, welche dessen Semantik als Namen tragen. In späteren Veranstaltungen ist dies im Rahmen der \textbf{Testbarkeit} und \textbf{Lesbarkeit} von Interesse.}
+\MakeThePinguExplainIt[text width=13.5cm]{right item angle=-136}{Wir versuchen \textbf{lesbaren Code} zu schreiben. Anstelle einfach \bjava{isMoveValid} und \bjava{makeMove} zu integrieren, lagern wir den Code in Subroutinen aus, welche dessen Semantik als Namen tragen. In späteren Veranstaltungen ist dies im Rahmen der \textbf{Testbarkeit} und \textbf{Lesbarkeit} von besonderem Interesse.}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1b)}
     \def\printscale{.35}
     \begin{itemize}[<+(1)->]
@@ -571,29 +571,35 @@ class X {
 \end{frame}
 
 \subsection{Aufgabe 1d)}
+\MakeThePinguExplainIt[text width=9.15cm]{right item angle=42,staff right length=33mm,cap=!hide,vr-headset, vr-headset hair}{\bjava{Scanner::close} ist eure \makebox{\bfseries L\,e\,b\,e\,n\,s\,v\,e\,r\,s\,i\,c\,h\,e\,r\,u\,n\,g!} Schließt eine Ressource die ihr anfordert \textbf{immer} und \textbf{ohne Ausnahme} idealerweise hält die selbe Abstraktionsebene Anforderung und Abstoßung. Später machen das auto-closeables angenehmer.
+}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
     \begin{itemize}[<+(1)->]
         \item The main:\lstfs{9}
 \begin{plainjava}
-int player = 1; // Start player 1
-char[][] board = initializeBoard();
-
-for (int i = 0; i < 9; i++) { // Game loop
-    board = getMove(player, board);
-   :ws:printBoard(board);
-    if (winningMove(player, board)) {
-        System.out.println("Spieler " + player + " hat gewonnen!");
-        return;
-    }
-    player = otherPlayer(player);
-}
-System.out.println("Unentschieden");
-scanner.close(); // wichtig
+!*\onslide<3->*!int player = 1; // Start player 1
+!*\onslide<3->*!char[][] board = initializeBoard();
+!*\onslide<3->*!
+!*\onslide<4->*!// Game loop
+!*\onslide<4->*!for (int i = 0; i < 9; i++) {
+!*\onslide<5->*!    board = getMove(player, board);
+!*\onslide<6->*!   :ws:printBoard(board);
+!*\onslide<7->*!    if (winningMove(player, board)) {
+!*\onslide<8->*!        System.out.println("Spieler " + player + " hat gewonnen!");
+!*\onslide<8->*!        return;
+!*\onslide<7->*!    }
+!*\onslide<9->*!    player = otherPlayer(player);
+!*\onslide<4->*!}
+!*\onslide<3->*!System.out.println("Unentschieden");
+!*\onslide<10->*!scanner.close(); // !*\textbf{wichtig}*!
 \end{plainjava}
     \end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<11->{\node[left=-5mm,scale=.8] at(current page.-4) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
 
-\MakeThePinguExplainIt[text width=10.33cm]{right item angle=-70}{Ist eine solche Initialisierung \textbf{notwendig}? Nein. Java weist Variablen \say{Default-Werte} zu (\say{die \(0\)}). Zahlen werden \(0\), booleans \bjava{false}, chars kriegen das Zeichen mit ASCII \(0\),~\ldots\medskip\\
+\MakeThePinguExplainIt[text width=10.33cm]{right item angle=-70,cap=!hide,headphone}{Ist eine solche Initialisierung \textbf{notwendig}? Nein. Java weist Variablen \say{Default-Werte} zu (\say{die \(0\)}). Zahlen werden \(0\), booleans \bjava{false}, chars kriegen das Zeichen mit ASCII \(0\),~\ldots\medskip\\
 Dennoch, \say{explicit is better than implicit}. Andere Sprachen machen das andes, was das Lesen erschwert. Zudem zwingt explizit dazu, sich über den \say{Standardwert} Gedanken zu machen.}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
     \begin{itemize}[<+(1)->]
