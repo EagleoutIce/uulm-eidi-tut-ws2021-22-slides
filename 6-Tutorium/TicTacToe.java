@@ -66,7 +66,7 @@ public class TicTacToe {
             ((board[2][0] == c) && (board[1][1] == c) && (board[0][2] == c));
    }
 
-   public static char[][] initializeBoard() {
+   public static char[][] emptyTicTacToeBoard() {
       char[][] board = new char[3][3];
       for (int i = 0; i < 3; i++) {
          for (int j = 0; j < 3; j++) {
@@ -83,7 +83,7 @@ public class TicTacToe {
    public static void main(String[] args) {
       scanner = new Scanner(System.in);
       int player = 1;
-      char[][] board = initializeBoard();
+      char[][] board = emptyTicTacToeBoard();
 
       // Game loop
       for (int i = 0; i < 9; i++) {

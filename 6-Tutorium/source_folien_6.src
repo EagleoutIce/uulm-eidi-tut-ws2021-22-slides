@@ -580,7 +580,7 @@ class X {
         \item The main:\lstfs{9}
 \begin{plainjava}
 !*\onslide<3->*!int player = 1; // Start player 1
-!*\onslide<3->*!char[][] board = initializeBoard();
+!*\onslide<3->*!char[][] board = emptyTicTacToeBoard();
 !*\onslide<3->*!
 !*\onslide<4->*!// Game loop
 !*\onslide<4->*!for (int i = 0; i < 9; i++) {
@@ -607,7 +607,7 @@ Dennoch, \say{explicit is better than implicit}. Andere Sprachen machen das ande
     \begin{itemize}[<+(1)->]
         \item Initialize the board:
 \begin{plainjava}
-!*\onslide<3->*!public static char[][] initializeBoard() {
+!*\onslide<3->*!public static char[][] emptyTicTacToeBoard() {
 !*\onslide<4->*!    char[][] board = new char[3][3];
 !*\onslide<5->*!    for (int i = 0; i < 3; i++) {
 !*\onslide<6->*!        for (int j = 0; j < 3; j++) {
@@ -619,7 +619,7 @@ Dennoch, \say{explicit is better than implicit}. Andere Sprachen machen das ande
 \end{plainjava}
     \end{itemize}
 \begin{tikzpicture}[overlay, remember picture]
-    \onslide<8->{\node[left=-7mm,scale=.8] at(current page.-21) {\usebox\pinguexplainbox};}
+    \onslide<9->{\node[left=-7mm,scale=.8] at(current page.-21) {\usebox\pinguexplainbox};}
 \end{tikzpicture}
 \end{frame}
 
