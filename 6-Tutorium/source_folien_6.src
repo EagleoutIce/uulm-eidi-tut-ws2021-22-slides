@@ -57,7 +57,7 @@ Erzeugen Sie sich dann in der \bjava{main}-Methode eine Instanz dieser Klasse un
 \MakeThePinguExplainIt{}{Von \textbf{Klassen} lassen sich durch den \textbf{Konstruktor} \textbf{Objekte} erzeugen. Der \textbf{Zustand} eines Objekts ist durch die \textbf{Instanzvariablen} definiert. Jedes Objekt hat seinen \textit{eigenen Zustand}.}
 \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung\hfill Das Gerüst}
     \begin{itemize}[<+(1)->]
-        \item Eine Basis (\only<2->{\textattachfile{WheelOfFortune.java}{WheelOfFortune.java}}):\lstfs{10}
+        \item Eine Basis (\only<2->{\textattachfile{\curpath WheelOfFortune.java}{WheelOfFortune.java}}):\lstfs{10}
 \begin{plainjava}
 !*\onslide<3->*!public class WheelOfFortune {
 !*\onslide<4->*!    private String[] slots;
@@ -298,7 +298,7 @@ public static void main(String[] args) {
 \subsection{Aufgabe 1a)}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1a)}
     \begin{itemize}[<+(1)->]
-        \item We wanta print a board (\only<2->{\textattachfile{TicTacToe.java}{TicTacToe.java}}):
+        \item We wanta print a board (\only<2->{\textattachfile{\curpath TicTacToe.java}{TicTacToe.java}}):
 \begin{plainjava}
 !*\onslide<3->*!public static void printBoard(char[][] board) {
 !*\onslide<4->*!    for (char[] row : board) {
@@ -393,7 +393,9 @@ private static char[][] makeMove(char[][] board, int cellNumber, int player) {
     \only<5|handout:0>{\pingu[right wing wave, eyes angry, lightsaber right=purple]}
     \only<6|handout:0>{\pingu[right wing wave, eyes angry, lightsaber right=purple,right item angle=-70],bill angry}
     \only<7|handout:0>{\pingu[right wing wave, eyes angry, lightsaber right=purple,lightsaber right double,right item angle=-70],bill angry}
+    \pgfonlayer{background}
     \only<9->{\node[white!14!black,scale=9] at(current page.center) {\Large\textsc{clone}};}
+    \endpgfonlayer
     \only<8-9|handout:0>{\pingu[right wing grab, eyes angry, lightsaber right=purple,lightsaber right double,right item angle=-70,bill angry,right item angle=-80,lightsaber right yshift=-.45mm]}
     \only<10->{\pingu[right wing grab, eyes angry, lightsaber right=purple,lightsaber right double,right item angle=-70,bill angry,right item angle=-80,lightsaber right yshift=-.45mm,left eye devil]}
     \endpgfinterruptboundingbox
