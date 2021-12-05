@@ -15,6 +15,15 @@
 \section{Präsenzaufgabe}
 \newsavebox\angypingu
 \savebox\angypingu{\tikz{\pingu[eyes angry,wings raise]}}
+\newsavebox\wheelbox
+\savebox\wheelbox{\begin{tikzpicture}
+    \draw (0,0) circle[radius = 2cm];
+    \foreach[count=\i,evaluate=\i as \j using ((\i - 1) * 72)] \l in {Super,Pech,Mega,Powa,Super Pech} {
+        \draw (0,0) -- (\j:2cm);
+        \node[rotate=\j + 72/2] at (\j+72/2:1cm) {\tiny\l};
+    }
+    \draw[-Kite,very thick] (0,2.35) -- ++(0,-.75);
+\end{tikzpicture}}
 \begin{frame}[c]{Präsenzaufgabe}
     \begin{aufgabe}{Glückselig sind die Studierenden}
         \vspace*{-1.45\topsep}\par\pause{}%
@@ -38,19 +47,22 @@ Erzeugen Sie sich dann in der \bjava{main}-Methode eine Instanz dieser Klasse un
 \end{enumerate}}
 \onslide<10->{\parbox{6.5cm}{\footnotesize Erzeugen Sie zudem eine \bjava{main}-Methode welche das Rad sinnvoll benutzt.}}\null\onslide<5->{\hfill\smash{\raisebox{2.75\baselineskip}{\llap{\rotatebox{-90}{\tikzpicture
     \draw[rounded corners=2pt] (0,1/4) rectangle ++(1.25,3.5);
-    \foreach[count=\i] \k in {Super,Pech,Mega,Powa,{},{},{}} {
-        \node at(1.25/2,\i/2) {\tiny\k};
-        \node[left] at(0,\i/2) {\ifnum\i=5\color{paletteB}\fi\tiny\the\numexpr\i-1};
+    \foreach[count=\i] \k in {Super,Pech,Mega,Powa,Super Pech,{},{}} {
+        \node[scale=.95] at(1.25/2,\i/2) {\tiny\k};
+        \node[left] at(0,\i/2) {\rotatebox[origin=c]{90}{\ifnum\i=6\color{paletteB}\fi\tiny\the\numexpr\i-1}};
         \ifnum\i>1
             \draw (0,\i/2-1/2+1/4) -- ++(1.25,0);
         \fi
     }
-    \node[below=5mm] at(current bounding box.south) {\rotatebox{90}{\bjava{nextSlot = 4}}};
+    \node[below=5mm,xshift=-4mm] at(current bounding box.south) {\rotatebox{90}{\bjava{nextSlot = 5}}};
 \endtikzpicture}}}}}\\[-3pt]
         \onslide<1->
     \end{aufgabe}
 \begin{tikzpicture}[overlay,remember picture]
     \only<3|handout:0>{\node at(current page.center) {\usebox\angypingu};}
+    \only<5|handout:0>{
+        \node[thick,draw=gray,yshift=-7mm,rounded corners=1.45pt,fill=white,scale=1.125,inner sep=6pt] at(current page.center) {\usebox\wheelbox};
+    }
 \end{tikzpicture}
 \end{frame}
 
