@@ -349,13 +349,13 @@ public static void main(String[] args) {
 !*\onslide<5->*!        && board[getY(move)][getX(move)] == 0;
 !*\onslide<3->*!}
 
-!*\onslide<5->*!public static int getX(int cellNumber) {
-!*\onslide<6->*!    return (cellNumber - 1) % 3;
-!*\onslide<5->*!}
+!*\onslide<6->*!public static int getX(int cellNumber) {
+!*\onslide<7->*!    return (cellNumber - 1) % 3;
+!*\onslide<6->*!}
 
-!*\onslide<7->*!public static int getY(int cellNumber) {
-!*\onslide<7->*!    return (cellNumber - 1) / 3;
-!*\onslide<7->*!}
+!*\onslide<8->*!public static int getY(int cellNumber) {
+!*\onslide<8->*!    return (cellNumber - 1) / 3;
+!*\onslide<8->*!}
 \end{plainjava}
 \begin{tikzpicture}[overlay,remember picture]
     \onslide<5->{\node[above left=.35cm,yshift=.5cm,scale=.8] at(current page.south east) {\usebox\tttbox};}
@@ -367,11 +367,11 @@ public static void main(String[] args) {
     \begin{itemize}[<+(1)->]
         \item Execute Order 66:\lstfs{9}
 \begin{plainjava}
-private static char[][] makeMove(char[][] board, int cellNumber, int player) {
-    char[][] newBoard = board.clone();
-    newBoard[getY(cellNumber)][getX(cellNumber)] = getPlayerSymbol(player);
-    return newBoard;
-}
+!*\onslide<3->*!private static char[][] makeMove(char[][] board, int cellNumber, int player) {
+!*\onslide<4->*!    char[][] newBoard = board.clone();
+!*\onslide<5->*!    newBoard[getY(cellNumber)][getX(cellNumber)] = getPlayerSymbol(player);
+!*\onslide<6->*!    return newBoard;
+!*\onslide<3->*!}
 \end{plainjava}
         \item Wo wir schon bei Star Wars\texttrademark sind\ldots
         \item Have you ever heard the tragedy of Darth Clon\textbf{e}able the wise? \pause Well, then prepare yourself for\ldots\ something at least.
@@ -592,12 +592,12 @@ class X {
 !*\onslide<7->*!    }
 !*\onslide<9->*!    player = otherPlayer(player);
 !*\onslide<4->*!}
-!*\onslide<3->*!System.out.println("Unentschieden");
-!*\onslide<10->*!scanner.close(); // !*\textbf{wichtig}*!
+!*\onslide<10->*!System.out.println("Unentschieden");
+!*\onslide<11->*!scanner.close(); // !*\textbf{wichtig}*!
 \end{plainjava}
     \end{itemize}
 \begin{tikzpicture}[overlay, remember picture]
-    \onslide<11->{\node[left=-5mm,scale=.8] at(current page.-4) {\usebox\pinguexplainbox};}
+    \onslide<12->{\node[left=-5mm,scale=.8] at(current page.-4) {\usebox\pinguexplainbox};}
 \end{tikzpicture}
 \end{frame}
 
