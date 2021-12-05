@@ -592,7 +592,7 @@ class X {
 \end{frame}
 
 \subsection{Aufgabe 1d)}
-\MakeThePinguExplainIt[text width=9.15cm]{right item angle=42,staff right length=33mm,cap=!hide,vr-headset, vr-headset hair}{\bjava{Scanner::close} ist eure \makebox{\bfseries L\,e\,b\,e\,n\,s\,v\,e\,r\,s\,i\,c\,h\,e\,r\,u\,n\,g!} Schließt eine Ressource die ihr anfordert \textbf{immer} und \textbf{ohne Ausnahme} idealerweise hält die selbe Abstraktionsebene Anforderung und Abstoßung. Später machen das auto-closeables angenehmer.
+\MakeThePinguExplainIt[text width=9.15cm]{right item angle=52,staff right length=33mm,cap=!hide,vr-headset, vr-headset hair}{\bjava{Scanner::close} ist eure \makebox{\bfseries L\,e\,b\,e\,n\,s\,v\,e\,r\,s\,i\,c\,h\,e\,r\,u\,n\,g!} Schließt eine Ressource die ihr anfordert \textbf{immer} und \textbf{ohne Ausnahme} idealerweise hält die selbe Abstraktionsebene Anforderung und Abstoßung. Später machen das auto-closeables angenehmer.
 }
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
     \begin{itemize}[<+(1)->]
@@ -642,6 +642,8 @@ Dennoch, \say{explicit is better than implicit}. Andere Sprachen machen das ande
 \end{tikzpicture}
 \end{frame}
 
+\newsavebox\sheriffbox
+\savebox\sheriffbox{\tikz \pingu[sheriff star,straw hat=pingu@bronze!90!black,eyes wink, straw hat ribbon=pingu@bronze!90!black!80!pingu@white,right wing wave];}
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
     \begin{itemize}[<+(1)->]
         \item Toggle den Spieler in dir:
@@ -651,6 +653,9 @@ Dennoch, \say{explicit is better than implicit}. Andere Sprachen machen das ande
 !*\onslide<3->*!}
 \end{plainjava}
     \end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<5->{\node[above left=.65cm,scale=2] at(current page.south east) {\usebox\sheriffbox};}
+\end{tikzpicture}
 \end{frame}
 
 \iffull
