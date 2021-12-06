@@ -585,21 +585,21 @@ class X {
     \begin{itemize}[<+(1)->]
         \item Win me Baby:\lstfs{8}
 \begin{plainjava}
-!*\onslide<3->*!private static boolean winsHorizontal(char[][] board, char player) {
-!*\onslide<4->*!    return ((board[0][0] == c) && (board[0][1] == c) && (board[0][2] == c)) ||
-!*\onslide<4->*!        ((board[1][0] == c) && (board[1][1] == c) && (board[1][2] == c)) ||
-!*\onslide<4->*!        ((board[2][0] == c) && (board[2][1] == c) && (board[2][2] == c));
+!*\onslide<3->*!private static boolean winsHorizontal(char[][] board, char c) {
+!*\onslide<4->*!   return ((board[0][0] == c) && (board[0][1] == c) && (board[0][2] == c)) ||
+!*\onslide<4->*!         ((board[1][0] == c) && (board[1][1] == c) && (board[1][2] == c)) ||
+!*\onslide<4->*!         ((board[2][0] == c) && (board[2][1] == c) && (board[2][2] == c));
 !*\onslide<3->*!}
 !*\onslide<3->*!
-!*\onslide<5->*!private static boolean winsVertical(char[][] board, char player) {
-!*\onslide<6->*!    return ((board[0][0] == c) && (board[1][0] == c) && (board[2][0] == c)) ||
-!*\onslide<6->*!        ((board[0][1] == c) && (board[1][1] == c) && (board[2][1] == c)) ||
-!*\onslide<6->*!        ((board[0][2] == c) && (board[1][2] == c) && (board[2][2] == c));
+!*\onslide<5->*!private static boolean winsVertical(char[][] board, char c) {
+!*\onslide<6->*!   return ((board[0][0] == c) && (board[1][0] == c) && (board[2][0] == c)) ||
+!*\onslide<6->*!         ((board[0][1] == c) && (board[1][1] == c) && (board[2][1] == c)) ||
+!*\onslide<6->*!         ((board[0][2] == c) && (board[1][2] == c) && (board[2][2] == c));
 !*\onslide<5->*!}
 !*\onslide<3->*!
-!*\onslide<7->*!private static winsDiagonal(char[][] board, char player) {
-!*\onslide<8->*!    return ((board[0][0] == c) && (board[1][1] == c) && (board[2][2] == c)) ||
-!*\onslide<8->*!            ((board[2][0] == c) && (board[1][1] == c) && (board[0][2] == c));
+!*\onslide<7->*!private static boolean winsDiagonal(char[][] board, char c) {
+!*\onslide<8->*!   return ((board[0][0] == c) && (board[1][1] == c) && (board[2][2] == c)) ||
+!*\onslide<8->*!         ((board[2][0] == c) && (board[1][1] == c) && (board[0][2] == c));
 !*\onslide<7->*!}
 \end{plainjava}
     \end{itemize}

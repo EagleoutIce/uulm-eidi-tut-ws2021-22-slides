@@ -54,19 +54,19 @@ public class TicTacToe {
       return winsHorizontal(board, c) || winsVertical(board, c) || winsDiagonal(board, c);
    }
 
-   private static boolean winsHorizontal(char[][] board, char player) {
+   private static boolean winsHorizontal(char[][] board, char c) {
       return ((board[0][0] == c) && (board[0][1] == c) && (board[0][2] == c)) ||
             ((board[1][0] == c) && (board[1][1] == c) && (board[1][2] == c)) ||
             ((board[2][0] == c) && (board[2][1] == c) && (board[2][2] == c));
    }
 
-   private static boolean winsVertical(char[][] board, char player) {
+   private static boolean winsVertical(char[][] board, char c) {
       return ((board[0][0] == c) && (board[1][0] == c) && (board[2][0] == c)) ||
             ((board[0][1] == c) && (board[1][1] == c) && (board[2][1] == c)) ||
             ((board[0][2] == c) && (board[1][2] == c) && (board[2][2] == c));
    }
 
-   private static winsDiagonal(char[][] board, char player) {
+   private static boolean winsDiagonal(char[][] board, char c) {
       return ((board[0][0] == c) && (board[1][1] == c) && (board[2][2] == c)) ||
             ((board[2][0] == c) && (board[1][1] == c) && (board[0][2] == c));
    }
