@@ -606,7 +606,7 @@ class X {
 \end{frame}
 
 \subsection{Aufgabe 1d)}
-\MakeThePinguExplainIt[text width=9.15cm]{right item angle=56,staff right length=33mm,cap=!hide,vr-headset, vr-headset hair}{\bjava{Scanner::close} ist eure \makebox{\bfseries L\,e\,b\,e\,n\,s\,v\,e\,r\,s\,i\,c\,h\,e\,r\,u\,n\,g!} Schließt eine Ressource die ihr anfordert \textbf{immer} und \textbf{ohne Ausnahme} idealerweise hält die selbe Abstraktionsebene Anforderung und Abstoßung. Später machen das auto-closeables angenehmer.
+\MakeThePinguExplainIt[text width=9.15cm,scale=.9765]{right item angle=56,staff right length=33mm,cap=!hide,vr-headset, vr-headset hair}{\bjava{Scanner::close} ist eure \makebox{\bfseries L\,e\,b\,e\,n\,s\,v\,e\,r\,s\,i\,c\,h\,e\,r\,u\,n\,g!} Schließt eine Ressource die ihr anfordert \textbf{immer} und \textbf{ohne Ausnahme} idealerweise hält die selbe Abstraktionsebene Anforderung und Abstoßung. Später machen das auto-closeables angenehmer.
 }
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1d)}
     \begin{itemize}[<+(1)->]
