@@ -541,8 +541,9 @@ class X {
 \end{tikzpicture}~~~~~~~~~~~~~~
 \end{frame}
 }
-\fi
 \subsection{Aufgabe 1b) -- Fortsetzung}
+\fi
+
 \begin{frame}[t,fragile]{Übungsblatt 6 - Aufgabe 1b)\hfill Fortsetzung}
     \begin{itemize}[<+(1)->]
         \item Outstanding Deep-Copy:
