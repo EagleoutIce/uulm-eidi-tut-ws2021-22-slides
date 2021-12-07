@@ -61,7 +61,7 @@ Erzeugen Sie sich dann in der \bjava{main}-Methode eine Instanz dieser Klasse un
 \begin{tikzpicture}[overlay,remember picture]
     \only<3|handout:0>{\node at(current page.center) {\usebox\angypingu};}
     \only<5|handout:0>{
-        \node[thick,draw=gray,yshift=-7mm,rounded corners=1.45pt,fill=white,scale=1.125,inner sep=6pt] at(current page.center) {\usebox\wheelbox};
+        \node[thick,draw=gray,yshift=-7mm,xshift=-2cm,rounded corners=1.45pt,fill=white,scale=1.125,inner sep=6pt] at(current page.center) {\usebox\wheelbox};
     }
 \end{tikzpicture}
 \end{frame}
@@ -743,7 +743,7 @@ Dennoch, \say{explicit is better than implicit}. Andere Sprachen machen das ande
 <beamer>
 % has to be forget to work with the new ck printer
 \begin{frame}[c]{Evaluation -- Vorlesung}
-    \centering\nohyper{\qrcode[forget,height=5cm,level=H]{https://t1p.de/n7mhl}}\llap{\makebox[5cm]{\smash{\parbox[1.565cm]{1.565cm}{\resizebox{1.575cm}!{{\tikz[white-back=2.75pt]{\pingu[wings wave,eyes wink,halo=paletteB!60!pingu@white,heart=shadeB]\node[above=-5.8pt] at(current bounding box.north) {};}}}}}}}\llap{\makebox[5cm]{\smash{\raisebox{-3.15cm}{\bfseries\nohyper{\color{pingu@black}\url{https://t1p.de/n7mhl}}}}}} % todo rounded corners with white background
+    \pause\centering\nohyper{\qrcode[forget,height=5cm,level=H]{https://t1p.de/n7mhl}}\llap{\makebox[5cm]{\smash{\parbox[1.565cm]{1.565cm}{\resizebox{1.575cm}!{{\tikz[white-back=2.75pt]{\pingu[wings wave,eyes wink,halo=paletteB!60!pingu@white,heart=shadeB]\node[above=-5.8pt] at(current bounding box.north) {};}}}}}}}\llap{\makebox[5cm]{\smash{\raisebox{-3.15cm}{\bfseries\nohyper{\color{pingu@black}\url{https://t1p.de/n7mhl}}}}}} % todo rounded corners with white background
 \end{frame}
 \mode
 <all>
