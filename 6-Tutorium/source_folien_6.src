@@ -744,7 +744,8 @@ Dennoch, \say{explicit is better than implicit}. Andere Sprachen machen das ande
 <beamer>
 % has to be forget to work with the new ck printer
 \begin{frame}[c]{Evaluation -- Vorlesung}
-    \pause\centering\nohyper{\qrcode[forget,height=5cm,level=H]{https://t1p.de/n7mhl}}\llap{\makebox[5cm]{\smash{\parbox[1.565cm]{1.565cm}{\resizebox{1.575cm}!{{\tikz[white-back=2.75pt]{\pingu[wings wave,eyes wink,halo=paletteB!60!pingu@white,heart=shadeB]\node[above=-5.8pt] at(current bounding box.north) {};}}}}}}}\llap{\makebox[5cm]{\smash{\raisebox{-3.15cm}{\bfseries\nohyper{\color{pingu@black}\url{https://t1p.de/n7mhl}}}}}} % todo rounded corners with white background
+    \FancyQrDoNotPrintSquare{5}{5}%
+    \pause\centering\nohyper{\fancyqr[height=5cm,level=H]{https://t1p.de/n7mhl}}\llap{\makebox[5cm]{\raisebox{-.575cm}{\smash{\resizebox{1.45cm}!{{\tikz{\pingu[wings wave,eyes wink,halo=paletteB!60!pingu@white,heart=shadeB,body type=chubby]\node[above=-5.8pt] at(current bounding box.north) {};}}}}}}}\llap{\makebox[5cm]{\smash{\raisebox{-3.15cm}{\bfseries\nohyper{\color{pingu@black}\url{https://t1p.de/n7mhl}}}}}} % todo rounded corners with white background
 \end{frame}
 \mode
 <all>
