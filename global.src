@@ -118,3 +118,5 @@
 \end{tikzpicture}}}
 
 \usepackage{tikz-qr}
+\colorlet{qr@fancy@gradient@tl}{paletteB!96!pingu@white}
+\colorlet{qr@fancy@gradient@br}{purple!74!paletteD}
