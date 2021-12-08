@@ -209,18 +209,147 @@
 \section{Übungsblatt 7}
 % #region Aufgabe 1
 \subsection{Aufgabe 1}
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 1}
+\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 1a)}
     \begin{itemize}[<+(1)->]
-        \item
+        \item Man nennt mich Jörg, den Zeichenkettenspalter (\only<2->{\textattachfile{\curpath MethodOverloading.java}{MethodOverloading.java}}):
+\begin{plainjava}
+!*\onslide<3->*!public static int[] separateDigits(String number) {
+!*\onslide<4->*!    int numDigits = number.length();
+!*\onslide<5->*!    int[] digits = new int[numDigits];
+
+!*\onslide<6->*!    for(int i = 0; i < numDigits; i++)
+!*\onslide<7->*!        digits[i] = number.charAt(i) - '0';
+
+!*\onslide<8->*!    return digits;
+!*\onslide<3->*!}
+\end{plainjava}
+    \item Alternativ ginge auch \bjava{digits[i] = Integer.parseInt(number.substring(i, i+1))}.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 1b)}
+    \begin{itemize}[<+(1)->]
+        \item Theoretisch können wir für die Verarbeitung die alte Methode benutzen:
+\begin{plainjava}
+!*\onslide<3->*!public static int[] separateDigits(int number) {
+!*\onslide<4->*!    return separateDigits(Integer.toString(number));
+!*\onslide<3->*!}
+\end{plainjava}
+        \item<5-> Das widerspricht aber der Aufgabenbeschreibung! Deswegen klammern wir uns an den ursprünglichen Wunsch\ldots
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 1b)}
+    \begin{itemize}[<+(1)->]
+        \item Deswegen implementieren wir das ganze so:
+\begin{plainjava}
+!*\onslide<3->*!public static int[] separateDigits(int number) {
+!*\onslide<4->*!    int numDigits = (int) (Math.log10(number) + 1);
+!*\onslide<4->*!    int[] digits = new int[numDigits];
+
+!*\onslide<5->*!    for (int i = numDigits - 1; i >= 0; i--) {
+!*\onslide<6->*!        digits[i] = number % 10;
+!*\onslide<6->*!        number /= 10;
+!*\onslide<5->*!    }
+!*\onslide<7->*!    return digits;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 1c)}
+    \begin{itemize}[<+(1)->]
+        \item Es ist \textbf{nicht} möglich, die zweite Methode mit \bjava{public static byte[] separateDigits(String number)} zu erzeugen.
+        \item Warum?
+        \item Die Signatur \bjava{separateDigits(String)} enthält in Java \emph{nicht} den Rückgabetyp. \onslide<5->{Daher, sind für Java beide Methoden nicht zu unterscheiden. Dies wird vom Java-Standard verboten.}
     \end{itemize}
 \end{frame}
 % #endregion
 
 % #region Aufgabe 2
+\newsavebox\surferpingu
+\savebox\surferpingu{%
+\begin{tikzpicture}
+\pgfonlayer{background}
+    \fill[paletteB!80!pingu@white] (.9375cm,-14.75mm) ellipse[x radius=16mm,y radius=3.25mm];
+\endpgfonlayer
+    \pingu[wings wave,eyes wink,headband,body type=chubby];
+\end{tikzpicture}}
 \subsection{Aufgabe 2}
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2a)}
+\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2}
     \begin{itemize}[<+(1)->]
-        \item
+        \item<2-> Die Ausgabe eines Programms verstehen:\bigskip\par
+\begin{columns}[c]
+\column{.68\linewidth}\lstfs{8}
+\begin{plainjava}
+public class VariableScope {
+    static int a = 23;!*\tikzmark{global_a}*!
+    static int b = 47;!*\tikzmark{global_b}*!
+    !*\tikzmark{print}*!public static void print() {
+        System.out.println("a=" + !*\rlap{\tikzmarknode{start-global_a}{\phantom{a}}}*!a + ", b=" + !*\rlap{\tikzmarknode{start-global_b}{\phantom{b}}}*!b + "\n");
+    }
+    !*\tikzmark{print_int_int}*!public static void print(int !*\tikzmark{local_a}*!a, int !*\tikzmark{local_b}*!b) {
+        System.out.println("a=" + !*\rlap{\tikzmarknode{start-local_a}{\phantom{a}}}*!a + ", b=" + !*\rlap{\tikzmarknode{start-local_b}{\phantom{b}}}*!b + "\n");
+    }
+    public static void main(String[] args) {
+        int !*\rlap{\tikzmarknode{main_a}{\phantom{a}}}*!a = 17, !*\rlap{\tikzmarknode{main_b}{\phantom{b}}}*!b = 24;
+        !*\tikzmark{start-print}*!print();
+        !*\tikzmark{start-print_int_int}*!print(!*\rlap{\tikzmarknode{start2-main_a}{\phantom{a}}}*!a, !*\rlap{\tikzmarknode{start2-main_b}{\phantom{b}}}*!b);
+        System.out.println("a=" + !*\rlap{\tikzmarknode{start-main_a}{\phantom{a}}}*!a + ", b=" + !*\rlap{\tikzmarknode{start-main_b}{\phantom{b}}}*!b);
+    }
+}
+\end{plainjava}
+\begin{tikzpicture}[overlay,remember picture,gray]
+    \only<4->{\draw[-Kite] ([yshift=2pt,xshift=-2pt]pic cs:start-print) to[bend left=52] ([yshift=2pt,xshift=-2pt]pic cs:print);}
+
+    \only<5->{\draw[-Kite] ([yshift=2pt,xshift=-2pt]start-global_a.north) to[bend right=28] ([yshift=3pt,xshift=2pt]pic cs:global_a);
+    \draw[-Kite] ([yshift=2pt,xshift=-2pt]start-global_b.north) to[bend right=11]  coordinate[pos=.45] (pingu-p) ([yshift=3pt,xshift=2pt]pic cs:global_b);
+        \node[above right=-1pt,scale=.14,rotate=-10] at (pingu-p) {\usebox\surferpingu};
+    }
+
+    \only<7->{\draw[-Kite] ([yshift=2pt]start2-main_a.north) to[out=128,in=285] ([yshift=-1pt]main_a.south);
+    \draw[-Kite] ([yshift=2pt]start2-main_b.north) to[out=52,in=242] ([yshift=-1pt]main_b.south);}
+    \only<8->{\draw[-Kite] ([yshift=2pt,xshift=-2pt]pic cs:start-print_int_int) to[bend left=52] ([yshift=2pt,xshift=-2pt]pic cs:print_int_int);}
+    \only<9->{
+        \draw[-Kite] ([yshift=2pt,xshift=3pt]start-local_a.north) to[bend right=28] ([yshift=3pt,xshift=4.5pt]pic cs:local_a);
+        \draw[-Kite] ([yshift=2pt]start-local_b.north) to[bend right=10] ([yshift=3pt,xshift=4.5pt]pic cs:local_b);}
+    \only<11->{\draw[-Kite] ([yshift=2pt]start-main_a.north) to[out=162,in=335] ([yshift=3pt,xshift=4pt]pic cs:main_a);
+    \draw[-Kite] ([yshift=2pt]start-main_b.north) to[out=162,in=335] ([yshift=3pt,xshift=4pt]pic cs:main_b);}
+\end{tikzpicture}
+\column{.28\linewidth}
+\begin{plainvoid}
+!*\onslide<6->*!a=23, b=47!*\NLMarker*!
+!*\onslide<6->*!!*\NLMarker*!
+!*\onslide<10->*!a=17, b=24!*\NLMarker*!
+!*\onslide<10->*!!*\NLMarker*!
+!*\onslide<12->*!a=17, b=24!*\NLMarker*!
+!*\onslide<12->*!!*\NLMarker*!
+\end{plainvoid}
+\end{columns}
+    \end{itemize}
+\end{frame}
+
+
+\MakeThePinguExplainIt[text width=7cm]{cap=!hide,headphone=paletteB,right item angle=-25}{Ich verwende \say{\NLMarker} um eine neue Zeile zu markieren. Auch dann, wenn ich sie nicht im Text formatiere.}
+\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2\hfill In Worten}
+    \begin{itemize}[<+(1)->]
+        \item Wir erhalten \say{\bjava{a=23, b=47}\T{\NLMarker\NLMarker}} durch den Aufruf von \bjava{print()}, welcher die werte der zwei statischen globalen Variablen ausgibt, da diese nicht \textbf{überlagert} werden.
+        \item \say{\bjava{a=17, b=24}\T{\NLMarker\NLMarker}} erhalten wir durch \bjava{print(int a, int b)} welches durch die Namen der Parameter die globalen Variablen \bjava{a} und \bjava{b} überlagert. Die Parameter sind an die lokalen Variablen in \bjava{VariableScope::main} gebunden, wo sie ebenfalls die globalen Variablen \textbf{überlagern}.
+        \item Analog erhalten wir \say{\bjava{a=17, b=24}\T{\NLMarker\NLMarker}} durch die eben angesprochene \textbf{Überlagerung} in \bjava{VariableScope::main}.
+    \end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<5->{\node[left=-7mm,scale=.8] at(current page.-25) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
+\end{frame}
+% #endregion
+
+% #region Aufgabe 3
+\subsection{Aufgabe 3}
+\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 3}
+    \begin{itemize}[<+(1)->]
+        \item Die zwei Integer Variablen \bjava{a} und \bjava{b} haben nach dem Aufruf der \bjava{swap} Methode die selben Werte wie davor. Das liegt daran, dass in Java alle Parameter \textit{by value} übergeben werden, somit findet der Tausch der Werte in der \bjava{swap} Methode auf einer Kopie der Variablen statt.
+        \item Die Werte der Array Variablen \bjava{c} und \bjava{d} sind nach dem Aufruf der \bjava{swap} Methode jedoch getauscht. Dies liegt daran, dass hier nur die Referenz auf das Array \textit{by value} übergeben wird, welche nicht verändert werden kann. Beim Zugriff auf die Arrays, werden jedoch die originalen Werte und keine Kopien geliefert, und somit können diese verändert werden.
     \end{itemize}
 \end{frame}
 % #endregion
@@ -261,26 +390,28 @@
 \end{tikzpicture}}
 \newsavebox{\alice}\savebox{\alice}{%
     \begin{tikzpicture}
-        % \pingu[santa,heart=!hide,name=alice,after code={},left wing grab,cup,cup straw=!hide,cup drops=!hide,cup=paletteA,cup cover=coffe,in code={\fill[top color=coffe,bottom color=coffe!60!black] \pingupathExtraCupCover;\draw[paletteA] \pingupathExtraCupCoverOut;},after code={\node[scale=0.115,xshift=-10pt,yscale=0.9] at(alice-bill) {\usebox{\smoke}};}]
+        \pingu[name=alice,right wing grab,cup straw=!hide,cup=paletteA]
+        \node[scale=0.115,yshift=-4pt,xshift=-10pt,yscale=0.9] at(alice-bill) {\usebox{\smoke}};
     \end{tikzpicture}
 }%
 \newsavebox{\bob}\savebox{\bob}{%
     \begin{tikzpicture}
-        % \pingu[santa=pingu@santa@red!94!black,name=bob,after code={},left eye wink,sign post={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.2cm}{\centering\small I \textcolor{pingu@red!90!black}{\faHeart}\\[-0.1cm]\color{white}\LaTeX\\[-0.65cm]}}}}]
+        \pingu[name=bob,right eye wink,sign post right={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.2cm}{\centering\small I \textcolor{pingu@red!90!black}{\faHeart}\\[-0.1cm]\color{white}\LaTeX\\[-0.65cm]}}}}]
     \end{tikzpicture}
 }%
 \newsavebox{\eve}\savebox{\eve}{%
     \begin{tikzpicture}
-        % \pingu[santa=pingu@black!80!purple,heart=!hide,name=eve,left wing hug,after code={\node[pingu@black!80!purple] at (eve-heart) {\faWindows}; \begin{pgfinterruptboundingbox}\node[scale=0.25,rotate=13,yshift=1.4em,xshift=0.1em] at (eve-left-wing-tip) {\usebox{\calc}};\end{pgfinterruptboundingbox}},sunglasses*]
+        \pingu[name=eve,right wing hug,sunglasses,eyes angry]
+        \node[pingu@black!80!purple] at (eve-belly-center) {\faWindows}; \begin{pgfinterruptboundingbox}\node[scale=0.25,rotate=13,yshift=1.4em,xshift=0.1em] at (eve-wing-right-tip) {\usebox{\calc}};\end{pgfinterruptboundingbox}
     \end{tikzpicture}
 }%
 \section{Der End-Pinguuuu}
 \begin{frame}[c]
    \pause\begin{center}
     \scalebox{1.25}{\begin{tikzpicture}
-        \node at(0,0)      (alice) {\usebox{\alice}};
-        \node at(7,0)      (bob)   {\usebox{\bob}};
-        \node at(3.5,-2.5) (eve)   {\usebox{\eve}};
+        \node[scale=.55] at(0,0)      (alice) {\usebox{\alice}};
+        \node[scale=.55] at(7,0)      (bob)   {\usebox{\bob}};
+        \node[scale=.55] at(3.5,-2.5) (eve)   {\usebox{\eve}};
         \draw[-Kite,transform canvas={yshift=0.33em}] (alice.east) node[above right] {\(A = 14\)} -- (bob.west);
         \draw[Kite-,transform canvas={yshift=-0.33em}] (alice.east) -- (bob.west)  node[below left] {\(B = 12\)};
         \draw[densely dashed] (eve.north) -- ++(0,2);

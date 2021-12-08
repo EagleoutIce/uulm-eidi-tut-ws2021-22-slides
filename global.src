@@ -127,3 +127,4 @@
 \sol@list@define@styles{%
  {highlight: \@declaredcolor{sol@colors@lst@highlight}\upshape},%
 }}
+\def\NLMarker{{\color{lightgray}\footnotesize$\hookleftarrow$}}%
