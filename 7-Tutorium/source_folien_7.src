@@ -1,216 +1,209 @@
-% #region preamble
-\errorcontextlines 999999
-\usepackage{attachfile2}
-\attachfilesetup{%
-    author={Florian Sihler}, color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
-}
+\InputIfFileExists{../global.src}\relax\relax
 
-\usepackage[%
-    sopra-listings={encoding,cpalette,highlights,numinpar},%
-    sopra-tables, color-palettes={addons}, util,%
-    lithie-boxes={germanenv,koma,overwrite},%
-    lithie-task-boxes={cpalette}, lecture-links={patchurl},%
-    lecture-registers={disable}% would interfere with beamer
-]{lithie-util}
-\RequirePackage{lecture-personal-tikz}
-\usepackage[ngerman]{babel}
-
-\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
-\RestyleAlgo{plain}
-\solLoadLanguage{bash,cpp,regex}
-
-\def\lhnselementformat#1{\texttt{#1}\hfill\hbox{}}
-\def\lhnsielementformat#1{\textbf{\vphantom{A}#1}}
-\long\def\lhnselementbox#1#2{\parbox{#1}{~#2~}}%
-\makeatletter
-\lhns@minborderheight=5.4cm
-\makeatother
-\tikzset{lhns@impstyle/.style={}}%
-\def\solcustom{fill=paletteA!30,draw=paletteA!30}
-
-\usepackage[chess]{eagle-maps}
-\colorlet{chesswhite}{paletteA!90!white}
-\colorlet{chessblack}{paletteB!90!white}
-\colorlet{MaterialHeaderColor}{paletteB}%
-\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
-\lstset{add to literate={Book}{{{\solGet{keywordC}{Book}}}}4 {ISBN13}{{{\solGet{keywordC}{ISBN13}}}}6 {Member}{{{\solGet{keywordC}{Member}}}}6}
-
-\def\linkstyle#1{\textsf{\paletteD{#1}}}
-\SetAllLinkStyle{\linkstyle{#1}}
-\usepackage{tikzducks,tikzsymbols}
-\usetheme{lucy}
-
-\colorlet{chessfieldblack}{lightgray}
-\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing,fadings,backgrounds}
-\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
-
-\newcommand\parallelcontent[3][t]{%
-    \begin{columns}[#1]
-    \begin{column}{.475\linewidth}#2\end{column}\hfill
-    \begin{column}{.475\linewidth}#3\end{column}
-    \end{columns}
-}
-
-\lstset{add to literate={Member}{{{\solGet{keywordC}{Member}}}}6 {MemberBase}{{{\solGet{keywordC}{MemberBase}}}}{10}}
-% #endregion
-
-\title[Siebtes Tutorium -- Übungsblatt 7]{High Library Society\\\small Tutorium 7}
-\date{\sffamily KW 24}
-\author{Florian Sihler}
-\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+\iffull
+\title[Siebtes Tutorium -- Übungsblatt 7]{Vom Überladen und Gesehen werden!\\\small Übergabepunkt 7}
+\date{\sffamily KW 50}
 
 \usepackage[glows]{tikzpingus}
-\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.text,matrix}
 \hypersetup{colorlinks=false}
 
 \begin{document}
-\begin{frame}[c]
-    \begin{tikzpicture}[overlay]
-        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=.4]
-            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
-        \end{scope}
-        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {7};
-    \end{tikzpicture}
-    \titlepage
-\end{frame}
+\Titlepage{7}
+\fi
+
 % region Präsenzaufgabe
 \section{Präsenzaufgabe}
 \begin{frame}[fragile,c]{Präsenzaufgabe}
-    \begin{aufgabe}{Einmal Türsteher sein}
-        \pause{}Verwenden Sie wieder die \bjava{Member}-Klasse.
-        \begin{enumerate}[<+(1)->]
-            \item Implementieren Sie eine \bjava{public int compareTo(Member other)}-Methode.
-                \pause{}Diese vergleicht (in der Reihenfolge) den Namen (\bjava{String}), den Nachnamen (\bjava{String}) und das Geburtsdatum (\bjava{Date}).\pause{}
-                \bjava{a.compareTo(b)} soll \(0\) liefern, wenn die Instanzen gleich sind und
-                eine negative/positive Zahl, wenn \T{a} kleiner/größer als \T{b} ist.\smallskip\par\pause{}
-                Sie dürfen bestehende \bjava{compareTo}-Implementationen verwenden. Vergleichen Sie Zeichenketten lexikographisch (auf Basis der Unicode-Werte ihrer Zeichen).
-        \end{enumerate}\onslide<1->
+    \pause\begin{aufgabe}{Die Springer meiner Herzen sie umkreisen mich\ldots}
+        \hfill\smash{\raisebox{1.1\baselineskip}{\llap{\tiny\color{white}\textit{Und mit jeder weitren Zeile, leide ich.~~~~~~~}}}}\vspace*{-\parskip-.75\baselineskip}\par\onslide<3->{Erstellen Sie eine \bjava{Circle}-Klasse mit privaten Instanzvariablen für Radius, Flächeninhalt und Umfang.} \onslide<4->{Definieren Sie einen öffentlichen Konstruktor der auf Basis eines Radius die Instanzvariablen initialisiert.} \onslide<5->{Erstellen Sie nun zusätzlich die Methoden:}
+\begin{itemize}
+    \item<6->\small \textit{Getter}-Methoden für die Instanzvariablen.
+    \item<7->\small Eine Methode um die Kreiseigenschaften auf der Kommandozeile auszugeben.
+    \item<8->\small Eine statische Methode, die für einen Kreisradius den Flächeninhalt zurückgibt.
+    \item<9->\small Eine statische Methode, die für einen Kreisradius den Umfang zurückgibt.
+\end{itemize}
+\onslide<10->{\textit{Bonus:} Wäre es möglich zusätzliche Konstruktoren zu definieren, welche entweder nur den Flächeninhalt oder nur den Umfang als Parameter übernehmen?}
+        \onslide<1->
     \end{aufgabe}
 \end{frame}
 
-\begin{frame}[fragile,c]{Präsenzaufgabe}
-    \begin{aufgabe}{Zweimal Türsteher sein}
-        \pause{}Verwenden Sie wieder die \bjava{Member}-Klasse.
-        \begin{enumerate}[<+(1)->]
-            \item \textcolor{gray}{\bjava{public int compareTo(Member other)}: \bjava{a.compareTo(b)} ist \(0\), wenn Instanzen gleich und negativ/positiv, wenn \T{a} kleiner/größer als \T{b}.}
-            \item Schreiben Sie die Klasse \bjava{MemberBase}, die ein Array an \bjava{Member}-Objekten erhält und dieses intern sortiert. Für diese Aufgabe muss dieses Array anschließend nicht von außen erreichbar sein.\smallskip\par\pause
-            Verwenden Sie ein Sortierverfahren Ihrer Wahl.
-            Die Ordnung der Objekte sei durch \bjava{Member::compareTo} gegeben. Zur Kopie dürfen Sie die Methode \bjava[breaklines]{Member[] Arrays::copyOf(Member[] source, int length)} benutzen.
-        \end{enumerate}\onslide<1->
-    \end{aufgabe}
-\end{frame}
-
+\MakeThePinguExplainIt[text width=7cm]{cap=!hide,vr-headset,vr-headset hair}{Anstelle von \bjava{radius * radius} geht auch \bjava{Math.pow(radius,2)} für \(\mathrm{radius}^2\).~~~Die Formeln sollten natürlich bekannt sein \Laughey.}
+\newcommand<>{\mark}[1]{{\only#2{\color{black}}#1}}
 \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
-        \item Die Klasse findet sich hier: \only<2->{\textattachfile{MemberP.java}{MemberP.java}}
-        \item Nützlicherweise gibt es \bjava{compareTo} für Strings und für Dates:
-\lstfs{10}
+        \item<2-> Das wichtigste Beiseite: \only<2->{\textattachfile{\curpath Circle.java}{Circle.java}}
+        \item<3-> Wir gehen in die Analyse:\bigskip\par
+\begin{columns}[c]
+\column{.4\linewidth}
+\small\onslide<4->{\only<5->{\color{gray}}Erstellen Sie eine \mark<6->{\only<4|handout:0>{\!\bjava{Circle}}\only<5->{\T{Circle}}-Klasse} mit \mark<10->{privaten} \mark<8->{Instanzvariablen für Radius, Flächeninhalt und Umfang}.}\medskip
+
+\onslide<11->{\only<11>{\color{black}}\only<12->{\color{gray}}Definieren Sie einen \mark<13->{öffentlichen Konstruktor} der auf Basis eines \mark<15->{Radius} die \mark<17->{Instanzvariablen initialisiert}.}
+\column{.6\linewidth}\lstfs{9}
 \begin{plainjava}
-!*\onslide<4->*!public int compareTo(Member other) {
-!*\onslide<5->*!    int perName = this.name.compareTo(other.name);
-!*\onslide<5->*!    if(perName != 0) return perName;
-!*\onslide<4->*!
-!*\onslide<6->*!    int perSurname = this.surname.compareTo(other.surname);
-!*\onslide<6->*!    if(perSurname != 0) return perSurname;
-!*\onslide<4->*!
-!*\onslide<7->*!    int perBirthday = this.birthday.compareTo(other.birthday);
-!*\onslide<7->*!    if(perBirthday != 0) return perBirthday;
-!*\onslide<4->*!
-!*\onslide<8->*!    return 0;
-!*\onslide<4->*!}
+!*\onslide<7->*!public class Circle {
+!*\onslide<10->*!   private !*\onslide<9->*!double radius;
+!*\onslide<10->*!   private !*\onslide<9->*!double area;
+!*\onslide<10->*!   private !*\onslide<9->*!double circumference;
+!*\onslide<10->*!
+!*\onslide<14->*!   public Circle(!*\onslide<16->*!double radius!*\onslide<14->*!) {
+!*\onslide<18->*!       this.radius = radius;
+!*\onslide<19->*!       this.area = Math.PI * radius * radius;
+!*\onslide<19->*!       this.circumference = 2 * Math.PI * radius;
+!*\onslide<14->*!   }
+!*\onslide<7->*!}
+\end{plainjava}
+\end{columns}
+    \end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<20->{\node[left=-7mm,scale=.8] at(current page.5) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung\hfill Getter}
+    \begin{itemize}[<+(1)->]
+        \item Nun gilt es zu sondieren\ldots\pause
+\lstfs{10}\SetupLstHl
+\begin{plainjava}
+|ihl|public class Circle {|ihl|
+    |ihl|private double radius;|ihl|
+    |ihl|private double area;|ihl|
+    |ihl|private double circumference;|ihl|
+    |ihl|:ldots:|ihl|
+    |ihl|public Circle(double radius) { :ldots: }|ihl|
+
+    !*\onslide<4->*!public double getRadius() { return radius; }
+    !*\onslide<5->*!public double getArea() { return area; }
+    !*\onslide<6->*!public double getCircumference() { return circumference; }
+!*\onslide<3->*!|ihl|}|ihl|
 \end{plainjava}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung, Alternative}
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung\hfill Dump}
     \begin{itemize}[<+(1)->]
-        \item Etwas kompakter, wenn auch schlechter lesbar:
-\lstfs{10}
+        \item Ein printchen Liebe, ein printchen Freude\ldots\pause
+\lstfs{10}\SetupLstHl
 \begin{plainjava}
-!*\onslide<3->*!public int compareTo(Member other) {
-!*\onslide<4->*!    int perName = this.name.compareTo(other.name);
-!*\onslide<4->*!    if(perName != 0) return perName;
-!*\onslide<3->*!
-!*\onslide<4->*!    int perSurname = this.surname.compareTo(other.surname);
-!*\onslide<4->*!    if(perSurname != 0) return perSurname;
-!*\onslide<3->*!
-!*\onslide<5->*!    int perBirthday = this.birthday.compareTo(other.birthday);
-!*\onslide<5->*!    return perBirthday;
-!*\onslide<4->*!}
+|ihl|public class Circle {|ihl|
+    |ihl|private double radius;|ihl|
+    |ihl|private double area;|ihl|
+    |ihl|private double circumference;|ihl|
+
+    |ihl|public Circle(double radius) { :ldots: }|ihl|
+    |ihl|:ldots:|ihl|
+
+    !*\onslide<4->*!public void printProperties() {
+    !*\onslide<5->*!    System.out.println("Radius: " + this.radius + "cm");
+    !*\onslide<6->*!    System.out.println("Fläche: " + this.area + "cm^2");
+    !*\onslide<7->*!    System.out.println("Umfang: " + this.circumference + "cm");
+    !*\onslide<4->*!}
+!*\onslide<3->*!|ihl|}|ihl|
 \end{plainjava}
-        \item<6-> Aber was wenn das Wissen über \bjava{compareTo} fehlt oder es verboten ist?
     \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung, Exkurs}
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung\hfill Statische Methoden}
     \begin{itemize}[<+(1)->]
-        \item Hier eine \bjava{compareTo}-Implementation für Zeichenketten:
+        \item Berechne Gefechte:\ldots\pause
+\lstfs{10}\SetupLstHl
 \begin{plainjava}
-!*\onslide<3->*!static int compareStrings(String a, String b) {
-!*\onslide<4->*!    for(int i = 0; i < Math.min(a.length(), b.length()); i++) {
-!*\onslide<5->*!        if(a.charAt(i) != b.charAt(i))
-!*\onslide<5->*!            return a.charAt(i) - b.charAt(i);
+|ihl|public class Circle {|ihl|
+    |ihl|private double radius;|ihl|
+    |ihl|private double area;|ihl|
+    |ihl|private double circumference;|ihl|
+
+    |ihl|public Circle(double radius) { :ldots: }|ihl|
+    |ihl|:ldots:|ihl|
+
+    !*\onslide<4->*!public static double computeArea(double radius) {
+    !*\onslide<5->*!    return Math.PI * radius * radius;
+    !*\onslide<4->*!}
+    !*\onslide<6->*!public static double computeCircumference(double radius) {
+    !*\onslide<7->*!    return 2 * Math.PI * radius;
+    !*\onslide<6->*!}
+!*\onslide<3->*!|ihl|}|ihl|
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung\hfill Refactoring}
+    \begin{itemize}[<+(1)->]
+        \item Die statischen Methoden können wir rückwirkend verwenden\ldots\pause
+\lstfs{10}\SetupLstHl
+\begin{plainjava}
+|ihl|public class Circle {|ihl|
+    |ihl|private double radius;|ihl|
+    |ihl|private double area;|ihl|
+    |ihl|private double circumference;|ihl|
+
+!*\onslide<4->*!    public Circle(double radius) {
+!*\onslide<4->*!        this.radius = radius;
+!*\onslide<5->*!        this.area = Circle.computeArea(radius);
+!*\onslide<6->*!        this.circumference = Circle.computeCircumference(radius);
 !*\onslide<4->*!    }
-!*\onslide<6->*!    return a.length() - b.length();  // Kürzere sind kleiner!
-!*\onslide<3->*!}
-\end{plainjava}
-    \item<7-> Diese hat ein Problem mit \bjava{null}. Wie liese sich dies lösen? \onslide<8->{\info{Dies verbleibt als Aufgabe \Laughey.}}
-    \item<9-> Ist dies die offizielle \bjava{String::compareTo}-Implementation? \onslide<10->{\info{Das hängt von der Implementation und der Java Version ab. Im Allgemeinen: fast. Die zugrundeliegende Implementation ist besser für diverse Encodings.}}
-    \end{itemize}
-\end{frame}
+!*\onslide<3->*!    |ihl|:ldots:|ihl|
 
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung, Exkurs}
-    \begin{itemize}[<+(1)->]
-        \item Und hier analog für Date:
-\begin{plainjava}
-!*\onslide<3->*!static int compareDates(Date a, Date b) {
-!*\onslide<4->*!    long aTime = a.getTime();
-!*\onslide<4->*!    long bTime = b.getTime();
-!*\onslide<5->*!    if(aTime == bTime) return 0;
-!*\onslide<6->*!    return aTime > bTime ? 1 : -1;
-!*\onslide<3->*!}
-\end{plainjava}
-    \item<7-> Warum geben wir hier nicht einfach die Differenz zurück? \onslide<8->{\info{Die Differenz zweier longs ist immernoch \bjava{long}. Zudem hätten wir im allgemeinen ein Überlaufproblem. Da man deswegen ohnehin nicht auf die Differenz vertrauen kann, ist es so sicherer.}}
-    \item<9-> Würde dieses Problem nicht auch bei \bjava{compareStrings} auftreten? \onslide<10->{\info{Nein, die Differenz zweier chars liefert einen Integer und entgeht damit dieser Problematik (zumindest in Java).}}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
-    \begin{itemize}[<+(1)->]
-        \item Und nun zu \bjava{MemberBase} (\only<2->{\textattachfile{MemberBase.java}{MemberBase.java}}). Wir beginnen mit dem Grundgerüst:
-\begin{plainjava}
-!*\onslide<3->*!public class MemberBase {
-!*\onslide<4->*!    private final Member[] members;
-!*\onslide<3->*!
-!*\onslide<5->*!    public MemberBase(Member... members) {
-!*\onslide<5->*!        this.members = Arrays.copyOf(members, members.length);
-!*\onslide<5->*!        sortBase();
-!*\onslide<5->*!    }
-!*\onslide<3->*!
-!*\onslide<6->*!    private void sortBase() { /* ... */ }
-!*\onslide<3->*!}
+    |ihl|public static double computeArea(double radius) { :ldots: }|ihl|
+    |ihl|public static double computeCircumference(double radius) { :ldots: }|ihl|
+|ihl|}|ihl|
 \end{plainjava}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung\hfill Bonus}
     \begin{itemize}[<+(1)->]
-        \item Der Einfachheit halber sortieren wir hier mit naivem Bubblesort:
+        \item Da wir nur einen Parameter übergeben, hilft uns Overload\texttrademark\ leider nicht!\pause
+\SetupLstHl%
 \begin{plainjava}
-!*\onslide<3->*!private void sortBase() {
-!*\onslide<4->*!    for (int n = this.members.length; n > 1; n--) {
-!*\onslide<4->*!        for (int i = 0; i < n-1; i++) {
-!*\onslide<5->*!            if (this.members[i].compareTo(this.members[i+1]) > 0) {
-!*\onslide<6->*!                Member tmp = this.members[i];
-!*\onslide<6->*!                this.members[i] = this.members[i+1];
-!*\onslide<6->*!                this.members[i+1] = tmp;
-!*\onslide<5->*!            }
-!*\onslide<4->*!        }
-!*\onslide<4->*!    }
-!*\onslide<3->*!}
+|ihl|public class Circle {|ihl|
+    |ihl|:ldots:|ihl|
+    |ihl|public Circle(double radius) { :ldots: }|ihl|
+
+!*\onslide<4->*!    public Circle(double area) { :ldots: }
+!*\onslide<4->*!    public Circle(double circumference) { :ldots: }
+!*\onslide<3->*!    |ihl|:ldots:|ihl|
+|ihl|}|ihl|
 \end{plainjava}
+    \onslide<5->{Alle drei Konstruktoren würden durch \bjava{Circle(double)} identifiziert werden. Das erlaubt Java allerdings \textbf{nicht}.}
     \end{itemize}
 \end{frame}
+
+
+% \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung, Exkurs}
+%     \begin{itemize}[<+(1)->]
+%         \item Hier eine \bjava{compareTo}-Implementation für Zeichenketten:
+% \begin{plainjava}
+% !*\onslide<3->*!static int compareStrings(String a, String b) {
+% !*\onslide<4->*!    for(int i = 0; i < Math.min(a.length(), b.length()); i++) {
+% !*\onslide<5->*!        if(a.charAt(i) != b.charAt(i))
+% !*\onslide<5->*!            return a.charAt(i) - b.charAt(i);
+% !*\onslide<4->*!    }
+% !*\onslide<6->*!    return a.length() - b.length();  // Kürzere sind kleiner!
+% !*\onslide<3->*!}
+% \end{plainjava}
+%     \item<7-> Diese hat ein Problem mit \bjava{null}. Wie liese sich dies lösen? \onslide<8->{\info{Dies verbleibt als Aufgabe \Laughey.}}
+%     \item<9-> Ist dies die offizielle \bjava{String::compareTo}-Implementation? \onslide<10->{\info{Das hängt von der Implementation und der Java Version ab. Im Allgemeinen: fast. Die zugrundeliegende Implementation ist besser für diverse Encodings.}}
+%     \end{itemize}
+% \end{frame}
+
+% \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung, Exkurs}
+%     \begin{itemize}[<+(1)->]
+%         \item Und hier analog für Date:
+% \begin{plainjava}
+% !*\onslide<3->*!static int compareDates(Date a, Date b) {
+% !*\onslide<4->*!    long aTime = a.getTime();
+% !*\onslide<4->*!    long bTime = b.getTime();
+% !*\onslide<5->*!    if(aTime == bTime) return 0;
+% !*\onslide<6->*!    return aTime > bTime ? 1 : -1;
+% !*\onslide<3->*!}
+% \end{plainjava}
+%     \item<7-> Warum geben wir hier nicht einfach die Differenz zurück? \onslide<8->{\info{Die Differenz zweier longs ist immernoch \bjava{long}. Zudem hätten wir im allgemeinen ein Überlaufproblem. Da man deswegen ohnehin nicht auf die Differenz vertrauen kann, ist es so sicherer.}}
+%     \item<9-> Würde dieses Problem nicht auch bei \bjava{compareStrings} auftreten? \onslide<10->{\info{Nein, die Differenz zweier chars liefert einen Integer und entgeht damit dieser Problematik (zumindest in Java).}}
+%     \end{itemize}
+% \end{frame}
+
 % endregion
 
 \section{Übungsblatt 7}
@@ -218,211 +211,16 @@
 \subsection{Aufgabe 1}
 \begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 1}
     \begin{itemize}[<+(1)->]
-        \item Die Datei findet sich hier: \only<2->{\textattachfile{Member.java}{Member.java}}
-        \item Da nur \bjava{name} und \bjava{surname} verändern können, beschränken sich die \emph{Setter} auf diese beiden Methoden.
-        \item Wir schreiben Validierungs-Methoden (oder haben das schon, mit der Präsenzaufgabe \Laughey)
-\begin{plainjava}
-!*\onslide<5->*!private void validateName(String name) {
-!*\onslide<6->*!  if (name.isEmpty())
-!*\onslide<6->*!    throw new IllegalArgumentException("Name ist leer");
-!*\onslide<5->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 1}
-    \begin{itemize}[<+(1)->]
-        \item So können wir den Namen setzen:
-\begin{plainjava}
-!*\onslide<3->*!public void setName(String name) {
-!*\onslide<4->*!    validateName(name);
-!*\onslide<4->*!    this.name = name;
-!*\onslide<3->*!}
-\end{plainjava}
-        \item<5-> Und die zweite Check-Methode schreiben:
-\begin{plainjava}
-!*\onslide<6->*!private void validateSurname(String surname) {
-!*\onslide<7->*!  if (surname.isEmpty())
-!*\onslide<7->*!    throw new IllegalArgumentException("Nachname ist leer");
-!*\onslide<6->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 1}
-    \begin{itemize}[<+(1)->]
-        \item So können wir nun auch den Nachnamen setzen:
-\begin{plainjava}
-!*\onslide<3->*!public void setSurname(String surname) {
-!*\onslide<4->*!    validateSurname(surname);
-!*\onslide<4->*!    this.surname = surname;
-!*\onslide<3->*!}
-\end{plainjava}
+        \item
     \end{itemize}
 \end{frame}
 % #endregion
 
 % #region Aufgabe 2
-\subsection{Aufgabe 2a)}
+\subsection{Aufgabe 2}
 \begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2a)}
     \begin{itemize}[<+(1)->]
-        \item Die Datei findet sich hier: \only<2->{\textattachfile{Book.java}{Book.java}}
-        \item Zuerst fügen wir einmal alle Attribute hinzu:\medskip\pause\par
-\begin{minipage}{.425\linewidth}
-\lstfs{9}%
-\begin{plainjava}
-!*\onslide<4->*!public class Book {
-!*\onslide<5->*!    public final ISBN13 isbn;
-!*\onslide<5->*!    public final String title;
-!*\onslide<5->*!    public final String author;
-!*\onslide<5->*!    public final int edition;
-!*\onslide<5->*!    public final int releaseYear;
-!*\onslide<4->*!
-!*\onslide<6->*!    private Member lastLentBy;
-!*\onslide<6->*!    private boolean currentlyLent;
-!*\onslide<4->*!}
-\end{plainjava}
-\end{minipage}\hfill\begin{minipage}{.55\linewidth}
-\onslide<7->{Fragen: \begin{enumerate}
-    \item<8-> Warum kann \bjava{ISBN13} \say{\bjava{public}} sein?\par \onslide<9->{\info{Weil Objekte der Klasse unveränderbar sind.}}
-    \item<10-> Sind \emph{Getter}-Methoden hier besser?\par \onslide<11->{\info{Im konkreten Fall: Nein! Wir werden später weitere Vor- und Nachteile von Getter-Methoden betrachten.}}
-    \item<12-> Wieso sollte \bjava{currentlyLent} nicht auch \say{\bjava{public}} sein?\par \onslide<13->{\info{Eine Änderung dieser Flagge allein, kann zu einem inkonsistenten Zustand führen. Sie ist mit \bjava{lastLentBy} verbunden. Wir können so genau kontrollieren, wann die Variable wie gesetzt wird.}}
-\end{enumerate}}
-\end{minipage}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2a)}
-    \begin{itemize}[<+(1)->]
-        \item Damit benötigen wir nun zwei \emph{Getter}, um auch auf die privaten Variablen zugreifen zu können:
-\begin{plainjava}
-!*\onslide<3->*!public Member getLastLentBy() { return lastLentBy; }
-!*\onslide<4->*!
-!*\onslide<4->*!public boolean getCurrentlyLent() { return currentlyLent; }
-\end{plainjava}
-        \item<5-> Wieso benötigen wir hier keine Kopie des \bjava{Member}-Objektes?\medskip\par
-            \onslide<6->{\info{Wir erzeugen/kontrollieren dieses Objekt nicht. Wir erhalten das Objekt von außerhalb des Lebenszyklus der \bjava{Book}-Klasse. \onslide<7->{Zudem: Wenn sich der Name des ausleihenden Mitglieds ändert (es aber immernoch die selbe Person ist), so haben wir da nichts mitzureden \Laughey.} \onslide<8->{Mit einer guten Verteidigung ist aber auch eine Kopie möglich! Dafür müsste man den Kopiermechanismus allerdings selbst implementieren.}}}
-    \end{itemize}
-\end{frame}
-
-\subsection{Aufgabe 2b)}
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2b)}
-    \begin{itemize}[<+(1)->]
-        \item Für den Konstruktor fokussieren wir uns zunächst auf die Validierung.
-\begin{plainjava}
-!*\onslide<3->*!private void validateArguments(String title, String author,
-!*\onslide<3->*!        int edition, int releaseYear) {
-!*\onslide<4->*!    validateTitle(title);
-!*\onslide<4->*!    validateAuthor(author);
-!*\onslide<4->*!    validateEdition(edition);
-!*\onslide<4->*!    validateReleaseYear(releaseYear);
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2b)}
-    \begin{itemize}[<+(1)->]
-        \item Die einzelnen Validierungsroutinen sind leicht:
-\begin{plainjava}
-!*\onslide<3->*!private void validateTitle(String title) {
-!*\onslide<4->*!    if (title.length() <= 0)
-!*\onslide<4->*!        throw new IllegalArgumentException("[...]");
-!*\onslide<3->*!}
-
-!*\onslide<5->*!private void validateAuthor(String author) {
-!*\onslide<6->*!    if (author.length() <= 0)
-!*\onslide<6->*!        throw new IllegalArgumentException("[...]");
-!*\onslide<5->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2b)}
-    \begin{itemize}[<+(1)->]
-        \item<1-> Die einzelnen Validierungsroutinen sind leicht:
-\begin{plainjava}
-!*\onslide<2->*!private void validateEdition(int edition) {
-!*\onslide<3->*!    if (edition <= 0)
-!*\onslide<3->*!        throw new IllegalArgumentException("[...]");
-!*\onslide<2->*!}
-!*\onslide<2->*!
-!*\onslide<4->*!private void validateReleaseYear(int releaseYear) {
-!*\onslide<5->*!    if (releaseYear < 0)
-!*\onslide<5->*!        throw new IllegalArgumentException("[...]");
-!*\onslide<4->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2b)}
-    \begin{itemize}[<+(1)->]
-        \item Damit bauen wir den Konstruktor:
-\lstfs{8}
-\begin{plainjava}[lineskip=3pt]
-!*\onslide<3->*!public Book(String title, String author, int edition, String isbn, int releaseYear) {
-!*\onslide<4->*!    validateArguments(title, author, edition, releaseYear);
-!*\onslide<3->*!
-!*\onslide<5->*!    try { this.isbn = new ISBN13(isbn); }
-!*\onslide<5->*!    catch(IllegalArgumentException e) { // Warum?
-!*\onslide<6->*!        throw new IllegalArgumentException("[...]", e);
-!*\onslide<5->*!    }
-!*\onslide<3->*!
-!*\onslide<7->*!    this.title = title; this.author = author;
-!*\onslide<7->*!    this.releaseYear = releaseYear;
-!*\onslide<7->*!    this.edition = edition;
-!*\onslide<8->*!    this.lastLentBy = null;
-!*\onslide<8->*!    this.currentlyLent = false;
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2b)}
-    \begin{itemize}[<+(1)->]
-        \item Wozu benötigen wir das try-catch?\pause{}
-\begin{plainjava}
-try { this.isbn = new ISBN13(isbn); }
-catch(IllegalArgumentException e) {
-    throw new IllegalArgumentException("[...]", e);
-}
-\end{plainjava}
-        \pause{}\info{Wir möchten bei Fehlern in der Klasse \emph{explizit} eine \bjava{IllegalArgumentException} werfen. Dass der Konstruktor implizit eine werfen kann wird so nicht ersichtlich.\pause{} Zudem kann der Konstruktor auch verschiedene Exceptions werfen oder sich in Zukunft ändern. Deswegen liese sich das Ganze auch um \bjava{catch(Exception ex) \{...\}} erweitern.}
-    \end{itemize}
-\end{frame}
-
-\subsection{Aufgabe 2c)}
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2c)}
-    \begin{itemize}[<+(1)->]
-        \item Die Methode zum Ausleihen:\pause{}
-\begin{plainjava}
-public void lendTo(Member member) {
-    if (currentlyLent)
-        throw new IllegalStateException("[...]");
-
-    this.lastLentBy = member;
-    this.currentlyLent = true;
-}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\subsection{Aufgabe 2d)}
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2d)}
-    \begin{itemize}[<+(1)->]
-        \item Die Methode zum Zurückgeben:\pause{}
-\begin{plainjava}
-public void returnFrom(Member member) {
-    if (!Objects.equals(this.lastLentBy, member))
-        throw new IllegalStateException("[...]");
-
-    this.currentlyLent = false;
-}
-\end{plainjava}
-    \item Könnten wir hier auch \bjava{lastLentBy.equals} verwenden?\par\pause
-        \info{Ja, aber dann könnten wir ein Problem mit einer \bjava{NullPointerException} haben.}
-    \item Ginge auch \bjava{lastLentBy == member}?\par\pause{}
-        \info{In diesem konkreten Fall liese sich über die Eindeutigkeit der Mitglieder argumentieren. Also: hier \say{Ja}, im allgemeinen \say{Nein}.}
+        \item
     \end{itemize}
 \end{frame}
 % #endregion
@@ -493,4 +291,4 @@ public void returnFrom(Member member) {
    \end{center}
 \end{frame}
 % #endregion
-\end{document}
+\iffull\end{document}\fi

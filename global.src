@@ -120,3 +120,10 @@
 \usepackage{tikz-qr}
 \colorlet{qr@fancy@gradient@tl}{paletteB!96!pingu@white}
 \colorlet{qr@fancy@gradient@br}{purple!74!paletteD}
+\colorlet{codeouthl}{gray!75!white}
+\makeatletter
+\def\SetupLstHl{%
+\lstcolorlet{highlight}{codeouthl}%
+\sol@list@define@styles{%
+ {highlight: \@declaredcolor{sol@colors@lst@highlight}\upshape},%
+}}
