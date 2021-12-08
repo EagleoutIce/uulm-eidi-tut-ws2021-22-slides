@@ -364,7 +364,7 @@ public static void main(String[] args) {
         \item Check it and regret it:
 \begin{plainjava}
 !*\onslide<3->*!private static boolean isMoveValid(char[][] board, int move) {
-!*\onslide<4->*!    return move >= 0 && move <= 9
+!*\onslide<4->*!    return move >= 1 && move <= 9
 !*\onslide<5->*!        && board[getY(move)][getX(move)] == 0;
 !*\onslide<3->*!}
 

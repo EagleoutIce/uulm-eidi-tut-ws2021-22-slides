@@ -13,7 +13,7 @@ public class TicTacToe {
    }
 
    public static boolean isMoveValid(char[][] board, int move) {
-      return move >= 0 && move <= 9 && board[getY(move)][getX(move)] == 0;
+      return move >= 1 && move <= 9 && board[getY(move)][getX(move)] == 0;
    }
 
    public static int getX(int cellNumber) {
