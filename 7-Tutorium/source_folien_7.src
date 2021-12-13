@@ -209,6 +209,7 @@
 \section{Übungsblatt 7}
 % #region Aufgabe 1
 \subsection{Aufgabe 1}
+\MakeThePinguExplainIt[text width=7.9cm]{cap=!hide,hat,bow tie,right item angle=-60}{Alternativ ginge auch \bjava{digits[i] = Integer.}\\\bjava{parseInt(number.substring(i, i + 1))}}
 \begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 1a)}
     \begin{itemize}[<+(1)->]
         \item Man nennt mich Jörg, den Zeichenkettenspalter (\only<2->{\textattachfile{\curpath MethodOverloading.java}{MethodOverloading.java}}):
@@ -223,8 +224,10 @@
 !*\onslide<8->*!    return digits;
 !*\onslide<3->*!}
 \end{plainjava}
-    \item Alternativ ginge auch \bjava{digits[i] = Integer.parseInt(number.substring(i, i+1))}.
-    \end{itemize}
+\end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<9->{\node[left=-7mm,scale=.8] at(current page.-20) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 1b)}
@@ -239,9 +242,15 @@
     \end{itemize}
 \end{frame}
 
+\MakeThePinguExplainIt[text width=11.66cm]{cap=!hide,hat,bow tie,right item angle=-65,small}{Betrachte \(n = 476 = \mathbf{4} \cdot 10^2 + \mathbf{7} \cdot 10^1 + \mathbf{6} \cdot 10^0\).\medskip\\
+\(n / 10 = \mathbf{4} \cdot 10^{\mathbf{2-1}} + \mathbf{7} \cdot 10^{\mathbf{1-1}} + \mathbf{6} \cdot 10^{\mathbf{0-1}} = 47.6\)\\
+\(n \bmod 10 = {\color{pingu-board-green!65!white}\mathbf{4} \cdot 10^{2}} + {\color{pingu-board-green!65!white}\mathbf{7} \cdot 10^{1}} + \mathbf{6} \cdot 10^{0} = 6\)\\
+\(\log_{10} n = \log_{10}(\mathbf{4} \cdot 10^2 + \mathbf{7} \cdot 10^1 + \mathbf{6} \cdot 10^0) \approx_{\max} \log_{10}(\mathbf{4} \cdot 10^2) \approx 2.6 \)\medskip\\
+Kleinste Ziffer: \(z = n \bmod 10\), Zahl ohne kleinste Ziffer: \(z = \floor{\frac{n}{10}}\). Anzahl Ziffern:
+\(z = \floor{\log_{10} \abs{n} + 1}\) (beachte: \(0\)). Was ist mit \(100\)? Mit \(1000\)?}
 \begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 1b)}
     \begin{itemize}[<+(1)->]
-        \item Deswegen implementieren wir das ganze so:
+        \item Deswegen implementieren wir das Ganze so:
 \begin{plainjava}
 !*\onslide<3->*!public static int[] separateDigits(int number) {
 !*\onslide<4->*!    int numDigits = (int) (Math.log10(number) + 1);
@@ -255,6 +264,9 @@
 !*\onslide<3->*!}
 \end{plainjava}
     \end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<8->{\node[left=-7mm,scale=.65] at(current page.-21) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
 
 
@@ -262,8 +274,11 @@
     \begin{itemize}[<+(1)->]
         \item Es ist \textbf{nicht} möglich, die zweite Methode mit \bjava{public static byte[] separateDigits(String number)} zu erzeugen.
         \item Warum?
-        \item Die Signatur \bjava{separateDigits(String)} enthält in Java \emph{nicht} den Rückgabetyp. \onslide<5->{Daher, sind für Java beide Methoden nicht zu unterscheiden. Dies wird vom Java-Standard verboten.}
+        \item Die Signatur \bjava{separateDigits(String)} enthält (in Java) \emph{nicht} den Rückgabetyp. \onslide<5->{Daher, sind für Java beide Methoden nicht zu unterscheiden. Dies wird vom Java-Standard verboten.}
     \end{itemize}
+\begin{tikzpicture}[remember picture,overlay]
+    \onslide<6->{\node[above left=.35cm,yshift=.55cm,draw=gray,rounded corners=1pt,fill=shadeA!15!white,align=left,thick,font=\small] at(current page.south east) {\textbf{Method-Signature}:\\Name und Parametertypen\smallskip\\\textbf{Overloading / Überladung}:\\Gleicher Name, andere Signatur};}
+\end{tikzpicture}
 \end{frame}
 % #endregion
 
@@ -327,6 +342,9 @@ public class VariableScope {
 !*\onslide<12->*!!*\NLMarker*!
 \end{plainvoid}
 \end{columns}
+\begin{tikzpicture}[remember picture,overlay]
+    \onslide<13->{\node[below left=.45cm,yshift=-1.325cm,draw=gray,rounded corners=1pt,fill=shadeA!15!white,align=left,thick,font=\small] at(current page.north east) {\textbf{Shadowing / Überschatten}:\\\textcolor{gray}{[vielseitig, z.B.]} lokale Variable mit\\gleichem Namen wie globale.};} % \neq hiding
+\end{tikzpicture}
     \end{itemize}
 \end{frame}
 
@@ -334,9 +352,9 @@ public class VariableScope {
 \MakeThePinguExplainIt[text width=7cm]{cap=!hide,headphone=paletteB,right item angle=-25}{Ich verwende \say{\NLMarker} um eine neue Zeile zu markieren. Auch dann, wenn ich sie nicht im Text formatiere.}
 \begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2\hfill In Worten}
     \begin{itemize}[<+(1)->]
-        \item Wir erhalten \say{\bjava{a=23, b=47}\T{\NLMarker\NLMarker}} durch den Aufruf von \bjava{print()}, welcher die werte der zwei statischen globalen Variablen ausgibt, da diese nicht \textbf{überlagert} werden.
-        \item \say{\bjava{a=17, b=24}\T{\NLMarker\NLMarker}} erhalten wir durch \bjava{print(int a, int b)} welches durch die Namen der Parameter die globalen Variablen \bjava{a} und \bjava{b} überlagert. Die Parameter sind an die lokalen Variablen in \bjava{VariableScope::main} gebunden, wo sie ebenfalls die globalen Variablen \textbf{überlagern}.
-        \item Analog erhalten wir \say{\bjava{a=17, b=24}\T{\NLMarker\NLMarker}} durch die eben angesprochene \textbf{Überlagerung} in \bjava{VariableScope::main}.
+        \item Wir erhalten \say{\bjava{a=23, b=47}\T{\NLMarker\NLMarker}} durch den Aufruf von \bjava{print()}, welcher die Werte der zwei statischen globalen Variablen ausgibt, da diese nicht \textbf{überschattet} werden.
+        \item \say{\bjava{a=17, b=24}\T{\NLMarker\NLMarker}} erhalten wir durch \bjava{print(int a, int b)} welches durch die Namen der Parameter die globalen Variablen \bjava{a} und \bjava{b} überschattet. Die Parameter sind an die lokalen Variablen in \bjava{VariableScope::main} gebunden, wo sie ebenfalls die globalen Variablen \textbf{überschatten}.
+        \item Analog erhalten wir \say{\bjava{a=17, b=24}\T{\NLMarker\NLMarker}} durch die eben angesprochene \textbf{Überschattung} in \bjava{VariableScope::main}.
     \end{itemize}
 \begin{tikzpicture}[overlay, remember picture]
     \onslide<5->{\node[left=-7mm,scale=.8] at(current page.-25) {\usebox\pinguexplainbox};}
@@ -346,11 +364,75 @@ public class VariableScope {
 
 % #region Aufgabe 3
 \subsection{Aufgabe 3}
-\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 3}
+\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 3\hfill Musterlösung}
     \begin{itemize}[<+(1)->]
         \item Die zwei Integer Variablen \bjava{a} und \bjava{b} haben nach dem Aufruf der \bjava{swap} Methode die selben Werte wie davor. Das liegt daran, dass in Java alle Parameter \textit{by value} übergeben werden, somit findet der Tausch der Werte in der \bjava{swap} Methode auf einer Kopie der Variablen statt.
         \item Die Werte der Array Variablen \bjava{c} und \bjava{d} sind nach dem Aufruf der \bjava{swap} Methode jedoch getauscht. Dies liegt daran, dass hier nur die Referenz auf das Array \textit{by value} übergeben wird, welche nicht verändert werden kann. Beim Zugriff auf die Arrays, werden jedoch die originalen Werte und keine Kopien geliefert, und somit können diese verändert werden.
     \end{itemize}
+\end{frame}
+
+\makeatletter
+\lhns@elemwidth3cm
+\lhns@minborderheight8cm
+\makeatother
+\newcommand<>\lm[1][]{\only#2{#1\llap{\tikz\fill[paletteB!60!white] circle [radius=2.25pt];\;}}}
+\begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 3}
+\vspace*{-\topsep}\begin{columns}[onlytextwidth,c]
+\lstfs{9}\column{.6\linewidth}
+\begin{plainjava}
+!*\onslide<2->*!public class SwapFunction {
+!*\onslide<2->*!    !*\lm<10|handout:0>*!public static void swap(int a, int b) {
+!*\onslide<2->*!        !*\lm<11|handout:1>*!int tmp = b; b = a; a = tmp;
+!*\onslide<2->*!    }
+!*\onslide<2->*!    !*\lm<15-16|handout:3>*!public static void swap(int[] a, int[] b) {
+!*\onslide<2->*!        !*\lm<17|handout:0>*!if(a.length != b.length) return;
+!*\onslide<2->*!        !*\lm<18,21,23,25|handout:0>*!for(int i = 0; i < a.length; i++) {
+!*\onslide<2->*!            !*\lm<19-20,22,24|handout:0>*!int tmp = b[i]; b[i] = a[i]; a[i] = tmp;
+!*\onslide<2->*!        }!*\lm<26|handout:4>[~~]*!
+!*\onslide<2->*!    }
+!*\onslide<2->*!    !*\lm<3|handout:0>*!public static void main(String[] args) {
+!*\onslide<2->*!        !*\lm<4|handout:0>*!int a = 21; int b = 42;
+!*\onslide<2->*!        !*\lm<5-6|handout:0>*!int[] c = {1, 2, 3};
+!*\onslide<2->*!        !*\lm<7|handout:0>*!int[] d = {4, 5, 6};
+!*\onslide<2->*!        !*\lm<8-9|handout:0>*!swap(a, b);!*\lm<12|handout:2>[~~]*!!*\onslide<9|handout:1>*! // :yields: swap(int, int)
+!*\onslide<2->*!        !*\lm<13-14|handout:0>*!swap(c, d);!*\lm<27|handout:0>[~~]*!!*\onslide<14|handout:3>*! // :yields: swap(int[], int[])
+!*\onslide<2->*!    }
+!*\onslide<2->*!}
+\end{plainjava}
+\column{.4\linewidth}
+\vspace*{-\baselineskip}\centering
+\downsize\linewidth{\begin{tikzpicture}[lhns@basestyle/.append style={execute at begin node=\strut,font=\ttfamily},lhns@blockstyle/.append style={draw=gray,thick}]
+\begin{heap-n-stack}{}
+
+\heap{\only<-5|handout:0>{-heapland-}\only<6->{\,\{\only<-19|handout:-3>{1}\only<20-|handout:4->{4}, \only<-21|handout:-3>{2}\only<22-|handout:4->{5}, \only<-23|handout:-3>{3}\only<24-|handout:4->{6}\}}}
+\only<7->{\heap{\,\{\only<-19|handout:-3>{4}\only<20-|handout:4->{1}, \only<-21|handout:-3>{5}\only<22-|handout:4->{2}, \only<-23|handout:-3>{6}\only<24-|handout:4->{3}\}}}
+\renderheap
+
+\only<3->{\stack{\textbf{main}}}
+\only<4->{\stack{a = 21}}
+\only<4->{\stack{b = 42}}
+\only<5->{\stack{c}}
+\only<7->{\stack{d}}
+\only<10-11|handout:1>{\stack{\small\textbf{swap(int, int)}}
+\stack{a = \only<10|handout:0>{21}\only<11>{42}}
+\stack{b = \only<10|handout:0>{42}\only<11>{21}}
+\only<11>{\stack{tmp = 42}}}
+\only<15-26|handout:3>{\stack{\scriptsize\textbf{swap(int[], int[])}}
+\stack{a}
+\stack{b}
+\only<16->{\draw[lhns] (stack-6.east) -- ++(.5,0) to[out=0,in=180] (heap-0.west);
+\draw[lhns] (stack-7.east) -- ++(.5,0) to[out=0,in=192] (heap-1.west);}
+}
+\only<18-25|handout:0>{\stack{i = \only<18-20|handout:0>{0}\only<21-22|handout:0>{1}\only<23-24|handout:0>{2}\only<25|handout:0>{3}}}
+\only<19-20,22,24|handout:0>{\stack{tmp = \only<19-20>{4}\only<22>{5}\only<24>{6}}}
+\renderstack
+
+\only<6->{\draw[lhns] (stack-3.east) to[out=0,in=180] (heap-0.west);}
+\only<7->{\draw[lhns] (stack-4.east) to[out=0,in=180] (heap-1.west);}
+
+\end{heap-n-stack}
+\end{tikzpicture}}
+\end{columns}
 \end{frame}
 % #endregion
 
@@ -407,19 +489,18 @@ public class VariableScope {
 }%
 \section{Der End-Pinguuuu}
 \begin{frame}[c]
-   \pause\begin{center}
-    \scalebox{1.25}{\begin{tikzpicture}
-        \node[scale=.55] at(0,0)      (alice) {\usebox{\alice}};
-        \node[scale=.55] at(7,0)      (bob)   {\usebox{\bob}};
-        \node[scale=.55] at(3.5,-2.5) (eve)   {\usebox{\eve}};
-        \draw[-Kite,transform canvas={yshift=0.33em}] (alice.east) node[above right] {\(A = 14\)} -- (bob.west);
-        \draw[Kite-,transform canvas={yshift=-0.33em}] (alice.east) -- (bob.west)  node[below left] {\(B = 12\)};
-        \draw[densely dashed] (eve.north) -- ++(0,2);
-        \node[below,xshift=-0.4em] at (alice.south) {Alice};
-        \node[below,xshift=-0.7em] at (bob.south) {Bob};
-        \node[below] at (eve.south) {Eve};
-    \end{tikzpicture}}
-   \end{center}
+   \vspace*{3em}\par\pause\centering
+\scalebox{1.25}{\begin{tikzpicture}
+    \node[scale=.55] at(0,0)      (alice) {\usebox{\alice}};
+    \node[scale=.55] at(7,0)      (bob)   {\usebox{\bob}};
+    \node[scale=.55] at(3.5,-2.5) (eve)   {\usebox{\eve}};
+    \draw[-Kite,transform canvas={yshift=0.33em}] (alice.east) node[above right] {\(A = 14\)} -- (bob.west);
+    \draw[Kite-,transform canvas={yshift=-0.33em}] (alice.east) -- (bob.west)  node[below left] {\(B = 12\)};
+    \draw[densely dashed] (eve.north) -- ++(0,2);
+    \node[below,xshift=-0.4em] at (alice.south) {Alice};
+    \node[below,xshift=-0.7em] at (bob.south) {Bob};
+    \node[below] at (eve.south) {Eve};
+\end{tikzpicture}}\par
 \end{frame}
 % #endregion
 \iffull\end{document}\fi
