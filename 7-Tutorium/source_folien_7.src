@@ -472,35 +472,44 @@ public class VariableScope {
 \end{tikzpicture}}
 \newsavebox{\alice}\savebox{\alice}{%
     \begin{tikzpicture}
-        \pingu[name=alice,right wing grab,cup straw=!hide,cup=paletteA]
+        \pingu[name=alice,right wing grab,cup straw=!hide,cup=paletteA,santa hat,hair=!hide,eyes shiny]
         \node[scale=0.115,yshift=-4pt,xshift=-10pt,yscale=0.9] at(alice-bill) {\usebox{\smoke}};
     \end{tikzpicture}
 }%
 \newsavebox{\bob}\savebox{\bob}{%
     \begin{tikzpicture}
-        \pingu[name=bob,right eye wink,sign post right={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.2cm}{\centering\small I \textcolor{pingu@red!90!black}{\faHeart}\\[-0.1cm]\color{white}\LaTeX\\[-0.65cm]}}}}]
+        \pingu[name=bob,right eye wink,sign post right={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.2cm}{\centering\small I \textcolor{pingu@red!90!black}{\faHeart}\\[-0.1cm]\color{white}\LaTeX\\[-0.65cm]}}}},santa hat,hair=!hide,shirt=pingu@red!94!pingu@yellow!86!pingu@black]
     \end{tikzpicture}
 }%
 \newsavebox{\eve}\savebox{\eve}{%
     \begin{tikzpicture}
-        \pingu[name=eve,right wing hug,sunglasses,eyes angry]
-        \node[pingu@black!80!purple] at (eve-belly-center) {\faWindows}; \begin{pgfinterruptboundingbox}\node[scale=0.25,rotate=13,yshift=1.4em,xshift=0.1em] at (eve-wing-right-tip) {\usebox{\calc}};\end{pgfinterruptboundingbox}
+        \pingu[name=eve,right wing hug,sunglasses,glasses opacity=.895,eyes angry,santa hat,hair=!hide,santa beard]
+        \node[pingu@black!80!purple] at ([yshift=-1.45mm,xshift=4.65mm]eve-belly-center) {\faWindows}; \begin{pgfinterruptboundingbox}\node[scale=0.25,rotate=13,yshift=1.4em,xshift=0.1em] at (eve-wing-right-tip) {\usebox{\calc}};\end{pgfinterruptboundingbox}
     \end{tikzpicture}
 }%
 \section{Der End-Pinguuuu}
 \begin{frame}[c]
    \vspace*{3em}\par\pause\centering
 \scalebox{1.25}{\begin{tikzpicture}
-    \node[scale=.55] at(0,0)      (alice) {\usebox{\alice}};
-    \node[scale=.55] at(7,0)      (bob)   {\usebox{\bob}};
-    \node[scale=.55] at(3.5,-2.5) (eve)   {\usebox{\eve}};
+    \node[scale=.55] at(0,0)      (alice) {\usebox\alice};
+    \node[scale=.55] at(7,0)      (bob)   {\usebox\bob};
+    \node[scale=.55] at(3.5,-2.5) (eve)   {\usebox\eve};
     \draw[-Kite,transform canvas={yshift=0.33em}] (alice.east) node[above right] {\(A = 14\)} -- (bob.west);
     \draw[Kite-,transform canvas={yshift=-0.33em}] (alice.east) -- (bob.west)  node[below left] {\(B = 12\)};
     \draw[densely dashed] (eve.north) -- ++(0,2);
     \node[below,xshift=-0.4em] at (alice.south) {Alice};
-    \node[below,xshift=-0.7em] at (bob.south) {Bob};
+    \node[below,xshift=-0.7em] at (bob.south) {~~~~~~Bob};
     \node[below] at (eve.south) {Eve};
-\end{tikzpicture}}\par
+\end{tikzpicture}}\par% Diffie-Hellman
 \end{frame}
+
+\iffull
+{\colorlet{@ping@bg}{pingu@red!73!pingu@black}\setbeamercolor{background canvas}{bg=@ping@bg}
+\begin{frame}[plain,c]
+    \vspace*{3.5em}\par\pause\centering
+    \tikz\pingu[body=@ping@bg!25!pingu@white,body front=!hide,feet color=@ping@bg!25!pingu@white,eyes wink,eyes color=@ping@bg!70!pingu@white,bill=none,santa hat=@ping@bg!25!pingu@white,santa hat second=@ping@bg!70!pingu@white,heart=@ping@bg!70!pingu@white];\\[2em]
+    \textcolor{@ping@bg!65!white}{Let's talk about november 22\textsuperscript{nd}}
+\end{frame}}
+\fi
 % #endregion
 \iffull\end{document}\fi
