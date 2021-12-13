@@ -128,3 +128,4 @@
  {highlight: \@declaredcolor{sol@colors@lst@highlight}\upshape},%
 }}
 \def\NLMarker{{\color{lightgray}\footnotesize$\hookleftarrow$}}%
+\usepackage{cancel}

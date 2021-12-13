@@ -757,4 +757,4 @@ Dennoch, \say{explicit is better than implicit}. Andere Sprachen machen das ande
     \end{tikzpicture}}
    \end{center}
 \end{frame}
-\end{document}
+\iffull \end{document} \fi
