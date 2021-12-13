@@ -508,7 +508,7 @@ public class VariableScope {
 \begin{frame}[plain,c]
     \vspace*{3.5em}\par\pause\centering
     \tikz\pingu[body=@ping@bg!25!pingu@white,body front=!hide,feet color=@ping@bg!25!pingu@white,eyes wink,eyes color=@ping@bg!70!pingu@white,bill=none,santa hat=@ping@bg!25!pingu@white,santa hat second=@ping@bg!70!pingu@white,heart=@ping@bg!70!pingu@white];\\[2em]
-    \textcolor{@ping@bg!65!white}{Let's talk about november 22\textsuperscript{nd}}
+    \textcolor{@ping@bg!65!white}{Let's talk about december 22\textsuperscript{nd}}
 \end{frame}}
 \fi
 % #endregion
