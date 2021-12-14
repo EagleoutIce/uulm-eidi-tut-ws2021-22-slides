@@ -289,7 +289,7 @@ Kleinste Ziffer: \(z = n \bmod 10\), Zahl ohne kleinste Ziffer: \(z = \floor{\fr
 \pgfonlayer{background}
     \fill[paletteB!80!pingu@white] (.9375cm,-14.75mm) ellipse[x radius=16mm,y radius=3.25mm];
 \endpgfonlayer
-    \pingu[wings wave,eyes wink,headband,body type=chubby];
+    \pingu[wings wave,eyes wink,headband,body type=chubby,blush];
 \end{tikzpicture}}
 \subsection{Aufgabe 2}
 \begin{frame}[t,fragile]{Übungsblatt 7 - Aufgabe 2}
@@ -478,7 +478,7 @@ public class VariableScope {
 }%
 \newsavebox{\bob}\savebox{\bob}{%
     \begin{tikzpicture}
-        \pingu[name=bob,right eye wink,sign post right={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.2cm}{\centering\small I \textcolor{pingu@red!90!black}{\faHeart}\\[-0.1cm]\color{white}\LaTeX\\[-0.65cm]}}}},santa hat,hair=!hide,shirt=pingu@red!94!pingu@yellow!86!pingu@black]
+        \pingu[name=bob,right eye wink,sign post right={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.2cm}{\centering\small I \textcolor{pingu@red!90!black}{\faHeart}\\[-0.1cm]\color{white}\LaTeX\\[-0.65cm]}}}},santa hat,hair=!hide,shirt=pingu@red!94!pingu@yellow!86!pingu@black,blush]
     \end{tikzpicture}
 }%
 \newsavebox{\eve}\savebox{\eve}{%
