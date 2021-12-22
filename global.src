@@ -129,3 +129,12 @@
 }}
 \def\NLMarker{{\color{lightgray}\footnotesize$\hookleftarrow$}}%
 \usepackage{cancel}
+
+\def\lhnselementformat#1{\texttt{#1}\hfill\hbox{}}
+\def\lhnsielementformat#1{\textbf{\vphantom{A}#1}}
+\long\def\lhnselementbox#1#2{\parbox{#1}{~#2~}}%
+\makeatletter
+\lhns@minborderheight=5.4cm
+\makeatother
+
+\tikzset{lhns@impstyle/.style={}}%

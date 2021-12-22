@@ -1,89 +1,38 @@
 % #region preamble
-\errorcontextlines 999999
-\usepackage{attachfile2}
-\attachfilesetup{%
-    author={Florian Sihler},%
-    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
-}
+\InputIfFileExists{../global.src}\relax\relax
 
-\usepackage[%
-    sopra-listings={encoding,cpalette,highlights,numinpar},%
-    sopra-tables,
-    color-palettes={addons},%
-    util,%
-    lithie-boxes={germanenv,koma,overwrite},%
-    lithie-task-boxes={cpalette},%
-    lecture-links={patchurl},%
-    lecture-registers={disable}% would interfere with beamer
-]{lithie-util}
-
-\RequirePackage{lecture-personal-tikz}
-
-\usepackage[ngerman]{babel}
-
-\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
-\RestyleAlgo{plain}
-\solLoadLanguage{bash,cpp,regex}
-
-\def\lhnselementformat#1{\texttt{#1}\hfill\hbox{}}
-\def\lhnsielementformat#1{\textbf{\vphantom{A}#1}}
-\long\def\lhnselementbox#1#2{\parbox{#1}{~#2~}}%
-\makeatletter
-\lhns@minborderheight=5.4cm
-\makeatother
-
-\tikzset{lhns@impstyle/.style={}}%
-
-\def\solcustom{fill=paletteA!30,draw=paletteA!30}
-
-
-\usepackage[chess]{eagle-maps}
-\colorlet{chesswhite}{paletteA!90!white}
-\colorlet{chessblack}{paletteB!90!white}
-
-\colorlet{MaterialHeaderColor}{paletteB}%
-\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
-
-\def\linkstyle#1{\textsf{\paletteD{#1}}}
-\SetAllLinkStyle{\linkstyle{#1}}
-\usepackage{tikzducks,tikzsymbols}
-\usetheme{lucy}
-
-\colorlet{chessfieldblack}{lightgray}
-
-\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
-
-\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
-
-\newcommand\parallelcontent[3][t]{%
-    \begin{columns}[#1]
-    \begin{column}{0.475\linewidth} #2 \end{column}\hfill
-    \begin{column}{0.475\linewidth} #3 \end{column}
-    \end{columns}
-}
-% #endregion
+\iffull
 
 \title[Achtes Tutorium -- Übungsblatt 8]{(Still) Stay at Home\\\small Tutorium 8}
-\date{\sffamily KW 25}
-\author{Florian Sihler}
-\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+\date{\sffamily KW 2}
 
-\usepackage{tikzpingus}
-\usetikzlibrary{decorations.text}
+\usepackage[glows]{tikzpingus}
+\usetikzlibrary{decorations.text,matrix}
 \hypersetup{colorlinks=false}
 
 \begin{document}
-\begin{frame}[c]
-    \begin{tikzpicture}[overlay]
-        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
-            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
-        \end{scope}
-        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {8};
-    \end{tikzpicture}
-    \titlepage
-\end{frame}
+\Titlepage{8}
+\fi
+
+% #endregion
 
 \section{Präsenzaufgabe}
+\begin{frame}[c]{Präsenzaufgabe}
+    \begin{aufgabe}{Unbekannt}
+        Jo Diggie
+    \end{aufgabe}
+\end{frame}
+
+\section{Übungsblatt 8}
+\subsection{Aufgabe 1 a)}
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1}
+    \begin{itemize}[<+(1)->]
+        \item Taxi nach Heim bittedange (\only<2->{\textattachfile{\curpath Taxi.java}{Taxi.java}}).
+    \end{itemize}
+\end{frame}
+
+\section{Altes Präsentatio}
+\subsection{Listentausch}
 \begin{frame}[c]{Präsenzaufgabe}
     \begin{aufgabe}{Listentausch, \ldots}
         \pause{}Implementieren Sie eine einfach verkettete Liste, die Integerwerte speichern kann.\pause{} Implementieren Sie eine Methode (+ Hilfsmethoden), die zwei Listenelemente anhand ihrer Indizes vertauscht.\pause{} Die Liste fängt wie ein Array bei 0 zu zählen an. Beachten Sie auch Randbedingungen, wie eine leere Liste.
@@ -533,7 +482,7 @@ public void swap(int i, int j) {
     \end{itemize}
 \end{frame}
 
-\section{Präsenzaufgabe, 2}
+\subsection{Komplexitätsklassen}
 \begin{frame}[c]{Präsenzaufgabe, 2}
     \begin{aufgabe}{It's complex, isn't it?}
         \pause{}Sie sehen gleich ein Programm, welches ein Array an Integer-Werten sortiert. Ihre Aufgaben sind die folgenden: \begin{enumerate}[<+(1)->]
@@ -591,153 +540,6 @@ public void swap(int i, int j) {
     \end{enumerate}
 \end{frame}
 
-\section{Übungsblatt 8}
-\subsection{Aufgabe 1}
-\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1}
-    \begin{itemize}[<+(1)->]
-        \item Die Datei findet sich hier: \only<2->{\textattachfile{MemberBase.java}{MemberBase.java}}
-        \item Mit \bjava[morekeywords={[3]{Member}}]{Member::compareTo} klappt das Vergleichen:
-\lstfs{10}
-\begin{plainjava}[morekeywords={[3]{Member}}]
-!*\onslide<4->*!public boolean find(Member member) {
-!*\onslide<4->*!    int left = 0;
-!*\onslide<4->*!    int right = this.members.length - 1;
-!*\onslide<5->*!    while (left <= right) {
-!*\onslide<6->*!        int mid = left + (right-left)/2; // oder nur (left + right)/2
-!*\onslide<7->*!        if (member.compareTo(members[mid]) < 0)
-!*\onslide<8->*!            right = mid - 1;
-!*\onslide<7->*!        else if(member.compareTo(members[mid]) > 0)
-!*\onslide<9->*!            left = mid + 1;
-!*\onslide<7->*!        else !*\onslide<10->*!return true;
-!*\onslide<5->*!    }
-!*\onslide<11->*!    return false;
-!*\onslide<4->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\subsection{Aufgabe 2}
-\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item Die Datei findet sich hier: \only<2->{\textattachfile{Binom.java}{Binom.java}}
-        \item Zur Wiederholung die Formel:\pause
-\begin{equation*}
-    \binom{n}{k} = \begin{cases}
-        1 & n = k \lor k = 0 \\
-        \binom{n - 1}{k - 1} + \binom{n - 1}{k}\quad & 0 < k < n
-    \end{cases}
-\end{equation*}
-        \item Ohne die Prüfung lässt sich dies genau so übertragen:
-\begin{plainjava}
-!*\onslide<6->*!public static int binomial(int n, int k) {
-!*\onslide<7->*!    if (n == k || k == 0) return 1;
-!*\onslide<8->*!    return binomial(n - 1, k - 1) + binomial(n - 1, k);
-!*\onslide<6->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item Nun mit dem Abfangen der ungültigen Eingaben:
-\begin{plainjava}
-!*\onslide<3->*!public static int binomial(int n, int k)
-!*\onslide<3->*!            throws IllegalArgumentException {
-!*\onslide<4->*!    if (!(0 <= k && k <= n))
-!*\onslide<4->*!        throw new IllegalArgumentException("[...]");
-!*\onslide<3->*!
-!*\onslide<5->*!    if (n == k || k == 0) return 1;
-!*\onslide<6->*!    return binomial(n - 1, k - 1) + binomial(n - 1, k);
-!*\onslide<3->*!}
-\end{plainjava}
-    \item<7-> Hier bietet sich auch eine Hilfsmethode an um den Test von der Rekursion zu trennen!
-    \end{itemize}
-\end{frame}
-
-\subsection{Aufgabe 3}
-\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 3}
-    \begin{itemize}[<+(1)->]
-        \item Die Datei findet sich hier: \only<2->{\textattachfile{Combinations.java}{Combinations.java}}
-        \item Die Idee: wir rufen die Methode rekursiv für jedes Symbol auf, bis die gewünschte Länge an Symbolen erreicht ist!
-        \item Dafür benötigen wir eine Hilfsmethode, welche das Präfix der bisherigen Symbolkombination hält.
-        \item Damit erhalten wir\ldots
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 3}
-\lstfs{10}%
-\begin{plainjava}
-!*\onslide<2->*!public static void combinations(int length, char... symbols) {
-!*\onslide<4->*!    combinations(length, symbols, "");
-!*\onslide<2->*!}
-!*\onslide<2->*!
-!*\onslide<3->*!private static void combinations(int length, char[] symbols, String acc) {
-!*\onslide<7->*!    if (acc.length() >= length) {
-!*\onslide<8->*!        System.out.println(acc);
-!*\onslide<8->*!        return;
-!*\onslide<7->*!    } // oder wir Dekrementieren length und Prüfen auf = 0
-!*\onslide<2->*!
-!*\onslide<5->*!    for (char symbol: symbols) {
-!*\onslide<6->*!        combinations(length, symbols, acc + symbol);
-!*\onslide<5->*!    }
-!*\onslide<3->*!}
-\end{plainjava}
-\end{frame}
-
-\subsection{Zusatzaufgabe 3/6}
-\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 3}
-    \begin{itemize}[<+(1)->]
-        \item Die Datei findet sich hier: \only<2->{\textattachfile{Horner.java}{Horner.java}}
-        \item Das Vorgehen folgt dem der vorherigen Aufgabe.
-        Zuerst die Hauptmethode:
-\begin{plainjava}
-!*\onslide<4->*!public static int convert(int base, int... digits)
-!*\onslide<4->*!            throws IllegalArgumentException {
-!*\onslide<5->*!    if (base < 2)
-!*\onslide<5->*!        throw new IllegalArgumentException ("[...]");
-!*\onslide<6->*!    if (digits.length <= 0) // oder '0' nach Definition
-!*\onslide<6->*!        throw new IllegalArgumentException ("[...]");
-!*\onslide<7->*!    validateDigits(base, digits);
-!*\onslide<8->*!    return convert(digits, digits.length - 1, base);
-!*\onslide<4->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 3}
-    \begin{itemize}[<+(1)->]
-        \item Die Methode zum Prüfen der jeweiligen Ziffern könnten wir auch in den rekursiven Aufruf einweben:
-\begin{plainjava}
-!*\onslide<3->*!private static void validateDigits(int base, int[] digits) {
-!*\onslide<4->*!    for (int digit : digits) {
-!*\onslide<5->*!        if (!(0 <= digit && digit < base))
-!*\onslide<6->*!           throw IllegalArgumentException("[...]");
-!*\onslide<4->*!    }
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-
-\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 3}
-    \begin{itemize}[<+(1)->]
-        \item Und nun die rekursive Methode:
-\begin{plainjava}
-!*\onslide<3->*!private static int convert(int[] digits, int index, int base) {
-!*\onslide<4->*!    if(index < 0)
-!*\onslide<4->*!        return 0;
-!*\onslide<5->*!    return convert(digits, index-1, base) * base + digits[index];
-!*\onslide<3->*!}
-\end{plainjava}
-    \item<6-> Oder alternativ:
-\begin{plainjava}
-!*\onslide<7->*!private static int convert(int[] digits, int index, int base) {
-!*\onslide<8->*!    return index < 0 ? 0 : convert(digits, index - 1, base)
-!*\onslide<8->*!        * base + digits[index];
-!*\onslide<7->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
 
 \section{Eine End-Enteee}
 \pgfmathsetmacro{\relativefibrethickness}{0.50}
@@ -821,4 +623,4 @@ public void swap(int i, int j) {
         \end{tikzpicture}
     \end{center}
 \end{frame}
-\end{document}
+\iffull\end{document}\fi
