@@ -3,7 +3,7 @@
 
 \iffull
 
-\title[Achtes Tutorium -- Übungsblatt 8]{(Still) Stay at Home\\\small Tutorium 8}
+\title[Achtes Tutorium -- Übungsblatt 8]{So once, we had holidays\\\small Dreamy Doggos 8}
 \date{\sffamily KW 2}
 
 \usepackage[glows]{tikzpingus}
@@ -24,13 +24,175 @@
 \end{frame}
 
 \section{Übungsblatt 8}
-\subsection{Aufgabe 1 a)}
-\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1}
+\subsection{Aufgabe 1}
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1a)}
     \begin{itemize}[<+(1)->]
         \item Taxi nach Heim bittedange (\only<2->{\textattachfile{\curpath Taxi.java}{Taxi.java}}).
-    \end{itemize}
+    \end{itemize}\vfill
+\begin{columns}[onlytextwidth,c]
+\column{.515\linewidth}
+\onslide<3->{\only<4->{\color{gray}}\scriptsize Implementieren Sie eine \mark<5->{Klasse \T{Taxi}} mit \mark<9->{privaten, unveränderlichen} Instanzvariablen für die folgenden Eigenschaften:\def\bul{\textcolor{gray}{\textbullet}}\def\G{\only<4->{\color{gray}}\scriptsize}
+\begin{itemize}
+    \itemsep0pt
+    \item[\bul] \G \mark<7->{Grundpreis} einer Fahrt in \mark<7->{Euro}
+    \item[\bul] \G Den \mark<7->{Kilometerpreis} in \mark<7->{Euro}
+    \item[\bul] \G Den \mark<7->{Kraftstoffverbrauch} in \mark<7->{$\frac{l}{100km}$}
+    \item[\bul] \G Das \mark<7->{Tankvolumen} des Taxis in \mark<7->{Liter}
+\end{itemize}
+Fügen Sie weiterhin die folgenden \mark<11->{privaten, veränderlichen} Variablen hinzu:
+\begin{itemize}
+    \itemsep0pt
+    \item[\bul] \G Den \mark<7->{Tankinhalt} in \mark<7->{Litern}
+    \item[\bul] \G Den \mark<7->{Stand des Taxometers} in \mark<7->{Euro}
+    \item[\bul] \G Die \mark<7->{Gesamteinnahmen} in \mark<7->{Euro}
+\end{itemize}
+Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen sinnvoll zu initialiseren.}
+\column{.485\linewidth}
+\SetupLstHl\lstfs{9}%
+\begin{plainjava}
+!*\onslide<6->*!public class Taxi {
+!*\onslide<10->*!   private final !*\onslide<8->*!double basicCharge;
+!*\onslide<10->*!   private final !*\onslide<8->*!double kilometerPrice;
+!*\onslide<10->*!   private final !*\onslide<8->*!double fuelConsumption;
+!*\onslide<10->*!   private final !*\onslide<8->*!double fueltankCapacity;
+!*\onslide<10->*!
+!*\onslide<12->*!   private !*\onslide<8->*!double remainingFuel;
+!*\onslide<12->*!   private !*\onslide<8->*!double taxometer;
+!*\onslide<12->*!   private !*\onslide<8->*!double totalEarnings;
+!*\onslide<10->*!
+!*\onslide<14->*!   public Taxi(|ihl|:ldots:|ihl|) {
+!*\onslide<14->*!       |ihl|:ldots:|ihl|
+!*\onslide<14->*!   }
+!*\onslide<6->*!}
+\end{plainjava}
+\end{columns}
 \end{frame}
 
+\begin{frame}[c,fragile]{Übungsblatt 8 - Aufgabe 1a)}
+\SetupLstHl
+{\lstfs{8}\begin{plainjava}[columns=fixed]
+|ihl|public class Taxi {|ihl|
+|ihl|   private final double basicCharge;       private final double kilometerPrice;|ihl|
+|ihl|   private final double fuelConsumption;   private final double fueltankCapacity;|ihl|
+|ihl|   private double remainingFuel;           private double taxometer;|ihl|
+|ihl|   private double totalEarnings;|ihl|
+\end{plainjava}
+}\lstfs{10}\begin{plainjava}
+!*\onslide<2->*!   public Taxi(double basicCharge, double kilometerPrice,
+!*\onslide<2->*!                double fuelConsumption, double fueltankCapacity) {
+!*\onslide<3->*!      this.basicCharge = basicCharge;
+!*\onslide<3->*!      this.kilometerPrice = kilometerPrice;
+!*\onslide<3->*!      this.fuelConsumption = fuelConsumption;
+!*\onslide<3->*!      this.fueltankCapacity = fueltankCapacity;
+!*\onslide<2->*!
+!*\onslide<4->*!      this.remainingFuel = fueltankCapacity;
+!*\onslide<5->*!      this.taxometer = 0.0;
+!*\onslide<5->*!      this.totalEarnings = 0.0;
+!*\onslide<2->*!   }!*\onslide<1->*!
+\end{plainjava}
+{\lstfs{8}\begin{plainjava}
+|ihl|}|ihl|
+\end{plainjava}}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1b)}
+    \begin{itemize}
+        \item<2-> Overdriven sie mich home:
+    \end{itemize}
+\begin{plainjava}
+!*\onslide<3->*!public double drive(double distance) {
+!*\onslide<4->*!    double requiredFuel = distance * fuelConsumption / 100;
+!*\onslide<5->*!    if(this.remainingFuel < requiredFuel)
+!*\onslide<6->*!        return -1; // Fahrt nicht möglich
+!*\onslide<3->*!
+!*\onslide<7->*!    this.remainingFuel -= requiredFuel;
+!*\onslide<8->*!    this.taxometer += basicCharge + distance * kilometerPrice;
+!*\onslide<3->*!
+!*\onslide<9->*!    return taxometer;
+!*\onslide<3->*!}
+\end{plainjava}
+\end{frame}
+
+
+\MakeThePinguExplainIt[text width=7.9cm]{cap=!hide,crown,bow tie,right item angle=-60}{Wir könnten auch \bjava{else if} benutzen. So verschmilzt aber ein Guard mit Funktionalität.}
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1c)}
+    \begin{itemize}
+        \item<2-> Money Please:
+    \end{itemize}
+\begin{plainjava}
+!*\onslide<3->*!public boolean pay(double amount) {
+!*\onslide<4->*!    if (amount < taxometer)
+!*\onslide<4->*!        return false;
+!*\onslide<5->*!    if (amount > taxometer)
+!*\onslide<5->*!        System.out.format("Received !*\solGet{literals}{\solGet{keywordB}{\%.2f}}*!€ tip%n", amount - taxometer);
+!*\onslide<3->*!
+!*\onslide<6->*!    taxometer = 0.0;
+!*\onslide<7->*!    totalEarnings += amount;
+!*\onslide<8->*!    return true;
+!*\onslide<3->*!}
+\end{plainjava}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<9->{\node[left=-7mm,scale=.8] at(current page.-20) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1d)}
+    \begin{itemize}
+        \item<2-> Einmal auftankeeen:
+    \end{itemize}
+\begin{plainjava}
+!*\onslide<3->*!public void refill(double pricePerLitre) {
+!*\onslide<4->*!    double refill = Math.min(
+!*\onslide<4->*!        this.totalEarnings / pricePerLitre,
+!*\onslide<4->*!        this.fueltankCapacity - this.remainingFuel
+!*\onslide<4->*!    ); // Können wir finanziell gesehen volltanken?
+!*\onslide<3->*!
+!*\onslide<5->*!    this.remainingFuel += refill;
+!*\onslide<6->*!    this.totalEarnings -= refill * pricePerLitre;
+!*\onslide<3->*!}
+\end{plainjava}
+\end{frame}
+
+\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1e)}
+    \begin{itemize}
+        \item<2-> Eine beispielhafte (musterlösungsverdächtige) Verwendung:
+    \end{itemize}
+\SetupLstHl\lstfs{9}
+\begin{plainjava}
+!*\onslide<3->*!|ihl|public static void main(String[] args) {|ihl|
+!*\onslide<4->*!    Taxi taxi = new Taxi(3, 0.5, 10, 50);
+!*\onslide<5->*!    double totalCost = taxi.drive(250);
+!*\onslide<6->*!    if (totalCost == -1) System.out.println("Not enough fuel left");
+!*\onslide<6->*!    else System.out.println("Trip costs " + totalCost);
+!*\onslide<7->*!    // pay
+!*\onslide<7->*!    if (taxi.pay(totalCost + 3.00)) System.out.println("Tipped 3,00€");
+!*\onslide<8->*!    // drive
+!*\onslide<8->*!    totalCost = taxi.drive(450);
+!*\onslide<8->*!    if (totalCost == -1) System.out.println("Not enough fuel left");
+!*\onslide<9->*!    // refill & drive
+!*\onslide<9->*!    taxi.refill(1.7);
+!*\onslide<10->*!    totalCost = taxi.drive(450);
+!*\onslide<11->*!    if (totalCost == -1) System.out.println("Not enough fuel left");
+!*\onslide<11->*!    else System.out.println("Trip costs " + totalCost);
+!*\onslide<3->*!|ihl|}|ihl|
+\end{plainjava}
+\end{frame}
+
+\iffull
+\rExecute{javac Taxi.java}
+\begin{frame}[c,fragile]{Eine Anwendung}
+\begin{itemize}[<+(1)->]
+    \item \rbash[:\pause]{java Taxi}
+\end{itemize}
+\end{frame}
+\fi
+
+\section{Zusatzaufgabe 3/6}
+\begin{frame}
+
+\end{frame}
+
+\iffalse
 \section{Altes Präsentatio}
 \subsection{Listentausch}
 \begin{frame}[c]{Präsenzaufgabe}
@@ -623,4 +785,5 @@ public void swap(int i, int j) {
         \end{tikzpicture}
     \end{center}
 \end{frame}
+\fi
 \iffull\end{document}\fi

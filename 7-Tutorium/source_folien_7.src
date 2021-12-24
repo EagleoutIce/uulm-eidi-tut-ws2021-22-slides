@@ -29,7 +29,6 @@
 \end{frame}
 
 \MakeThePinguExplainIt[text width=7cm]{cap=!hide,vr-headset,vr-headset hair}{Anstelle von \bjava{radius * radius} geht auch \bjava{Math.pow(radius,2)} für \(\mathrm{radius}^2\).~~~Die Formeln sollten natürlich bekannt sein \Laughey.}
-\newcommand<>{\mark}[1]{{\only#2{\color{black}}#1}}
 \begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
         \item<2-> Das wichtigste Beiseite: \only<2->{\textattachfile{\curpath Circle.java}{Circle.java}}
