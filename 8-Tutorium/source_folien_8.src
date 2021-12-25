@@ -13,19 +13,22 @@
 \begin{document}
 \Titlepage{8}
 
+\newsavebox\doggominimal \savebox\doggominimal{\tikz\doggo[collar=shadeB,collar ring=!hide,body=shadeB,body back=shadeB,nose=shadeB];}
+{\setbeamercolor{background canvas}{bg=paletteB}
+\begin{frame}[c,plain]
+\centering\only<2->{\scalebox{2.85}{\usebox\doggominimal}}%
+\end{frame}}
 \newsavebox\superlovepengu
 \savebox\superlovepengu{\tikz{\pingu[wings shock,heart=shadeB,eyes color=pingu@white,name=pingu,small,body type=chubby]; \node[pingu@red!90!pingu@white] at(pingu-eye-left) {\faHeart}; \node[pingu@red!90!pingu@white] at(pingu-eye-right) {\faHeart};}}
+\newsavebox\doggoleft \savebox\doggoleft{\tikz\doggo[collar=paletteB,height delta=-.5mm];}
+\newsavebox\doggoright \savebox\doggoright{\tikz\doggo[collar=purple,height delta=.1mm,body=black!50!gray!85!doggo@brown];}
 \begin{frame}[c,plain]
 \centering
 \onslide<2->{\scalebox{2.35}{%
-\begin{tikzpicture}
-\doggo[collar=paletteB,height delta=-.5mm]
-\end{tikzpicture}\only<3->{~~%
-\reflectbox{\begin{tikzpicture}
-\doggo[collar=purple,height delta=.1mm,body=black!50!gray!85!doggo@brown]
-\end{tikzpicture}}}}}
+\usebox\doggoleft\only<3->{~~%
+\reflectbox{\usebox\doggoright}}}}
 \onslide<4->{\begin{tikzpicture}[overlay, remember picture]
-    \node[above left=.22cm] at(current page.south east) {\usebox\superlovepengu};
+    \node[above left=.175cm] at(current page.south east) {\usebox\superlovepengu};
 \end{tikzpicture}}
 \end{frame}
 \fi
@@ -40,6 +43,8 @@
 \end{frame}
 
 \section{Übungsblatt 8}
+\iffalse
+% #region Aufgabe 1
 \subsection{Aufgabe 1}
 \begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1a)}
     \begin{itemize}[<+(1)->]
@@ -202,12 +207,33 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \end{itemize}
 \end{frame}
 \fi
+% #endregion
+\fi
 
-\section{Zusatzaufgabe 3/6}
-\begin{frame}{Zusatzaufgabe 3/6}
-
+\subsection{Zusatzaufgabe 3/6 -- Mit Date}
+\iffull
+\begin{frame}[c]{Zusatzaufgabe 3/6}
+\centering\pingudefaultsappend{heart=shadeB}%
+\begin{tikzpicture}
+\only<2->{\pingu[eyes wink,headband,name=pingu-a]}
+\only<4->{\pingu[xshift=3.5cm,yshift=-2mm,eyes shiny,small,hat,tie,name=pingu-b]}
+\only<5->{\pingu[xshift=7cm,eyes angry,bill=angry,sunglasses,cap,name=pingu-c]}
+\only<6->{\pingu[xshift=10.5cm,headphones,santa beard,eyes shiny,name=pingu-d]}
+\pgfonlayer{foreground}
+\only<2->{\onslide<3->{\node[above right=.25cm,yshift=.5cm,xshift=-24mm,rectangle callout,rounded corners=1pt,align=left,callout absolute pointer={(pingu-a-head-left)},draw,fill=white] at (pingu-a-head-left) {\textbf{Herbert}\\16.01.2022 16:31};}}
+\only<4->{\node[above right=.25cm,yshift=.5cm,xshift=-19mm,rectangle callout,rounded corners=1pt,align=left,callout absolute pointer={(pingu-b-head-left)},draw,fill=white] at (pingu-b-head-left) {\textbf{Josefine}\\18.01.2022 9:45};}
+\only<5->{\node[above right=.25cm,yshift=.5cm,xshift=-16mm,rectangle callout,rounded corners=1pt,align=left,callout absolute pointer={(pingu-c-head-left)},draw,fill=white] at (pingu-c-head-left) {\textbf{Ute}\\25.01.2022 11:05};}
+\only<6->{\node[above right=.25cm,yshift=.5cm,xshift=-15mm,rectangle callout,rounded corners=1pt,align=left,callout absolute pointer={(pingu-d-head-left)},draw,fill=white] at (pingu-d-head-left) {\textbf{Bernd}\\01.03.2022 15:25};}
+\endpgfonlayer
+\end{tikzpicture}\smallskip
+\begin{center}
+    \onslide<7->{\textbf{\Large Reservieren Bitte.}}
+\end{center}\vspace*{-\medskipamount}
 \end{frame}
+\fi
 
+% #region old
+\iffalse
 \section{Altes Präsentatio}
 \subsection{Listentausch}
 \begin{frame}[c]{Präsenzaufgabe}
@@ -802,4 +828,6 @@ public void swap(int i, int j) {
     \node[above left,yshift=0.45cm,scale=.8] at (current page.south east) {\tikz{\pingu[right wing wave,eyes wink,small]}};
 \end{tikzpicture}
 \end{frame}
+% #endregion
+\fi
 \iffull\end{document}\fi
