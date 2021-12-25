@@ -14,13 +14,17 @@
 \Titlepage{8}
 
 \newsavebox\superlovepengu
-\savebox\superlovepengu{\tikz{\pingu[wings shock,heart=shadeB,eyes color=pingu@white,name=pingu]; \node[pingu@red] at(pingu-eye-left) {\faHeart}; \node[pingu@red] at(pingu-eye-right) {\faHeart};}}
+\savebox\superlovepengu{\tikz{\pingu[wings shock,heart=shadeB,eyes color=pingu@white,name=pingu,small,body type=chubby]; \node[pingu@red!90!pingu@white] at(pingu-eye-left) {\faHeart}; \node[pingu@red!90!pingu@white] at(pingu-eye-right) {\faHeart};}}
 \begin{frame}[c,plain]
 \centering
-\onslide<2->{\scalebox{2.75}{\colorlet{blue}{paletteB}\begin{tikzpicture}
-    \doggo
-\end{tikzpicture}}}
-\onslide<3->{\begin{tikzpicture}[overlay, remember picture]
+\onslide<2->{\scalebox{2.35}{%
+\begin{tikzpicture}
+\doggo[collar=paletteB,height delta=-.5mm]
+\end{tikzpicture}\only<3->{~~%
+\reflectbox{\begin{tikzpicture}
+\doggo[collar=purple,height delta=.1mm,body=black!50!gray!85!doggo@brown]
+\end{tikzpicture}}}}}
+\onslide<4->{\begin{tikzpicture}[overlay, remember picture]
     \node[above left=.22cm] at(current page.south east) {\usebox\superlovepengu};
 \end{tikzpicture}}
 \end{frame}
@@ -420,7 +424,7 @@ public void swap(int i, int j) {
         \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj}};
         \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
         \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
-    \end{tikzpicture}}\\[0.5em]}
+    \end{tikzpicture}}\\[0.5em]}%
     \onslide<2->{\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
         \node[inner sep=0pt] (a) at (0,0) {\Element{1}};
         \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
@@ -440,7 +444,7 @@ public void swap(int i, int j) {
         \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj}};
         \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
         \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
-    \end{tikzpicture}}\\[0.5em]
+    \end{tikzpicture}}\\[0.5em]%
     \onslide<3->{\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
         \node[inner sep=0pt] (a) at (0,0) {\Element{1}};
         \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
@@ -460,7 +464,7 @@ public void swap(int i, int j) {
         \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
         \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
         \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
-    \end{tikzpicture}}
+    \end{tikzpicture}}%
 \end{minipage}
     \end{itemize}
 \end{frame}
@@ -512,7 +516,7 @@ public void swap(int i, int j) {
         \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
         \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
         \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
-    \end{tikzpicture}}\\[0.5em]}
+    \end{tikzpicture}}\\[0.5em]}%
     \onslide<2->{\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
         \node[inner sep=0pt] (a) at (0,0) {\Element{1}};
         \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
@@ -532,8 +536,8 @@ public void swap(int i, int j) {
         \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
         \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
         \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
-    \end{tikzpicture}}\\[0.5em]
-    \onslide<3->{
+    \end{tikzpicture}}\\[0.5em]%
+    \onslide<3->{%
         {\color{csecondary}\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
             \node[inner sep=0pt] (b) at (0,0) {\Element{2}};
             \node[inner sep=0pt] (a) at (2.25,0) {\Element{1}};
@@ -553,8 +557,8 @@ public void swap(int i, int j) {
             \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
             \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
             \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
-        \end{tikzpicture}}
-    }
+        \end{tikzpicture}}%
+    }%
 \end{minipage}
     \end{itemize}
 \end{frame}
@@ -606,7 +610,7 @@ public void swap(int i, int j) {
         \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
         \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
         \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
-    \end{tikzpicture}}\\[0.5em]}
+    \end{tikzpicture}}\\[0.5em]}%
     \onslide<2->{\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
         \node[inner sep=0pt] (b) at (0,0) {\Element{2}};
         \node[inner sep=0pt] (a) at (2.25,0) {\Element{1}};
@@ -626,8 +630,8 @@ public void swap(int i, int j) {
         \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
         \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
         \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
-    \end{tikzpicture}}\\[0.5em]
-    \onslide<3->{
+    \end{tikzpicture}}\\[0.5em]%
+    \onslide<3->{%
         {\color{csecondary}\begin{tikzpicture}[scale=0.65,every node/.style={transform shape}]
             \node[inner sep=0pt] (c) at (0,0) {\Element{3}};
             \node[inner sep=0pt] (b) at (2.25,0) {\Element{2}};
@@ -643,8 +647,8 @@ public void swap(int i, int j) {
             \draw[Kite-] (b) -- ++(0,-0.75) node[below] {\T{bj, tmp}};
             \draw[Kite-] (c) -- ++(0,-0.75) node[below] {\T{b}};
             \draw[Kite-] (c) -- ++(0,0.75) node[above] {\T{head}};
-        \end{tikzpicture}}
-    }
+        \end{tikzpicture}}%
+    }%
 \end{minipage}
     \end{itemize}
 \end{frame}
@@ -713,8 +717,7 @@ public void swap(int i, int j) {
     \end{enumerate}
 \end{frame}
 
-
-\section{Eine End-Enteee}
+\section{Eine End-Ente, ein End-Doggo und ein End-Pingu}
 \pgfmathsetmacro{\relativefibrethickness}{0.50}
 \pgfmathsetmacro{\relativefibrevariation}{0.11}
 \pgfmathsetmacro{\numberoffibres}{9}
@@ -732,68 +735,71 @@ public void swap(int i, int j) {
 
 \pgfmathsetmacro{\stepheight}{\boardheight/\fibresteps}
 \begin{frame}[c]
-    \begin{tikzpicture}[overlay,remember picture]
-        \node[above left,yshift=0.45cm,scale=.9] at (current page.south east) {\tikz{\pingu[right wing wave,eyes wink,small]}};
-    \end{tikzpicture}
-    \begin{center}
-        \begin{tikzpicture}
-        % Let ducks fight... whatever? ^^
-            % \node at(0,0) {\includegraphics[width=4.25cm]{Durotan.png}};
-            \node[scale=2.25] at (7,0) {\begin{tikzpicture}
-                \duck[invisible,water=blue!90!white]
-                \begin{scope}[xshift=-1.25cm,scale=1.1]
-                    \fill[gray,rotate=-24] (0.1,1.21) rectangle (1*1.1,1*1.23); % make triangle
-                    \fill[gray,rotate=-24]
-                        (1.2,1.22) ellipse (1*0.15 and 1*0.03) (1.08,1.22)
-                        ellipse (1*0.03 and 1*0.15);
+\vspace*{.955em}\begin{center}
+    \raisebox{.2cm}{\scalebox{2.5}{\begin{tikzpicture}
+        \doggo[height delta=.1mm,body=white!95!brown!89!pingu@red,eye=pingu@red!35!pingu@black]
+    \end{tikzpicture}}}\!\!\!\!\!
+    \scalebox{.8}{\begin{tikzpicture}
+    % Let ducks fight... whatever? ^^
+        % \node at(0,0) {\includegraphics[width=4.25cm]{Durotan.png}};
+        \node[scale=2.25] at (7,0) {\begin{tikzpicture}
+            \duck[invisible,water=blue!90!white]
+            \begin{scope}[xshift=-1.25cm,scale=1.1]
+                \fill[gray,rotate=-24] (0.1,1.21) rectangle (1*1.1,1*1.23); % make triangle
+                \fill[gray,rotate=-24]
+                    (1.2,1.22) ellipse (1*0.15 and 1*0.03) (1.08,1.22)
+                    ellipse (1*0.03 and 1*0.15);
+            \end{scope}
+            \duck[beard=red!20!brown]
+            \node[red!20!brown,rounded corners=1,scale=0.72] at (0.59,1.76) {\rotatebox{-28}{\faMinus}};
+            \node[red!20!brown,rounded corners=1,scale=0.75] at (0.86,1.70) {\rotatebox{-2}{\faMinus}};
+            \duck[invisible,viking=gray]
+
+            \begin{scope}[scale=0.1,xshift=2.75cm]
+                % Shield
+                \draw[line width=2.75pt,shieldsilver] (\boardwidth/2,\boardheight/2) circle (\boardwidth/2);
+                % the dots:
+                \pgfmathsetmacro\bwradius{\boardwidth/2+2.75/11 pt}
+                \foreach \i in {0,20,...,360} {
+                    \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2)++(\i:\bwradius) circle (3.75pt);
+                }
+
+                \clip (\boardwidth/2,\boardheight/2) circle (\boardwidth/2);
+                \filldraw[backgroundcolor] (0,0) rectangle ++(\boardwidth,\boardheight);
+
+                \foreach \x in {1,2,...,\numberoffibres}
+                {
+                    \fill[fibrecolor] ($(\x*\segmentwidth-\segmentvariation,0) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                    \foreach \y in {1,...,\fibresteps}
+                    {   -- ($(\x*\segmentwidth-\segmentvariation,\y*\stepheight) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                    }
+                    -- ($(\x*\segmentwidth+\segmentvariation,\boardheight)+ (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                    \foreach \y in {\fibresteps,...,0}
+                    {   -- ($(\x*\segmentwidth+\segmentvariation,\y*\stepheight) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                    }
+                    -- cycle;
+                }
+                % shield post
+                \fill[shieldsilver] (\boardwidth/2,\boardheight/2) circle (46.25pt);
+                \foreach \i in {0,40,...,360} {
+                    \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2)++(\i:40.25pt) circle (3.75pt);
+                }
+                \begin{scope}
+                    \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2) circle (0.85);
+                    \clip (\boardwidth/2,\boardheight/2) circle (0.85);
+                    \shade[outer color=shieldsilver!85!black, inner color=shieldsilver!90!white] (\boardwidth/2-0.35,\boardheight/2+0.8) circle (1.32);
                 \end{scope}
-                \duck[beard=red!20!brown]
-                \node[red!20!brown,rounded corners=1,scale=0.72] at (0.59,1.76) {\rotatebox{-28}{\faMinus}};
-                \node[red!20!brown,rounded corners=1,scale=0.75] at (0.86,1.70) {\rotatebox{-2}{\faMinus}};
-                \duck[invisible,viking=gray]
-
-                \begin{scope}[scale=0.1,xshift=2.75cm]
-                    % Shield
-                    \draw[line width=2.75pt,shieldsilver] (\boardwidth/2,\boardheight/2) circle (\boardwidth/2);
-                    % the dots:
-                    \pgfmathsetmacro\bwradius{\boardwidth/2+2.75/11 pt}
-                    \foreach \i in {0,20,...,360} {
-                        \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2)++(\i:\bwradius) circle (3.75pt);
-                    }
-
-                    \clip (\boardwidth/2,\boardheight/2) circle (\boardwidth/2);
-                    \filldraw[backgroundcolor] (0,0) rectangle ++(\boardwidth,\boardheight);
-
-                    \foreach \x in {1,2,...,\numberoffibres}
-                    {
-                        \fill[fibrecolor] ($(\x*\segmentwidth-\segmentvariation,0) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
-                        \foreach \y in {1,...,\fibresteps}
-                        {   -- ($(\x*\segmentwidth-\segmentvariation,\y*\stepheight) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
-                        }
-                        -- ($(\x*\segmentwidth+\segmentvariation,\boardheight)+ (rand*\relativefibrevariation*\relativefibrethickness,0)$)
-                        \foreach \y in {\fibresteps,...,0}
-                        {   -- ($(\x*\segmentwidth+\segmentvariation,\y*\stepheight) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
-                        }
-                        -- cycle;
-                    }
-                    % shield post
-                    \fill[shieldsilver] (\boardwidth/2,\boardheight/2) circle (46.25pt);
-                    \foreach \i in {0,40,...,360} {
-                        \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2)++(\i:40.25pt) circle (3.75pt);
-                    }
-                    \begin{scope}
-                        \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2) circle (0.85);
-                        \clip (\boardwidth/2,\boardheight/2) circle (0.85);
-                        \shade[outer color=shieldsilver!85!black, inner color=shieldsilver!90!white] (\boardwidth/2-0.35,\boardheight/2+0.8) circle (1.32);
-                    \end{scope}
-                \end{scope}
-                %\def\swordscaler{1}
-                %\fill[gray,rotate=24] (0.1,0.21) rectangle (\swordscaler*1.1,\swordscaler*0.23); % make triangle
-                %\fill[gray!70!black,rotate=24]
-                %    (1.2,0.22) ellipse (\swordscaler*0.15 and \swordscaler*0.03) (1.08,0.22)
-                %    ellipse (\swordscaler*0.03 and \swordscaler*0.15);
-            \end{tikzpicture}};
-        \end{tikzpicture}
-    \end{center}
+            \end{scope}
+            %\def\swordscaler{1}
+            %\fill[gray,rotate=24] (0.1,0.21) rectangle (\swordscaler*1.1,\swordscaler*0.23); % make triangle
+            %\fill[gray!70!black,rotate=24]
+            %    (1.2,0.22) ellipse (\swordscaler*0.15 and \swordscaler*0.03) (1.08,0.22)
+            %    ellipse (\swordscaler*0.03 and \swordscaler*0.15);
+        \end{tikzpicture}};
+    \end{tikzpicture}}
+\end{center}
+\begin{tikzpicture}[overlay,remember picture]
+    \node[above left,yshift=0.45cm,scale=.8] at (current page.south east) {\tikz{\pingu[right wing wave,eyes wink,small]}};
+\end{tikzpicture}
 \end{frame}
 \iffull\end{document}\fi
