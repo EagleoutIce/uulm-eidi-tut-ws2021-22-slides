@@ -12,6 +12,18 @@
 
 \begin{document}
 \Titlepage{8}
+
+\newsavebox\superlovepengu
+\savebox\superlovepengu{\tikz{\pingu[wings shock,heart=shadeB,eyes color=pingu@white,name=pingu]; \node[pingu@red] at(pingu-eye-left) {\faHeart}; \node[pingu@red] at(pingu-eye-right) {\faHeart};}}
+\begin{frame}[c,plain]
+\centering
+\onslide<2->{\scalebox{2.75}{\colorlet{blue}{paletteB}\begin{tikzpicture}
+    \doggo
+\end{tikzpicture}}}
+\onslide<3->{\begin{tikzpicture}[overlay, remember picture]
+    \node[above left=.22cm] at(current page.south east) {\usebox\superlovepengu};
+\end{tikzpicture}}
+\end{frame}
 \fi
 
 % #endregion
