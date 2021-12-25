@@ -200,11 +200,10 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \fi
 
 \section{Zusatzaufgabe 3/6}
-\begin{frame}
+\begin{frame}{Zusatzaufgabe 3/6}
 
 \end{frame}
 
-\iffalse
 \section{Altes Präsentatio}
 \subsection{Listentausch}
 \begin{frame}[c]{Präsenzaufgabe}
@@ -797,5 +796,4 @@ public void swap(int i, int j) {
         \end{tikzpicture}
     \end{center}
 \end{frame}
-\fi
 \iffull\end{document}\fi
