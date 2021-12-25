@@ -1,6 +1,12 @@
 % #region preamble
 \InputIfFileExists{../global.src}\relax\relax
 
+\lstset{add to literate=%
+    {CustomTime}{{{\solGet{keywordC}{CustomTime}}}}{10} %
+    {StringTime}{{{\solGet{keywordC}{StringTime}}}}{10} %
+    {CalendarDateTime}{{{\solGet{keywordC}{CalendarDateTime}}}}{16} %
+}
+
 \iffull
 
 \title[Achtes Tutorium -- Übungsblatt 8]{So once, we had holidays\\\small Dreamy Doggos 8}
@@ -12,7 +18,6 @@
 
 \begin{document}
 \Titlepage{8}
-
 \newsavebox\doggominimal \savebox\doggominimal{\tikz\doggo[collar=shadeB,collar ring=!hide,body=shadeB,body back=shadeB,nose=shadeB];}
 {\setbeamercolor{background canvas}{bg=paletteB}
 \begin{frame}[c,plain]
@@ -34,7 +39,6 @@
 \fi
 
 % #endregion
-
 \section{Präsenzaufgabe}
 \begin{frame}[c]{Präsenzaufgabe}
     \begin{aufgabe}{Unbekannt}
@@ -43,7 +47,6 @@
 \end{frame}
 
 \section{Übungsblatt 8}
-\iffalse
 % #region Aufgabe 1
 \subsection{Aufgabe 1}
 \begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1a)}
@@ -208,9 +211,8 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \end{frame}
 \fi
 % #endregion
-\fi
 
-\subsection{Zusatzaufgabe 3/6 -- Mit Date}
+\subsection{Zusatzaufgabe 3/6}
 \iffull
 \begin{frame}[c]{Zusatzaufgabe 3/6}
 \centering\pingudefaultsappend{heart=shadeB}%
@@ -227,18 +229,175 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \endpgfonlayer
 \end{tikzpicture}\smallskip
 \begin{center}
-    \onslide<7->{\textbf{\Large Reservieren Bitte.}}
+    \onslide<7->{\textbf{\Large Reservieren, Bitte.}}
 \end{center}\vspace*{-\medskipamount}
 \end{frame}
 \fi
+\begin{frame}[c]{Zusatzaufgabe 3/6}
+    \begin{itemize}[<+(1)->]
+        \itemsep10pt
+        \item Wir werden zuerst betrachten, wie wir mit Zeitpunkten umgehen können.
+        \begin{itemize}
+            \item Manuell speichern als \bjava{<int>.<byte>.<byte> <byte>:<byte>}
+            \item Speichern als \bjava{String}
+            \item Speichern als \bjava{java.util.Date}
+        \end{itemize}
+        \item Dann, wie wir Zeitpunkte vergleichen können.
+        \item Anschließend werde ich noch etwas zu \bjava{toString} und \bjava{equals} verlieren.
+    \end{itemize}
+\end{frame}
 
+\subsection{Zusatzaufgabe 3/6 -- Datumsdarstellung}
+\begin{frame}[c,fragile]{Zusatzaufgabe 3/6\hfill Manueller Zeitpunkt}
+\begin{plainjava}
+!*\onslide<2->*!public class CustomTime {
+!*\onslide<3->*!    public final int year;
+!*\onslide<3->*!    public final byte month;
+!*\onslide<3->*!    public final byte day;
+!*\onslide<2->*!
+!*\onslide<4->*!    public final byte hour;
+!*\onslide<4->*!    public final byte minute;
+!*\onslide<2->*!
+!*\onslide<5->*!    public CustomTime(String date, String time) {
+!*\onslide<6->*!        // parse
+!*\onslide<5->*!    }
+!*\onslide<2->*!}
+\end{plainjava}
+\end{frame}
+
+
+\MakeThePinguExplainIt[text width=7cm]{cap=!hide,glasses round,glasses=!hide,straw hat,left eye shiny,right item angle=-20}{In dieser Aufgaben können wir auch annehmen, dass das Datum \say{korrekt} ist.
+ Mit einem kleinen diesbezüglichen Kommentar entfällt damit die Prüfung (ebenso wie die Prüfung von \say{\bjava{.}} und \say{\bjava{:}}).}
+\begin{frame}[c,fragile]{Zusatzaufgabe 3/6\hfill Manueller Zeitpunkt}
+\SetupLstHl\begin{plainjava}
+|ihl|public class Custom:c:Time {|ihl|
+|ihl|    public final int year;|ihl|
+|ihl|    public final byte month, day;|ihl|
+|ihl|    public final byte hour, minute;|ihl|
+
+    public CustomTime(String date, String time) {
+!*\onslide<2->*!        this.year = Integer.parseInt(date.substring(0,4));
+!*\onslide<3->*!        this.month = Byte.parseByte(date.substring(5,7));
+!*\onslide<4->*!        if(month < 0 || month > 12)
+!*\onslide<4->*!            throw new IllegalArgumentException("0 <= month <= 12");
+!*\onslide<5->*!        // ...
+!*\onslide<1->*!    }
+|ihl|}|ihl|
+\end{plainjava}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<6->{\node[left=-7mm,scale=.8] at(current page.3) {\usebox\pinguexplainbox};}
+    \only<7->{\node[above left=.25cm,yshift=.35cm] at(current page.south east) {\textattachfile{\curpath CustomTime.java}{CustomTime.java}};}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]{Zusatzaufgabe 3/6\hfill Als Zeichenkette}
+\begin{itemize}[<+(1)->]
+    \item Das Speichern ist so besonders einfach:
+\begin{plainjava}
+!*\onslide<3->*!public class StringTime {
+!*\onslide<4->*!    public final String date;
+!*\onslide<4->*!    public final String time;
+!*\onslide<3->*!
+!*\onslide<5->*!    public StringTime(String date, String time) {
+!*\onslide<6->*!        this.date = date;
+!*\onslide<6->*!        this.time = time;
+!*\onslide<5->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \item<7-> Zur Möglichkeiten der Verrechnung kommen wir da noch.
+\end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \only<8->{\node[above left=.25cm,yshift=.35cm] at(current page.south east) {\textattachfile{\curpath StringTime.java}{StringTime.java}};}
+\end{tikzpicture}
+\end{frame}
+
+\iffull
+\begin{frame}{Zusatzaufgabe 3/6\hfill Als Java-Datum}
+\begin{columns}[onlytextwidth,c]
+\column{.8\linewidth}
+\begin{itemize}[<+(1)->]
+    \item Was kann das eigentlich?
+    \item So schlimm kann das ja nicht sein\ldots
+    \item Suche: \say{Oracle Date} \textit{\textcolor{gray}{me pls xoxo}}
+    \vspace*{2.5em}
+    \item<6-> Öhm\ldots\ Ich muss los.
+    \item<10-> Quasi alles Deprecated? Schon in Java 1?
+    \vspace*{1.5em}
+    \item<11-> Aiii Schnief Looooopf Gluk maiiii Laiiiif.
+\end{itemize}
+\column{.2\linewidth}
+\centering\onslide<5->{\includegraphics[height=6.15cm]{\curpath java-date-all.png}}%
+\only<7->{\llap{\smash{\raisebox{-.5cm}{\downsizeHeight{7cm}{\begin{tikzpicture}
+    \node[rotate=-20,draw,inner sep=1pt,very thick,gray] (a) at (0,0) {\includegraphics[scale=.85]{\curpath java-date-a.png}};
+    \onslide<8->{\node[rotate=20,draw,yshift=-6cm,xshift=2cm,inner sep=1pt,very thick,gray] (b) at (a.south) {\includegraphics[scale=1.75]{\curpath java-date-b.png}};}
+    \onslide<9->{\node[rotate=-8,draw,xshift=-5cm,yshift=-3.15cm,inner sep=1pt,very thick,gray] (c) at (b.south) {\includegraphics[scale=2.25]{\curpath java-date-c.png}};}
+\end{tikzpicture}}\hspace*{-.5\linewidth}}}}}%
+\end{columns}
+\end{frame}
+\fi
+
+\MakeThePinguExplainIt[text width=5.5cm]{cap=!hide,eyes wink,headband,right item angle=-20}{Java beginnt auch bei Monaten in der Regel mit \(0\)!}
+\begin{frame}[c,fragile]{Zusatzaufgabe 3/6\hfill Als Java-Datum mit Kalender}
+\begin{itemize}[<+(1)->]
+    \item Kurzgesagt: \bjava{Date} ist fernab der Internationalisierung. Es hält nur die Sekunden seit \say{Unix Epoch} \info{1. Januar 1970, Mitternacht}.
+    \item Wir konstruieren es durch andere Klassen. \pause Mit dem \say{Gregorianischen Kalender}:\lstfs{10}
+\begin{plainjava}
+!*\onslide<5->*!public class CalendarDateTime {
+!*\onslide<6->*!    private final Date date;
+!*\onslide<5->*!
+!*\onslide<6->*!    public CalendarDateTime(String date, String time) {
+!*\onslide<7->*!        CustomTime custom = new CustomTime(date, time);
+!*\onslide<8->*!        GregorianCalendar calendar = new GregorianCalendar();
+!*\onslide<9->*!        calendar.set(custom.year, custom.month - 1, custom.day,
+!*\onslide<9->*!            custom.hour, custom.minute);
+!*\onslide<10->*!        this.date = calendar.getTime();
+!*\onslide<6->*!    }
+!*\onslide<11->*!    // :ldots:
+!*\onslide<5->*!}
+\end{plainjava}
+\end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<12->{\node[left=-7mm,scale=.8] at(current page.-25) {\usebox\pinguexplainbox};}
+    \only<13->{\node[above right=.25cm,yshift=.25cm] at(current page.south west) {\textattachfile{\curpath CalendarDateTime.java}{CalendarDateTime.java}};}
+\end{tikzpicture}
+\end{frame}
+
+\newsavebox\qrSimpleDateFormat \savebox\qrSimpleDateFormat{\fancyqr[height=2.5cm]{https://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html}}
+\begin{frame}[c,fragile]{Zusatzaufgabe 3/6\hfill Als Java-Datum mit DateFormat}
+\begin{itemize}[<+(1)->]
+    \item Java kennt aber auch Datumsformate, wie das \bjava{SimpleDateFormat}:\lstfs{10}
+\begin{plainjava}
+!*\onslide<4->*!public class DateFormatTime {
+!*\onslide<5->*!    private final Date date;
+!*\onslide<5->*!
+!*\onslide<7->*!    public static SimpleDateFormat DATE_FORMAT =
+!*\onslide<8->*!            new SimpleDateFormat("yyyy.MM.dd HH:mm");
+!*\onslide<4->*!
+!*\onslide<6->*!    public DateFormatTime(String date, String time) !*\onslide<6-9|handout:0>*! {
+!*\onslide<10->*!                throws ParseException {
+!*\onslide<9->*!        this.date = DATE_FORMAT.parse(date + " " + time);
+!*\onslide<6->*!    }
+!*\onslide<4->*!    // ...
+!*\onslide<4->*!}!*\onslide<3->*!
+\end{plainjava}
+\end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<3->{\node[above left=.25cm,yshift=.5cm] at(current page.south east) {\usebox\qrSimpleDateFormat};}
+    \only<11->{\node[above right=.25cm,yshift=.25cm] at(current page.south west) {\textattachfile{\curpath DateFormatTime.java}{DateFormatTime.java}};}
+\end{tikzpicture}
+\end{frame}
+\subsection{Zusatzaufgabe 3/6 -- Datumsvergleich}
+\begin{frame}{Zusatzaufgabe 3/6\hfill Zwei Datumsies Vergleichen}
+\begin{itemize}[<+(1)->]
+    \item Huhu
+\end{itemize}
+\end{frame}
 % #region old
-\iffalse
 \section{Altes Präsentatio}
 \subsection{Listentausch}
 \begin{frame}[c]{Präsenzaufgabe}
     \begin{aufgabe}{Listentausch, \ldots}
-        \pause{}Implementieren Sie eine einfach verkettete Liste, die Integerwerte speichern kann.\pause{} Implementieren Sie eine Methode (+ Hilfsmethoden), die zwei Listenelemente anhand ihrer Indizes vertauscht.\pause{} Die Liste fängt wie ein Array bei 0 zu zählen an. Beachten Sie auch Randbedingungen, wie eine leere Liste.
+        \pause{}Implementieren Sie eine einfach verkettete Liste, die Integerwerte speichern kann.\pause{} Implementieren Sie eine Methode (+ Hilfsmethoden), die zwei Listenelemente anhand ihrer Indizes vertauscht.\pause{} Die Liste fängt wie ein Array bei 0 zu zählen an. Beachten Sie auch Randbedingungen, wie eine leere Liste.\onslide<1->
     \end{aufgabe}
 \end{frame}
 
@@ -829,5 +988,4 @@ public void swap(int i, int j) {
 \end{tikzpicture}
 \end{frame}
 % #endregion
-\fi
 \iffull\end{document}\fi

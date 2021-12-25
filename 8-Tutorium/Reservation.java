@@ -22,18 +22,6 @@ public class Reservation {
       this.reservationDate = DATE_FORMAT.parse(date + " " + time);
    }
 
-   private static String makeNthSuffix(int n) {
-      int lastTwo = n % 100;
-      if(lastTwo >= 10 && lastTwo <= 19)
-         return "th"; // tenth
-      switch(n % 10) { // else we get to check by last digit
-         case 1: return "st";
-         case 2: return "nd";
-         case 3: return "rd";
-         default: return "th";
-      }
-   }
-
    public String toString() {
       return String.format(Locale.ENGLISH, "%s reserved a table for %2$tB %2$td, %2$tY at %2$tH:%2$tM", this.name, this.reservationDate);
    }
