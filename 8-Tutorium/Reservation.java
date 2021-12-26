@@ -7,8 +7,8 @@ import java.util.Objects;
 public class Reservation {
    private String name;
    private Date reservationDate;
-   public static final double MS_TO_S = 1000;
-   public static final double M_TO_S = 60;
+   public static final double MS_IN_S = 1000;
+   public static final double S_IN_MS = 60;
 
    public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
@@ -35,9 +35,9 @@ public class Reservation {
    public boolean checkIn(Reservation reservation) {
       long otherStamp = reservation.reservationDate.getTime();
       long thisStamp = this.reservationDate.getTime();
-      double diffInSeconds =  (otherStamp - thisStamp) / MS_TO_S;
+      double diffInSeconds =  (otherStamp - thisStamp) / (MS_IN_S * S_IN_MS);
       // is it between 5 and 15 minutes?
-      return diffInSeconds >= -5 * M_TO_S && diffInSeconds <= 15 * M_TO_S;
+      return diffInSeconds >= -5  && diffInSeconds <= 15 ;
       // TODO: we coud check the person too
    }
 
@@ -48,8 +48,9 @@ public class Reservation {
       Reservation otherSame = new Reservation("Hugo", "2022.10.15", "14:32");
       System.out.println("other: " + reservation.equals(otherSame));
       Reservation otherDifferent = new Reservation("Hugo", "2022.01.15", "14:33");
-      System.out.println("differnt: " + reservation.equals(otherDifferent));
+      System.out.println("different: " + reservation.equals(otherDifferent));
 
+      // checkIn Freuden
       Reservation before = new Reservation("Hugo", "2022.10.15", "14:27");
       System.out.println("before: " + reservation.checkIn(before));
       Reservation after = new Reservation("Hugo", "2022.10.15", "14:47");

@@ -5,6 +5,9 @@
     {CustomTime}{{{\solGet{keywordC}{CustomTime}}}}{10} %
     {StringTime}{{{\solGet{keywordC}{StringTime}}}}{10} %
     {CalendarDateTime}{{{\solGet{keywordC}{CalendarDateTime}}}}{16} %
+    {DateFormatTime}{{{\solGet{keywordC}{DateFormatTime}}}}{14} %
+    {Taxi}{{{\solGet{keywordC}{Taxi}}}}{4} %
+    {Reservation}{{{\solGet{keywordC}{Reservation}}}}{11} %
 }
 
 \iffull
@@ -37,7 +40,6 @@
 \end{tikzpicture}}
 \end{frame}
 \fi
-
 % #endregion
 \section{Präsenzaufgabe}
 \begin{frame}[c]{Präsenzaufgabe}
@@ -95,7 +97,7 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \begin{frame}[c,fragile]{Übungsblatt 8 - Aufgabe 1a)}
 \SetupLstHl
 {\lstfs{8}\begin{plainjava}[columns=fixed]
-|ihl|public class Taxi {|ihl|
+|ihl|public class Ta:c:xi {|ihl|
 |ihl|   private final double basicCharge;       private final double kilometerPrice;|ihl|
 |ihl|   private final double fuelConsumption;   private final double fueltankCapacity;|ihl|
 |ihl|   private double remainingFuel;           private double taxometer;|ihl|
@@ -209,10 +211,9 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
     \item \rbash[:\pause]{java Taxi}
 \end{itemize}
 \end{frame}
-\fi
 % #endregion
 
-\subsection{Zusatzaufgabe 3/6}
+\section{Übungsblatt 8 -- Zusatzaufgabe 3/6}
 \iffull
 \begin{frame}[c]{Zusatzaufgabe 3/6}
 \centering\pingudefaultsappend{heart=shadeB}%
@@ -319,11 +320,11 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
     \item Was kann das eigentlich?
     \item So schlimm kann das ja nicht sein\ldots
     \item Suche: \say{Oracle Date} \textit{\textcolor{gray}{me pls xoxo}}
-    \vspace*{2.5em}
+    \vspace*{2.35em}
     \item<6-> Öhm\ldots\ Ich muss los.
-    \item<10-> Quasi alles Deprecated? Schon in Java 1?
+    \item<10-> Quasi alles Deprecated? Schon in \textbf{Java 1}?
     \vspace*{1.5em}
-    \item<11-> Aiii Schnief Looooopf Gluk maiiii Laiiiif.
+    \item<11-> Aiii \textit{schnief} Looooopf \textit{gluk} maiiii Laiiiif.
 \end{itemize}
 \column{.2\linewidth}
 \centering\onslide<5->{\includegraphics[height=6.15cm]{\curpath java-date-all.png}}%
@@ -382,17 +383,185 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \end{plainjava}
 \end{itemize}
 \begin{tikzpicture}[overlay,remember picture]
-    \onslide<3->{\node[above left=.25cm,yshift=.5cm] at(current page.south east) {\usebox\qrSimpleDateFormat};}
+    \onslide<3->{\node[above left=.25cm,yshift=.5cm] (fqr) at(current page.south east) {\usebox\qrSimpleDateFormat};
+    \node[above left,xshift=-5mm,gray] at(fqr.south west) {\bjava{SimpleDateFormat}};}
     \only<11->{\node[above right=.25cm,yshift=.25cm] at(current page.south west) {\textattachfile{\curpath DateFormatTime.java}{DateFormatTime.java}};}
 \end{tikzpicture}
 \end{frame}
+\fi
+
 \subsection{Zusatzaufgabe 3/6 -- Datumsvergleich}
-\begin{frame}{Zusatzaufgabe 3/6\hfill Zwei Datumsies Vergleichen}
+\begin{frame}[c]{Zusatzaufgabe 3/6\hfill Zwei Datumsies Vergleichen}
 \begin{itemize}[<+(1)->]
-    \item Huhu
+    \itemsep10pt
+    \item Daten vergleichen ist einfach: Sind Jahre, Tage,~\ldots\ identisch?
+    \item Zu sagen, wie viele Minuten zwischen zwei Daten liegen, ist schwieriger.
+    \begin{itemize}
+        \itemsep2pt
+        \item Wie viele Minuten liegen zwischen dem 28. Februar 23:59 und dem 1. März 0:05 im selben Jahr?
+        \item Wir müssen Schaltjahre beachten.
+        \item Und Schaltsekunden!
+        \item Und Säkularjahre\ldots
+    \end{itemize}
+    \item In der Regel dampft man Daten daher auf ihre (Nano-/Milli-/\ldots-)Sekunden seit einem Zeitpunkt herunter.
+    \begin{itemize}
+        \itemsep2pt
+        \item \bjava{java.util.Date} tut dies bereits \info{Millisekunden}!
+        \item Dies Manuell korrekt zu tun ist \emph{sehr aufwändig} \info{Die zugehörige Methode \bjava{computeTime} in \bjava{GregorianCalendar} hat beispielsweise allein 200 Zeilen.}
+    \end{itemize}
 \end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]{Zusatzaufgabe 3/6\hfill Minuten zwischen zwei Daten}
+\begin{itemize}[<+(1)->]
+    \itemsep10pt
+    \item Die Minuten zwischen zwei Daten \bjava{a} und \bjava{b} erhalten wir so wie folgt:
+\begin{plainjava}
+!*\onslide<3->*!long aStamp = a.getTime();
+!*\onslide<3->*!long bStamp = b.getTime();
+!*\onslide<4->*!double diffInSeconds =  (aStamp - bStamp) / (1000 * 60d)
+\end{plainjava}
+    \item<5-> Magic Numbers: \begin{itemize}
+        \itemsep2pt
+        \item<6-> 1000 Millisekunden bilden eine Sekunde.
+        \item<7-> 60 Sekunden bilden eine Minute.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Zusatzaufgabe 3/6 -- Die Reservierung soweit}
+\begin{frame}[fragile]{Zusatzaufgabe 3/6\hfill Die Reservierung soweit}
+    \begin{itemize}[<+(1)->]
+        \item Nun eine Variante mit \bjava{SimpleDateFormat}.
+\begin{plainjava}
+!*\onslide<3->*!public class Reservation {
+!*\onslide<4->*!    private String name;
+!*\onslide<4->*!    private Date resDate;
+!*\onslide<3->*!
+!*\onslide<5->*!    public static SimpleDateFormat DATE_FORMAT =
+!*\onslide<5->*!            new SimpleDateFormat("yyyy.MM.dd HH:mm");
+!*\onslide<6->*!    public Reservation(String name, String date, String time)
+!*\onslide<6->*!            throws ParseException {
+!*\onslide<7->*!        this.name = name;
+!*\onslide<7->*!        this.resDate = DATE_FORMAT.parse(date + " " + time);
+!*\onslide<6->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,c]{Mini-Exkurs: Mit Ausnahmen umgehen}
+    \SetupLstHl\begin{itemize}[<+(1)->]
+        \item \bjava{ParseException} ist eine \say{checked-Exception}~\(\Rightarrow\) wir müssen sie behandeln.
+        \item In dieser Aufgabe können wir eine korrekte Eingabe annehmen.
+        \item Dies erlaubt ein Unterdrücken des Fehlers:
+\begin{plainjava}
+!*\onslide<5->*!try {
+!*\onslide<5->*!    |ihl|...|ihl|
+!*\onslide<5->*!} catch (ParseException ex) {
+!*\onslide<5->*!    |ihl|ex.printStackTrace();|ihl|
+!*\onslide<5->*!}
+\end{plainjava}
+        \item<6-> Allgemein ist aber das Weiterreichen sicherer:
+\begin{plainjava}
+!*\onslide<7->*!|ihl|public Reserv:c:ation(:ldots:)|ihl| throws ParseException |ihl|{|ihl|
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\subsection{Zusatzaufgabe 3/6 -- toString, equals und main}
+\newsavebox\qrStringFormat \savebox\qrStringFormat{\fancyqr[height=2cm]{https://docs.oracle.com/javase/7/docs/api/java/util/Formatter.html\#syntax}}
+\begin{frame}[fragile]{Zusatzaufgabe 3/6\hfill toString}
+    \SetupLstHl\begin{itemize}[<+(1)->]
+        \item \bjava{toString} ist einfach, wenn wir zusätzlich noch die übergebenen Daten speichern.
+        \item Mit \bjava{String::format} können wir uns aber interessanteren Freuden widmen:
+\begin{plainjava}
+!*\onslide<4->*!|ihl|public class Reser:c:vation {|ihl|
+!*\onslide<4->*!|ihl|    private String name;|ihl|
+!*\onslide<4->*!|ihl|    private Date resDate;|ihl|
+!*\onslide<5->*!    public String toString() {
+!*\onslide<6->*!        return String.format(Locale.ENGLISH, // March satt März
+!*\onslide<7->*!            "%s reserved for !*\solGet{literals}{\solGet{keywordB}{\%2\$tB}}*! !*\solGet{literals}{\solGet{keywordB}{\%2\$td}}*!, !*\solGet{literals}{\solGet{keywordB}{\%2\$tY}}*! at !*\solGet{literals}{\solGet{keywordB}{\%2\$tH}}*!:!*\solGet{literals}{\solGet{keywordB}{\%2\$tM}}*!",
+!*\onslide<8->*!            this.name, this.resDate
+!*\onslide<6->*!        );
+!*\onslide<5->*!    }
+!*\onslide<4->*!|ihl|}|ihl|!*\onslide<1->*!
+\end{plainjava}
+\end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<9->{\node[above left=.25cm,yshift=.5cm] (fqr) at(current page.south east) {\usebox\qrStringFormat};
+    \node[above left,xshift=-5mm,gray] at(fqr.south west) {Format String Syntax};}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]{Zusatzaufgabe 3/6\hfill equals}
+    \SetupLstHl\begin{itemize}[<+(1)->]
+        \item Felder vergleichen:\lstfs{10}
+\begin{plainjava}
+!*\onslide<3->*!|ihl|public class Reser:c:vation {|ihl|
+!*\onslide<3->*!|ihl|    private String name;|ihl|
+!*\onslide<3->*!|ihl|    private Date resDate;|ihl|
+!*\onslide<4->*!    public boolean equals(Reservation reservation) {
+!*\onslide<5->*!        return this == reservation ||
+!*\onslide<6->*!           (Objects.equals(this.resDate, reservation.resDate)
+!*\onslide<7->*!           &&  Objects.equals(this.name, reservation.name));
+!*\onslide<4->*!    }
+!*\onslide<3->*!|ihl|}|ihl|!*\onslide<1->*!
+\end{plainjava}
+    \item<8-> Der \bjava{==}-Vergleich ist nicht notwendig, zeigt aber die stärkere Aussage von \say{identisch} gegenüber \say{gleich}.
+    \item<9-> \bjava{Object.equals(a, b)} entspricht \bjava{a.equals(b)}, kann aber auch mit \bjava{a == null} umgehen!
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile,c]{Zusatzaufgabe 3/6\hfill main}
+\SetupLstHl\begin{itemize}[<+(1)->]
+    \item Eine Form der Verwendung:\lstfs{10}
+\begin{plainjava}
+!*\onslide<3->*!|ihl|public class Reser:c:vation {|ihl|
+!*\onslide<3->*!  |ihl|public Reser:c:vation(String n, String d, String t) throws ParseException;|ihl|
+!*\onslide<3->*!  |ihl|public String toString();|ihl|
+!*\onslide<3->*!  |ihl|public boolean equals(Reser:c:vation reservation);|ihl|
+!*\onslide<3->*!
+!*\onslide<4->*!  public static void main(String[] args) throws ParseException {
+!*\onslide<5->*!    Reservation r1 = new Reservation("Hugo", "2022.10.15", "14:32");
+!*\onslide<5->*!    System.out.println(r1);
+!*\onslide<6->*!    System.out.println("same: " + r1.equals(r1));
+!*\onslide<7->*!    Reservation other = new Reservation("Hugo", "2022.10.15", "14:32");
+!*\onslide<7->*!    System.out.println("other: " + r1.equals(other));
+!*\onslide<8->*!    Reservation diff = new Reservation("Hugo", "2022.01.15", "14:33");
+!*\onslide<8->*!    System.out.println("different: " + r1.equals(diff));
+!*\onslide<3->*!  }
+!*\onslide<3->*!|ihl|}|ihl|
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+\subsection{Zusatzaufgabe 3/6 -- Der checkIn}
+\begin{frame}[fragile,c]{Zusatzaufgabe 3/6\hfill Der checkIn}
+\SetupLstHl\begin{itemize}[<+(1)->]
+    \item Beim \bjava{checkIn} können wir das Minutenintervall leicht prüfen:\lstfs{10}
+\begin{plainjava}
+!*\onslide<3->*!|ihl|public class Reser:c:vation {|ihl|
+!*\onslide<3->*!|ihl|  private String name;|ihl|
+!*\onslide<3->*!|ihl|  private Date resDate;|ihl|
+!*\onslide<4->*!  public boolean checkIn(Reservation reservation) {
+!*\onslide<5->*!      long them = reservation.resDate.getTime();
+!*\onslide<5->*!      long we = this.resDate.getTime();
+!*\onslide<6->*!      double diffInSeconds =  (them - we) / (MS_IN_S * S_IN_MS);
+!*\onslide<7->*!      // is it between 5 and 15 minutes?
+!*\onslide<7->*!      return diffInSeconds >= -5  && diffInSeconds <= 15 ;
+!*\onslide<4->*!  }
+!*\onslide<3->*!|ihl|}|ihl|!*\onslide<1->*!
+\end{plainjava}
+    \item<8-> Dabei ist \bjava{MS\_IN\_S = 1000} und \bjava{S\_IN\_MS = 60}.
+\end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+    \only<9->{\node[above left=.25cm,yshift=.25cm] at(current page.south east) {\textattachfile{\curpath Reservation.java}{Reservation.java}};}
+\end{tikzpicture}
+\end{frame}
+
 % #region old
+\iffull
 \section{Altes Präsentatio}
 \subsection{Listentausch}
 \begin{frame}[c]{Präsenzaufgabe}
@@ -846,7 +1015,7 @@ public void swap(int i, int j) {
 
 \subsection{Komplexitätsklassen}
 \begin{frame}[c]{Präsenzaufgabe, 2}
-    \begin{aufgabe}{It's complex, isn't it?}
+    \begin{aufgabe}{It is complex, isn't it?}
         \pause{}Sie sehen gleich ein Programm, welches ein Array an Integer-Werten sortiert. Ihre Aufgaben sind die folgenden: \begin{enumerate}[<+(1)->]
             \item Schätzen Sie die Laufzeit des folgenden Codes gemäß der \(\mathcal{O}\)-Notation ab.
             \item Welchen \say{Trick} nutzt der Algorithmus?
@@ -901,7 +1070,7 @@ public void swap(int i, int j) {
         \item Arrays mit kleinem Wertebereich, welches zudem möglichst gleichverteilt alle Werte aus diesem wertebereich abdeckt.
     \end{enumerate}
 \end{frame}
-
+\fi
 \section{Eine End-Ente, ein End-Doggo und ein End-Pingu}
 \pgfmathsetmacro{\relativefibrethickness}{0.50}
 \pgfmathsetmacro{\relativefibrevariation}{0.11}

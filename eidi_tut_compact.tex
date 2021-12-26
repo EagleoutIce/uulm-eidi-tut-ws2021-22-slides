@@ -1,6 +1,7 @@
 \documentclass[aspectratio=169,ngerman,handout,t]{beamer}
 \def\thpath{.}
 \input{global.src}
+\usepackage{fmtcount}
 \DefinePalette{Compact}
 {Hellblau,hellbläulich: RGB(21, 110, 130)}
 {Türkis,türkisfarben: RGB(21, 128, 112)}
@@ -11,8 +12,8 @@
 \colorlet{NextMaterialHeaderColor}{paletteB!65!white}%
 \attachfilesetup{color=paletteB}
 \fullfalse
-\def\maxtut{7}
-\title[Alle Tutorien 0--\maxtut]{Kompaktversion Tutorien\\\small Pinguinreduzierte Tutorien 0--\maxtut}
+\def\maxtut{8}
+\title[Alle Tutorien 0--\maxtut]{Kompaktversion Tutorien\\\small Von pinguinreduzierten Tutorien 0--\maxtut}
 \date{\sffamily\today}
 
 % TODO: fix undefined labels
@@ -69,7 +70,10 @@
 }
 \section*{Übersicht}
 \pdfbookmark[0]{Übersicht}{eidi@overview}
+\setbeamertemplate{section in toc}{%
+  {$\HEXADecimalnum{\inserttocsectionnumber}$}.~~\inserttocsection}
 \begin{frame}[c,plain]{Eine Sammlung~--- schnief~--- ohne Liebe}
+% \def\inserttocsectionnumber{\HEXADecimal{section}.}%
    \begin{multicols}{2}
 \disablehyper\tableofcontents
    \end{multicols}
@@ -84,4 +88,5 @@
 \Load[Tutorium 5]{Blatt 5 --- Arrays, Matrizen \& Vektoren}{5-Tutorium}{5}{48}
 \Load[Tutorium 6]{Blatt 6 --- Methoden, Tic-Tac-Toe}{6-Tutorium}{6}{49}
 \Load[Tutorium 7]{Blatt 7 --- Überladen \& Überschatten}{7-Tutorium}{7}{50}
+\Load[Tutorium 8]{Blatt 8 --- Klassen \& Taxis}{8-Tutorium}{8}{2}
 \end{document}
