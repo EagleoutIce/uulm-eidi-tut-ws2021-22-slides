@@ -1091,7 +1091,7 @@ public void swap(int i, int j) {
 \begin{frame}[c]
 \vspace*{.955em}\begin{center}
     \raisebox{.2cm}{\scalebox{2.5}{\begin{tikzpicture}
-        \doggo[height delta=.1mm,body=white!95!brown!89!pingu@red,eye=pingu@red!35!pingu@black]
+        \doggo[height delta=.1mm,body=white!95!brown!89!pingu@red,eye=pingu@red!25!pingu@black]
     \end{tikzpicture}}}\!\!\!\!\!
     \scalebox{.8}{\begin{tikzpicture}
     % Let ducks fight... whatever? ^^
