@@ -19,11 +19,11 @@ retrieve_pdfs: $(TUTS)
 	cp *-Tutorium/folien_*.pdf $(TARGET_DIR)/animated/
 	cp *-Tutorium/noanim_folien_*.pdf $(TARGET_DIR)/
 	# custom rename :D
-	rename "s/folien_([^.]*)\.pdf/eidi_tut_\1.pdf/" "$(TARGET_DIR)/animated/folien_*.pdf"
-	rename "s/noanim_folien_([^.]*)\.pdf/eidi_tut_\1.pdf/" "$(TARGET_DIR)/noanim_folien_*.pdf"
+	./rename-fb "s/folien_([^.]*)\.pdf/eidi_tut_\1.pdf/" "$(TARGET_DIR)/animated/folien_*.pdf"
+	./rename-fb "s/noanim_folien_([^.]*)\.pdf/eidi_tut_\1.pdf/" "$(TARGET_DIR)/noanim_folien_*.pdf"
 
 retrieve_compact:
-	cp eidi_tut_compact.pdf "$(TARGET_DIR)/eidi_tut_compact.pdf"
+	test -f eidi_tut_compact.pdf && cp eidi_tut_compact.pdf "$(TARGET_DIR)/eidi_tut_compact.pdf" || true
 
 $(TUTS):
 	+echo "Building: '$@'"
