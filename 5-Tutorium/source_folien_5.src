@@ -405,6 +405,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 \endtikzpicture
 \end{frame}
 
+\iffull
 \begin{frame}[c,plain]{}
 \tikzpicture[overlay,remember picture]
 \fill[pingu@black] (current page.south east) rectangle (current page.north west);
@@ -417,6 +418,7 @@ for(char c : flipEm) { /* hier haben wir nur c */ }
 
 \endtikzpicture
 \end{frame}
+\fi
 
 \begin{frame}[fragile]{Übungsblatt 5 - Zusatzaufgabe a) \hfill Eleganter}
     \begin{itemize}
