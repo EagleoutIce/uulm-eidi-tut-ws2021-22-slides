@@ -201,7 +201,7 @@
     Sie möchten nun den \g{\k{maximalen pro-}} \g{\k{zentualen Preisanstieg}} zwischen \g{\k{zwei aufeinanderfolgenden Tagen}} für dieses Tablet herausfinden.\bigskip\par
     Entwickeln Sie einen \g{Algorithmus}, der aus einer \hlkw<4->{\g{\k{Liste von Tagespreisen}}} des Tablets den \hloutkw<4->{maximalen prozentualen Preisanstieg} von \hloutkw<4->{\g{\k{zwei aufein-}}} \hloutkw<4->{\g{\k{anderfolgenden Tagen}}} berechnet.}\only<5->{\qquad\parbox{.2\linewidth}{%
         \centering\footnotesize \onslide<6->{\paletteA{Liste von Tagespreise}\\{\color{gray}\((p_1,\;\ldots,\;p_n)_{n\in\N}\)}\medskip\par
-        \onslide<7->{\faCaretDown\medskip\par \paletteC{Max. \% Preisanstieg}\\{\color{gray}\(\Delta_{max}\)}}}
+        \onslide<7->{\faCaretDown\medskip\par \paletteC{Max. \% Preisanstieg}\\{\color{gray}\(\DeltaMax\)}}}
     }}
 \end{frame}
 
@@ -250,13 +250,13 @@
         \setbeamercolor{itemize/enumerate subbody}{fg=black}%
         \begin{enumerate}[(1)]
             \itemsep3pt
-            \item\pause Setze $\Delta_{max} = 0$.
+            \item\pause Setze $\DeltaMax = 0$.
             \item\pause Setze $i = 1$.
             \item\label{alg:st}\pause Solange $(i < n)$, wiederhole:\smallskip\\
                 \pause \quad Setze \(test = \sfrac{(p_{i + 1} - p_i)}{p_i}\).\smallskip\\
-                \pause \quad Wenn \(test > \Delta_{max}\):~~Setze \(\Delta_{max} = test\).\smallskip\\
+                \pause \quad Wenn \(test > \DeltaMax\):~~Setze \(\DeltaMax = test\).\smallskip\\
                 \pause \quad Erhöhe \(i\) um \(1\).
-            \item\pause Ergebnis ist $100 \cdot \Delta_{max}$.
+            \item\pause Ergebnis ist $100 \cdot \DeltaMax$.
         \end{enumerate}
         \medskip% Wir können Optimieren: einfach von oben herab
         \item\pause Korrektheitsnachweis, Verifikation:\begin{enumerate}[1.]
@@ -295,28 +295,28 @@
 \setbeamercolor{itemize/enumerate subbody}{fg=black}%
 \vspace*{-\baselineskip}\begin{enumerate}[(1)]
     \itemsep1.5pt
-    \item\label{algA:a} Setze $\Delta_{max} = 0$.
+    \item\label{algA:a} Setze $\DeltaMax = 0$.
     \item\label{algA:b} Setze $i = 1$.
     \item\label{algA:c} Solange $(i < n)$, wiederhole:\smallskip\\
             \quad Setze \(test = \sfrac{(p_{i + 1} - p_i)}{p_i}\).\smallskip\\
-            \quad Wenn \(test > \Delta_{max}\):~~Setze \(\Delta_{max} = test\).\smallskip\\
+            \quad Wenn \(test > \DeltaMax\):~~Setze \(\DeltaMax = test\).\smallskip\\
             \quad Erhöhe \(i\) um \(1\).
-    \item\label{algA:d} Ergebnis ist $100 \cdot \Delta_{max}$.
+    \item\label{algA:d} Ergebnis ist $100 \cdot \DeltaMax$.
 \end{enumerate}
 }{\onslide<2->{Wir zeigen die partielle Korrektheit und nehmen die Termination hier als gegeben.}}\medskip\small
-    \onslide<3->{Für ein beliebiges aber festes \(n \in \N\) mit \(n \geq 2\) und der Eingabe \(p_1, \ldots, p_n\)} \onslide<4->{zeigen wir per vollständiger Induktion über \(i\),} \onslide<5->{dass in jedem Schritte gelte: \(\Delta_{max} \geq \max_{1 \leq j \leq i}(\sfrac{(p_{j + 1} - p_j)}{p_j})\).}\footnotesize
+    \onslide<3->{Für ein beliebiges aber festes \(n \in \N\) mit \(n \geq 2\) und der Eingabe \(p_1, \ldots, p_n\)} \onslide<4->{zeigen wir per vollständiger Induktion über \(i\),} \onslide<5->{dass in jedem Schritte gelte: \(\DeltaMax \geq \max_{1 \leq j \leq i}(\sfrac{(p_{j + 1} - p_j)}{p_j})\).}\footnotesize
     \begin{description}[xIA:]% Inudktionshypothese als Voraussetzung und Behauptung
         \itemsep0pt
-        \item<6->[IA:] Mit \(i = 1\) ist \(\Delta_{max} = \frac{p_2 - p_1}{p_1}\) das triviale Maximum (\(1 \leq j \leq 1\)).
-        \item<7->[IH:] Es gilt \(\Delta_{max} \geq \max_{1 \leq j \leq i}(\sfrac{(p_{j + 1} - p_j)}{p_j})\) für \(i\).
-        \item<8->[IS:] Wir zeigen, dass auch \(\Delta_{max} \geq\allowbreak \max_{1 \leq j \leq i + 1}(\sfrac{(p_{j + 1} - p_j)}{p_j})\) gilt.
-        \onslide<9->{Das heißt, aktuell ist \(\Delta_{max} \geq \max_{1 \leq j \leq i}(\sfrac{(p_{j + 1} - p_j)}{p_j})\) und in der weiteren Schleife gilt:}\begingroup\scriptsize
+        \item<6->[IA:] Mit \(i = 1\) ist \(\DeltaMax = \frac{p_2 - p_1}{p_1}\) das triviale Maximum (\(1 \leq j \leq 1\)).
+        \item<7->[IH:] Es gilt \(\DeltaMax \geq \max_{1 \leq j \leq i}(\sfrac{(p_{j + 1} - p_j)}{p_j})\) für \(i\).
+        \item<8->[IS:] Wir zeigen, dass auch \(\DeltaMax \geq\allowbreak \max_{1 \leq j \leq i + 1}(\sfrac{(p_{j + 1} - p_j)}{p_j})\) gilt.
+        \onslide<9->{Das heißt, aktuell ist \(\DeltaMax \geq \max_{1 \leq j \leq i}(\sfrac{(p_{j + 1} - p_j)}{p_j})\) und in der weiteren Schleife gilt:}\begingroup\scriptsize
         \begin{enumerate}
-            \item<10-> \color{gray}\(test > \Delta_{max}\): Durch die Bedingung wird \(\Delta_{max}\) aktualisiert. Es gilt: \(\Delta_{max} = test \geq \max_{1 \leq j \leq i + 1}(\sfrac{(p_{j + 1} - p_j)}{p_j})\).
-            \item<11-> \color{gray}\(test \leq \Delta_{max}\): Das neue Glied durch \(i + 1\) ist kein neues Maximum. Es gilt: \(\Delta_{max} \geq \max_{1 \leq j \leq i + 1}(\sfrac{(p_{j + 1} - p_j)}{p_j}) \geq test\).
+            \item<10-> \color{gray}\(test > \DeltaMax\): Durch die Bedingung wird \(\DeltaMax\) aktualisiert. Es gilt: \(\DeltaMax = test \geq \max_{1 \leq j \leq i + 1}(\sfrac{(p_{j + 1} - p_j)}{p_j})\).
+            \item<11-> \color{gray}\(test \leq \DeltaMax\): Das neue Glied durch \(i + 1\) ist kein neues Maximum. Es gilt: \(\DeltaMax \geq \max_{1 \leq j \leq i + 1}(\sfrac{(p_{j + 1} - p_j)}{p_j}) \geq test\).
         \end{enumerate}\endgroup
     \end{description}
-    \onslide<12->{Nach \(n-1\) Schritten durch die Begrenzung \(i < n\), wurden alle \(p_1, \ldots, p_n\) betrachtet.} \onslide<13->{\(\Delta_{max}\) ist Maximum aller.}
+    \onslide<12->{Nach \(n-1\) Schritten durch die Begrenzung \(i < n\), wurden alle \(p_1, \ldots, p_n\) betrachtet.} \onslide<13->{\(\DeltaMax\) ist Maximum aller.}
 \end{frame}
 
 \begin{frame}{Übungsblatt 1 - Aufgabe 2 e)}
@@ -324,13 +324,13 @@
         \setbeamercolor{itemize/enumerate subbody}{fg=black}%
         \vspace*{-.9\baselineskip}\begin{enumerate}[(1)]
             \itemsep1.5pt
-            \item\label{algA:a} Setze $\Delta_{max} = 0$.
-            \item\label{algA:b} Setze $i = 1$.
-            \item\label{algA:c} Solange $(i < n)$, wiederhole:\smallskip\\
+            \item\label{algB:a} Setze $\DeltaMax = 0$.
+            \item\label{algB:b} Setze $i = 1$.
+            \item\label{algB:c} Solange $(i < n)$, wiederhole:\smallskip\\
                     \quad Setze \(test = \sfrac{(p_{i + 1} - p_i)}{p_i}\).\smallskip\\
-                    \quad Wenn \(test > \Delta_{max}\):~~Setze \(\Delta_{max} = test\).\smallskip\\
+                    \quad Wenn \(test > \DeltaMax\):~~Setze \(\DeltaMax = test\).\smallskip\\
                     \quad Erhöhe \(i\) um \(1\).
-            \item\label{algA:d} Ergebnis ist $100 \cdot \Delta_{max}$.
+            \item\label{algB:d} Ergebnis ist $100 \cdot \DeltaMax$.
         \end{enumerate}
     }
     \begin{enumerate}[a)]
@@ -338,8 +338,8 @@
         \item \pause Aufwandsanalyse: \begin{enumerate}[1.]
                   \item \pause Tabellarisch, siehe Vorlesung, oder:
                   \item \pause \say{Textbasiert}. Wir betrachten Stückweise: \begin{itemize}[<+(1)->]
-                      \item Die ersten Zuweisungen \ref{algA:a} \& \ref{algA:b} sind  exakt zwei Elementaroperation.
-                      \item Die äußere Schleife in \ref{algA:c} wird genau \(n - 1\) mal durchlaufen. \begin{description}[\textbullet\space]
+                      \item Die ersten Zuweisungen \ref{algB:a} \& \ref{algB:b} sind  exakt zwei Elementaroperation.
+                      \item Die äußere Schleife in \ref{algB:c} wird genau \(n - 1\) mal durchlaufen. \begin{description}[\textbullet\space]
                         \item[\textbullet] Erste Schleifenanweisung bedarf dreier Elementaroperationen: Subtraktion, Division \& Zuweisung.
                         \item[\textbullet] Zweite Schleifenanweisung ist ein Vergleich und maximal eine Zuweisung.
                         \item[\textbullet] Dritte Schleifenanweisung ist eine Elementaroperation (je nach Definition auch zwei).
@@ -540,13 +540,13 @@
     {}{\tiny
         \parallelcontent{\setbeamercolor{itemize/enumerate subbody}{fg=black}%
         \vspace*{-\baselineskip}\begin{enumerate}[(1)]
-            \item\pause\label{algA:a} Setze $Max = \emptyset$.
-            \item\label{algA:b} Für alle $E \in \P(B)$ (alternativ: \(E \subseteq B\)):\\
+            \item\pause\label{algC:a} Setze $Max = \emptyset$.
+            \item\label{algC:b} Für alle $E \in \P(B)$ (alternativ: \(E \subseteq B\)):\\
                 \quad Wenn ($\abs{E} > \abs{Max}$):\\
                 \qquad Für alle \(c \in C\):\\
                 \quad\qquad Wenn (\(E\) erfüllt nicht \(c\)): Weiter über (\ref{alg:st}).\\
                 \qquad Setze \(Max = E\).
-            \item\label{algA:c} Ergebnis ist $Max$.
+            \item\label{algC:c} Ergebnis ist $Max$.
         \end{enumerate}
     }{%
         \pause\medskip\par\footnotesize\color{gray}%
@@ -557,8 +557,8 @@
         \item \pause Aufwandsanalyse: \begin{enumerate}[1.]
                   \item \pause Tabellarisch, siehe Vorlesung, oder:
                   \item \pause \say{Textbasiert}. Wir betrachten Stückweise: \begin{itemize}[<+(1)->]
-                      \item Die erste Zuweisung \ref{algA:a} ist exakt eine Elementaroperation.
-                      \item Die äußere Schleife in \ref{algA:b} wird \(2^{\abs{B}}\) mal durchlaufen.
+                      \item Die erste Zuweisung \ref{algC:a} ist exakt eine Elementaroperation.
+                      \item Die äußere Schleife in \ref{algC:b} wird \(2^{\abs{B}}\) mal durchlaufen.
                       \item Die erste Bedingung bedarf 3 Elementaroperationen: 2 Kardinalitätsberechnungen, 1 Vergleich.
                       \item Die innere Schleife wird (bis zu) \(\abs{C}\) mal durchlaufen.
                       \item Die innere Schleife enthält eine Elementaroperation.

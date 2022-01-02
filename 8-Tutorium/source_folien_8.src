@@ -148,7 +148,7 @@
     \itemsep0pt
     \item[\bul] \G \mark<7->{Grundpreis} einer Fahrt in \mark<7->{Euro}
     \item[\bul] \G Den \mark<7->{Kilometerpreis} in \mark<7->{Euro}
-    \item[\bul] \G Den \mark<7->{Kraftstoffverbrauch} in \mark<7->{$\frac{l}{100km}$}
+    \item[\bul] \G Den \mark<7->{Kraftstoffverbrauch} in \mark<7->{$\frac{L}{100km}$}
     \item[\bul] \G Das \mark<7->{Tankvolumen} des Taxis in \mark<7->{Liter}
 \end{itemize}
 Fügen Sie weiterhin die folgenden \mark<11->{privaten, veränderlichen} Variablen hinzu:

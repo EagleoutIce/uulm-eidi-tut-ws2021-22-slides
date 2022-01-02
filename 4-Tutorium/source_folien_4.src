@@ -362,7 +362,7 @@ System.out.println("u: " + u);
     \end{itemize}
 \end{frame}
 
-\rExecute{javac PrimeFactors.java}
+\iffull \rExecute{javac PrimeFactors.java} \fi
 \begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2 \hfill Alternativ}
     \begin{itemize}[<+(1)->]
         \item Oder direkt wiederholt anwenden:\lstfs{10}
@@ -381,7 +381,7 @@ System.out.println("u: " + u);
     \end{itemize}
 \end{frame}
 
-\rExecute{javac PrimeFactorsAlternate.java}
+\iffull \rExecute{javac PrimeFactorsAlternate.java} \fi
 \begin{frame}[fragile]{Übungsblatt 4 - Aufgabe 2 \hfill Die alternative Alternative}
     \begin{itemize}[<+(1)->]
         \item Wir können das Sieb direkt integrieren\ldots\ (\only<2->{\textattachfile{\curpath PrimeFactorsAlternate.java}{PrimeFactorsAlternate.java}})\lstfs{10}

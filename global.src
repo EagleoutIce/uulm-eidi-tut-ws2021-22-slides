@@ -140,3 +140,4 @@
 
 \tikzset{lhns@impstyle/.style={}}%
 \newcommand<>{\mark}[1]{{\only#2{\color{black}}#1}}
+\def\DeltaMax{\Delta_{\text{max}}}
