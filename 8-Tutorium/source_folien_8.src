@@ -304,10 +304,10 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \begin{frame}[c]{Zusatzaufgabe 3/6}
 \centering\pingudefaultsappend{heart=shadeB}%
 \begin{tikzpicture}
-\only<2->{\pingu[eyes wink,headband,name=pingu-a]}
+\only<2->{\pingu[eyes wink,headband,blush,name=pingu-a]}
 \only<4->{\pingu[xshift=3.5cm,yshift=-2mm,eyes shiny,small,hat,tie,name=pingu-b]}
 \only<5->{\pingu[xshift=7cm,eyes angry,bill=angry,sunglasses,cap,name=pingu-c]}
-\only<6->{\pingu[xshift=10.5cm,headphones,santa beard,eyes shiny,name=pingu-d]}
+\only<6->{\pingu[xshift=10.5cm,headphones,santa beard,right eye shiny,eye patch left,name=pingu-d]}
 \pgfonlayer{foreground}
 \only<2->{\onslide<3->{\node[above right=.25cm,yshift=.5cm,xshift=-24mm,rectangle callout,rounded corners=1pt,align=left,callout absolute pointer={(pingu-a-head-left)},draw,fill=white] at (pingu-a-head-left) {\textbf{Herbert}\\16.01.2022 16:31};}}
 \only<4->{\node[above right=.25cm,yshift=.5cm,xshift=-19mm,rectangle callout,rounded corners=1pt,align=left,callout absolute pointer={(pingu-b-head-left)},draw,fill=white] at (pingu-b-head-left) {\textbf{Josefine}\\18.01.2022 9:45};}
@@ -1239,7 +1239,7 @@ public void swap(int i, int j) {
     \end{tikzpicture}}
 \end{center}
 \begin{tikzpicture}[overlay,remember picture]
-    \node[above left,yshift=0.45cm,scale=.8] at (current page.south east) {\tikz{\pingu[right wing wave,eyes wink,small]}};
+    \node[above left,yshift=0.45cm,scale=.8] at (current page.south east) {\tikz{\pingu[right wing wave,eyes wink,eye patch right,small]}};
 \end{tikzpicture}
 \end{frame}
 % #endregion
