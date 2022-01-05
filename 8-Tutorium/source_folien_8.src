@@ -414,10 +414,10 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \end{itemize}
 \column{.2\linewidth}
 \centering\onslide<5->{\includegraphics[height=6.15cm]{\curpath java-date-all.png}}%
-\only<7->{\llap{\smash{\raisebox{-.5cm}{\downsizeHeight{7cm}{\begin{tikzpicture}
-    \node[rotate=-20,draw,inner sep=1pt,very thick,gray] (a) at (0,0) {\includegraphics[scale=.85]{\curpath java-date-a.png}};
-    \onslide<8->{\node[rotate=20,draw,yshift=-6cm,xshift=2cm,inner sep=1pt,very thick,gray] (b) at (a.south) {\includegraphics[scale=1.75]{\curpath java-date-b.png}};}
-    \onslide<9->{\node[rotate=-8,draw,xshift=-5cm,yshift=-3.15cm,inner sep=1pt,very thick,gray] (c) at (b.south) {\includegraphics[scale=2.25]{\curpath java-date-c.png}};}
+\only<7->{\llap{\smash{\raisebox{-.2cm}{\downsizeHeight{6.55cm}{\begin{tikzpicture}
+    \node[rotate=-14,draw,inner sep=1pt,ultra thick,gray] (a) at (0,0) {\includegraphics[scale=.85]{\curpath java-date-a.png}};
+    \onslide<8->{\node[rotate=16,draw,yshift=-4.5cm,xshift=2cm,inner sep=1pt,ultra thick,gray] (b) at (a.south) {\includegraphics[scale=1.65]{\curpath java-date-b.png}};}
+    \onslide<9->{\node[draw,xshift=-5cm,yshift=-1.85cm,inner sep=1pt,ultra thick,gray] (c) at (b.south) {\includegraphics[scale=2]{\curpath java-date-c.png}};}
 \end{tikzpicture}}\hspace*{-.5\linewidth}}}}}%
 \end{columns}
 \end{frame}
