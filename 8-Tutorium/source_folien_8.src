@@ -128,7 +128,7 @@
 \fi
 % #endregion
 \section{Präsenzaufgabe}
-\def\gcdex#1#2{\pgfmathparse{gcd(#1,#2)}\bjava{ggt(#1, #2) :yields: }\expandafter\bjava\expandafter{\pgfmathresult}}
+\def\gcdex#1#2{\pgfmathparse{gcd(#1,#2)}\bjava{ggt(#1, #2) :yields:} \expandafter\bjava\expandafter{\pgfmathresult}}
 \begin{frame}[c]{Präsenzaufgabe}
     \onslide<2->{\begin{aufgabe}{Teil mich. Nochmal. Nochmal!}
         \onslide<3->{In dieser Aufgaben sollen Sie mit Hilfe des \textit{euklidischen Algorithmus} den größten gemeinsamen Teiler zweier ganzer Zahlen \(a\) und $b$ bestimmen. Implementieren Sie den Algorithmus einmal \textit{iterativ} und einmal \textit{rekursiv}.}
