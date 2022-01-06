@@ -128,10 +128,76 @@
 \fi
 % #endregion
 \section{Präsenzaufgabe}
+\def\gcdex#1#2{\pgfmathparse{gcd(#1,#2)}\bjava{ggt(#1, #2) :yields: }\expandafter\bjava\expandafter{\pgfmathresult}}
 \begin{frame}[c]{Präsenzaufgabe}
-    \begin{aufgabe}{Unbekannt}
-        Jo Diggie
-    \end{aufgabe}
+    \onslide<2->{\begin{aufgabe}{Teil mich. Nochmal. Nochmal!}
+        \onslide<3->{In dieser Aufgaben sollen Sie mit Hilfe des \textit{euklidischen Algorithmus} den größten gemeinsamen Teiler zweier ganzer Zahlen \(a\) und $b$ bestimmen. Implementieren Sie den Algorithmus einmal \textit{iterativ} und einmal \textit{rekursiv}.}
+        \onslide<4->{Welchen jeweiligen Vor- und Nachteil haben die beiden Lösungen?}\medskip
+
+        \onslide<5->{\Fleqn\multicolsep0pt\abovedisplayskip5pt\belowdisplayskip0pt\textit{Beispiele:}
+        \begin{multicols}{2}
+        \begin{itemize}
+            \item<6-> \gcdex{39}{27}
+            \begin{align*}
+                39 &= 1 \cdot 27 + 12 \\
+                27 &= 2 \cdot 12 + 3 \\
+                12 &= 4 \cdot \smash{\fbox{3}} + 0
+            \end{align*}
+            \item<7-> \gcdex{15}{7}
+            \begin{align*}
+                15 &= 2 \cdot 7 + 1 \\
+                7 &= 7 \cdot \smash{\fbox{1}} + 0
+            \end{align*}
+        \end{itemize}
+        \end{multicols}}\vspace*{-.5\baselineskip}
+    \end{aufgabe}}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \item Der größter gemeinsame Teiler also: \only<2->{\textattachfile{\curpath Euclid.java}{Euclid.java}}.
+        \item Die Definition:\pause
+\begin{equation*}
+    \ggt(a, b) = \begin{cases}
+        a & \text{ wenn } b = 0 \\
+        \ggt(b, a \bmod b) & \text{ sonst.}
+    \end{cases}
+\end{equation*}
+    \item In Java? Unfassbar anders natürlich!
+\begin{plainjava}
+!*\onslide<6->*!public static int ggt(int a, int b) {
+!*\onslide<7->*!    if(b == 0)
+!*\onslide<7->*!        return a;
+!*\onslide<8->*!    else
+!*\onslide<8->*!        return ggt(b, a % b);
+!*\onslide<6->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung}
+    \begin{itemize}[<+(1)->]
+        \item Die iterative Variante:
+\begin{plainjava}
+!*\onslide<3->*!public static int ggt(int a, int b) {
+!*\onslide<4->*!    while(b != 0) {
+!*\onslide<5->*!        // swap a, b = b, a % b
+!*\onslide<6->*!        int tmp = a % b;
+!*\onslide<6->*!        a = b;
+!*\onslide<6->*!        b = tmp;
+!*\onslide<4->*!    }
+!*\onslide<7->*!    return a;
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Präsenzaufgabe - Iteration vs. Rekursion}
+    \begin{itemize}[<+(1)->]
+        \itemsep10pt
+        \item Die \textit{Iterative} Lösung ist performanter und braucht weniger Speicher.
+        \item Die \textit{rekursive} Lösung ist kompakter und übersichtlicher.
+    \end{itemize}
 \end{frame}
 
 \section{Übungsblatt 8}

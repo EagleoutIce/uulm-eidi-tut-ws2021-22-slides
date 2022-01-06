@@ -136,8 +136,15 @@
 \long\def\lhnselementbox#1#2{\parbox{#1}{\centering#2}}%
 \makeatletter
 \lhns@minborderheight=5.4cm
+% local fleqn
+\def\Fleqn{\@fleqntrue
+\@mathmargin=-1sp\relax
+\let\mathindent=\@mathmargin
+\@mathmargin10pt\relax % custom left margin
+}
 \makeatother
 
 \tikzset{lhns@impstyle/.style={}}%
 \newcommand<>{\mark}[1]{{\only#2{\color{black}}#1}}
 \def\DeltaMax{\Delta_{\text{max}}}
+\DeclareMathOperator\ggt{ggt}
