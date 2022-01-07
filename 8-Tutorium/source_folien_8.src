@@ -523,12 +523,12 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 !*\onslide<4->*!public class DateFormatTime {
 !*\onslide<5->*!    private final Date date;
 !*\onslide<5->*!
-!*\onslide<7->*!    public static SimpleDateFormat DATE_FORMAT =
+!*\onslide<7->*!    public static SimpleDateFormat dateFormat =
 !*\onslide<8->*!            new SimpleDateFormat("yyyy.MM.dd HH:mm");
 !*\onslide<4->*!
 !*\onslide<6->*!    public DateFormatTime(String date, String time) !*\onslide<6-9|handout:0>*! {
 !*\onslide<10->*!                throws ParseException {
-!*\onslide<9->*!        this.date = DATE_FORMAT.parse(date + " " + time);
+!*\onslide<9->*!        this.date = dateFormat.parse(date + " " + time);
 !*\onslide<6->*!    }
 !*\onslide<4->*!    // ...
 !*\onslide<4->*!}!*\onslide<3->*!
@@ -571,7 +571,7 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \begin{plainjava}
 !*\onslide<3->*!long aStamp = a.getTime();
 !*\onslide<3->*!long bStamp = b.getTime();
-!*\onslide<4->*!double diffInSeconds =  (aStamp - bStamp) / (1000 * 60d)
+!*\onslide<4->*!double diffInMinutes =  (aStamp - bStamp) / (1000 * 60d)
 \end{plainjava}
     \item<5-> Magic Numbers: \begin{itemize}
         \itemsep2pt
@@ -582,24 +582,28 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \end{frame}
 
 \subsection{Zusatzaufgabe 3/6 -- Die Reservierung soweit}
+\MakeThePinguExplainIt[text width=6.25cm]{cap=!hide,blush,cape,shirt=lightgray,second shirt=cprimary,hair=cprimary}{Warum nicht \bjava{static}? Nun, das hat etwas mit \bjava{Thread}s zu tun\ldots}
 \begin{frame}[fragile]{Zusatzaufgabe 3/6\hfill Die Reservierung soweit}
     \begin{itemize}[<+(1)->]
         \item Nun eine Variante mit \bjava{SimpleDateFormat}.
 \begin{plainjava}
 !*\onslide<3->*!public class Reservation {
-!*\onslide<4->*!    private String name;
-!*\onslide<4->*!    private Date resDate;
+!*\onslide<4->*!    private final String name;
+!*\onslide<4->*!    private final Date resDate;
 !*\onslide<3->*!
-!*\onslide<5->*!    public static SimpleDateFormat DATE_FORMAT =
+!*\onslide<5->*!    public static SimpleDateFormat dateFormat =
 !*\onslide<5->*!            new SimpleDateFormat("yyyy.MM.dd HH:mm");
 !*\onslide<6->*!    public Reservation(String name, String date, String time)
 !*\onslide<6->*!            throws ParseException {
 !*\onslide<7->*!        this.name = name;
-!*\onslide<7->*!        this.resDate = DATE_FORMAT.parse(date + " " + time);
+!*\onslide<7->*!        this.resDate = dateFormat.parse(date + " " + time);
 !*\onslide<6->*!    }
 !*\onslide<3->*!}
 \end{plainjava}
     \end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<8->{\node[left=-5.5mm,scale=.8] at(current page.0) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
 
 \begin{frame}[fragile,c]{Mini-Exkurs: Mit Ausnahmen umgehen}
@@ -632,7 +636,7 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 !*\onslide<4->*!|ihl|    private String name;|ihl|
 !*\onslide<4->*!|ihl|    private Date resDate;|ihl|
 !*\onslide<5->*!    public String toString() {
-!*\onslide<6->*!        return String.format(Locale.ENGLISH, // March satt März
+!*\onslide<6->*!        return String.format(Locale.ENGLISH, // March statt März
 !*\onslide<7->*!            "%s reserved for !*\solGet{literals}{\solGet{keywordB}{\%2\$tB}}*! !*\solGet{literals}{\solGet{keywordB}{\%2\$td}}*!, !*\solGet{literals}{\solGet{keywordB}{\%2\$tY}}*! at !*\solGet{literals}{\solGet{keywordB}{\%2\$tH}}*!:!*\solGet{literals}{\solGet{keywordB}{\%2\$tM}}*!",
 !*\onslide<8->*!            this.name, this.resDate
 !*\onslide<6->*!        );
@@ -644,6 +648,46 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
     \onslide<9->{\node[above left=.25cm,yshift=.5cm] (fqr) at(current page.south east) {\usebox\qrStringFormat};
     \node[above left,xshift=-5mm,gray] at(fqr.south west) {Format String Syntax};}
 \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]{Zusatzaufgabe 3/6\hfill toString}
+    \SetupLstHl\begin{itemize}[<+(1)->]
+        \item Aber halt. Es war ja \bjava{toString(Reservation)} gefordert.
+        \item Nun, wir könnten dies wie folgt lösen (das ist aber unüblich):
+\begin{plainjava}
+!*\onslide<4->*!|ihl|public class Reser:c:vation {|ihl|
+!*\onslide<4->*!|ihl|    private String name;|ihl|
+!*\onslide<4->*!|ihl|    private Date resDate;|ihl|
+!*\onslide<5->*!    public static String toString(Reservation r) {
+!*\onslide<6->*!        return String.format(Locale.ENGLISH, // March statt März
+!*\onslide<7->*!            "%s reserved for !*\solGet{literals}{\solGet{keywordB}{\%2\$tB}}*! !*\solGet{literals}{\solGet{keywordB}{\%2\$td}}*!, !*\solGet{literals}{\solGet{keywordB}{\%2\$tY}}*! at !*\solGet{literals}{\solGet{keywordB}{\%2\$tH}}*!:!*\solGet{literals}{\solGet{keywordB}{\%2\$tM}}*!",
+!*\onslide<8->*!            r.name, r.resDate
+!*\onslide<6->*!        );
+!*\onslide<5->*!    }
+!*\onslide<9->*!    public String toString() { toString(this); }
+!*\onslide<4->*!|ihl|}|ihl|!*\onslide<1->*!
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Zusatzaufgabe 3/6\hfill toString -- Calendar}
+    \SetupLstHl\begin{itemize}[<+(1)->]
+        \item Gibt es Alternativen?
+        \item Japp. Die gibt es. Beispielsweise mit \bjava{Calendar}:
+\begin{plainjava}
+!*\onslide<4->*!public static String toString(Reservation reservation) {
+!*\onslide<5->*!    Calendar calendar = Calendar.getInstance();
+!*\onslide<6->*!    calendar.setTime(reservation.resDate);
+!*\onslide<7->*!    return "Reservierung für " + reservation.name
+!*\onslide<8->*!            + " am " + calendar.get(Calendar.YEAR) + "."
+!*\onslide<8->*!            + (calendar.get(Calendar.MONTH) + 1)  + "."
+!*\onslide<8->*!            + calendar.get(Calendar.DAY_OF_MONTH)
+!*\onslide<8->*!            + " um " + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+!*\onslide<8->*!            + calendar.get(Calendar.MINUTE)
+!*\onslide<8->*!            + " Uhr.";
+!*\onslide<4->*!}
+\end{plainjava}
+\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Zusatzaufgabe 3/6\hfill equals}
@@ -699,9 +743,9 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 !*\onslide<4->*!  public boolean checkIn(Reservation reservation) {
 !*\onslide<5->*!      long them = reservation.resDate.getTime();
 !*\onslide<5->*!      long we = this.resDate.getTime();
-!*\onslide<6->*!      double diffInSeconds =  (them - we) / (MS_IN_S * S_IN_MS);
+!*\onslide<6->*!      double diffInMinutes =  (them - we) / (MS_IN_S * S_IN_MS);
 !*\onslide<7->*!      // is it between 5 and 15 minutes?
-!*\onslide<7->*!      return diffInSeconds >= -5  && diffInSeconds <= 15 ;
+!*\onslide<7->*!      return diffInMinutes >= -5  && diffInMinutes <= 15 ;
 !*\onslide<4->*!  }
 !*\onslide<3->*!|ihl|}|ihl|!*\onslide<1->*!
 \end{plainjava}

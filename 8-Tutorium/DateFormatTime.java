@@ -5,10 +5,10 @@ import java.util.Locale;
 
 public class DateFormatTime {
    private final Date date;
-   public static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+   public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
    public DateFormatTime(String date, String time) throws ParseException {
-      this.date = DATE_FORMAT.parse(date + " " + time);
+      this.date = dateFormat.parse(date + " " + time);
    }
 
    public long getTime() {
