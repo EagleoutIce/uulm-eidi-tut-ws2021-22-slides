@@ -195,7 +195,7 @@
 \begin{frame}[fragile]{Präsenzaufgabe - Iteration vs. Rekursion}
     \begin{itemize}[<+(1)->]
         \itemsep10pt
-        \item Die \textit{Iterative} Lösung ist performanter und braucht weniger Speicher.
+        \item Die \textit{iterative} Lösung ist performanter und braucht weniger Speicher.
         \item Die \textit{rekursive} Lösung ist kompakter und übersichtlicher.
     \end{itemize}
 \end{frame}
