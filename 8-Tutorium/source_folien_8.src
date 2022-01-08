@@ -48,6 +48,7 @@
     \item Arrays und Iterationen
     \item Unterprogramme
     \item Objektorientierte Programmierung
+    \item \color{gray}Rekursion
 \end{enumerate}
 \end{frame}
 
@@ -66,27 +67,41 @@
         \item Problemabstraktion\comm{Was ist gegeben, was ist gesucht?}
         \item Algorithmenentwurf\comm{Wie kommen wir von gegeben zu gesucht?}
         \item Korrektheitsnachweis\comm{Löst unser Ansatz das Problem?}
-        \item Aufwandsanalyse\comm{Wie verhält er sich?}
+        \item Aufwandsanalyse\comm{Wie verhält sich der Algorithmus?}
      \end{itemize}
 \end{itemize}
 \end{frame}}
 {\def\mto{\ensuremath{\to}}
-\def\dt#1{{\large\bfseries\textcolor{paletteB!68!white}{\strut#1}}}
+\def\dt#1{{\small\bfseries\textcolor{paletteB!68!white}{\strut#1}}}
 \begin{frame}[c]{Programmkonstrukte}
 \begin{itemize}[<+(1)->]
-   \itemsep18pt
-   \item Implizite Typkonvertierung:\quad \dt{byte}~\mto~\dt{short}~\mto~\dt{int}~\mto~\dt{long}~\mto~\dt{float}~\mto~\dt{double}\\
-   Zahlen von klein zu groß, sowie: \dt{char}~\mto~\dt{int}.
-   \item Präzedenzregeln:\quad Post vor Prä, sonst wie Arithmetik \& Logik.
-   \item Default-Werte:\quad Zahlen und Zeichen \bjava{0}, Boolean \bjava{false}, Rest \bjava{null}.
-   \item Überschatten:\quad Lokal über Global.
+   \itemsep12pt
+   \item Implizite Typkonvertierung\begin{itemize}
+       \item Von klein zu groß: \dt{byte}~\mto~\dt{short}~\mto~\dt{int}~\mto~\dt{long}~\mto~\dt{float}~\mto~\dt{double}
+       \item Sowie: \dt{char}~\mto~\dt{int}
+   \end{itemize}
+    \item Präzedenzregeln \begin{itemize}
+        \item Post vor Prä, sonst wie Arithmetik \& Logik.
+    \end{itemize}
+    \item Default-Werte \begin{itemize}
+        \item Nur für Klassen-/Instanzvariablen und Array-Komponenten!
+        \item Zahlen und Zeichen werden \bjava{0}.
+        \item Boolean wird \bjava{false}.
+        \item Der Rest wird \bjava{null}.
+    \end{itemize}
+   \item Überschatten \begin{itemize}
+        \item Lokaler Bezeichner \say{überschattet} die Sichtbarkeit eines globalen.
+   \end{itemize}
 \end{itemize}
 \end{frame}
 \begin{frame}[c]{Arrays und Iterationen}
 \begin{itemize}[<+(1)->]
    \itemsep18pt
    \item Arrays sind komplexe Datentypen.
-   \item Mehrdimensionale Arrays sind eindimensionale Arrays von eindimensionalen Arrays von\ldots
+   \item Mehrdimensionale Arrays \begin{itemize}
+       \item \say{Gibt es an sich nicht.} \bjava{int[][][] :equiv: ((int[])[])[]}
+       \item Sind eindimensionale Arrays von eindimensionalen Arrays von\ldots
+   \end{itemize}
    \item Die drei Schleifenarten sind gleichmächtig. \begin{itemize}
       \item Maximum bekannt: \bjava{for}
       \item Mindestens ein mal: \bjava{do}-\bjava{while}
@@ -99,19 +114,21 @@
 \begin{frame}[c]{Unterprogramme}
 \begin{itemize}[<+(1)->]
    \itemsep18pt
-   \item \textit{Überladung:}\quad Gleicher Name, andere Signatur. \begin{itemize}
-      \item \textit{Signatur:} Name \& Parametertypliste
+   \item Überladung \begin{itemize}
+      \item Gleicher Name, andere Signatur
+      \item Signatur: Name \& Parametertypliste
       \item Müssen zudem in selber Klasse sein (später: Vererbung)
    \end{itemize}
-   \item Beim Aufruf macht Java call-by-value: \begin{itemize}
+   \item Beim Aufruf macht Java call-by-value \begin{itemize}
       \item Alle Parameter werden kopiert (Stack).
+      \item Bei komplexen Datentypen wird die Referenz kopiert.
    \end{itemize}
 \end{itemize}
 \end{frame}
 
 \begin{frame}[c]{Objektorientierte Programmierung}
 \begin{itemize}[<+(1)->]
-\itemsep18pt
+\itemsep13pt
 \item Eine Klasse definiert die Blaupause für Objekte. \begin{itemize}
     \item Attribute definieren den Zustand.
     \item Methoden definieren den Verhalten.
@@ -121,8 +138,13 @@
     \item Wenn keiner: erzeugt Java den leeren Standardkonstruktor.
     \item \bjava{this} erlaubt Aufruf von Überladungen.
 \end{itemize}
-\item Klassen, Methoden,~\ldots:\qquad \textit{Sichtbarkeit}  (\bjava{public},~\ldots)
-\item \textit{Gültigkeit}sbereich: Wo die Daten \say{existieren}.
+\item Klassen, Methoden,~\ldots \begin{itemize}
+    \item Haben eine Sichtbarkeit (\bjava{public},~\ldots) unter der sie zugreifbar sind.
+\end{itemize}
+\item Daten \begin{itemize}
+    \item Haben einen \textit{Gültigkeit}sbereich: Wo die Daten \say{existieren}.
+    \item Ein Datum kann nicht sichtbar, aber dennoch gültig sein (Überschatten).
+\end{itemize}
 \end{itemize}
 \end{frame}
 \fi
@@ -331,11 +353,11 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \end{plainjava}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 8 - Aufgabe 1e)}
+\begin{frame}[c,fragile]{Übungsblatt 8 - Aufgabe 1e)}
     \begin{itemize}
         \item<2-> Eine beispielhafte (musterlösungsverdächtige) Verwendung:
     \end{itemize}
-\SetupLstHl\lstfs{9}
+\SetupLstHl\lstfs{8}\lstset{lineskip=3pt}
 \begin{plainjava}
 !*\onslide<3->*!|ihl|public static void main(String[] args) {|ihl|
 !*\onslide<4->*!    Taxi taxi = new Taxi(3, 0.5, 10, 50);
@@ -492,26 +514,26 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \MakeThePinguExplainIt[text width=5.5cm]{cap=!hide,eyes wink,headband,right item angle=-20}{Java beginnt auch bei Monaten in der Regel mit \(0\)!}
 \begin{frame}[c,fragile]{Zusatzaufgabe 3/6\hfill Als Java-Datum mit Kalender}
 \begin{itemize}[<+(1)->]
-    \item Kurzgesagt: \bjava{Date} ist fernab der Internationalisierung. Es hält nur die Sekunden seit \say{Unix Epoch} \info{1. Januar 1970, Mitternacht}.
+    \item Kurzgesagt: \bjava{Date} hält nur die Sekunden seit \say{Unix Epoch} \info{1. Januar 1970, Mitternacht; fernab der Internationalisierung}.
     \item Wir konstruieren es durch andere Klassen. \pause Mit dem \say{Gregorianischen Kalender}:\lstfs{10}
 \begin{plainjava}
 !*\onslide<5->*!public class CalendarDateTime {
 !*\onslide<6->*!    private final Date date;
 !*\onslide<5->*!
-!*\onslide<6->*!    public CalendarDateTime(String date, String time) {
-!*\onslide<7->*!        CustomTime custom = new CustomTime(date, time);
-!*\onslide<8->*!        GregorianCalendar calendar = new GregorianCalendar();
-!*\onslide<9->*!        calendar.set(custom.year, custom.month - 1, custom.day,
-!*\onslide<9->*!            custom.hour, custom.minute);
-!*\onslide<10->*!        this.date = calendar.getTime();
+!*\onslide<7->*!    public CalendarDateTime(String date, String time) {
+!*\onslide<8->*!        CustomTime custom = new CustomTime(date, time);
+!*\onslide<9->*!        GregorianCalendar calendar = new GregorianCalendar();
+!*\onslide<10->*!        calendar.set(custom.year, custom.month - 1, custom.day,
+!*\onslide<10->*!            custom.hour, custom.minute);
+!*\onslide<11->*!        this.date = calendar.getTime();
 !*\onslide<6->*!    }
-!*\onslide<11->*!    // :ldots:
+!*\onslide<12->*!    // :ldots:
 !*\onslide<5->*!}
 \end{plainjava}
 \end{itemize}
 \begin{tikzpicture}[overlay, remember picture]
-    \onslide<12->{\node[left=-7mm,scale=.8] at(current page.-25) {\usebox\pinguexplainbox};}
-    \only<13->{\node[above right=.25cm,yshift=.25cm] at(current page.south west) {\textattachfile{\curpath CalendarDateTime.java}{CalendarDateTime.java}};}
+    \onslide<13->{\node[left=-7mm,scale=.8] at(current page.-25) {\usebox\pinguexplainbox};}
+    \only<14->{\node[above right=.25cm,yshift=.25cm] at(current page.south west) {\textattachfile{\curpath CalendarDateTime.java}{CalendarDateTime.java}};}
 \end{tikzpicture}
 \end{frame}
 
