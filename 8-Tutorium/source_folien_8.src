@@ -357,7 +357,7 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
     \begin{itemize}
         \item<2-> Eine beispielhafte (musterlösungsverdächtige) Verwendung:
     \end{itemize}
-\SetupLstHl\lstfs{8}\lstset{lineskip=3pt}
+\SetupLstHl\lstfs{8}\lstset{lineskip=2.5pt}
 \begin{plainjava}
 !*\onslide<3->*!|ihl|public static void main(String[] args) {|ihl|
 !*\onslide<4->*!    Taxi taxi = new Taxi(3, 0.5, 10, 50);
