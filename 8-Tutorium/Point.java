@@ -12,9 +12,9 @@ public class Point {
 
     public Point(Point coordinates, int x, int y) {
         this(coordinates.x + x, coordinates.y + y);
-	}
+    }
 
-	public int getX() {
+    public int getX() {
         return x;
     }
 

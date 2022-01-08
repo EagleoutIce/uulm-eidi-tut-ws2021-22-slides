@@ -23,7 +23,8 @@ public class Reservation {
    }
 
    public static String toString(Reservation r) {
-      return String.format(Locale.ENGLISH, "%s reserved a table for %2$tB %2$td, %2$tY at %2$tH:%2$tM", r.name, r.dateAndtime);
+      return String.format(Locale.ENGLISH, "%s reserved a table for %2$tB %2$td, %2$tY at %2$tH:%2$tM", r.name,
+            r.dateAndtime);
    }
 
    public String toString() {
@@ -32,17 +33,17 @@ public class Reservation {
 
    public boolean equals(Reservation reservation) {
       return this == reservation || // identical or equal
-         (Objects.equals(this.dateAndtime, reservation.dateAndtime)
-         &&  Objects.equals(this.name, reservation.name));
+            (Objects.equals(this.dateAndtime, reservation.dateAndtime)
+                  && Objects.equals(this.name, reservation.name));
    }
 
    public boolean checkIn(Reservation reservation) {
       long otherStamp = reservation.dateAndtime.getTime();
       long thisStamp = this.dateAndtime.getTime();
-      double diffInMinutes =  (otherStamp - thisStamp) / (MS_IN_S * S_IN_MS);
+      double diffInMinutes = (otherStamp - thisStamp) / (MS_IN_S * S_IN_MS);
       // is it between 5 and 15 minutes?
-      return diffInMinutes >= -5  && diffInMinutes <= 15 ;
-      // TODO: we coud check the person too
+      return diffInMinutes >= -5 && diffInMinutes <= 15;
+      // we coud check the person too
    }
 
    public static void main(String[] args) throws ParseException {

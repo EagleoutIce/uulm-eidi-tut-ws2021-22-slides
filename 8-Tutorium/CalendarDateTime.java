@@ -9,7 +9,7 @@ public class CalendarDateTime {
       CustomTime custom = new CustomTime(date, time);
       GregorianCalendar calendar = new GregorianCalendar();
       calendar.set(custom.year, custom.month - 1, custom.day,
-         custom.hour, custom.minute);
+            custom.hour, custom.minute);
       this.date = calendar.getTime();
    }
 

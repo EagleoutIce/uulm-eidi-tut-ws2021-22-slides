@@ -2,14 +2,14 @@ import java.util.Scanner;
 
 public class Euclid {
     public static int ggtRecursive(int a, int b) {
-        if(b == 0)
+        if (b == 0)
             return a;
         else
             return ggtRecursive(b, a % b);
     }
 
     public static int ggtIterative(int a, int b) {
-        while(b != 0) {
+        while (b != 0) {
             int tmp = a % b;
             a = b;
             b = tmp;
@@ -25,8 +25,8 @@ public class Euclid {
         System.out.print("b: ");
         int b = scanner.nextInt();
 
-        System.out.println(ggtIterative(a,b));
-        System.out.println(ggtRecursive(a,b));
+        System.out.println(ggtIterative(a, b));
+        System.out.println(ggtRecursive(a, b));
 
         scanner.close();
     }

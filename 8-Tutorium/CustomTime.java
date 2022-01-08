@@ -8,17 +8,17 @@ public class CustomTime {
    // Validity checks are not required as we can expect dates
    // to be correct
    public CustomTime(String date, String time) {
-      this.year = Integer.parseInt(date.substring(0,4));
-      this.month = Byte.parseByte(date.substring(5,7));
-      this.day = Byte.parseByte(date.substring(8,10));
+      this.year = Integer.parseInt(date.substring(0, 4));
+      this.month = Byte.parseByte(date.substring(5, 7));
+      this.day = Byte.parseByte(date.substring(8, 10));
 
-      this.hour = Byte.parseByte(time.substring(0,2));
-      this.minute = Byte.parseByte(time.substring(3,5));
+      this.hour = Byte.parseByte(time.substring(0, 2));
+      this.minute = Byte.parseByte(time.substring(3, 5));
    }
 
    public String toString() {
       return "CustomTime [day=" + day + ", month=" + month + ", year=" + year
-      + ", hour=" + hour + ", minute=" + minute + "]";
+            + ", hour=" + hour + ", minute=" + minute + "]";
    }
 
    public static void main(String[] args) {
