@@ -722,7 +722,7 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 !*\onslide<4->*!    public boolean equals(Reservation reservation) {
 !*\onslide<5->*!        return this == reservation ||
 !*\onslide<6->*!           (Objects.equals(this.resDate, reservation.resDate)
-!*\onslide<7->*!           &&  Objects.equals(this.name, reservation.name));
+!*\onslide<7->*!           && Objects.equals(this.name, reservation.name));
 !*\onslide<4->*!    }
 !*\onslide<3->*!|ihl|}|ihl|!*\onslide<1->*!
 \end{plainjava}
@@ -772,9 +772,10 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 !*\onslide<3->*!|ihl|}|ihl|!*\onslide<1->*!
 \end{plainjava}
     \item<8-> Dabei ist \bjava{MS\_IN\_S = 1000} und \bjava{S\_IN\_MS = 60}.
+    \item<9-> Optional auch \bjava{Objects.equals(this.name, reservation.name)} um den Namen zu prüfen.
 \end{itemize}
 \begin{tikzpicture}[overlay,remember picture]
-    \only<9->{\node[above left=.25cm,yshift=.25cm] at(current page.south east) {\textattachfile{\curpath Reservation.java}{Reservation.java}};}
+    \only<10->{\node[above left=.25cm,yshift=.25cm] at(current page.south east) {\textattachfile{\curpath Reservation.java}{Reservation.java}};}
 \end{tikzpicture}
 \end{frame}
 
