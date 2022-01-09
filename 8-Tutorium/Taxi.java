@@ -32,22 +32,23 @@ public class Taxi {
         return taxometer;
     }
 
-    public void refill(double pricePerLitre) {
-        double refill = Math.min(this.totalEarnings / pricePerLitre, this.fueltankCapacity - this.remainingFuel);
-
-        this.remainingFuel += refill;
-        this.totalEarnings -= refill * pricePerLitre;
-    }
-
+    // großzügiges Rundungsfehler ignorieren
     public boolean pay(double amount) {
         if (amount < taxometer)
             return false;
-        if (amount > taxometer)
+        else if (amount > taxometer)
             System.out.format("Received %.2f€ tip%n", amount - taxometer);
 
         taxometer = 0.0;
         totalEarnings += amount;
         return true;
+    }
+
+    public void refill(double pricePerLitre) {
+        double refill = Math.min(this.totalEarnings / pricePerLitre, this.fueltankCapacity - this.remainingFuel);
+
+        this.remainingFuel += refill;
+        this.totalEarnings -= refill * pricePerLitre;
     }
 
     public static void main(String[] args) {
