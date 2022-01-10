@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Reservation {
    private final String name;
-   private final Date dateAndtime;
+   private final Date dateAndTime;
    public static final double MS_IN_S = 1000;
    public static final double S_IN_MS = 60;
 
@@ -19,12 +19,12 @@ public class Reservation {
     */
    public Reservation(String name, String date, String time) throws ParseException {
       this.name = name;
-      this.dateAndtime = dateFormat.parse(date + " " + time);
+      this.dateAndTime = dateFormat.parse(date + " " + time);
    }
 
    public static String toString(Reservation r) {
       return String.format(Locale.ENGLISH, "%s reserved a table for %2$tB %2$td, %2$tY at %2$tH:%2$tM", r.name,
-            r.dateAndtime);
+            r.dateAndTime);
    }
 
    public String toString() {
@@ -33,13 +33,13 @@ public class Reservation {
 
    public boolean equals(Reservation reservation) {
       return this == reservation || // identical or equal
-            (Objects.equals(this.dateAndtime, reservation.dateAndtime)
+            (Objects.equals(this.dateAndTime, reservation.dateAndTime)
                   && Objects.equals(this.name, reservation.name));
    }
 
    public boolean checkIn(Reservation reservation) {
-      long otherStamp = reservation.dateAndtime.getTime();
-      long thisStamp = this.dateAndtime.getTime();
+      long otherStamp = reservation.dateAndTime.getTime();
+      long thisStamp = this.dateAndTime.getTime();
       double diffInMinutes = (otherStamp - thisStamp) / (MS_IN_S * S_IN_MS);
       // is it between 5 and 15 minutes?
       return diffInMinutes >= -5 && diffInMinutes <= 15;

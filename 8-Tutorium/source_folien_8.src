@@ -655,8 +655,8 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
         \item Mit \bjava{String::format} können wir uns aber interessanteren Freuden widmen:
 \begin{plainjava}
 !*\onslide<4->*!|ihl|public class Reser:c:vation {|ihl|
-!*\onslide<4->*!|ihl|    private String name;|ihl|
-!*\onslide<4->*!|ihl|    private Date resDate;|ihl|
+!*\onslide<4->*!|ihl|    private final String name;|ihl|
+!*\onslide<4->*!|ihl|    private final Date resDate;|ihl|
 !*\onslide<5->*!    public String toString() {
 !*\onslide<6->*!        return String.format(Locale.ENGLISH, // March statt März
 !*\onslide<7->*!            "%s reserved for !*\solGet{literals}{\solGet{keywordB}{\%2\$tB}}*! !*\solGet{literals}{\solGet{keywordB}{\%2\$td}}*!, !*\solGet{literals}{\solGet{keywordB}{\%2\$tY}}*! at !*\solGet{literals}{\solGet{keywordB}{\%2\$tH}}*!:!*\solGet{literals}{\solGet{keywordB}{\%2\$tM}}*!",
@@ -678,8 +678,8 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
         \item Nun, wir könnten dies wie folgt lösen (das ist aber unüblich):
 \begin{plainjava}
 !*\onslide<4->*!|ihl|public class Reser:c:vation {|ihl|
-!*\onslide<4->*!|ihl|    private String name;|ihl|
-!*\onslide<4->*!|ihl|    private Date resDate;|ihl|
+!*\onslide<4->*!|ihl|    private final String name;|ihl|
+!*\onslide<4->*!|ihl|    private final Date resDate;|ihl|
 !*\onslide<5->*!    public static String toString(Reservation r) {
 !*\onslide<6->*!        return String.format(Locale.ENGLISH, // March statt März
 !*\onslide<7->*!            "%s reserved for !*\solGet{literals}{\solGet{keywordB}{\%2\$tB}}*! !*\solGet{literals}{\solGet{keywordB}{\%2\$td}}*!, !*\solGet{literals}{\solGet{keywordB}{\%2\$tY}}*! at !*\solGet{literals}{\solGet{keywordB}{\%2\$tH}}*!:!*\solGet{literals}{\solGet{keywordB}{\%2\$tM}}*!",
@@ -716,8 +716,8 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
     \SetupLstHl\begin{itemize}[<+(1)->]
         \item Das \bjava{SimpleDateFormat} kann das aber auch!
 \begin{plainjava}
-!*\onslide<3->*!|ihl|private String name;|ihl|
-!*\onslide<3->*!|ihl|private Date resDate;|ihl|
+!*\onslide<3->*!|ihl|private final String name;|ihl|
+!*\onslide<3->*!|ihl|private final Date resDate;|ihl|
 !*\onslide<3->*!|ihl|private final SimpleDateFormat dateFormat =|ihl|
 !*\onslide<3->*!|ihl|        new SimpleDateFormat("yyyy.MM.dd HH:mm");|ihl|
 
@@ -736,8 +736,8 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
         \item Felder vergleichen:\lstfs{10}
 \begin{plainjava}
 !*\onslide<3->*!|ihl|public class Reser:c:vation {|ihl|
-!*\onslide<3->*!|ihl|    private String name;|ihl|
-!*\onslide<3->*!|ihl|    private Date resDate;|ihl|
+!*\onslide<3->*!|ihl|    private final String name;|ihl|
+!*\onslide<3->*!|ihl|    private final Date resDate;|ihl|
 !*\onslide<4->*!    public boolean equals(Reservation reservation) {
 !*\onslide<5->*!        return this == reservation ||
 !*\onslide<6->*!           (Objects.equals(this.resDate, reservation.resDate)
@@ -779,8 +779,8 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
     \item Beim \bjava{checkIn} können wir das Minutenintervall leicht prüfen:\lstfs{10}
 \begin{plainjava}
 !*\onslide<3->*!|ihl|public class Reser:c:vation {|ihl|
-!*\onslide<3->*!|ihl|  private String name;|ihl|
-!*\onslide<3->*!|ihl|  private Date resDate;|ihl|
+!*\onslide<3->*!|ihl|  private final String name;|ihl|
+!*\onslide<3->*!|ihl|  private final Date resDate;|ihl|
 !*\onslide<4->*!  public boolean checkIn(Reservation reservation) {
 !*\onslide<5->*!      long them = reservation.resDate.getTime();
 !*\onslide<5->*!      long we = this.resDate.getTime();
