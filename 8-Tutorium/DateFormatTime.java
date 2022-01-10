@@ -5,7 +5,7 @@ import java.util.Locale;
 
 public class DateFormatTime {
    private final Date date;
-   public final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+   private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
    public DateFormatTime(String date, String time) throws ParseException {
       this.date = dateFormat.parse(date + " " + time);

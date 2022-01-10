@@ -613,7 +613,7 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 !*\onslide<4->*!    private final String name;
 !*\onslide<4->*!    private final Date resDate;
 !*\onslide<3->*!
-!*\onslide<5->*!    public final SimpleDateFormat dateFormat =
+!*\onslide<5->*!    private final SimpleDateFormat dateFormat =
 !*\onslide<5->*!            new SimpleDateFormat("yyyy.MM.dd HH:mm");
 !*\onslide<6->*!    public Reservation(String name, String date, String time)
 !*\onslide<6->*!            throws ParseException {
@@ -711,6 +711,25 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \end{plainjava}
 \end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]{Zusatzaufgabe 3/6\hfill toString -- SimpleDateFormat}
+    \SetupLstHl\begin{itemize}[<+(1)->]
+        \item Das \bjava{SimpleDateFormat} kann das aber auch!
+\begin{plainjava}
+!*\onslide<3->*!|ihl|private String name;|ihl|
+!*\onslide<3->*!|ihl|private Date resDate;|ihl|
+!*\onslide<3->*!|ihl|private final SimpleDateFormat dateFormat =|ihl|
+!*\onslide<3->*!|ihl|        new SimpleDateFormat("yyyy.MM.dd HH:mm");|ihl|
+
+!*\onslide<4->*!public static String toString(Reservation reservation) {
+!*\onslide<5->*!    return "Reservierung für " + reservation.name
+!*\onslide<5->*!            + " am " + dateFormat.format(reservation.resDate);
+!*\onslide<4->*!}
+\end{plainjava}
+    \item Entscheidet selbst :D
+\end{itemize}
+\end{frame}
+
 
 \begin{frame}[fragile]{Zusatzaufgabe 3/6\hfill equals}
     \SetupLstHl\begin{itemize}[<+(1)->]

@@ -10,7 +10,7 @@ public class Reservation {
    public static final double MS_IN_S = 1000;
    public static final double S_IN_MS = 60;
 
-   public final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+   private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy.MM.dd HH:mm");
 
    /**
     * @param date YYYY.MM.DD by ISO 8601
