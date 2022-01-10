@@ -43,7 +43,7 @@ public class Reservation {
       double diffInMinutes = (otherStamp - thisStamp) / (MS_IN_S * S_IN_MS);
       // is it between 5 and 15 minutes?
       return diffInMinutes >= -5 && diffInMinutes <= 15;
-      // we coud check the person too
+      // we could check the person too
    }
 
    public static void main(String[] args) throws ParseException {
