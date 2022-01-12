@@ -77,8 +77,8 @@
 \begin{itemize}[<+(1)->]
    \itemsep12pt
    \item Implizite Typkonvertierung\begin{itemize}
-       \item Von klein zu groß: \dt{byte}~\mto~\dt{short}~\mto~\dt{int}~\mto~\dt{long}~\mto~\dt{float}~\mto~\dt{double}
-       \item Sowie: \dt{char}~\mto~\dt{int}
+       \item Von klein zu groß: \dt{byte}~\mto~\dt{short}~\mto~\dt{int}~\mto~\dt{long}~\mto~\dt{float}~\mto~\dt{double}.
+       \item Sowie: \dt{char}~\mto~\dt{int}.
    \end{itemize}
     \item Präzedenzregeln \begin{itemize}
         \item Post vor Prä, sonst wie Arithmetik \& Logik.
@@ -97,12 +97,12 @@
 \begin{frame}[c]{Arrays und Iterationen}
 \begin{itemize}[<+(1)->]
    \itemsep18pt
-   \item Arrays sind komplexe Datentypen.
+   \item Arrays sind komplexe Datentypen
    \item Mehrdimensionale Arrays \begin{itemize}
        \item \say{Gibt es an sich nicht.} \bjava{int[][][] :equiv: ((int[])[])[]}
        \item Sind eindimensionale Arrays von eindimensionalen Arrays von\ldots
    \end{itemize}
-   \item Die drei Schleifenarten sind gleichmächtig. \begin{itemize}
+   \item Die drei Schleifenarten sind gleichmächtig \begin{itemize}
       \item Maximum bekannt: \bjava{for}
       \item Mindestens ein mal: \bjava{do}-\bjava{while}
       \item Sonst: \bjava{while}
@@ -115,9 +115,9 @@
 \begin{itemize}[<+(1)->]
    \itemsep18pt
    \item Überladung \begin{itemize}
-      \item Gleicher Name, andere Signatur
-      \item Signatur: Name \& Parametertypliste
-      \item Müssen zudem in selber Klasse sein (später: Vererbung)
+      \item Gleicher Name, andere Signatur.
+      \item Signatur: Name \& Parametertypliste.
+      \item Müssen zudem in selber Klasse sein (später: Vererbung).
    \end{itemize}
    \item Beim Aufruf macht Java call-by-value \begin{itemize}
       \item Alle Parameter werden kopiert (Stack).
@@ -129,7 +129,7 @@
 \begin{frame}[c]{Objektorientierte Programmierung}
 \begin{itemize}[<+(1)->]
 \itemsep13pt
-\item Eine Klasse definiert die Blaupause für Objekte. \begin{itemize}
+\item Eine Klasse definiert die Blaupause für Objekte \begin{itemize}
     \item Attribute definieren den Zustand.
     \item Methoden definieren den Verhalten.
 \end{itemize}
