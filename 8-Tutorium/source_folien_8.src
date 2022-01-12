@@ -798,6 +798,18 @@ Erstellen Sie nun einen \mark<13->{öffentlichen Konstruktor} um diese Variablen
 \end{tikzpicture}
 \end{frame}
 
+\iffull
+\begin{frame}[fragile,c]{Zusatzaufgabe 3/6\hfill Zuletzt}
+\SetupLstHl\begin{itemize}[<+(1)->]
+    \itemsep10pt
+    \item Was noch funktioniert hätte\ldots
+    \item Anstelle der Millisekunden können wir auch neue Daten konstruieren und diese mit \bjava{Date::before} und \bjava{Date::after} beziehungsweise \bjava{Date::compareTo} vergleichen.
+    \item Es gibt noch viele andere Klassen~--- wie \solGet{keywordC}{LocalTime}, \solGet{keywordC}{LocalDateTime}, \solGet{keywordC}{LocalDate}, sowie \solGet{keywordC}{Duration}~--- die man benutzen kann!
+\end{itemize}
+\end{frame}
+\fi
+
+
 % #region old
 \iffull
 \section{Altes Präsentatio}
