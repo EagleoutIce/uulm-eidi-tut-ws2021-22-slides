@@ -1,572 +1,157 @@
 % #region preamble
-\errorcontextlines 999999
-\usepackage{attachfile2}
-\attachfilesetup{author={Florian Sihler}, color=.2 .36 .494, icon=Tag, mimetype=text/plain}
+\InputIfFileExists{../global.src}\relax\relax
 
-\usepackage[%
-    sopra-listings={encoding,cpalette,highlights,numinpar},%
-    sopra-tables,
-    color-palettes={addons},%
-    util,%
-    lithie-boxes={germanenv,koma,overwrite},%
-    lithie-task-boxes={cpalette},%
-    lecture-links={patchurl},%
-    lecture-registers={disable}% would interfere with beamer
-]{lithie-util}
-
-\RequirePackage{lecture-personal-tikz}
-
-\usepackage[ngerman]{babel}
-
-\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
-\RestyleAlgo{plain}
-\solLoadLanguage{bash,cpp,regex}
-
-\def\solcustom{fill=paletteA!30,draw=paletteA!30}
-
-\colorlet{MaterialHeaderColor}{paletteB}%
-\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
-
-\def\linkstyle#1{\textsf{\paletteD{#1}}}
-\SetAllLinkStyle{\linkstyle{#1}}
-\usepackage{tikzducks,tikzsymbols,lilly-color}
-\usetheme{lucy}
-
-\colorlet{chessfieldblack}{lightgray}
-
-\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
-
-\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
-
-\newcommand\parallelcontent[3][t]{%
-    \begin{columns}[#1]
-    \begin{column}{0.475\linewidth}
-        #2
-    \end{column}\hfill
-    \begin{column}{0.475\linewidth}
-        #3
-    \end{column}
-    \end{columns}
-}
+\iffull
+\title[Neuntes Tutorium -- Übungsblatt 9]{Das Ende Naht aht ht t\\\small Ohren hab ich gesagt 9}
+\date{\sffamily KW 3}
 
 \tikzset{
     dot/.style={circle,draw,align=center,text width=1em,execute at begin node={\strut}}
 }
-% #endregion
 
-\title[Neuntes Tutorium -- Übungsblatt 9]{Wenn man es selbst machen muss\ldots\\\small Tutorium 9}
-\date{\sffamily KW 26}
-\author{Florian Sihler}
-\institute{Institute of Distributed Systems \(\circ\) University Ulm}
-
-\usepackage{tikzpingus}
-\usetikzlibrary{decorations.text}
-\lstset{lineskip=2.25pt}
-
+\usepackage[glows]{tikzpingus}
+\usetikzlibrary{decorations.text,matrix}
 \hypersetup{colorlinks=false}
 
 \begin{document}
-\begin{frame}[c]
-    \begin{tikzpicture}[overlay]
-        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=.4]
-            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
-        \end{scope}
-        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {9};
-    \end{tikzpicture}
-    \titlepage
-\end{frame}
+\Titlepage{9}
+\fi
 
 \section{Präsenzaufgabe}
 \subsection{Freude mit Sortierverfahren}
 \begin{frame}{Präsenzaufgabe}
     \begin{aufgabe}{Wenn du dein Kinderzimmer nicht aufräumst, \ldots}
-        \pause{}Sortieren Sie die Zahlenfolge \(3,7,5,2,1,4,6\) grafisch mittels \emph{Selection Sort}.\pause{} Beantworten Sie folgende Fragen und begründen Sie: \begin{itemize}[<+(1)->]
-            \item Wie muss eine Zahlenfolge aussehen, um bei Quicksort und Bubblesort den Worst-Case zu erzeugen?
-            \item Wie muss eine Zahlenfolge aussehen, um bei Insertionsort und Bubblesort den Best-Case zu erzeugen?
-        \end{itemize}
-        \onslide<6->\textit{Bonus:} Sortieren Sie die Zahlenfolge \(9,7,3,4,10,5\) grafisch mittels \emph{Mergesort}.
+        \pause{}\small Sie sollen die \textit{Binäre Suche} implementieren, welche nützlich ist um ein sortiertes Array effizient zu durchsuchen. Schreiben Sie die Methode \bjava{int find(int[] array, int element)} als Wrapper für die Suche.\pause{} Diese Methode soll ein (aufsteigend) sortiertes Array und das gesuchte Element als Parameter übernehmen, und daraufhin den Index des Elements im Array zurückgeben, sofern dieses vorhanden ist. Sollte das Elemente mehrfach vorhanden sein, soll der kleinste Index zurückgegeben werden. Falls das Element nicht im Array vorhanden ist, soll \bjava{-1} zurückgegeben werden.
+        Implementieren Sie die Binäre Suche \textit{rekursiv}. (Rekursive) Hilfsmethoden sind gestattet.\pause{}
+        Die Suche nach der \bjava{68}:\vspace*{-1.15\baselineskip}
+\begin{center}
+    \begin{tikzpicture}
+        \foreach[count=\i] \a in {4, 13, 21, 29, 33, 34, 56, 68, 71, 74, 78} {
+            \node (\a) at (\i, 0) {\expandafter\bjava\expandafter{\a}};
+        }
+        \onslide<5->{\draw[Kite-] (34) -- ++(0,.55);}
+        \onslide<6->{\draw[-Kite] (34.south) to[bend right=25] (71.south);}
+        \onslide<7->{\draw[-Kite] (71.north) to[bend right=25] (56.north);}
+        \onslide<8->{\draw[-Kite] (56.south) to[bend right=15] (68.south);}
+    \end{tikzpicture}\vspace*{-.25\baselineskip}
+\end{center}
         \onslide<1->
     \end{aufgabe}
 \end{frame}
 \begin{frame}[c]{Präsenzaufgabe - Lösung}
-    \begin{center}
-        \vspace*{-\topskip}%
-        \begin{tikzpicture}
-            \onslide<2->{
-                \foreach[count=\i] \x in {3,7,5,2,1,4,6} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
-            }
-            % mark sorts
-            \onslide<3->{
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]3.south west) to[edge node={node[below=6pt,overlay] {unsortiert}}] ([yshift=-8pt]6.south east);
-            }
-            % mark swap
-            \onslide<4->{
-                \draw[Kite-Kite] (3.north) to[bend left=18] (1.north);
-            }
-        \end{tikzpicture}\\[2em]
-        \begin{tikzpicture}
-            \onslide<5->{
-                \foreach[count=\i] \x in {1,7,5,2,3,4,6} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
-            }
-            % mark sorts
-            \onslide<6->{
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]7.south west) to[edge node={node[below=6pt,overlay] {unsortiert}}] ([yshift=-8pt]6.south east);
-
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]1.south west) to[edge node={node[below=6pt,overlay] {sortiert}}] ([yshift=-8pt]1.south east);
-            }
-
-            % mark swap
-            \onslide<7->{
-                \draw[Kite-Kite] (7.north) to[bend left=22] (2.north);
-            }
-        \end{tikzpicture}
-    \end{center}
-\end{frame}
-\begin{frame}[c]{Präsenzaufgabe - Lösung, II}
-    \begin{center}
-        \vspace*{-\topskip}%
-        \begin{tikzpicture}
-            \onslide<1->{
-                \foreach[count=\i] \x in {1,2,5,7,3,4,6} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
-            }
-            % mark sorts
-            \onslide<2->{
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]5.south west) to[edge node={node[below=6pt,overlay] {unsortiert}}] ([yshift=-8pt]6.south east);
-
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]1.south west) to[edge node={node[below=6pt,overlay] {sortiert}}] ([yshift=-8pt]2.south east);
-            }
-            % mark swap
-            \onslide<3->{
-                \draw[Kite-Kite] (5.north) to[bend left=22] (3.north);
-            }
-        \end{tikzpicture}\\[2em]
-        \begin{tikzpicture}
-            \onslide<4->{
-                \foreach[count=\i] \x in {1,2,3,7,5,4,6} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
-            }
-            % mark sorts
-            \onslide<5->{
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]7.south west) to[edge node={node[below=6pt,overlay] {unsortiert}}] ([yshift=-8pt]6.south east);
-
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]1.south west) to[edge node={node[below=6pt,overlay] {sortiert}}] ([yshift=-8pt]3.south east);
-            }
-
-            % mark swap
-            \onslide<6->{
-                \draw[Kite-Kite] (7.north) to[bend left=22] (4.north);
-            }
-        \end{tikzpicture}
-    \end{center}
-\end{frame}
-\begin{frame}[c]{Präsenzaufgabe - Lösung, III}
-    \begin{center}
-        \vspace*{-\topskip}%
-        \begin{tikzpicture}
-            \onslide<1->{
-                \foreach[count=\i] \x in {1,2,3,4,5,7,6} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
-            }
-            % mark sorts
-            \onslide<2->{
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]5.south west) to[edge node={node[below=6pt,overlay] {unsortiert}}] ([yshift=-8pt]6.south east);
-
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]1.south west) to[edge node={node[below=6pt,overlay] {sortiert}}] ([yshift=-8pt]4.south east);
-            }
-            % mark swap
-            \onslide<3->{
-                \draw[Kite-Kite] (5) to[loop above] (5);
-            }
-        \end{tikzpicture}\\[2em]
-        \begin{tikzpicture}
-            \onslide<4->{
-                \foreach[count=\i] \x in {1,2,3,4,5,7,6} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
-            }
-            % mark sorts
-            \onslide<5->{
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]7.south west) to[edge node={node[below=6pt,overlay] {unsortiert}}] ([yshift=-8pt]6.south east);
-
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]1.south west) to[edge node={node[below=6pt,overlay] {sortiert}}] ([yshift=-8pt]5.south east);
-            }
-
-            % mark swap
-            \onslide<6->{
-                \draw[Kite-Kite] (7.north) to[bend left=22] (6.north);
-            }
-        \end{tikzpicture}
-    \end{center}
-\end{frame}
-\begin{frame}[c]{Präsenzaufgabe - Lösung, IV}
-    \begin{center}
-        \begin{tikzpicture}
-            \onslide<1->{
-                \foreach[count=\i] \x in {1,2,3,4,5,6,7} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
-            }
-            % mark sorts
-            \onslide<2->{
-                \draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt]1.south west) to[edge node={node[below=6pt,overlay] {sortiert}}] ([yshift=-8pt]7.south east);
-            }
-        \end{tikzpicture}
-    \end{center}
-\end{frame}
-\begin{frame}[t]{Präsenzaufgabe - Lösung, V}
-    \begin{itemize}
-        % sloppy pause counter
-        \itemsep8pt
-        \item<2-> Der \emph{worst-case} für Quicksort ist eine \onslide<3->{sortierte Folge \info{sofern das Pivotelement das letzte ist}. Hier ist die Aufteilung im Rekursionsfall am unbalanciertesten \info{alle Elemente auf eine Seite}.}
-        \item<4-> Der \emph{worst-case} für Bubblesort ist eine \onslide<5->{falsch herum sortierte Folge \info{alle müssen bubbeln \Laughey}.}
-        \item<6-> Der \emph{best-case} für Insertion- sowie Bubblesort ist eine \onslide<7->{bereits sortierte Folge.\par{}\info{Es sind keine Vertauschoperationen notwendig!}}
+\begin{itemize}[<+(1)->]
+    \itemsep9.5pt
+    \item Wir erschaffen eine Suche: \only<2->{\textattachfile{\curpath BinarySearch.java}{BinarySearch.java}}.
+    \item Die Idee: \begin{itemize}
+        \item Wir markieren das zu durchsuchende Fenster mit \bjava{left} und \bjava{right}.
+        \item Ist das Fenster leer, haben wir das Element nicht gefunden.
+        \item Sonst prüfen wir: Ist das mittlere Element das Gesuchte?
+        \item Ist es kleiner, suchen wir links, ist es größer, rechts weiter.
     \end{itemize}
+    \item Dafür nutzen wir die Hilfsmethode: \bjava{binarySearch(int[] array, int left, int right, int element)}.
+    \item Wir beginnen mit der Suche im gesamten Array: \bjava{binarySearch(array, 0, array.length - 1, element);}
+\end{itemize}
 \end{frame}
-\begin{frame}[c]{Präsenzaufgabe - Lösung, VI}
-\begin{center}
-    \resizebox{0.8\linewidth}{!}{
-        \begin{tikzpicture}[yscale=0.9]
-            \onslide<1->{\node (a) at(0,0) {[\(9, 7, 3, 4, 2, 10, 5\)]};}
-            \foreach[count=\i] \l/\x in {{9,7,3,4}/-4,{2,10,5}/4}{
-                \onslide<+(1)->{
-                    \node (b\i) at(\x,-1) {[\(\l\)]};
-                    \draw[-Kite] (a) -- (b\i);
-                }
-            }
 
-            \foreach[count=\i] \l/\x/\p in {{9,7}/-6/1,{3,4}/-2/1,{2,10}/2/2,{5}/6/2}{
-                \onslide<+(1)->{
-                    \node (c\i) at(\x,-2) {[\(\l\)]};
-                    \draw[-Kite] (b\p) -- (c\i);
-                }
-            }
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung}
+\SetupLstHl\lstfs{10}
+\begin{plainjava}
+!*\onslide<2->*!|ihl|int binarySearch(int[] array, int left, int right, int element) {|ihl|
+!*\onslide<3->*!    // !*\textbf{\solGet{comments}{1)}}*! Fenster ist leer
+!*\onslide<4->*!    if (right < left)
+!*\onslide<4->*!        return -1;
+!*\onslide<2->*!
+!*\onslide<5->*!    int middle = left + (right - left) / 2;
+!*\onslide<3->*!    // !*\textbf{\solGet{comments}{2)}}*! Ist das Mittlere das Gesuchte?
+!*\onslide<6->*!    if (array[middle] == element)
+!*\onslide<6->*!        return middle;
+!*\onslide<3->*!    // !*\textbf{\solGet{comments}{3)}}*! Kleiner: suche links weiter
+!*\onslide<7->*!    else if (array[middle] > element)
+!*\onslide<7->*!        return binarySearch(array, left, middle - 1, element);
+!*\onslide<3->*!    // !*\textbf{\solGet{comments}{4)}}*! Größer: suche rechts weiter
+!*\onslide<8->*!    else
+!*\onslide<8->*!        return binarySearch(array, middle + 1, right, element);
+!*\onslide<2->*!|ihl|}|ihl|
+\end{plainjava}
+\end{frame}
 
-            \foreach[count=\i] \l/\x/\p in {{9}/-7/1,{7}/-5/1,{3}/-3/2,{4}/-1/2,%
-                {2}/1/3,{10}/3/3,{5}/6/4}{
-                \onslide<+(1)->{
-                    \node (d\i) at(\x,-3) {[\(\l\)]};
-                    \ifnum\l=5 \draw[densely dotted,-Kite,gray] (c\p) -- (d\i); %
-                    \else\draw[-Kite] (c\p) -- (d\i);\fi
-                }
-            }
-
-            \foreach[count=\i] \l/\x/\p in {{9}/-7/1,{7}/-5/2,{3}/-3/3,{4}/-1/4,%
-                {2}/1/5,{10}/3/6,{5}/6/7}{
-                \onslide<+(1)->{
-                    \node (e\i) at(\x,-4) {[\(\l\)]};
-                    \draw[densely dotted,-Kite,gray] (d\p) -- (e\i);
-                }
-            }
-
-            \foreach[count=\i] \l/\x/\p/\pt in {{7,9}/-6/1/2,{3,4}/-2/3/4,{2,10}/2/5/6,{5}/6/7/7}{
-                \onslide<+(1)->{
-                    \node (f\i) at(\x,-5) {[\(\l\)]};
-                    \ifnum\p=\pt\draw[densely dotted,gray,-Kite] (e\p) -- (f\i);\else \draw[-Kite] (e\p) -- (f\i);\draw[-Kite] (e\pt) -- (f\i); \fi
-                }
-            }
-
-            \foreach[count=\i] \l/\x/\p/\pt in {{3,4,7,9}/-4/1/2,{2,10}/2/3/3,{5}/6/4/4}{
-                \onslide<+(1)->{
-                    \node (g\i) at(\x,-6) {[\(\l\)]};
-                    \ifnum\p=\pt \draw[densely dotted,gray,-Kite] (f\p) -- (g\i);\else \draw[-Kite] (f\p) -- (g\i);\draw[-Kite] (f\pt) -- (g\i); \fi
-                }
-            }
-
-            \foreach[count=\i] \l/\x/\p/\pt in {{3,4,7,9}/-4/1/1,{2,5,10}/4/2/3}{
-                \onslide<+(1)->{
-                    \node (h\i) at(\x,-7) {[\(\l\)]};
-                    \ifnum\p=\pt \draw[densely dotted,gray,-Kite] (g\p) -- (h\i);\else \draw[-Kite] (g\p) -- (h\i);\draw[-Kite] (g\pt) -- (h\i); \fi
-                }
-            }
-
-            \foreach[count=\i] \l/\x/\p/\pt in {{2,3,4,5,7,9,10}/0/1/2}{
-                \onslide<+(1)->{
-                    \node (i\i) at(\x,-8) {[\(\l\)]};
-                    \draw[-Kite] (h\p) -- (i\i);\draw[-Kite] (h\pt) -- (i\i);
-                }
-            }
-            \onslide<+(1)->{\draw[densely dashed] (-8,-3.5) -- ++(16,0) node[above left] {\strut Divide} node[below left] {\strut Merge};}
-        \end{tikzpicture}
-    }
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung}
+\begin{itemize}[<+(1)->]
+    \itemsep6.5pt
+    \item Einen Teil haben wir noch nicht gemacht:\pause \begin{center}
+        \parbox{.715\linewidth}{\textcolor{gray}{Sollte das Elemente mehrfach vorhanden sein, soll der kleinste Index zurückgegeben werden}}
     \end{center}
-\end{frame}
-\subsection{Die Implementation einer Liste}
-\newsavebox\NodeBox \savebox\NodeBox{%
-\begin{minipage}{3.425cm}
-\lstfs{7}%
-\begin{plainjava}[aboveskip=0pt,belowskip=0pt]^^J
-class Node \{^^J
-\ \ final int value;^^J
-\ \ final Node tail;^^J
-^^J
-\ \ Node(int v, Node t) \{^^J
-\ \ \ \ this.value = v;^^J
-\ \ \ \ this.tail = t;^^J
-\ \ \}^^J
-\}^^J
-\end{plainjava}
-\end{minipage}}
-\newsavebox\ActionCode \savebox\ActionCode{%
-\begin{minipage}{5cm}
-\lstfs{7}%
-\begin{plainjava}[aboveskip=0pt,belowskip=0pt]^^J
-List as = new List(1, 2, 3, 4, 5);^^J
-List bs = as.insertBefore(0, 0);^^J
-List cs = bs.insertBefore(3, 42);^^J
-List ds = cs.insertBefore(10, 50);^^J
-\end{plainjava}
-\end{minipage}
-}
+    \item Idee: Wir verringern den Index, solange das Element immer noch das Gesuchte ist:
+\SetupLstHl\lstfs{10}\begin{plainjava}
+public static int find(int[] array, int element) {
+    int index = binarySearch(array, 0, array.length - 1, element);
+    if (index == -1) return -1;
 
-\tikzset{
-  linked list start/.style = {draw, fill=shadeA, minimum height=6mm, minimum width=6mm},
-  linked list/.style = {draw, rectangle split, rectangle split parts=2,rectangle split horizontal, minimum height=6mm, minimum width=6mm,every one node part/.style={text width=3.35mm,align=center}, every two node part/.style={text width=3.35mm,align=center}},
-  link/.style = {draw,-Kite}
-}
-\def\LinkedList#1#2#3{%
-\node[linked list start] (#2-start) at (#1) {};
-\node[left=1pt] at(#2-start.west) {#2:};
-\coordinate (last) at (#2-start.east);
-\fill ([xshift=-3mm]last) circle [radius=2.5pt];
-\foreach[count=\i] \element in {#3} {
-    \node[linked list, right=4mm] (#2\i) at (last.east) {\nodepart{one}\element\nodepart{two}};
-    \path[link] ([xshift=-3mm]last) -- (#2\i);
-    \coordinate (last) at (#2\i.east);
-    \fill ([xshift=-3mm]last) circle [radius=2.5pt] coordinate(#2\i-right);
- }
-}
-\newsavebox\ExampleList \savebox\ExampleList{%
-\tikz{\LinkedList{0,0}{as}{1,2,3,4,5}}%
-}
-\begin{frame}[fragile,c]{Präsenzaufgabe, 2}
-    \pause\begin{aufgabe}{What does it dooooo?}
-        \onslide<3->{Gegeben der grau hinterlegten Programmsequenz, skizzieren Sie, wie die einzelnen Node-Objekte der Listen \T{as}, \T{bs}, \T{cs} und \T{ds}
-        aufeinander verweisen.}
-\begin{columns}[c]
-\begin{column}{.175\linewidth}
-\end{column}
-\begin{column}{.35\linewidth}
-\lstfs{6}%
-\begin{uncoverenv}<5->
-\begin{plainjava}
-class List {
-  final Node head;
-  List(int... vs) {
-    Node head = null;
-    for(int i = vs.length-1; i>=0; i--)
-      head = new Node(vs[i], head);
-    this.head = head;
-  }
-  private List(Node h) {this.head = h;}
-  //...
-\end{plainjava}
-\end{uncoverenv}
-\end{column}
-\begin{column}{.475\linewidth}
-\lstfs{6}%
-\begin{uncoverenv}<6->
-\begin{plainjava}
-  List insertBefore(int idx, int v) {
-    return new List(insertBefore(head, idx, v));
-  }
-
-  private Node insertBefore(Node n, int idx, int v) {
-    if (idx <= 0 || n == null) return new Node(v, n);
-    return new Node(n.value,
-                insertBefore(n.tail, idx-1, v));
-  }
-}
-\end{plainjava}
-\end{uncoverenv}
-\end{column}
-\end{columns}
-        \onslide<1->
-    \end{aufgabe}
-\begin{tikzpicture}[remember picture, overlay]
-\onslide<4->{\node[right=3pt,draw=gray,thick,rounded corners=2pt,fill=white,yshift=-12mm,scale=.85] at (current page.west) {%
-\usebox\NodeBox%
-};}
-\onslide<7->{\node[above left=7pt,yshift=11pt,fill=lightgray!35,draw=gray,thick,rounded corners=2pt,scale=.85] at (current page.south east) {%
-\usebox\ActionCode%
-};}
-\onslide<8->{
-\node[above right=7pt,yshift=11pt,fill=white,draw=gray,thick,rounded corners=2pt,scale=.85] at (current page.south west) {%
-\usebox\ExampleList%
-};}
-\end{tikzpicture}
-\end{frame}
-
-\begin{frame}[c]{Präsenzaufgabe, 2 - Lösung}
-\begin{tikzpicture}[remember picture, overlay]
-    \node[below left=.25cm,yshift=-1.45cm,fill=white,draw=gray,thick,rounded corners=2pt,scale=.85] at (current page.north east) {\usebox\ActionCode};
-    \onslide<7->{\node[left=5mm,gray,align=right] at(current page.east) {Die Knoten davor werden\\also jeweils kopiert!};}
-\end{tikzpicture}
-\centering\begin{tikzpicture}
-    \onslide<2->{\LinkedList{0,0}{as}{1,2,3,4,5}}
-    \onslide<3->{\LinkedList{0,-1.5}{bs}{0}}
-    \onslide<4->{%
-        \path[link] (bs1-right) to[out=90,in=270] ([xshift=-3mm]as1.south);
+    for (int i = 1; i <= index; i++) {
+        if (array[index - i] != element)
+            return index - i + 1;
     }
-    \onslide<5->{
-        \LinkedList{0,-3}{cs}{0,1,2,42}
-        \path[link] (cs4-right) to[out=90,in=270] ([xshift=-3mm]as3.south);
-    }
-    \onslide<6->{\LinkedList{0,-4.5}{ds}{0,1,2,42,3,4,5,50}}
-\end{tikzpicture}
+    return 0;
+}
+\end{plainjava}
+\end{itemize}
 \end{frame}
 
 \section{Übungsblatt 9}
 \subsection{Aufgabe 1}
 \begin{frame}[t,fragile]{Übungsblatt 9 - Aufgabe 1}
     \begin{itemize}[<+(1)->]
-        \item Die Datei befindet sich hier: \only<2->{\textattachfile{Knapsack.java}{Knapsack.java}}
-        \item Wir beginnen mit der Hauptmethode:\lstfs{10}
+        \item Die Datei befindet sich hier: \only<2->{\textattachfile{\curpath CompoundInterest.java}{CompoundInterest.java}}
+    \end{itemize}\vfill
+\SetupLstHl\lstfs{10}%
 \begin{plainjava}
-!*\onslide<4->*!public static int knapsack(int capacity, int[] values, int[] weights) {
-!*\onslide<5->*!    if (capacity < 0)
-!*\onslide<5->*!        throw new IllegalArgumentException("[...]");
-!*\onslide<6->*!    if (values.length != weights.length)
-!*\onslide<6->*!        throw new IllegalArgumentException("[...]");
-!*\onslide<7->*!    return knapsack(capacity, 0, values, weights);
-!*\onslide<4->*!}
-\end{plainjava}
-    \item<8-> Ist der Start bei \(0\) notwendig? \par\onslide<9->{\info{Jain. Genau genommen indiziert die mathematische Formulierung auch bei \(1\).  Hier fordert es also die Formel. Allgemein spielt die Traversierung aber keine Rolle, solange wir einfach für alle Gegenstände den Fall \say{Pack es ein} und \say{Pack es nicht ein} betrachten.}}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 9 - Aufgabe 1}
-    \begin{itemize}[<+(1)->]
-        \item Und nun die rekursive Hilfsmethode:\lstfs{8}
-\begin{plainjava}[lineskip=3pt]
-!*\onslide<3->*!private static int knapsack(int capacity, int index, int[] values, int[] weights) {
-!*\onslide<4->*!    if (index >= values.length) return 0; // i > n, wir starten bei 0, Mathe bei 1
-!*\onslide<3->*!
-!*\onslide<5->*!    if (capacity < weights[index]) // W < w_i
-!*\onslide<5->*!        return knapsack(capacity, index+1, values, weights);
-!*\onslide<3->*!
-!*\onslide<6->*!    int withItem = values[index]
-!*\onslide<6->*!            + knapsack(capacity - weights[index], index+1, values, weights);
-!*\onslide<7->*!    int withoutItem = knapsack(capacity, index+1, values, weights);
-!*\onslide<3->*!
-!*\onslide<8->*!    // max(v_i + knapsack(W-w_i, i+1), knapsack(W, i+1))
-!*\onslide<8->*!    return Math.max(withItem, withoutItem);
+!*\onslide<3->*!|ihl|public static|ihl|
+!*\onslide<3->*!double compoundInterest(double capital, double interestRate, int years) {
+!*\onslide<4->*!    if(years == 0)
+!*\onslide<5->*!        return capital;
+!*\onslide<4->*!    else
+!*\onslide<6->*!        return compoundInterest(capital * (1 + interestRate), interestRate,
+!*\onslide<6->*!            years - 1);
 !*\onslide<3->*!}
 \end{plainjava}
-    \end{itemize}
+\vfill\null
 \end{frame}
-
 
 \subsection{Aufgabe 2}
-\long\def\hsStep#1#2{%
-\begin{center}
-    \def\lnk{\path[draw,Kite-Kite]}
-    \savebox0{\begin{forest}
-        for tree={l sep=1em, s sep=2em}
-        #1
-    \end{forest}}\scalebox{.85}{\parbox[\ht0+\dp0]{\wd0}{\usebox0}}\qquad
-    \def\arraystretch{1.6}\scalebox{.9}{\begin{tabular}{|*6{c|}}
-        \hline
-            #2 \\
-        \hline
-    \end{tabular}}
-\end{center}}
-
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
     \begin{itemize}[<+(1)->]
-        \item (Min-)Heapsort-Liebe :D\bigskip\pause
-\hsStep{[28[48 [16][69]] [33 [55][,phantom]]]}{28 & 48 & 33 & 16 & 69 & 55}
-    \end{itemize}
+        \item Die Datei befindet sich hier: \only<2->{\textattachfile{\curpath Palindrome.java}{Palindrome.java}}
+    \end{itemize}\vfill
+\SetupLstHl\lstfs{10}%
+\begin{plainjava}
+!*\onslide<3->*!private static boolean isPalindrome(String s) {
+!*\onslide<4->*!    return isPalindromeRecursive(s.toLowerCase());
+!*\onslide<3->*!}
+
+
+!*\onslide<5->*!private static boolean isPalindromeRecursive(String s) {
+!*\onslide<6->*!    if(s.length() < 2)
+!*\onslide<6->*!        return true;
+!*\onslide<7->*!    else if(s.charAt(0) != s.charAt(s.length() - 1))
+!*\onslide<7->*!        return false;
+!*\onslide<8->*!    else
+!*\onslide<8->*!        return isPalindromeRecursive(s.substring(1, s.length() - 1));
+!*\onslide<5->*!}
+\end{plainjava}
+\vfill\null
 \end{frame}
 
-\newcommand<>\mrk{\only#1{\bfseries\color{paletteA}}}
-\newcommand<>\mrkc{\only#1{\color{paletteA}}}
-\newcommand<>\mrkb{\only#1{\itshape\color{gray}}}
-\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item Wir müssen erst die Heap-Eigenschaften sicherstellen!
-        \item Zunächst suchen wir Kind-Knoten, die kleiner sind als die jeweiligen Elternknoten:\medskip
-\hsStep{[28[48 [\mrk<4->16][69]] [33 [55][,phantom]]]}{28&48&33&\mrk<4->16&69&55}\medskip
-        \item<5-> Diese vertauschen wir mit ihren Elternknoten. \info{Genau genommen, gibt es ein paar coole heapify Operationen, die wir hier allerdings nicht betrachten.}
-        \item<6-> Ach ja: Es gibt verschiedene Traversierungsmöglichkeiten. Nach der Vorlesung starten wir auf der ersten nicht-Blatt-Ebene und arbeiten uns nach vorn im Array.
-    \end{itemize}
-\end{frame}
 
-\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
+\subsection{Aufgabe 3}
+\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
     \begin{itemize}[<+(1)->]
-        \item<1-> Zunächst suchen wir Kind-Knoten, die kleiner sind als die jeweiligen Elternknoten:\medskip
-\hsStep{[28[\mrk16,name=16 [\mrkc48,name=48][69]] [33 [55][,phantom]]] \lnk (48) to[bend left] (16);}{28 & \mrk16 & 33 & \mrkc48 & 69 & 55}\medskip
-        \item<2-> Hier geht es auch weiter!
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
-    \hsStep{[\mrk16,name=16[\mrkc28,name=28 [48][69]] [33 [55][,phantom]]] \lnk (28) to[bend left] (16);}{\mrk16 & \mrkc28 & 33 & 48 & 69 & 55}\smallskip
-    \begin{itemize}[<+(1)->]
-        \item Nun haben wir einen Min-Heap! Das kleinste Element steht an der Wurzel und für jeden Knoten gilt \(\T{Knoten} \leq \T{Kinder}\).
-        \item Nun gibt es zwei Möglichkeiten:
-            \begin{itemize}
-                \item Wir entfernen immer das Wurzelelement aus dem Array und fügen es an ein neues Array an.
-                \item Wir tauschen das Wurzelelement mit dem letzten Element im Binärbaum (siehe Array-Repräsentation).
-            \end{itemize}
-        \item Wir entscheiden uns für letztere :D
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item Damit erhalten wir: \medskip
-        \hsStep{[\mrkc55,name=55[28 [48][69]] [33 [\mrkb16,name=16,no edge][,phantom]]] \lnk (16) to[bend left] (55);}{\mrkc55 & 28 & 33 & 48 & 69 & \mrkb16}\smallskip
-        \item Nun ist \say{16} an der richtigen Position, die Heapeigenschaft ist aber wieder verletzt:
-\medskip
-\hsStep{[55,name=55[\mrk28 [48][69]] [\mrk33 [\mrkb16,name=16,no edge][,phantom]]]}{55 & \mrk28 & \mrk33 & 48 & 69 & \mrkb16}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item Wir tauschen mit dem kleineren der beiden Kinder:\medskip
-        \hsStep{[\mrk28,name=28 [\mrkc55,name=55 [48][69]] [\mrk33 [\mrkb16,name=16,no edge][,phantom]]] \lnk (28) to[bend right] (55);}{\mrk28 & \mrkc55 & \mrk33 & 48 & 69 & \mrkb16}\medskip
-        \item Damit haben wir einen anderen Konflikt durch das Vertauschen der Wurzel:
-        \hsStep{[28,name=28 [55,name=55 [\mrk48][69]] [33 [\mrkb16,name=16,no edge][,phantom]]]}{28 & 55 & 33 & \mrk48 & 69 & \mrkb16}\medskip
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item And hear da proof, dat swapsies do help:
-        \hsStep{[28,name=28 [\mrk48,name=48 [\mrkc55,name=55][69]] [33 [\mrkb16,name=16,no edge][,phantom]]] \lnk (48) to[bend right] (55);}{28 & \mrk48 & 33 & \mrkc55 & 69 & \mrkb16}\medskip
-        \item Damit ist die Heapeigenschaft wieder erfüllt und wir tauschen \say{28} ans Ende:
-        \hsStep{[\mrkc69,name=69 [48,name=48 [55,name=55][\mrkb28,name=28,no edge]] [33 [\mrkb16,name=16,no edge][,phantom]]] \lnk (69) to[bend left] (28);}{\mrkc69 & 48 & 33 & 55 & \mrkb28 & \mrkb16}\medskip
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item Wie erwartet, ist \say{Heap wieder putt}, also machen wir ein paar \#changes\textsuperscript{TM, oder so}\pause
-        \hsStep{[69,name=69 [\mrk48,name=48 [55,name=55][\mrkb28,name=28,no edge]] [\mrk33 [\mrkb16,name=16,no edge][,phantom]]]}{69 & \mrk48 & \mrk33 & 55 & \mrkb28 & \mrkb16}\medskip
-        \item Damit erhalten wir: \onslide<3->{\info{Bei einem Min-Heap tauschen wir mit dem kleineren Kind um Zeit zu sparen.}}
-        \hsStep{[\mrk33,name=33 [\mrk48,name=48 [55,name=55][\mrkb28,name=28,no edge]] [\mrkc69,name=69 [\mrkb16,name=16,no edge][,phantom]]] \lnk (69) to[bend left] (33);}{\mrk33 & \mrk48 & \mrkc69 & 55 & \mrkb28 & \mrkb16}\medskip
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item So wie du the swapsie again:
-        \hsStep{[\mrkc55,name=55 [48,name=48 [\mrkb33,name=33,no edge][\mrkb28,name=28,no edge]] [69,name=69 [\mrkb16,name=16,no edge][,phantom]]] \lnk (55) to[bend left] (33);}{\mrkc55 & 48 & 69 & \mrkb33 & \mrkb28 & \mrkb16}\medskip
-        \item Putt \Sadey. Fixies:
-        \hsStep{[\mrk48,name=48 [\mrkc55,name=55 [\mrkb33,name=33,no edge][\mrkb28,name=28,no edge]] [69,name=69 [\mrkb16,name=16,no edge][,phantom]]] \lnk (55) to[bend left] (48);}{\mrk48 & \mrkc55 & 69 & \mrkb33 & \mrkb28 & \mrkb16}\medskip
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item Wir tauschen das Wurzelelement wieder ans Ende:
-        \hsStep{[\mrkc69,name=69 [55,name=55 [\mrkb33,name=33,no edge][\mrkb28,name=28,no edge]] [\mrkb48,name=48,no edge [\mrkb16,name=16,no edge][,phantom]]] \lnk (69) to[bend left] (48);}{\mrkc69 & 55 & \mrkb48 & \mrkb33 & \mrkb28 & \mrkb16}\medskip
-        \item Und damit, ein letztes mal Fixies:
-        \hsStep{[\mrk55,name=55 [\mrkc69,name=69 [\mrkb33,name=33,no edge][\mrkb28,name=28,no edge]] [\mrkb48,name=48,no edge [\mrkb16,name=16,no edge][,phantom]]] \lnk (69) to[bend left] (55);}{\mrk55 & \mrkc69 & \mrkb48 & \mrkb33 & \mrkb28 & \mrkb16}\medskip
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
-    \begin{itemize}[<+(1)->]
-        \item Damit müssen wir nun noch einmal ans Ende tauschen und sind fertig:
-        \hsStep{[\mrkc69,name=69 [\mrkb55,name=55,no edge [\mrkb33,name=33,no edge][\mrkb28,name=28,no edge]] [\mrkb48,name=48,no edge [\mrkb16,name=16,no edge][,phantom]]] \lnk (69) to[bend right] (55);}{\mrkc69 & \mrkb55 & \mrkb48 & \mrkb33 & \mrkb28 & \mrkb16}\medskip
-        \hsStep{[\mrkb69,name=69 [\mrkb55,name=55,no edge [\mrkb33,name=33,no edge][\mrkb28,name=28,no edge]] [\mrkb48,name=48,no edge [\mrkb16,name=16,no edge][,phantom]]]}{\mrkb69 & \mrkb55 & \mrkb48 & \mrkb33 & \mrkb28 & \mrkb16}
-    \end{itemize}
+        \item Die Datei befindet sich hier: \only<2->{\textattachfile{\curpath Combinations.java}{Combinations.java}}
+    \end{itemize}\vfill
+\SetupLstHl\lstfs{10}%
+\begin{plainjava}
+TODO
+\end{plainjava}
+\vfill\null
 \end{frame}
 
 \section{Die End-End-End-End-End-End-Pinguuuuuu}
@@ -577,74 +162,74 @@ class List {
         \begin{tikzpicture}
             \onslide<+(1)->{
             \begin{scope}[scale=1.125,xshift=0cm]
-                \pingu[sign post left={\large 2},left wing hug,heart=Crimson!0!Azure]
+                \pingu[sign post left={\large 2},left wing hug,heart=cprimary!0!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=1.25,xshift=1cm]
-                \pingu[sign post left={\large 1},left wing hug,heart=Crimson!6!Azure]
+                \pingu[sign post left={\large 1},left wing hug,heart=cprimary!6!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=1.5,xshift=1.45cm]
-                \pingu[sign post left={\large 3},left wing hug,heart=Crimson!12!Azure]
+                \pingu[sign post left={\large 3},left wing hug,heart=cprimary!12!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=2,xshift=1.25cm]
-                \pingu[sign post left={\Large 4},left wing hug,heart=Crimson!18!Azure]
+                \pingu[sign post left={\Large 4},left wing hug,heart=cprimary!18!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=2.5,xshift=1.125cm]
-                \pingu[sign post left={\LARGE 7},left wing hug,heart=Crimson!24!Azure]
+                \pingu[sign post left={\LARGE 7},left wing hug,heart=cprimary!24!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=3.125,xshift=1.25cm]
-                \pingu[sign post left={\huge 11},left wing hug,heart=Crimson!30!Azure]
+                \pingu[sign post left={\huge 11},left wing hug,heart=cprimary!30!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=3.75,xshift=1.5cm]
-                \pingu[sign post left={\Huge 18},left wing hug,heart=Crimson!36!Azure]
+                \pingu[sign post left={\Huge 18},left wing hug,heart=cprimary!36!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=4.65,xshift=1.5cm]
                 \pingu[sign post left={\scalebox{3.5}{29}},left wing hug,
-                heart=Crimson!42!Azure]
+                heart=cprimary!42!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=5.65,xshift=1.5cm]
                 \pingu[sign post left={\scalebox{4.5}{47}},left wing hug,
-                heart=Crimson!48!Azure]
+                heart=cprimary!48!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=7,xshift=1.5cm]
                 \pingu[sign post left={\scalebox{5.5}{76}},left wing hug,
-                heart=Crimson!54!Azure]
+                heart=cprimary!54!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=8.5,xshift=1.5cm]
                 \pingu[sign post left={\scalebox{7}{123}},left wing hug,
-                heart=Crimson!60!Azure]
+                heart=cprimary!60!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=10.125,xshift=1.5cm]
                 \pingu[sign post left={\scalebox{8}{199}},left wing hug,
-                heart=Crimson!66!Azure]
+                heart=cprimary!66!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=12.125,xshift=1.5cm]
                 \pingu[sign post left={\scalebox{9}{322}},left wing hug,
-                heart=Crimson!72!Azure]
+                heart=cprimary!72!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=14.5,xshift=1.5cm]
                 \pingu[sign post left={\scalebox{10}{521}},left wing hug,
-                heart=Crimson!78!Azure]
+                heart=cprimary!78!csecondary]
             \end{scope}}
             \onslide<+(1)->{
             \begin{scope}[scale=17.5,xshift=1.35cm]
                 \pingu[sign post left={\scalebox{12.45}{843}},left wing hug,
-                heart=Crimson!84!Azure]
+                heart=cprimary!84!csecondary]
             \end{scope}}
         \end{tikzpicture}
         }
     \end{center}
 \end{frame}
-\end{document}
+\iffull\end{document}\fi
