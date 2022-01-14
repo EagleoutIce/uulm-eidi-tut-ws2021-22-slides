@@ -143,93 +143,209 @@ public static int find(int[] array, int element) {
 
 
 \subsection{Aufgabe 3}
+\MakeThePinguExplainIt[text width=9cm]{cap=!hide,glasses=!hide,cloak=pingu@black,eyes shiny,right item angle=33,rotate=10}{Da wir die Maximalgröße der Ausgabekombinationen kennen, wird das Hinzufügen eher in der Form \bjava{[0,0,0]}~$\to$ \bjava{[1,0,0]}~$\to$ \bjava{[1,2,0]}~$\to$ \bjava{[1,2,3]} erfolgen.}
+\begin{frame}[b,fragile]{Übungsblatt 9 - Aufgabe 3}
+    \null\vfill\begin{itemize}[<+(1)->]
+        \item Zuerst die Idee: \begin{itemize}
+            \item Wir verwenden ein Array um die Ausgabekombination zu halten.
+            \item Basisfall: das Array hat die gewünschte Länge, dann geben wir es aus.
+            \item Sonst: erweitern wir das Array für jedes Symbol einmal und erzeugen so eine baumartige Rekursion.
+        \end{itemize}
+        \item Ein Beispiel mit \([4, 9, 2]\) und \(n = 3\), mit Wiederholung:\vspace*{-.5\baselineskip}
+    \end{itemize}
+    \begin{center}
+        \downsize{.85\linewidth}{\begin{tikzpicture}[yscale=.85]
+            \onslide<8->{\node (1) at(0,0) {\bjava{[]}};}
+
+            \onslide<9->{\node (11) at(-5,-1) {\bjava{[4]}};
+            \node (12) at( 0,-1) {\bjava{[9]}};
+            \node (13) at( 5,-1) {\bjava{[2]}};
+            \draw[-Kite] (1) -- (11);
+            \draw[-Kite] (1) -- (12);
+            \draw[-Kite] (1) -- (13);}
+
+            \onslide<10->{
+            \node (111) at(-6.5,-2) {\bjava{[4, 4]}};
+            \node (112) at(-5,-2) {\bjava{[4, 9]}};
+            \node (113) at(-3.5,-2) {\bjava{[4, 2]}};
+
+            \draw[-Kite] (11) -- (111);
+            \draw[-Kite] (11) -- (112);
+            \draw[-Kite] (11) -- (113);
+            }
+
+            \onslide<11->{
+            \node (121) at(-1.5,-2) {\bjava{[9, 4]}};
+            \node (122) at( 0,-2) {\bjava{[9, 9]}};
+            \node (123) at( 1.5,-2) {\bjava{[9, 2]}};
+
+            \draw[-Kite] (12) -- (121);
+            \draw[-Kite] (12) -- (122);
+            \draw[-Kite] (12) -- (123);
+            }
+
+            \onslide<12->{%
+                \node (131) at( 3.5,-2) {\bjava{[2, 9]}};
+                \node (132) at( 5,-2) {\bjava{[2, 4]}};
+                \node (133) at( 6.5,-2) {\bjava{[2, 2]}};
+            \draw[-Kite] (13) -- (131);
+            \draw[-Kite] (13) -- (132);
+            \draw[-Kite] (13) -- (133);
+            }
+
+            \onslide<13->{
+            \node (1111) at(-7.5,-3) {\bjava{[4, 4, 4]}};
+            \node (1112) at(-6.5,-3.75) {\bjava{[4, 4, 9]}};
+            \node (1113) at(-5.5,-3) {\bjava{[4, 4, 2]}};
+
+            \draw[-Kite] (111) -- (1111);
+            \draw[-Kite] (111) -- (1112);
+            \draw[-Kite] (111) -- (1113);
+
+            \draw[lightgray,-Kite] (112) -- ++(-.5,-.6);
+            \draw[lightgray,-Kite] (112) -- ++(0,-.6);
+            \draw[lightgray,-Kite] (112) -- ++(.5,-.6);
+
+            \draw[lightgray,-Kite] (113) -- ++(-.5,-.6);
+            \draw[lightgray,-Kite] (113) -- ++(0,-.6);
+            \draw[lightgray,-Kite] (113) -- ++(.5,-.6);
+
+            \node (1221) at(-1,-3) {\bjava{[9, 9, 4]}};
+            \node (1222) at( 0,-3.75) {\bjava{[9, 9, 9]}};
+            \node (1223) at( 1,-3) {\bjava{[9, 9, 2]}};
+
+            \draw[-Kite] (122) -- (1221);
+            \draw[-Kite] (122) -- (1222);
+            \draw[-Kite] (122) -- (1223);
+
+            \draw[lightgray,-Kite] (121) -- ++(-.5,-.6);
+            \draw[lightgray,-Kite] (121) -- ++(0,-.6);
+            \draw[lightgray,-Kite] (121) -- ++(.5,-.6);
+
+            \draw[lightgray,-Kite] (123) -- ++(-.5,-.6);
+            \draw[lightgray,-Kite] (123) -- ++(0,-.6);
+            \draw[lightgray,-Kite] (123) -- ++(.5,-.6);
+
+            \node (1331) at(5.5,-3) {\bjava{[2, 9, 4]}};
+            \node (1332) at(6.5,-3.75) {\bjava{[2, 4, 9]}};
+            \node (1333) at(7.5,-3) {\bjava{[2, 2, 2]}};
+
+            \draw[-Kite] (133) -- (1331);
+            \draw[-Kite] (133) -- (1332);
+            \draw[-Kite] (133) -- (1333);
+
+            \draw[lightgray,-Kite] (131) -- ++(-.5,-.6);
+            \draw[lightgray,-Kite] (131) -- ++(0,-.6);
+            \draw[lightgray,-Kite] (131) -- ++(.5,-.6);
+
+            \draw[lightgray,-Kite] (132) -- ++(-.5,-.6);
+            \draw[lightgray,-Kite] (132) -- ++(0,-.6);
+            \draw[lightgray,-Kite] (132) -- ++(.5,-.6);
+            }
+        \end{tikzpicture}}\vspace*{-\baselineskip}
+    \end{center}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<14->{\node[left=-11mm,scale=.8] at(current page.7) {\usebox\pinguexplainbox};}
+\end{tikzpicture}%
+\end{frame}
+
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
     \begin{itemize}[<+(1)->]
-        \item Die Datei befindet sich hier: \only<2->{\textattachfile{\curpath Combinations.java}{Combinations.java}}
-    \end{itemize}\vfill
-\SetupLstHl\lstfs{10}%
+        \itemsep6pt
+        \item Die Datei befindet sich hier: \only<2->{\textattachfile{\curpath Combinations.java}{Combinations.java} und \textattachfile{\curpath Combinations.java}{Combinations.java}}.
+        \item Zunächst das rekursive Ausgeben eines Arrays.
+        \item Idee: wir inkrementieren rekursiv einen Zähler anstelle der for-Schleife.\vfill
 \begin{plainjava}
-TODO
+!*\onslide<5->*!public static void printArray(int[] combination, int i) {
+!*\onslide<6->*!    if(i >= combination.length) { // Basisfall
+!*\onslide<7->*!        System.out.println();
+!*\onslide<6->*!    } else { // Rekursionsfall: ausgeben und nächstes
+!*\onslide<8->*!        System.out.print(combination[i] + " ");
+!*\onslide<9->*!        printArray(combination, i + 1);
+!*\onslide<6->*!    }
+!*\onslide<5->*!}
 \end{plainjava}
 \vfill\null
+    \end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
+    \begin{itemize}[<+(1)->]
+        \itemsep6pt
+        \item Für das baumartige Antackern bauen wir uns eine Hilfe (zuerst mit Wiederholung):\pause
+\begin{plainjava}
+static void helper(int[] array, int n, int[] combs, int index)
+\end{plainjava}
+        \item Dabei sind \bjava{array} und \bjava{n} die Eingabe.
+        \item \bjava{combs} ist das zu konstruierende Array.
+        \item \bjava{index} ist das aktuell in \bjava{combs} zu füllende Feld.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
+    \begin{itemize}[<+(1)->]
+        \itemsep6pt
+        \item Die Baumrekursion gestaltet sich wie folgt:\pause
+\begin{plainjava}
+!*\onslide<3->*!static void helper(int[] array, int n, int[] combs, int index) {
+!*\onslide<4->*!    if (index == n) { // Basisfall
+!*\onslide<5->*!        printArray(combs, 0);
+!*\onslide<4->*!    } else { !*\onslide<6->*!// Sonst: Für jedes Symbol:ldots:
+!*\onslide<7->*!        for (int i = 0; i < array.length; i++) {
+!*\onslide<8->*!            combs[index] = array[i];
+!*\onslide<8->*!            helper(array, n, combs, index + 1);
+!*\onslide<7->*!        }
+!*\onslide<3->*!    }
+!*\onslide<4->*!}
+\end{plainjava}
+        \item Aber halt\ldots\ Arrays sind komplexe Datentypen. Warum geht das? \info{Tipp: simulieren.}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
+    \begin{itemize}[<+(1)->]
+        \item Der Start der Rekursion ist nun recht einfach:
+\begin{plainjava}
+!*\onslide<3->*!public static void printCombinations(int[] array, int n) {
+!*\onslide<4->*!    int[] combination = new int[n]; // initialisiert mit 0
+!*\onslide<5->*!    helper(array, n, combination, 0);
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3\hfill Wiederholungen vermeiden}
+\SetupLstHl\lstfs{9}\begin{itemize}[<+(1)->]
+        \item Wir nutzen eine weiter Variable: \bjava{start} um das Fenster zu begrenzen:
+    \end{itemize}
+\begin{plainjava}
+|ihl|static void helper(int[] array, int n, int[] combs,|ihl| int start,|ihl| int index) {|ihl|
+    |ihl|if (index == n) {|ihl|
+    |ihl|    printArray(combs, 0);|ihl|
+    |ihl|} else {|ihl|
+        for (int i = start; i < array.length && array.length - i >= n - index; i++) {
+            |ihl|combs[index] = array[i];|ihl|
+            |ihl|helper(array, n, combs,|ihl| i + 1,|ihl| index + 1);|ihl|
+        }
+    |ihl|}|ihl|
+|ihl|}|ihl|
+\end{plainjava}
+\begin{itemize}
+    \item Wir begrenzen mit \bjava{i < array.length} die Iteration gewohnt nach oben.
+    \item \bjava{start} von unten: nach der Wahl eines \(i\)-ten Elements nur noch nach \bjava{i} wählen.
+    \item \bjava{array.length - i >= n - index} sichert zu, dass noch mindestens \bjava{n - index} größere Elemente im Array wählbar bleiben.
+\end{itemize}
+\end{frame}
+
 
 \section{Die End-End-End-End-End-End-Pinguuuuuu}
 
 \begin{frame}[c]
     \begin{center}
-        \scalebox{0.1}{%
-        \begin{tikzpicture}
-            \onslide<+(1)->{
-            \begin{scope}[scale=1.125,xshift=0cm]
-                \pingu[sign post left={\large 2},left wing hug,heart=cprimary!0!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=1.25,xshift=1cm]
-                \pingu[sign post left={\large 1},left wing hug,heart=cprimary!6!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=1.5,xshift=1.45cm]
-                \pingu[sign post left={\large 3},left wing hug,heart=cprimary!12!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=2,xshift=1.25cm]
-                \pingu[sign post left={\Large 4},left wing hug,heart=cprimary!18!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=2.5,xshift=1.125cm]
-                \pingu[sign post left={\LARGE 7},left wing hug,heart=cprimary!24!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=3.125,xshift=1.25cm]
-                \pingu[sign post left={\huge 11},left wing hug,heart=cprimary!30!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=3.75,xshift=1.5cm]
-                \pingu[sign post left={\Huge 18},left wing hug,heart=cprimary!36!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=4.65,xshift=1.5cm]
-                \pingu[sign post left={\scalebox{3.5}{29}},left wing hug,
-                heart=cprimary!42!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=5.65,xshift=1.5cm]
-                \pingu[sign post left={\scalebox{4.5}{47}},left wing hug,
-                heart=cprimary!48!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=7,xshift=1.5cm]
-                \pingu[sign post left={\scalebox{5.5}{76}},left wing hug,
-                heart=cprimary!54!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=8.5,xshift=1.5cm]
-                \pingu[sign post left={\scalebox{7}{123}},left wing hug,
-                heart=cprimary!60!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=10.125,xshift=1.5cm]
-                \pingu[sign post left={\scalebox{8}{199}},left wing hug,
-                heart=cprimary!66!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=12.125,xshift=1.5cm]
-                \pingu[sign post left={\scalebox{9}{322}},left wing hug,
-                heart=cprimary!72!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=14.5,xshift=1.5cm]
-                \pingu[sign post left={\scalebox{10}{521}},left wing hug,
-                heart=cprimary!78!csecondary]
-            \end{scope}}
-            \onslide<+(1)->{
-            \begin{scope}[scale=17.5,xshift=1.35cm]
-                \pingu[sign post left={\scalebox{12.45}{843}},left wing hug,
-                heart=cprimary!84!csecondary]
-            \end{scope}}
-        \end{tikzpicture}
-        }
+       \begin{tikzpicture}
+            \node at (0,0) {TODO}
+       \end{tikzpicture}
     \end{center}
 \end{frame}
 \iffull\end{document}\fi
