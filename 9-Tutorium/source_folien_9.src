@@ -16,6 +16,7 @@
 \begin{document}
 \Titlepage{9}
 \fi
+\iffalse
 \section{Präsenzaufgabe}
 \subsection{Freude mit Sortierverfahren}
 \begin{frame}{Präsenzaufgabe}
@@ -158,6 +159,7 @@
 \end{frame}
 
 \newsavebox\pinguTalkHSa \savebox\pinguTalkHSa{\tikz\pingu[eyes=wink, left wing wave, right wing grab,bow tie=paletteA];}
+\newsavebox\pinguTalkHSb \savebox\pinguTalkHSb{\tikz\pingu[eyes=wink, left wing wave, right wing grab,tie=paletteB,shirt=pingu@red!60!pingu@black!60!pingu@white,second shirt=pingu@black,shirt above,princess crown];}
 \begin{frame}[fragile]{Präsenzaufgabe - Lösung\hfill Stackische Heap-Simulation}
 \vspace*{-.5\baselineskip}\begin{columns}[c,onlytextwidth]
 \column{.495\linewidth}\SetupLstHl\lstfs{8}
@@ -239,12 +241,46 @@
         \node[left=-.95cm,scale=.6] (pingu) at ([yshift=-1.5cm]current page.east) {\rotatebox[origin=c]{70}{\usebox\pinguTalkHSa}};
         \node[above left,scale=.6,text width=4.425cm,align=right,xshift=-1cm,yshift=-.325cm] at (pingu.north) {Dabei muss der \bjava{find(int[], int)}-\\Aufruf nicht \hbox{direkt} in \bjava{main} sein.};
     }
+    \onslide<handout:3|13>{%
+        \node[left=-.95cm,scale=.6] (pingu) at ([yshift=-1.5cm]current page.east) {\rotatebox[origin=c]{70}{\usebox\pinguTalkHSb}};
+        \node[above left,scale=.6,text width=4.425cm,align=right,xshift=-.665cm,yshift=-.325cm] at (pingu.north) {Genau genommen wird da (in \bjava{...}) noch mehr abgelegt. Zum Beispiel, wo es in der aufrufenden Methode weitergeht)\ldots};
+    }
 \end{tikzpicture}%
 \end{frame}
 \fi
+\fi
+
 
 \section{Übungsblatt 9}
+\iffalse
 \subsection{Aufgabe 1}
+\iffull
+\begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 1}
+
+    \onslide<2->{\only<3->{\color{gray}}In dieser Aufgabe sollen Sie eine Methode implementieren, welche die Summe errechnet die ein Startkapital in einer bestimmten Anzahl an Jahren mit einem fixen Jahreszinssatz erreicht. Die Methode soll die folgende \only<handout:0|-2>{Signatur}\only<3->{\cancel{Signatur} Gestalt} haben:
+    {\color{black}\bjava{public static double compoundInterest(double capital, double interestRate, int years)}}
+    Hierbei soll der Parameter \texttt{capital} das Startkapital angeben, \texttt{interestRate} den Zinssatz in Prozent und \texttt{years} die Laufzeit.
+    Verwenden Sie bei ihrer Implementierung {\color{black}keine Schleifen}, sondern {\color{black}rekursive Methoden-Aufrufe}!}\color{black}\bigskip
+
+    \lstfs{10}\onslide<4->{Iterativer Ansatz:}
+\begin{columns}[c,onlytextwidth]
+\column{.5\linewidth}
+\begin{plainjava}
+!*\onslide<5->*!for(int i = 0; i < years; i++) {
+!*\onslide<6->*!    capital *= (1 + interestRate);
+!*\onslide<5->*!}
+\end{plainjava}
+\column{.5\linewidth}
+\begin{plainjava}
+!*\onslide<7->*!for(int i = years; i > 0; i--) {
+!*\onslide<8->*!    capital *= (1 + interestRate);
+!*\onslide<7->*!}
+\end{plainjava}
+\end{columns}
+\end{frame}
+\fi
+
+\MakeThePinguExplainIt[text width=12cm]{cap=!hide,headphones,glasses=!hide,eyes wink,cup=!hide,heart=shadeA,silver medal,right item angle=-56}{Warum die herunterzählende Variante? Nun, sie spart uns eine weitere Variable in der Rekursion. So müssen wir nur prüfen, wann \bjava{years} den Wert \bjava{0} erreicht. Andernfalls wäre eine weitere Variable notwendig um das ursprüngliche \bjava{years} zu halten.}
 \begin{frame}[t,fragile]{Übungsblatt 9 - Aufgabe 1}
     \begin{itemize}[<+(1)->]
         \item Die Datei befindet sich hier: \only<2->{\textattachfile{\curpath CompoundInterest.java}{CompoundInterest.java}}
@@ -261,9 +297,25 @@
 !*\onslide<3->*!}
 \end{plainjava}
 \vfill\null
+\begin{tikzpicture}[overlay,remember picture]
+    \node[below left=.35cm,yshift=-1.5cm,text width=6.5cm,scale=.6,draw=gray,thick,rounded corners=2pt] at(current page.north east) {%
+\begin{plainjava}[aboveskip=0pt,belowskip=0pt]
+for(int i = years; i > 0; i--) {
+    capital *= (1 + interestRate);
+}
+\end{plainjava}
+    };
+\onslide<7->{\node[left=-7mm,scale=.8] at(current page.-24) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
+\fi
 
 \subsection{Aufgabe 2}
+\iffull
+\begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 2}
+\end{frame}
+\fi
+
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 2}
     \begin{itemize}[<+(1)->]
         \item Die Datei befindet sich hier: \only<2->{\textattachfile{\curpath Palindrome.java}{Palindrome.java}}
@@ -287,7 +339,7 @@
 \vfill\null
 \end{frame}
 
-
+\iffalse
 \subsection{Aufgabe 3}
 \MakeThePinguExplainIt[text width=9cm]{cap=!hide,glasses=!hide,cloak=pingu@black,eyes shiny,right item angle=33,rotate=10}{Da wir die Maximalgröße der Ausgabekombinationen kennen, wird das Hinzufügen eher in der Form \bjava{[0,0,0]}~$\to$ \bjava{[1,0,0]}~$\to$ \bjava{[1,2,0]}~$\to$ \bjava{[1,2,3]} erfolgen.}
 \begin{frame}[b,fragile]{Übungsblatt 9 - Aufgabe 3}
@@ -483,7 +535,7 @@ static void helper(int[] array, int n, int[] combs, int index)
     \item \bjava{array.length - i >= n - index} sichert zu, dass noch mindestens \bjava{n - index} größere Elemente im Array wählbar bleiben.
 \end{itemize}
 \end{frame}
-
+\fi
 \section{Die End-End-End-End-End-End-Pinguuuuuu}
 
 \begin{frame}[c]
