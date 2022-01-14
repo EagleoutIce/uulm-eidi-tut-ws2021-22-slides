@@ -16,7 +16,6 @@
 \begin{document}
 \Titlepage{9}
 \fi
-
 \section{Präsenzaufgabe}
 \subsection{Freude mit Sortierverfahren}
 \begin{frame}{Präsenzaufgabe}
@@ -38,14 +37,14 @@
         \onslide<1->
     \end{aufgabe}
 \end{frame}
-\MakeThePinguExplainIt[text width=5.25cm]{cap=!hide,glasses=!hide,cup=cprimary,right item angle=10}{1.~Basisfall: keine Elemente mehr.\\ 2.~Basisfall: Element gefunden.\\Sonst: Suche links/rechts.}
+\MakeThePinguExplainIt[text width=5.35cm]{cap=!hide,glasses=!hide,cup=cprimary,right item angle=-10}{\hbox{1.~Basisfall:} keine Elemente mehr.\\\hbox{2.~Basisfall:} Element gefunden.\\Sonst: Suche links/rechts.}
 \begin{frame}[c]{Präsenzaufgabe - Lösung}
 \begin{itemize}[<+(1)->]
     \itemsep15.5pt
-    \item Wir erschaffen eine Suche: \only<2->{\textattachfile{\curpath BinarySearch.java}{BinarySearch.java}}.
+    \item Wir erschaffen eine Suche: \only<2->{\textattachfile{\curpath BinarySearch.java}{BinarySearch.java}}. \info{Eine binäre Suche}
     \item Die Idee: \begin{itemize}
-        \item Wir markieren das zu durchsuchende Fenster mit \bjava{left} und \bjava{right}.\hfill \raisebox{-.15\height}{\tikz{\foreach[count=\i] \a in {lightgray, lightgray, shadeA, shadeA, shadeA, shadeA, lightgray} {\node[circle,fill=\a] (\i) at (\i/2,0) {};}\pgfinterruptboundingbox\node[above=-.6mm] at(3.north) {\scriptsize\strut\T{left}}; \node[above=-.6mm] at(6.north) {\scriptsize\strut\T{right}};\endpgfinterruptboundingbox}}
-        \item Ist das Fenster leer, haben wir das Element nicht gefunden.\hfill \T{right < left}
+        \item Wir markieren das zu durchsuchende Fenster mit \bjava{left} und \bjava{right}.\hfill \raisebox{-.15\height}{\tikz{\foreach[count=\i] \a in {lightgray, lightgray, shadeA, shadeA, shadeA, shadeA, lightgray} {\node[circle,fill=\a] (\i) at (\i/2,0) {};}\pgfinterruptboundingbox\node[above=-.6mm] at(3.north) {\scriptsize\strut\T{left}}; \node[above=-.6mm] at(6.north) {\scriptsize\strut\T{right}}; \node[above=-.9mm,lightgray,scale=.65] at(3.north) {\faCaretDown}; \node[above=-.9mm,lightgray,scale=.65] at(6.north) {\faCaretDown};\endpgfinterruptboundingbox}}
+        \item Ist das Fenster leer, haben wir das Element nicht gefunden.%\hfill \T{right < left}
         \item Sonst prüfen wir: Ist das mittlere Element das Gesuchte?
         \item Ist es kleiner, suchen wir links, ist es größer, rechts weiter.
     \end{itemize}
@@ -53,24 +52,24 @@
     \item Wir beginnen mit der Suche im gesamten Array: \bjava{binarySearch(array, 0, array.length - 1, element);}
 \end{itemize}
 \begin{tikzpicture}[overlay, remember picture]
-    \onslide<10->{\node[left=-9.5mm,scale=.8] at(current page.-12) {\usebox\pinguexplainbox};}
+    \onslide<10->{\node[left=-9.5mm,scale=.8] at(current page.-11.35) {\usebox\pinguexplainbox};}
 \end{tikzpicture}%
 \end{frame}
 
 \begin{frame}[fragile]{Präsenzaufgabe - Lösung}
 \SetupLstHl\lstfs{10}
 \begin{plainjava}
-!*\onslide<2->*!|ihl|int binarySearch(int[] array, int left, int right, int element) {|ihl|
+!*\onslide<2->*!|ihl|static int binarySearch(int[] array, int left, int right, int element) {|ihl|
 !*\onslide<3->*!    // !*\textbf{\solGet{comments}{1)}}*! Fenster ist leer
-!*\onslide<4->*!    if (right < left)
+!*\onslide<4->*!    if(right < left)
 !*\onslide<4->*!        return -1;
 !*\onslide<2->*!
 !*\onslide<5->*!    int middle = left + (right - left) / 2;
 !*\onslide<3->*!    // !*\textbf{\solGet{comments}{2)}}*! Ist das Mittlere das Gesuchte?
-!*\onslide<6->*!    if (array[middle] == element)
+!*\onslide<6->*!    if(array[middle] == element)
 !*\onslide<6->*!        return middle;
 !*\onslide<3->*!    // !*\textbf{\solGet{comments}{3)}}*! Kleiner: suche links weiter
-!*\onslide<7->*!    else if (array[middle] > element)
+!*\onslide<7->*!    else if(array[middle] > element)
 !*\onslide<7->*!        return binarySearch(array, left, middle - 1, element);
 !*\onslide<3->*!    // !*\textbf{\solGet{comments}{4)}}*! Größer: suche rechts weiter
 !*\onslide<8->*!    else
@@ -83,23 +82,166 @@
 \begin{itemize}[<+(1)->]
     \itemsep6.5pt
     \item Einen Teil haben wir noch nicht gemacht:\pause \begin{center}
-        \parbox{.715\linewidth}{\textcolor{gray}{Sollte das Elemente mehrfach vorhanden sein, soll der kleinste Index zurückgegeben werden}}
+        \parbox{.725\linewidth}{\textcolor{gray}{Sollte das Elemente mehrfach vorhanden sein, soll der kleinste Index zurückgegeben werden}}
     \end{center}
     \item Idee: Wir verringern den Index, solange das Element immer noch das Gesuchte ist:
 \SetupLstHl\lstfs{10}\begin{plainjava}
-public static int find(int[] array, int element) {
-    int index = binarySearch(array, 0, array.length - 1, element);
-    if (index == -1) return -1;
-
-    for (int i = 1; i <= index; i++) {
-        if (array[index - i] != element)
-            return index - i + 1;
-    }
-    return 0;
-}
+!*\onslide<5->*!public static int find(int[] array, int element) {
+!*\onslide<6->*!    int index = binarySearch(array, 0, array.length - 1, element);
+!*\onslide<7->*!    if(index == -1) return -1;
+!*\onslide<5->*!
+!*\onslide<8->*!    for(int i = 1; i <= index; i++) {
+!*\onslide<9->*!        if(array[index - i] != element)
+!*\onslide<9->*!            return index - i + 1;
+!*\onslide<8->*!    }
+!*\onslide<10->*!    return 0;
+!*\onslide<5->*!}
 \end{plainjava}
 \end{itemize}
 \end{frame}
+
+\iffull
+\def\PinguBanner#1#2{\tikz\pingu[wings wave, banner=#1, banner stick length=3mm,banner bent=-42,banner raise=-1.65mm,banner font=\bfseries\LARGE,eyes wink,banner height=5.25mm,#2];}
+\newsavebox\pinguBSa \savebox\pinguBSa{\PinguBanner{-14}{strawhat}}
+\newsavebox\pinguBSaa \savebox\pinguBSaa{\PinguBanner{-14}{cloak=pingu@black}}
+\newsavebox\pinguBSb \savebox\pinguBSb{\PinguBanner{24}{hat,hat position={1:(0cm,-.09cm){1.33}}}}
+\newsavebox\pinguBSbb \savebox\pinguBSbb{\PinguBanner{24}{cake-hat}}
+\newsavebox\pinguBSc \savebox\pinguBSc{\PinguBanner{42}{halo}}
+\newsavebox\pinguBSd \savebox\pinguBSd{\PinguBanner{109}{headband,pants}}
+\newsavebox\pinguBSe \savebox\pinguBSe{\PinguBanner{113}{vr-headset}}
+\newcommand<>\PinguBS[2]{$\underset{\onslide#3{\text{\huge\strut\T{#1}}}}{\expandafter\usebox\csname pinguBS#2\endcsname}$}
+\newcommand<>\rBS[1]{\only#2{\solGet{comments}{\color{lightgray}\itshape#1}}}
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung\hfill Statische Simulation}
+\SetupLstHl\lstfs{8}\vspace*{-.5\baselineskip}\begin{columns}[c,onlytextwidth]
+\column{.495\linewidth}
+\begin{plainjava}
+!*\onslide<2->*!!*\md[1]{7,13}*!int search(int[] arr, int l, int r, int e) {
+!*\onslide<2->*!  !*\md{8,14}*!if(r < l) return -1; !*\rBS<handout:2|8-12>{r=6, l=0}\rBS<handout:3|14-17>{r=2, l=0}*!
+!*\onslide<2->*!  !*\md{9,15}*!int mid = l + (r - l) / 2; !*\rBS<handout:2|9-12>{mid=3}\rBS<handout:3|15-17>{mid=1}*!
+!*\onslide<2->*!  !*\md[3]{10,16}*!if (arr[mid] == e) return m!*\mb{17}*!id; !*\rBS<handout:2|10-12>{e=-14}\rBS<handout:3|16-17>{e=-14, mid=1}*!
+!*\onslide<2->*!  !*\md{11}*!else if (arr[mid] > e) !*\rBS<handout:2|11-12>{24 > -14}*!
+!*\onslide<2->*!      !*\md[2]{12}\mg[3]{13-17}*!return search(arr, l, mid - 1, e);!*\ml{18}*!
+!*\onslide<2->*!  else
+!*\onslide<2->*!      return search(arr, mid + 1, r, e);
+!*\onslide<2->*!}!*\ml{19}*!
+
+!*\onslide<3->*!!*\md5*!int find(int[] arr, int e) {
+!*\onslide<3->*!  !*\md{6}\mg[1-3]{7-19}*!int idx = search(arr, 0, arr.length - 1, e);!*\ml{20}*!
+!*\onslide<3->*!  !*\md[4]{21}*!if(idx == -1) return -1; !*\rBS<handout:4|21-25>{idx=1}*!
+!*\onslide<3->*!  !*\md{22,24}*!for(int i = 1; i <= idx; i++) { !*\rBS<handout:0|22-23>{i=1, 1<=1}\rBS<handout:0|24-25>{i=2, 2<=1}*!
+!*\onslide<3->*!      !*\md{23}*!if(arr[idx - i] != e) !*\rBS<handout:0|23>{arr[0]=-14, e=-14}*!
+!*\onslide<3->*!          return idx - i + 1;
+!*\onslide<3->*!  }
+!*\onslide<3->*!  !*\md{25}*!return 0; !*\onslide<handout:5|25->*!//Wir sind ganz links
+!*\onslide<3->*!}
+\end{plainjava}
+\column{.505\linewidth}
+\centering\onslide<handout:1-|4->{\begin{tikzpicture}
+\only<handout:3-|13-19>{\scope[transparency group,opacity=.6]}
+\only<handout:4-|20->{\scope[transparency group,opacity=.3]}
+    \node at (0,0) {\downsize\linewidth{\PinguBS<handout:2-|7->{left}{a}~\PinguBS{}{aa}~\PinguBS{}b~\PinguBS<handout:2-|9->{mid}{bb}~\PinguBS{}c~\PinguBS{}d~\PinguBS<handout:2-|7->{right}e}};
+\only<handout:4-|20->{\endscope}
+\only<handout:3-|13-19>{\endscope}
+\end{tikzpicture}}\bigskip\par
+\only<handout:3-|13->{\begin{tikzpicture}
+    \only<handout:4-|20->{\scope[transparency group,opacity=.6]}
+    \node at (0,0) {\downsize\linewidth{\PinguBS<13->{left}{a}~\PinguBS<15->{mid}{aa}~\PinguBS<13->{right}b~\PinguBS{}{bb}~\PinguBS{}c~\PinguBS{}d~\PinguBS<7->{}e}};
+    \only<handout:4-|20->{\endscope}
+\end{tikzpicture}}\bigskip\par
+\only<handout:4-|20->{\begin{tikzpicture}
+    \node at (0,0) {\downsize\linewidth{\PinguBS{}{a}~\PinguBS<20->{idx}{aa}~\PinguBS{}b~\PinguBS{}{bb}~\PinguBS{}c~\PinguBS{}d~\PinguBS<7->{}e}};
+\end{tikzpicture}}
+\end{columns}\vspace*{-1.15\baselineskip}
+\begin{center}
+    \footnotesize\onslide<4->{\mbox{\md[0]{4}\mg[1-3]{5-25}\bjava{find(|ihl|new int[]\{-14, -14, 24, 24, 42, 109, 113\}|ihl|, -14);}}}\ml[5]{26}\smash{~~~~\onslide<handout:5|26->{~\bjava{// :yields: 0}}}
+\end{center}
+\end{frame}
+
+\newsavebox\pinguTalkHSa \savebox\pinguTalkHSa{\tikz\pingu[eyes=wink, left wing wave, right wing grab,bow tie=paletteA];}
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung\hfill Stackische Heap-Simulation}
+\vspace*{-.5\baselineskip}\begin{columns}[c,onlytextwidth]
+\column{.495\linewidth}\SetupLstHl\lstfs{8}
+\begin{plainjava}
+!*\onslide<2->*!!*\md[1]{7,13}*!int search(int[] arr, int l, int r, int e) {
+!*\onslide<2->*!  !*\md{8,14}*!if(r < l) return -1; !*\rBS<handout:2|8-12>{r=6, l=0}\rBS<handout:3|14-17>{r=2, l=0}*!
+!*\onslide<2->*!  !*\md{9,15}*!int mid = l + (r - l) / 2; !*\rBS<handout:2|9-12>{mid=3}\rBS<handout:3|15-17>{mid=1}*!
+!*\onslide<2->*!  !*\md[3]{10,16}*!if (arr[mid] == e) return m!*\mb{17}*!id; !*\rBS<handout:2|10-12>{e=-14}\rBS<handout:3|16-17>{e=-14, mid=1}*!
+!*\onslide<2->*!  !*\md{11}*!else if (arr[mid] > e) !*\rBS<handout:2|11-12>{24 > -14}*!
+!*\onslide<2->*!      !*\md[2]{12}\mg[3]{13-17}*!return search(arr, l, mid - 1, e);!*\ml{18}*!
+!*\onslide<2->*!  else
+!*\onslide<2->*!      return search(arr, mid + 1, r, e);
+!*\onslide<2->*!}!*\ml{19}*!
+
+!*\onslide<3->*!!*\md5*!int find(int[] arr, int e) {
+!*\onslide<3->*!  !*\md{6}\mg[1-3]{7-19}*!int idx = search(arr, 0, arr.length - 1, e);!*\ml{20}*!
+!*\onslide<3->*!  !*\md[4]{21}*!if(idx == -1) return -1; !*\rBS<handout:4|21-25>{idx=1}*!
+!*\onslide<3->*!  !*\md{22,24}*!for(int i = 1; i <= idx; i++) { !*\rBS<handout:0|22-23>{i=1, 1<=1}\rBS<handout:0|24-25>{i=2, 2<=1}*!
+!*\onslide<3->*!      !*\md{23}*!if(arr[idx - i] != e) !*\rBS<handout:0|23>{arr[0]=-14, e=-14}*!
+!*\onslide<3->*!          return idx - i + 1;
+!*\onslide<3->*!  }
+!*\onslide<3->*!  !*\md{25}*!return 0; !*\onslide<handout:5|25->*!//Wir sind ganz links
+!*\onslide<3->*!}
+\end{plainjava}
+\column{.505\linewidth}
+\raggedleft\makeatletter
+\lhns@elemwidth4.5cm
+\lhns@minborderheight11cm
+\makeatother
+\onslide<5->{\raisebox{.55cm}{\downsizeBoth{5.85cm}\linewidth{\begin{tikzpicture}[lhns@basestyle/.append style={execute at begin node=\strut,font=\ttfamily},lhns@blockstyle/.append style={draw=gray,thick}]
+\begin{heap-n-stack}{}
+\heap{\bjava{\{-14, :ldots:, 114\}}}
+\renderheap
+
+\stack{\textbf{main}}
+\stack{$\ldots$}
+\only<handout:5-|26->{\stack{\say{\bjava{find = 0}}}}
+\only<handout:1-4|-25>{\stack{\textbf{find}}
+\stack{arr}
+\stack{\bjava{e = -14}}
+\only<handout:1-3|-19>{\stack{\bjava{idx =}~\textcolor{gray}{?}}}
+\only<handout:4|20->{\stack{\bjava{idx = 1}}}
+\only<handout:0|22-23>{\stack{\bjava{i = 1}}}
+\only<handout:0|24>{\stack{\bjava{i = 2}}}
+\only<handout:1-3|7-18>{\stack{\textbf{search}}
+\only<handout:1-2|-12>{\stack{arr}
+\stack{\bjava{l = 0}}
+\stack{\bjava{r = 6}}
+\stack{\bjava{e = -14}}}
+}
+\only<handout:2|9-12>{\stack{\bjava{mid = 3}}}
+\only<handout:3|13-17>{\stack{$\ldots$}
+\stack{\textbf{search}}
+\stack{arr}
+\stack{\bjava{l = 0}}
+\stack{\bjava{r = 2}}
+\stack{\bjava{e = -14}}
+}
+\only<handout:3|15-17>{\stack{\bjava{mid = 1}}}
+\only<handout:5|18>{\stack{$\ldots$}\stack{\say{\bjava{search = 1}}}}
+\only<handout:5|19>{\stack{\say{\bjava{search = 1}}}}}
+\renderstack
+\only<-25>{
+\only<handout:1-4>{\draw[lhns] (stack-3.east) to[out=20,in=220] (heap-0.west);}
+\only<handout:1-3|7-18>{
+    \draw[lhns] (stack-7.east) to[out=35,in=220] (heap-0.west);
+}
+\only<handout:3|13-17>{
+    \draw[lhns] (stack-9.east) to[out=37,in=218] (heap-0.west);
+}}
+\end{heap-n-stack}
+\end{tikzpicture}}}}~~
+\end{columns}\vspace*{-1\baselineskip}
+\begin{center}\SetupLstHl\lstfs{8}
+    \footnotesize\onslide<4->{\mbox{\md[0]{4}\mg[1-3]{5-25}\bjava{find(|ihl|new int[]\{-14, -14, 24, 24, 42, 109, 113\}|ihl|, -14);}}}\ml[5]{26}\smash{~~~~\onslide<handout:5|26->{~\bjava{// :yields: 0}}}
+\end{center}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<handout:1|6>{%
+        \node[left=-.95cm,scale=.6] (pingu) at ([yshift=-1.5cm]current page.east) {\rotatebox[origin=c]{70}{\usebox\pinguTalkHSa}};
+        \node[above left,scale=.6,text width=4.425cm,align=right,xshift=-1cm,yshift=-.325cm] at (pingu.north) {Dabei muss der \bjava{find(int[], int)}-\\Aufruf nicht \hbox{direkt} in \bjava{main} sein.};
+    }
+\end{tikzpicture}%
+\end{frame}
+\fi
 
 \section{Übungsblatt 9}
 \subsection{Aufgabe 1}
@@ -341,7 +483,6 @@ static void helper(int[] array, int n, int[] combs, int index)
     \item \bjava{array.length - i >= n - index} sichert zu, dass noch mindestens \bjava{n - index} größere Elemente im Array wählbar bleiben.
 \end{itemize}
 \end{frame}
-
 
 \section{Die End-End-End-End-End-End-Pinguuuuuu}
 

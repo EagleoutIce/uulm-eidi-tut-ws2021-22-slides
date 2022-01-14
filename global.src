@@ -115,7 +115,7 @@
 \begin{tikzpicture}
   \pingu[body=pingu@black!70!pingu@main,glasses,right wing wave,staff right,left wing grab,cup=pingu@green!80!pingu@black,right item angle=-10,right eye wink,staff right length=23mm,cap=pingu@bronze!50!pingu@black!70!pingu@main, cap extra height=1.125mm,name=pingu,#2]
 
-  \node[above left=-2.66mm,fill=pingu-board-green,draw=pingu@bronze!50!pingu@black!70!pingu@main!80!white,line width=.6mm,rounded corners=2pt,text width=5.25cm,minimum height=1.5cm,text=white,inner sep=8pt,align=justify,#1] at (pingu-staff-top) {\LstBoardStyle\topsep=0pt\ignorespaces#3};
+  \node[above left=-2.66mm,fill=pingu-board-green,draw=pingu@bronze!50!pingu@black!70!pingu@main!80!white,line width=.6mm,rounded corners=2pt,text width=5.25cm,minimum height=1.5cm,text=white,inner sep=8pt,align=justify,#1] at (pingu-staff-right-top) {\LstBoardStyle\topsep=0pt\ignorespaces#3};
 \end{tikzpicture}}}
 
 \usepackage{tikz-qr}
@@ -148,3 +148,13 @@
 \newcommand<>{\mark}[1]{{\only#2{\color{black}}#1}}
 \def\DeltaMax{\Delta_{\text{max}}}
 \DeclareMathOperator\ggt{ggt}
+
+\makeatletter
+\newcommand*\md[2][0]{\only<#2|handout:#1>{\llap{\color{paletteA}\faAngleRight~}}}
+\newcommand*\ml[2][0]{\only<#2|handout:#1>{\rlap{\color{paletteA}\;\faAngleLeft}}}
+\newcommand*\mg[2][0]{\only<#2|handout:#1>{\llap{\color{shadeA!70!paletteA}\faAngleRight~}}}
+
+\newcommand*\mb[2][0]{\only<#2|handout:#1>{\rlap{\smash{\raisebox{-.66\baselineskip}{\kern-.1em\color{paletteA}\faAngleUp}}}}}
+\newcommand*\mh[2][0]{\only<#2|handout:#1>{\color{paletteA}\faAngleUp}}
+\newcommand*\mdl[2][0]{\only<#2|handout:#1>{\llap{\smash{\raisebox{-.5\baselineskip}{\tikz{\fill[paletteA,rounded corners=1pt] (0,-.65mm) rectangle ++(2.15\p@,\baselineskip+.65mm);}}~}}}}
+\makeatother
