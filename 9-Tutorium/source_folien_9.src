@@ -21,9 +21,9 @@
 \subsection{Freude mit Sortierverfahren}
 \begin{frame}{Präsenzaufgabe}
     \begin{aufgabe}{Wenn du dein Kinderzimmer nicht aufräumst, \ldots}
-        \pause{}\small Sie sollen die \textit{Binäre Suche} implementieren, welche nützlich ist um ein sortiertes Array effizient zu durchsuchen. Schreiben Sie die Methode \bjava{int find(int[] array, int element)} als Wrapper für die Suche.\pause{} Diese Methode soll ein (aufsteigend) sortiertes Array und das gesuchte Element als Parameter übernehmen, und daraufhin den Index des Elements im Array zurückgeben, sofern dieses vorhanden ist. Sollte das Elemente mehrfach vorhanden sein, soll der kleinste Index zurückgegeben werden. Falls das Element nicht im Array vorhanden ist, soll \bjava{-1} zurückgegeben werden.
+        \pause{}\small Sie sollen die \textit{Binäre Suche} implementieren, welche nützlich ist, um ein sortiertes Array effizient zu durchsuchen. Schreiben Sie die Methode \bjava{int find(int[] array, int element)} als Wrapper für die Suche.\pause{} Diese Methode soll ein (aufsteigend) sortiertes Array und das gesuchte Element als Parameter übernehmen, und daraufhin den Index des Elements im Array zurückgeben, sofern dieses vorhanden ist. Sollte das Elemente mehrfach vorhanden sein, soll der kleinste Index zurückgegeben werden. Falls das Element nicht im Array vorhanden ist, soll \bjava{-1} zurückgegeben werden.
         Implementieren Sie die Binäre Suche \textit{rekursiv}. (Rekursive) Hilfsmethoden sind gestattet.\pause{}
-        Die Suche nach der \bjava{68}:\vspace*{-1.15\baselineskip}
+        Die Suche nach der \bjava{68}:\vspace*{-.8\baselineskip}
 \begin{center}
     \begin{tikzpicture}
         \foreach[count=\i] \a in {4, 13, 21, 29, 33, 34, 56, 68, 71, 74, 78} {
@@ -38,19 +38,23 @@
         \onslide<1->
     \end{aufgabe}
 \end{frame}
+\MakeThePinguExplainIt[text width=5.25cm]{cap=!hide,glasses=!hide,cup=cprimary,right item angle=10}{1.~Basisfall: keine Elemente mehr.\\ 2.~Basisfall: Element gefunden.\\Sonst: Suche links/rechts.}
 \begin{frame}[c]{Präsenzaufgabe - Lösung}
 \begin{itemize}[<+(1)->]
-    \itemsep9.5pt
+    \itemsep15.5pt
     \item Wir erschaffen eine Suche: \only<2->{\textattachfile{\curpath BinarySearch.java}{BinarySearch.java}}.
     \item Die Idee: \begin{itemize}
-        \item Wir markieren das zu durchsuchende Fenster mit \bjava{left} und \bjava{right}.
-        \item Ist das Fenster leer, haben wir das Element nicht gefunden.
+        \item Wir markieren das zu durchsuchende Fenster mit \bjava{left} und \bjava{right}.\hfill \raisebox{-.15\height}{\tikz{\foreach[count=\i] \a in {lightgray, lightgray, shadeA, shadeA, shadeA, shadeA, lightgray} {\node[circle,fill=\a] (\i) at (\i/2,0) {};}\pgfinterruptboundingbox\node[above=-.6mm] at(3.north) {\scriptsize\strut\T{left}}; \node[above=-.6mm] at(6.north) {\scriptsize\strut\T{right}};\endpgfinterruptboundingbox}}
+        \item Ist das Fenster leer, haben wir das Element nicht gefunden.\hfill \T{right < left}
         \item Sonst prüfen wir: Ist das mittlere Element das Gesuchte?
         \item Ist es kleiner, suchen wir links, ist es größer, rechts weiter.
     \end{itemize}
     \item Dafür nutzen wir die Hilfsmethode: \bjava{binarySearch(int[] array, int left, int right, int element)}.
     \item Wir beginnen mit der Suche im gesamten Array: \bjava{binarySearch(array, 0, array.length - 1, element);}
 \end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<10->{\node[left=-9.5mm,scale=.8] at(current page.-12) {\usebox\pinguexplainbox};}
+\end{tikzpicture}%
 \end{frame}
 
 \begin{frame}[fragile]{Präsenzaufgabe - Lösung}
@@ -344,7 +348,7 @@ static void helper(int[] array, int n, int[] combs, int index)
 \begin{frame}[c]
     \begin{center}
        \begin{tikzpicture}
-            \node at (0,0) {TODO}
+            \node at (0,0) {TODO};
        \end{tikzpicture}
     \end{center}
 \end{frame}
