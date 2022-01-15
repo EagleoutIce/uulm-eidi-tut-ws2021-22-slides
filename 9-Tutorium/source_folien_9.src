@@ -16,7 +16,6 @@
 \begin{document}
 \Titlepage{9}
 \fi
-\iffalse
 \section{Präsenzaufgabe}
 \subsection{Freude mit Sortierverfahren}
 \begin{frame}{Präsenzaufgabe}
@@ -111,7 +110,6 @@
 \newsavebox\pinguBSd \savebox\pinguBSd{\PinguBanner{109}{headband,pants}}
 \newsavebox\pinguBSe \savebox\pinguBSe{\PinguBanner{113}{vr-headset}}
 \newcommand<>\PinguBS[2]{$\underset{\onslide#3{\text{\huge\strut\T{#1}}}}{\expandafter\usebox\csname pinguBS#2\endcsname}$}
-\newcommand<>\rBS[1]{\only#2{\solGet{comments}{\color{lightgray}\itshape#1}}}
 \begin{frame}[fragile]{Präsenzaufgabe - Lösung\hfill Statische Simulation}
 \SetupLstHl\lstfs{8}\vspace*{-.5\baselineskip}\begin{columns}[c,onlytextwidth]
 \column{.495\linewidth}
@@ -248,11 +246,9 @@
 \end{tikzpicture}%
 \end{frame}
 \fi
-\fi
 
 
 \section{Übungsblatt 9}
-\iffalse
 \subsection{Aufgabe 1}
 \iffull
 \begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 1}
@@ -308,11 +304,19 @@ for(int i = years; i > 0; i--) {
 \onslide<7->{\node[left=-7mm,scale=.8] at(current page.-24) {\usebox\pinguexplainbox};}
 \end{tikzpicture}
 \end{frame}
-\fi
 
 \subsection{Aufgabe 2}
 \iffull
 \begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 2}
+    \onslide<2->{\only<3->{\color{gray}}In dieser Aufgabe sollen Sie die Methode {\color{black}\bjava{public static boolean} \bjava{isPalindrome(String s)}} implementieren, welche überprüfen soll ob es sich bei dem als Parameter übergebenen String \bjava{s} um ein Palindrom handelt. Ein Palindrom ist ein Wort, das vorwärts und rückwärts gelesen identisch ist. Die Überprüfung soll {\color{black}nicht case-sensitive} sein, d.h. das Wort \textit{Kajak} soll zum Beispiel ein gültiges Palindrom sein.
+    Verwenden Sie bei ihrer Implementierung {\color{black}keine Schleifen}, sondern {\color{black}rekursive Methoden-Aufrufe!}}\bigskip
+
+    \onslide<4->{\color{black}Idee:}
+    \footnotesize\begin{itemize}
+        \item<5-> Prüfe für \(i = 0\) bis \(i = \floor{\sfrac{\text{\bjava{s.length}}}{2}}\), ob \say{\bjava{s[i] == s[s.length - i - 1]}}.
+        \item<6-> \bjava{String::toLowerCase()} entweder für jeden Vergleich oder einmal per Hilfsmethode.
+        \item<7-> Noch einfacher: Anstelle \bjava{i} zu inkrementieren, löschen wir das erste und letzte Zeichen nach dem Vergleich (via \bjava{String::substring(int, int)}---das Ende ist exklusiv)!
+    \end{itemize}
 \end{frame}
 \fi
 
@@ -322,25 +326,142 @@ for(int i = years; i > 0; i--) {
     \end{itemize}\vfill
 \SetupLstHl\lstfs{10}%
 \begin{plainjava}
-!*\onslide<3->*!private static boolean isPalindrome(String s) {
+!*\onslide<3->*!private static boolean isPalindrome(String s) { // die Hilfsmethode
 !*\onslide<4->*!    return isPalindromeRecursive(s.toLowerCase());
 !*\onslide<3->*!}
 
 
 !*\onslide<5->*!private static boolean isPalindromeRecursive(String s) {
-!*\onslide<6->*!    if(s.length() < 2)
+!*\onslide<6->*!    if(s.length() < 2) // Basisfall: weniger als zwei Zeichen (Abrunden)
 !*\onslide<6->*!        return true;
-!*\onslide<7->*!    else if(s.charAt(0) != s.charAt(s.length() - 1))
+!*\onslide<7->*!    else if(s.charAt(0) != s.charAt(s.length() - 1)) // Basisfall
 !*\onslide<7->*!        return false;
-!*\onslide<8->*!    else
+!*\onslide<8->*!    else // Rekursionsfall
 !*\onslide<8->*!        return isPalindromeRecursive(s.substring(1, s.length() - 1));
 !*\onslide<5->*!}
 \end{plainjava}
 \vfill\null
 \end{frame}
 
-\iffalse
+\iffull
+\MakeThePinguExplainIt[text width=7cm]{cap=!hide,glasses=!hide,sunglasses round,eyes shiny,cup=!hide,santa beard,santa hat,right item angle=-142,staff right length=17mm}{Mit \bjava{:lan:ret:c:urn:ran:} haben wir hier die zurückzugebenden anonymen Variablen referenziert. Generell ist hier das \say{Speichern} der Position für den Aufstieg der Rekursion informal dargestellt.}
+\begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 2\hfill Sie Simulantario Sie!}
+\SetupLstHl\lstfs{10}\begin{plainjava}
+!*\onslide<2->*!!*\md4*!private static boolean isPalindrome(String s) { !*\rBS<handout:2-4|4->{s=\dq RegalelaGEr\dq }*!
+!*\onslide<2->*!    !*\md5*!return isPalindrom!*\mb{7,38}\mbg[2-3]{8-42}*!eRecursive(s!*\mb6*!.toLowerCase());!*\ml[4]{43}*! !*\rBS<handout:2-3|6-41>{\dq regalelager\dq }~~\rBS<handout:4|43>{true}*!
+!*\onslide<2->*!}
+!*\onslide<2->*!!*\md{8,15,20,25,30,35}*!private static boolean isPalindromeRecursive(String s) { !*\rBS<handout:0|8-14>{s=\dq regalelager\dq }\rBS<handout:0|15-19>{s=\dq egalelage\dq }\rBS<handout:0|20-24>{s=\dq galelag\dq }\rBS<handout:2-3|25-29>{s=\dq alela\dq }\rBS<handout:0|30-34>{s=\dq lel\dq }\rBS<handout:0|35-37>{s=\dq e\dq }*!
+!*\onslide<2->*!    !*\md{9,16,21,26,31,36}*!if(s.length() < 2) return true;!*\ml[3]{37}*!
+!*\onslide<2->*!    !*\md[2]{10,17,22,27,32}*!else if(s.charAt(0) != s.charAt(s.length() - 1)) return false; !*\rBS<handout:0|10-14>{'r'!='r'}\rBS<handout:0|17-19>{'e'!='e'}\rBS<handout:0|22-24>{'g'!='g'}\rBS<handout:2|27-29>{'a'!='a'}\rBS<handout:0|32-34>{'l'!='l'}*!
+!*\onslide<2->*!    !*\md{11,18,23,28,33}*!else return isPalindrom!*\mb{14,19,24,29,34}\mbg[2-3]{15-18,20-23,25-28,30-33,35-41}*!eRecursive(s!*\mb{13}*!.substring(1, s!*\mb{12}*!.length() - 1));!*\ml{38,39,40,41,42}*!
+!*\onslide<2->*!}
+\end{plainjava}
+\only<handout:1|3>{\begin{center}
+    \huge\bfseries \say{RegalelaGEr}\\[-2mm]
+    {\normalfont\info{Wer sieht auch ein \T{e}, dass die Arme hochwirft?}}
+\end{center}}
+\begin{onlyenv}<handout:2-4|4-43>\begin{center}\lstfs{6}\lstset{aboveskip=0pt,belowskip=0pt,add to literate={:ll:}{{{\color{lightgray!60!gray}$\ldots$}}}1}
+    \begin{tikzpicture}[b/.style={draw=gray,fill=white,text width=4.1cm,minimum height=2.25cm,thick,rounded corners=2pt,inner xsep=1em}]
+            \node[b] (a) at(0,0) {%
+\begin{plainjava}
+!*\md4*!boolean isPalindrome(String s) {
+    !*\md5*!return isPalindrom!*\mb[1-]{7-42}*!eRecurs!*\mb{6}*!:ll:!*\ml{43-}*!
+}
+\end{plainjava}\medskip
+\centerline{\bjava{s = "RegalelaGEr"}\onslide<43->{ \bjava{:lan:ret:c:urn:ran: = true}}}
+            };
+\node[above right,gray] at(a.south west) {\(1\)};
+\begin{onlyenv}<handout:-3|8-42>\node[b,right=-4cm,yshift=-.1cm] (b) at(a.east) {%
+\begin{plainjava}
+!*\md8*!boolean isPalindromeRecursive:ll:
+    !*\md9*!if(s.length() < 2) return:ll:
+    !*\md{10}*!else if(s.charAt(0) != s.c:ll:
+    !*\md{11}*!else return isPalindrom!*\mb[1-]{14-41}*!eRe!*\mb{12-13}*!:ll:!*\ml{42-}*!
+}
+\end{plainjava}\medskip
+\centerline{\bjava{s = "regalelager"}\onslide<42->{ \bjava{:lan:ret:c:urn:ran: = true}}}
+        };
+\node[above right,gray] at(b.south west) {\(2\)};
+    \end{onlyenv}
+\begin{onlyenv}<handout:-3|15-41>\node[b,right=-4cm,yshift=-.1cm] (c) at(b.east) {%
+\begin{plainjava}
+!*\md{15}*!boolean isPalindromeRecursive:ll:
+    !*\md{16}*!if(s.length() < 2) return:ll:
+    !*\md{17}*!else if(s.charAt(0) != s.c:ll:
+    !*\md{18}*!else return isPalindrom!*\mb[1-]{19-40}*!eRe:ll:!*\ml{41-}*!
+}
+\end{plainjava}\medskip
+\centerline{\bjava{s = "egalelage"}\onslide<41->{ \bjava{:lan:ret:c:urn:ran: = true}}}
+        };
+\node[above right,gray] at(c.south west) {\(3\)};
+    \end{onlyenv}
+\begin{onlyenv}<handout:-3|20-40>\node[b,right=-4cm,yshift=-.1cm] (d) at(c.east) {%
+\begin{plainjava}
+!*\md{20}*!boolean isPalindromeRecursive:ll:
+    !*\md{21}*!if(s.length() < 2) return:ll:
+    !*\md{22}*!else if(s.charAt(0) != s.c:ll:
+    !*\md{23}*!else return isPalindrom!*\mb[1-]{24-39}*!eRe:ll:!*\ml{40-}*!
+}
+\end{plainjava}\medskip
+\centerline{\bjava{s = "galelag"}\onslide<40->{ \bjava{:lan:ret:c:urn:ran: = true}}}
+        };
+    \node[above right,gray] at(d.south west) {\(4\)};
+    \end{onlyenv}
+\begin{onlyenv}<handout:-3|25-39>\node[b,right=-4cm,yshift=-.1cm] (e) at(d.east) {%
+\begin{plainjava}
+!*\md{25}*!boolean isPalindromeRecursive:ll:
+    !*\md{26}*!if(s.length() < 2) return:ll:
+    !*\md{27}*!else if(s.charAt(0) != s.c:ll:
+    !*\md{28}*!else return isPalindrom!*\mb[1-]{29-38}*!eRe:ll:!*\ml{39-}*!
+}
+\end{plainjava}\medskip
+\centerline{\bjava{s = "alela"}\onslide<39->{ \bjava{:lan:ret:c:urn:ran: = true}}}
+        };
+\node[above right,gray] at(e.south west) {\(5\)};
+    \end{onlyenv}
+\begin{onlyenv}<handout:3|30-38>\node[b,right=-4cm,yshift=-.1cm] (f) at(e.east) {%
+\begin{plainjava}
+!*\md{30}*!boolean isPalindromeRecursive:ll:
+    !*\md{31}*!if(s.length() < 2) return:ll:
+    !*\md{32}*!else if(s.charAt(0) != s.c:ll:
+    !*\md{33}*!else return isPalindrom!*\mb[1-]{34-37}*!eRe:ll:!*\ml{38-}*!
+}
+\end{plainjava}\medskip
+\centerline{\bjava{s = "lel"}\onslide<38->{ \bjava{:lan:ret:c:urn:ran: = true}}}
+        };
+\node[above right,gray] at(f.south west) {\(6\)};
+    \end{onlyenv}
+\begin{onlyenv}<handout:3|35-37>\node[b,right=-4cm,yshift=-.1cm] (g) at(f.east) {%
+\begin{plainjava}
+!*\md{35}*!boolean isPalindromeRecursive:ll:
+    !*\md{36}*!if(s.length() < 2) return:ll:!*\ml[1-]{37-}*!
+    else if(s.charAt(0) != s.c:ll:
+    else return isPalindromeRe:ll:
+}
+\end{plainjava}\medskip
+\centerline{\bjava{s = "e"}\onslide<37->{ \bjava{:lan:ret:c:urn:ran: = true}}}
+        };
+\node[above right,gray] at(g.south west) {\(7\)};
+    \end{onlyenv}
+    \end{tikzpicture}
+\end{center}
+\end{onlyenv}
+\begin{tikzpicture}[remember picture,overlay]
+    \onslide<handout:4-|44->{\node[left=-7mm,scale=.8] at(current page.-20) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
+\end{frame}
+\fi
+
 \subsection{Aufgabe 3}
+
+\begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 3}
+    \onslide<2->{\only<3->{\color{gray}}In dieser Aufgabe sollen Sie die Methode {\color{black}\bjava{public static void printCombinations} \bjava{(int[] array, int n)}} implementieren, welche ein Integer Array und eine natürliche Zahl \bjava{n} als Parameter übernimmt. Die Methode soll rekursiv alle möglichen Kombinationen aus \bjava{n} Elementen des Arrays ausgeben. Hierbei soll \bjava{n} maximal so groß sein wie die Länge des Arrays.
+    Verwenden Sie bei ihrer Implementierung {\color{black}rekursive Methoden-Aufrufe} wann immer möglich.
+    Sie benötigen {\color{black}maximal eine Schleife} für die Lösung.\bigskip\par
+    Hinweis: Sie können sich entscheiden ob Sie die Ausgabe der Kombinationen mit oder ohne Wiederholung von Elementen implementieren.}
+\end{frame}
+
+
 \MakeThePinguExplainIt[text width=9cm]{cap=!hide,glasses=!hide,cloak=pingu@black,eyes shiny,right item angle=33,rotate=10}{Da wir die Maximalgröße der Ausgabekombinationen kennen, wird das Hinzufügen eher in der Form \bjava{[0,0,0]}~$\to$ \bjava{[1,0,0]}~$\to$ \bjava{[1,2,0]}~$\to$ \bjava{[1,2,3]} erfolgen.}
 \begin{frame}[b,fragile]{Übungsblatt 9 - Aufgabe 3}
     \null\vfill\begin{itemize}[<+(1)->]
@@ -512,7 +633,6 @@ static void helper(int[] array, int n, int[] combs, int index)
     \end{itemize}
 \end{frame}
 
-
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3\hfill Wiederholungen vermeiden}
 \SetupLstHl\lstfs{9}\begin{itemize}[<+(1)->]
         \item Wir nutzen eine weiter Variable: \bjava{start} um das Fenster zu begrenzen:
@@ -535,14 +655,14 @@ static void helper(int[] array, int n, int[] combs, int index)
     \item \bjava{array.length - i >= n - index} sichert zu, dass noch mindestens \bjava{n - index} größere Elemente im Array wählbar bleiben.
 \end{itemize}
 \end{frame}
-\fi
-\section{Die End-End-End-End-End-End-Pinguuuuuu}
 
+\section{Der Minimalistische End-Pinguuuuuu}
 \begin{frame}[c]
     \begin{center}
-       \begin{tikzpicture}
-            \node at (0,0) {TODO};
-       \end{tikzpicture}
+       \onslide<2->{\begin{tikzpicture}
+            \pingu[body=pingu@black,body front=pingu@black,eyes wink,bill color=pingu@black,eyes color=pingu@black,feet color=pingu@black,tie=pingu@white]
+       \end{tikzpicture}}\bigskip\par
+       \onslide<3->{You expected\ldots\ a recursion gag? Read this line again!}
     \end{center}
 \end{frame}
 \iffull\end{document}\fi

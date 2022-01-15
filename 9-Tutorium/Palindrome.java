@@ -16,7 +16,7 @@ public class Palindrome {
       String palindrome = "AbbaAbba";
       String noPalindrome = "Reittier";
 
-      System.out.println(palindrome + " ist " + (isPalindrome(palindrome) ? "ein" : "kein") + " Palindrome");
-      System.out.println(noPalindrome + " ist " + (isPalindrome(noPalindrome) ? "ein" : "kein") + " Palindrome");
+      System.out.println(palindrome + " ist " + (isPalindrome(palindrome) ? "ein" : "kein") + " Palindrom");
+      System.out.println(noPalindrome + " ist " + (isPalindrome(noPalindrome) ? "ein" : "kein") + " Palindrom");
    }
 }
