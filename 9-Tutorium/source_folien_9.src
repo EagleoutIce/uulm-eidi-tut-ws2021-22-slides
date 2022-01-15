@@ -2,12 +2,8 @@
 \InputIfFileExists{../global.src}\relax\relax
 
 \iffull
-\title[Neuntes Tutorium -- Übungsblatt 9]{Das Ende Naht aht ht t\\\small Ohren hab ich gesagt 9}
+\title[Neuntes Tutorium -- Übungsblatt 9]{Das Ende Naht {\smaller[2]aht \smaller[2]ht \smaller[2]t}\\\small Ohren hab ich gesagt 9}
 \date{\sffamily KW 3}
-
-\tikzset{
-    dot/.style={circle,draw,align=center,text width=1em,execute at begin node={\strut}}
-}
 
 \usepackage[glows]{tikzpingus}
 \usetikzlibrary{decorations.text,matrix}
@@ -16,26 +12,55 @@
 \begin{document}
 \Titlepage{9}
 \fi
+\newsavebox\sadGrapplePingu \savebox\sadGrapplePingu{\tikz\pingu[eyes angry,devil horns,right eye devil];}
 \section{Präsenzaufgabe}
 \subsection{Freude mit Sortierverfahren}
 \begin{frame}{Präsenzaufgabe}
     \begin{aufgabe}{Wenn du dein Kinderzimmer nicht aufräumst, \ldots}
-        \pause{}\small Sie sollen die \textit{Binäre Suche} implementieren, welche nützlich ist, um ein sortiertes Array effizient zu durchsuchen. Schreiben Sie die Methode \bjava{int find(int[] array, int element)} als Wrapper für die Suche.\pause{} Diese Methode soll ein (aufsteigend) sortiertes Array und das gesuchte Element als Parameter übernehmen, und daraufhin den Index des Elements im Array zurückgeben, sofern dieses vorhanden ist. Sollte das Elemente mehrfach vorhanden sein, soll der kleinste Index zurückgegeben werden. Falls das Element nicht im Array vorhanden ist, soll \bjava{-1} zurückgegeben werden.
-        Implementieren Sie die Binäre Suche \textit{rekursiv}. (Rekursive) Hilfsmethoden sind gestattet.\pause{}
-        Die Suche nach der \bjava{68}:\vspace*{-.8\baselineskip}
+        \pause{}\only<handout:1|-11>{\footnotesize In dieser Aufgabe sollen Sie die \textit{Binäre Suche} implementieren, welche nützlich ist um ein sortiertes Array effizient zu durchsuchen. Schreiben Sie die Methode{\color{gray}\cancel{n-Signatur}}~\smash{\raisebox{-.1\baselineskip}{\downsizeHeight{.9\baselineskip}{\rotatebox{-10}{\tikz\pingu[eyes angry,wings shock,devil horns];}}}} \bjava{public static int find(int[] array, int element)}.\pause{} Diese Methode soll ein \textit{aufsteigend} sortiertes Array und das gesuchte Element als Parameter übernehmen, und daraufhin den Index des Elements im Array zurückgeben, sofern dieses vorhanden ist.
+        Sollte das Elemente mehrfach vorhanden sein, soll der kleinste Index zurückgegeben werden. Falls das Element nicht im Array vorhanden ist, soll \texttt{-1} zurückgegeben werden.\pause{}
+        Implementieren Sie die eigentliche \textit{binäre Suche} rekursiv. Hilfsmethoden sind gestattet.}\only<handout:2|12->{\small Schreiben Sie die Methode \bjava{public static int find(int[] array, int element)} rekursiv. Sie soll für ein \textit{aufsteigend} sortiertes Array mittels der \textit{binären Suche} den Index das gesuchte Elements im Array zurückgeben, sofern dieses vorhanden ist. Wenn das Elemente mehrfach vorhanden ist, soll der kleinste Index, wenn es nicht vorhanden ist, soll \texttt{-1} zurückgegeben werden. Hilfsmethoden sind gestattet.}\only<handout:2|13->{\vspace*{-1.9\baselineskip}}
 \begin{center}
-    \begin{tikzpicture}
-        \foreach[count=\i] \a in {4, 13, 21, 29, 33, 34, 56, 68, 71, 74, 78} {
-            \node (\a) at (\i, 0) {\expandafter\bjava\expandafter{\a}};
-        }
-        \onslide<5->{\draw[Kite-] (34) -- ++(0,.55);}
-        \onslide<6->{\draw[-Kite] (34.south) to[bend right=25] (71.south);}
-        \onslide<7->{\draw[-Kite] (71.north) to[bend right=25] (56.north);}
-        \onslide<8->{\draw[-Kite] (56.south) to[bend right=15] (68.south);}
-    \end{tikzpicture}\vspace*{-.25\baselineskip}
+    \downsize{.45\linewidth}{\begin{tikzpicture}
+        \onslide<5->{\foreach[count=\i] \a in {4, 13, 21, 29, 33, 34, 56, 68, 71, 74, 78} {
+            \node (\a) at (\i*.6, 0) {\expandafter\bjava\expandafter{\a}};
+        }}
+        \onslide<6->{\draw[Kite-] (34) -- ++(0,.55);}
+        \onslide<7->{\draw[-Kite] (34.south) to[bend right=25] (71.south);}
+        \onslide<8->{\draw[-Kite] (71.north) to[bend right=25] (56.north);}
+        \onslide<9->{\draw[-Kite] (56.south) to[bend right=15] (68.south);}
+    \end{tikzpicture}}\hskip1.5cm\onslide<handout:1-|10->{\only<handout:1|-12>{\begin{tikzpicture}
+        \node[draw,rounded corners=2pt,minimum width=3cm,minimum height=1cm] {\ldots};
+    \end{tikzpicture}}\only<handout:2|13->{\downsize{.4\linewidth}{\begin{tikzpicture}[baseline=-17.5ex,every node/.append style={outer sep=3pt}]
+        % indices
+    \def\c{\multicolumn{1}{c|}}\def\cc{\multicolumn{1}{|c|}}\tabcolsep=.45cm\def\arraystretch{1.5}
+    \onslide<13->{\node[right] (a) at (0,0) {\begin{tabular}{r*7c}
+        \llap{Index:} & 0 & 1 & 2 & 3 & 4 & 5 & 6 \\
+        \cline{2-8}
+        \llap{Array:} & \cc1 & \c3 & \c4 & \c6 & \c7 & \c{10} & \c{13} \\
+        \cline{2-8}
+    \end{tabular}};}
+    \onslide<14->{\node[below left,yshift=-.25cm] (b) at (a.south east) {\begin{tabular}{|*3{c|}}
+        \hline 7 & 10 & 13 \\ \hline
+    \end{tabular}};
+    \draw[-Kite] ([xshift=2mm]a.south) |- (b.west) node[left,pos=.275] {\(k > 6\)};}
+    \onslide<15->{\node[below right,yshift=-.25cm] (c) at (b.south west) {\begin{tabular}{|c|}
+        \hline 7 \\ \hline
+    \end{tabular}};\draw[-Kite] (b.south) |- (c.east) node[right,pos=.275] {\(k < 10\)};}
+    \onslide<16->{\node[below=.5cm] (d) at (c.south) {index(7) = 4};
+    \draw[-Kite] (c) to[edge node={node[left] {\(k = 7\)}}](d);}
+    \onslide<13->{\node[above right,yshift=2cm] at(current bounding box.south west) {Die Suche nach der \(7\).};}
+\end{tikzpicture}}}}\only<handout:1|-12>{\vspace*{-.2\baselineskip}}\only<handout:2|13->{\vspace*{-.7\baselineskip}}
 \end{center}
         \onslide<1->
     \end{aufgabe}
+\begin{tikzpicture}[overlay, remember picture]
+    \onslide<handout:1|11>{\node[above left=-1.5cm] at (current page.south east) {\rotatebox{30}{\usebox\sadGrapplePingu}};}
+    \foreach[count=\i] \l in {12,...,15} {
+        \onslide<handout:0|\l>{\node[above left=-1.5cm-\i*.25cm] at (current page.south east) {\rotatebox{30}{\usebox\sadGrapplePingu}};}
+    }
+    \onslide<handout:2|16->{\node[above left=-1.5cm-5*.25cm] at (current page.south east) {\rotatebox{30}{\usebox\sadGrapplePingu}};}
+\end{tikzpicture}
 \end{frame}
 \MakeThePinguExplainIt[text width=5.35cm]{cap=!hide,glasses=!hide,cup=cprimary,right item angle=-10}{\hbox{1.~Basisfall:} keine Elemente mehr.\\\hbox{2.~Basisfall:} Element gefunden.\\Sonst: Suche links/rechts.}
 \begin{frame}[c]{Präsenzaufgabe - Lösung}
@@ -101,7 +126,7 @@
 \end{frame}
 
 \iffull
-\def\PinguBanner#1#2{\tikz\pingu[wings wave, banner=#1, banner stick length=3mm,banner bent=-42,banner raise=-1.65mm,banner font=\bfseries\LARGE,eyes wink,banner height=5.25mm,#2];}
+\def\PinguBanner#1#2{\tikz\pingu[wings wave, banner=#1, banner sticks length=3mm,banner bent=-42,banner raise=-1.65mm,banner font=\bfseries\LARGE,eyes wink,banner height=5.25mm,#2];}
 \newsavebox\pinguBSa \savebox\pinguBSa{\PinguBanner{-14}{strawhat}}
 \newsavebox\pinguBSaa \savebox\pinguBSaa{\PinguBanner{-14}{cloak=pingu@black}}
 \newsavebox\pinguBSb \savebox\pinguBSb{\PinguBanner{24}{hat,hat position={1:(0cm,-.09cm){1.33}}}}
@@ -110,7 +135,7 @@
 \newsavebox\pinguBSd \savebox\pinguBSd{\PinguBanner{109}{headband,pants}}
 \newsavebox\pinguBSe \savebox\pinguBSe{\PinguBanner{113}{vr-headset}}
 \newcommand<>\PinguBS[2]{$\underset{\onslide#3{\text{\huge\strut\T{#1}}}}{\expandafter\usebox\csname pinguBS#2\endcsname}$}
-\begin{frame}[fragile]{Präsenzaufgabe - Lösung\hfill Statische Simulation}
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung\hfill Statische Simulation\llap{\smash{\raisebox{-.8\baselineskip}{\tiny Statisch, weil ich keinen Platz mehr für \bjava{static} hatte :D}}}}
 \SetupLstHl\lstfs{8}\vspace*{-.5\baselineskip}\begin{columns}[c,onlytextwidth]
 \column{.495\linewidth}
 \begin{plainjava}
@@ -252,7 +277,6 @@
 \subsection{Aufgabe 1}
 \iffull
 \begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 1}
-
     \onslide<2->{\only<3->{\color{gray}}In dieser Aufgabe sollen Sie eine Methode implementieren, welche die Summe errechnet die ein Startkapital in einer bestimmten Anzahl an Jahren mit einem fixen Jahreszinssatz erreicht. Die Methode soll die folgende \only<handout:0|-2>{Signatur}\only<3->{\cancel{Signatur} Gestalt} haben:
     {\color{black}\bjava{public static double compoundInterest(double capital, double interestRate, int years)}}
     Hierbei soll der Parameter \texttt{capital} das Startkapital angeben, \texttt{interestRate} den Zinssatz in Prozent und \texttt{years} die Laufzeit.
@@ -665,4 +689,5 @@ static void helper(int[] array, int n, int[] combs, int index)
        \onslide<3->{You expected\ldots\ a recursion gag? Read this line again!}
     \end{center}
 \end{frame}
+
 \iffull\end{document}\fi
