@@ -2,7 +2,8 @@
 \InputIfFileExists{../global.src}\relax\relax
 
 \iffull
-\title[Neuntes Tutorium -- Übungsblatt 9]{Das Ende Naht {\smaller[2]aht \smaller[2]ht \smaller[2]t}\\\small Ohren hab ich gesagt 9}
+\def\smlll{\texorpdfstring{\def\RSsmallest{2pt}\smaller[2]}{}}
+\title[Neuntes Tutorium -- Übungsblatt 9]{Das Ende Naht {\smlll aht \smlll aht \smlll aht \smlll ht \smlll ht \smlll t \smlll t\ldots}\\\small Ohren hab ich gesagt 9}
 \date{\sffamily KW 3}
 
 \usepackage[glows]{tikzpingus}
@@ -135,7 +136,7 @@
 \newsavebox\pinguBSd \savebox\pinguBSd{\PinguBanner{109}{headband,pants}}
 \newsavebox\pinguBSe \savebox\pinguBSe{\PinguBanner{113}{vr-headset}}
 \newcommand<>\PinguBS[2]{$\underset{\onslide#3{\text{\huge\strut\T{#1}}}}{\expandafter\usebox\csname pinguBS#2\endcsname}$}
-\begin{frame}[fragile]{Präsenzaufgabe - Lösung\hfill Statische Simulation\llap{\smash{\raisebox{-.8\baselineskip}{\tiny Statisch, weil ich keinen Platz mehr für \bjava{static} hatte :D}}}}
+\begin{frame}[fragile]{Präsenzaufgabe - Lösung\hfill Statische Simulation\llap{\smash{\raisebox{-.3\baselineskip}{\scalebox{.7}{\itshape\tiny \say{Statische},\;weil\;ich\;keinen\;Platz\;mehr\;für\;static\;hatte\;:D}}}}}
 \SetupLstHl\lstfs{8}\vspace*{-.5\baselineskip}\begin{columns}[c,onlytextwidth]
 \column{.495\linewidth}
 \begin{plainjava}
@@ -477,14 +478,14 @@ for(int i = years; i > 0; i--) {
 \fi
 
 \subsection{Aufgabe 3}
-
+\iffull
 \begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 3}
     \onslide<2->{\only<3->{\color{gray}}In dieser Aufgabe sollen Sie die Methode {\color{black}\bjava{public static void printCombinations} \bjava{(int[] array, int n)}} implementieren, welche ein Integer Array und eine natürliche Zahl \bjava{n} als Parameter übernimmt. Die Methode soll rekursiv alle möglichen Kombinationen aus \bjava{n} Elementen des Arrays ausgeben. Hierbei soll \bjava{n} maximal so groß sein wie die Länge des Arrays.
     Verwenden Sie bei ihrer Implementierung {\color{black}rekursive Methoden-Aufrufe} wann immer möglich.
     Sie benötigen {\color{black}maximal eine Schleife} für die Lösung.\bigskip\par
     Hinweis: Sie können sich entscheiden ob Sie die Ausgabe der Kombinationen mit oder ohne Wiederholung von Elementen implementieren.}
 \end{frame}
-
+\fi
 
 \MakeThePinguExplainIt[text width=9cm]{cap=!hide,glasses=!hide,cloak=pingu@black,eyes shiny,right item angle=33,rotate=10}{Da wir die Maximalgröße der Ausgabekombinationen kennen, wird das Hinzufügen eher in der Form \bjava{[0,0,0]}~$\to$ \bjava{[1,0,0]}~$\to$ \bjava{[1,2,0]}~$\to$ \bjava{[1,2,3]} erfolgen.}
 \begin{frame}[b,fragile]{Übungsblatt 9 - Aufgabe 3}
@@ -595,7 +596,7 @@ for(int i = years; i > 0; i--) {
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
     \begin{itemize}[<+(1)->]
         \itemsep6pt
-        \item Die Datei befindet sich hier: \only<2->{\textattachfile{\curpath Combinations.java}{Combinations.java} und \textattachfile{\curpath Combinations.java}{Combinations.java}}.
+        \item Die Datei befindet sich hier: \only<2->{\textattachfile{\curpath Combinations.java}{Combinations.java} und \textattachfile{\curpath CombinationsRepetition.java}{CombinationsRepetition.java}}.
         \item Zunächst das rekursive Ausgeben eines Arrays.
         \item Idee: wir inkrementieren rekursiv einen Zähler anstelle der for-Schleife.\vfill
 \begin{plainjava}
