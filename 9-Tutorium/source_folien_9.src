@@ -821,8 +821,6 @@ static void helper(int[] array, int n, int[] combs, int index)
 !*\onslide<9->*!    helper(array, n, index + 1, prefix); // Für die letzte Iteration
 !*\onslide<5->*!|ihl|}|ihl|
 \end{plainjava}
-    \begin{itemize}
-    \end{itemize}
 \end{frame}
 \fi
 
