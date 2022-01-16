@@ -20,6 +20,8 @@ public class Combinations {
     }
 
     public static void printCombinations(int[] array, int n) {
+        if (n <= 0 || n > array.length)
+            return; // Nicht notwendig :)
         int[] combination = new int[n];
         helper(array, n, combination, 0, 0);
     }

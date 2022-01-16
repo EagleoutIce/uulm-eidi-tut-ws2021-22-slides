@@ -8,18 +8,20 @@ public class CombinationsRepetition {
         }
     }
 
-   private static void helper(int[] array, int n, int[] combination, int index) {
+    private static void helper(int[] array, int n, int[] combination, int index) {
         if (index == n) {
             printArray(combination, 0);
         } else {
-            for (int i = 0; i < array.length; i ++) {
+            for (int i = 0; i < array.length; i++) {
                 combination[index] = array[i];
                 helper(array, n, combination, index + 1);
             }
-       }
-   }
+        }
+    }
 
     public static void printCombinations(int[] array, int n) {
+        if (n <= 0 || n > array.length)
+            return; // Nicht notwendig :)
         int[] combination = new int[n];
         helper(array, n, combination, 0);
     }

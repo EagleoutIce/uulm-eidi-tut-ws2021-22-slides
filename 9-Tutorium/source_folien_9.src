@@ -593,6 +593,7 @@ for(int i = years; i > 0; i--) {
 \end{tikzpicture}%
 \end{frame}
 
+\iffull\MakeThePinguExplainIt[text width=10.75cm]{cap=!hide,glasses=!hide,headband,eyes wink,right item angle=-160,cup=pingu@yellow}{Anstelle das Array zu nutzen und das Auszugeben, können wir für diese Aufgabe auch einen String aufbauen und ausgeben. Das kommt weiter unten (mit der \hyperlink{prefixalt}{\#Präfixalternative}).}\fi
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
     \begin{itemize}[<+(1)->]
         \itemsep6pt
@@ -611,6 +612,9 @@ for(int i = years; i > 0; i--) {
 \end{plainjava}
 \vfill\null
     \end{itemize}
+\iffull\begin{tikzpicture}[overlay, remember picture]
+    \onslide<10->{\node[left=-7mm,scale=.8] at(current page.-22) {\usebox\pinguexplainbox};}
+\end{tikzpicture}\fi
 \end{frame}
 
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
@@ -745,6 +749,82 @@ static void helper(int[] array, int n, int[] combs, int index)
     \item<9-> \bjava{array.length - i >= n - index} sichert zu, dass noch mindestens \bjava{n - index} Elemente \info{\say{weiter rechts}} im Array wählbar bleiben.
 \end{itemize}
 \end{frame}
+
+\iffull
+\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3\hfill Die Präfixalternative}
+\hypertarget<1>{prefixalt}{}\begin{itemize}[<+(1)->]
+        \item Aus den Gründen, die uns die Abwesenheit der Sicherheitsmaßnahmen erlauben, können wir auch direkt einen \bjava{String} bauen (\only<2->{\textattachfile{\curpath CombinationsString.java}{CombinationsString.java}}).
+        \item Die Idee \info{ohne Wiederholung} ist wie folgt: \begin{itemize}
+            \item Für jede Stelle im Array können wir entscheiden ob sie Teil der Kombination ist oder nicht.
+            \item Am Ende \info{\say{akzeptieren}} geben wir alle Entscheidungen aus, die \T{n}-lange Kombinationen produzieren.
+        \end{itemize}
+        \item Wir nutzen die rekursive \T{helper} Funktion:\lstfs{10}
+\begin{plainjava}
+!*\onslide<7->*!public static void helper(int[] array, int n, int index, String prefix);!*\onslide<1->*!
+\end{plainjava}
+\begin{itemize}
+    \item<8-> Der \T{index} markiert dabei, die Stelle für die Kombination im \T{array}. \T{n} die verbleibenden Felder der Kombination.
+    \item<9-> \T{prefix} markiert den Teil, den wir bisher für die Kombination halten.
+\end{itemize}
+    \end{itemize}
+    \onslide<10->{{\footnotesize\begin{equation*}
+        \onslide<10->{\text{helper}(\text{a}, \text{n},\text{i}, \text{p})} = \begin{cases}
+            \onslide<11->{\text{gebe aus: \say{p}}} & \onslide<11->{n == 0} \\
+            \onslide<12->{\text{verwerfe Versuch}} & \onslide<12->{i == \text{a}.\text{length}} \\
+            \onslide<13->{\underbracket{\text{helper}(\text{a}, \text{n} - 1, \text{i} + 1, \text{p} + \text{a}[\text{i}] + \dq~\dq)}_{\text{nehme $\text{a}[\text{i}]$ mit}} \& \underbracket{\text{helper}(\text{a}, \text{n}, \text{i} + 1, \text{p})}_{\text{nehme $\text{a}[\text{i}]$ nicht mit}}} & \onslide<13->{\text{ sonst.}}\\
+        \end{cases}
+    \end{equation*}}}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3\hfill Die Präfixalternative}
+    \null\vspace*{.65cm}\lstfs{10}\begin{itemize}[<+(1)->]
+        \item Damit beläuft sich der gesamte Code auf \info{die Skizze\ldots}:
+    \end{itemize}
+\begin{plainjava}
+!*\onslide<3->*!public static void printCombinations(int[] array, int n) {
+!*\onslide<4->*!    helper(array, n, 0, "");
+!*\onslide<3->*!}
+!*\onslide<3->*!
+!*\onslide<5->*!private static void helper(int[] array, int n, int index, String prefix) {
+!*\onslide<6->*!    if (n == 0) { !*\onslide<7->*!System.out.println(prefix);!*\onslide<6->*! }
+!*\onslide<6->*!    else if (index == array.length) { !*\onslide<8->*!return; !*\onslide<6->*!}
+!*\onslide<6->*!    else {
+!*\onslide<9->*!        helper(array, n - 1, index + 1, prefix + array[index] + " ");
+!*\onslide<9->*!        helper(array, n, index + 1, prefix);
+!*\onslide<6->*!    }
+!*\onslide<5->*!}!*\onslide<1->*!
+\end{plainjava}
+\begin{tikzpicture}[remember picture, overlay]
+    \onslide<1->{\node[below left=.25cm,yshift=-1.35cm,xshift=-.15cm,scale=.65,draw=gray,thick,fill=white,text=black,rounded corners=2pt] at(current page.north east) {\footnotesize\(
+        \text{helper}(\text{a}, \text{n},\text{i}, \text{p}) = \begin{cases}
+            \text{gebe aus: \say{p}} & n == 0 \\
+            \text{verwerfe Versuch} & i == \text{a}.\text{length} \\
+            \underbracket{\text{helper}(\text{a}, \text{n} - 1, \text{i} + 1, \text{p} + \text{a}[\text{i}] + \dq~\dq)}_{\text{nehme $\text{a}[\text{i}]$ mit}} \& \underbracket{\text{helper}(\text{a}, \text{n}, \text{i} + 1, \text{p})}_{\text{nehme $\text{a}[\text{i}]$ nicht mit}} & \text{ sonst.}\\
+        \end{cases}
+    \)};}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3\hfill Die Präfixalternative}
+    \SetupLstHl\lstfs{10}\begin{itemize}[<+(1)->]
+        \item Wir können das endständige Leerfeld aus dem String entfernen oder die Rekursion bereits eine Stufe früher \say{abbrechen}.
+        \item Das findet sich in \only<3->{\textattachfile{\curpath CombinationsStringShort.java}{CombinationsStringShort.java}}.
+        \item Kurzgesagt: In diesem Fall muss die letzte Iteration gesondert behandeln:
+    \end{itemize}
+\begin{plainjava}
+!*\onslide<5->*!|ihl|private static void helper(int[] array, int n, int index, String prefix) {|ihl|
+!*\onslide<6->*!    |ihl|if (index == array.length) return;|ihl|
+!*\onslide<5->*!
+!*\onslide<7->*!    if (n == 1) System.out.println(prefix + array[index]);
+!*\onslide<8->*!    else helper(array, n - 1, index + 1, prefix + array[index] + " ");
+!*\onslide<5->*!
+!*\onslide<9->*!    helper(array, n, index + 1, prefix); // Für die letzte Iteration
+!*\onslide<5->*!|ihl|}|ihl|
+\end{plainjava}
+    \begin{itemize}
+    \end{itemize}
+\end{frame}
+\fi
 
 \section{Der Minimalistische End-Pinguuuuuu}
 \begin{frame}[c]

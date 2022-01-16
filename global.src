@@ -107,7 +107,7 @@
 \sol@list@define@styles{%
  {keywordB: \@declaredcolor{sol@colors@lst@keywordB}\itshape},%
  {keywordC: \@declaredcolor{sol@colors@lst@keywordC}\itshape},%
-}\lstcolorlet{numbers}{white}\lstcolorlet{keywordA}{white}\lstcolorlet{keywordB}{white}\lstcolorlet{keywordC}{pingu@white}\lstcolorlet{comments}{pingu-board-green!40!white}\lstcolorlet{literals}{pingu@white}\lstset{aboveskip=0pt,belowskip=0pt,xleftmargin=0pt}}
+}\lstcolorlet{numbers}{white}\lstcolorlet{keywordA}{white}\lstcolorlet{keywordB}{white}\lstcolorlet{keywordC}{pingu@white}\lstcolorlet{comments}{pingu-board-green!40!white}\lstcolorlet{literals}{pingu@white}\lstset{aboveskip=0pt,belowskip=0pt,xleftmargin=0pt}\SetAllLinkStyle{\textit{\color{pingu@white!70!pingu-board-green}##1}}}
 
 % [node] | pingu | text
 \newcommand\MakeThePinguExplainIt[3][]{%
