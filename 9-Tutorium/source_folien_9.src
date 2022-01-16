@@ -742,7 +742,7 @@ static void helper(int[] array, int n, int[] combs, int index)
 \begin{itemize}
     \item<7-> Wir begrenzen mit \bjava{i < array.length} die Iteration gewohnt nach oben.
     \item<8-> \bjava{start} von unten: nach der Wahl eines \(i\)-ten Elements nur noch nach \bjava{i} wählen.
-    \item<9-> \bjava{array.length - i >= n - index} sichert zu, dass noch mindestens \bjava{n - index} Elemente im Array wählbar bleiben.
+    \item<9-> \bjava{array.length - i >= n - index} sichert zu, dass noch mindestens \bjava{n - index} Elemente \info{\say{weiter rechts}} im Array wählbar bleiben.
 \end{itemize}
 \end{frame}
 
