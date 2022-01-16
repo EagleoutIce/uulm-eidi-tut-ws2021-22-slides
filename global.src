@@ -159,4 +159,5 @@
 \newcommand*\mh[2][0]{\only<#2|handout:#1>{\color{paletteA}\faAngleUp}}
 \newcommand*\mdl[2][0]{\only<#2|handout:#1>{\llap{\smash{\raisebox{-.5\baselineskip}{\tikz{\fill[paletteA,rounded corners=1pt] (0,-.65mm) rectangle ++(2.15\p@,\baselineskip+.65mm);}}~}}}}
 \newcommand<>\rBS[1]{\only#2{\solGet{comments}{\color{lightgray}\itshape#1}}}
+\newcommand<>\rBSo[1]{\onslide#2{\solGet{comments}{\color{lightgray}\itshape#1}}}
 \makeatother

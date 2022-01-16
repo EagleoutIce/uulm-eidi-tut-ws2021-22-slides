@@ -646,7 +646,72 @@ static void helper(int[] array, int n, int[] combs, int index)
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
+\iffull
+\newsavebox\pingusaveboxa \savebox\pingusaveboxa{\tikz\pingu[pants=pingu@red!70!pingu@black!50!pingu@white,pants bands,eyes shock,wings shock];}
+\newsavebox\pingusaveboxb \savebox\pingusaveboxb{\tikz\pingu[pants=pingu@red!70!pingu@black!50!pingu@white,pants bands,eyes wink,construction helmet,glasses round,glasses round fill=pingu@blue!40!pingu@yellow,glasses round opacity=.1];}
+\begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 3\hfill Rekursive Sicherheit}
+    \SetupLstHl\lstfs{10}\begin{itemize}\itemsep4pt
+        \item<4-> Allgemein ist es besser, einen eignen \info{/lokalen} Zustand sicherzustellen:
+\begin{plainjava}
+!*\onslide<5->*!|ihl|for (int i = 0; i < array.length; i++) {|ihl|
+!*\onslide<6->*!    int[] newCombs = new int[combs.length];
+!*\onslide<6->*!    for(int j = 0; j < combs.length; j++) newCombs[j] = combs[j];
+!*\onslide<7->*!    newCombs[index] = array[i];
+!*\onslide<7->*!    helper(array, n, newCombs, index + 1);
+!*\onslide<5->*!|ihl|}|ihl|
+\end{plainjava}\onslide<1->
+    \item <8-> Oder um es anderweitig lokal zu halten~--- komplexe Datentypen eben: \begin{plainjava}
+!*\onslide<9->*!|ihl|for (int i = 0; i < array.length; i++) {|ihl|
+!*\onslide<11->*!    int tmp = combs[index];
+!*\onslide<10->*!    |ihl|combs[index] = array[i];|ihl|
+!*\onslide<10->*!    |ihl|helper(array, n, combs, index + 1);|ihl|
+!*\onslide<11->*!    combs[index] = tmp;
+!*\onslide<9->*!|ihl|}|ihl|
+    \end{plainjava}\onslide<1->
+    \end{itemize}\vspace*{-\baselineskip}
+    \begin{tikzpicture}[remember picture,overlay]
+        \only<handout:0|2>{\node[above left=.15cm,yshift=.5cm,scale=.65,align=center] at(current page.south east) {\usebox\pingusaveboxa\\Safety measures\phantom{: on}};}
+        \only<handout:1-|3->{\node[above left=.15cm,yshift=.5cm,scale=.65,align=center] at(current page.south east) {\usebox\pingusaveboxb\\Safety measures: on};}
+    \end{tikzpicture}
+\end{frame}
+
+\begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 3\hfill Warum dann ohne?}
+    \SetupLstHl\begin{itemize}[<+(1)->]
+        \item Jetzt haben wir aber nichts wiederhergestellt\ldots
+        \item<4-> Dies macht die nächste Iteration, zusammen mit einem sogenannten \textit{Tiefendurchlauf}!\onslide<handout:1-|55->{\infoblock{Die Arrays rechts sind ausgegraut, da sie nur den Aufrufzustand ausgeben. Natürlich wird immer das selbe Array verändert und überschrieben. Wir werden Tiefendurchläufe bei Bäumen inspizieren.}}
+    \end{itemize}
+\begin{columns}[c,onlytextwidth]
+\column{.5\linewidth}\lstfs{9}
+\begin{plainjava}
+!*\onslide<3->*!|ihl|static void helper(|ihl|
+!*\onslide<3->*!!*\md{6,11,16,21,28,35,45,50}*!|ihl|int[] arr, int n, int[] combs, int idx) {|ihl|
+!*\onslide<3->*!!*\md{7,12,17,22,29,36,46,51}*!  if (idx == n) { !*\rBS<handout:1|7-10>{0==3}\rBS<handout:0|12-15>{1==3}\rBS<handout:0|17-20,46-49>{2==3}\rBS<handout:2,4|22-23,29-30,36-37,51-52>{3==3}*!
+!*\onslide<3->*!!*\md[2,4]{23,30,37,52}*!    printArray(combs, 0); !*\rBS<handout:2|23>{$\to$ 2 2 2}\rBS<handout:0|30>{$\to$ 2 2 4}\rBS<handout:0|37>{$\to$ 2 2 6}\rBS<handout:4|52>{$\to$ 2 4 2}*!
+!*\onslide<3->*!  } else {
+!*\onslide<3->*!!*\md{8,13,18,25,32,39,42,47,54}*!    for (int i = 0; i < arr.length; i++) {
+!*\onslide<3->*!!*\md{9,14,19,26,33,43,48,55}*!      combs[idx] = arr[i]; !*\rBS<handout:1|9-10>{combs=\{2, 0, 0\}}\rBS<handout:0|14-15>{combs=\{2, 2, 0\}}\rBS<handout:0|19-20>{combs=\{2, 2, 2\}}\rBS<handout:0|26-27>{combs=\{2, 2, 4\}}\rBS<handout:0|33-34>{combs=\{2, 2, 6\}}\rBS<handout:3|43-44>{combs=\{2, 4, 6\}}\rBS<handout:0|48-49>{combs=\{2, 4, 2\}}\rBS<handout:0|55->{combs=\{2, 4, 4\}}*!
+!*\onslide<3->*!!*\md[1,3]{10,15,20,27,34,44,49}*!      he!*\mbg[2-]{11-}*!lper(arr, n, combs, idx + 1); !*\ml{24,31,38,41,53}*!
+!*\onslide<3->*!    }!*\ml{40}*!
+!*\onslide<3->*!  }
+!*\onslide<3->*!|ihl|}|ihl|
+\end{plainjava}
+\column{.5\linewidth}
+\only<5->{\centerline{\bjava{(\{2, 4, 6\}, 3, |ihl|\{0, 0, 0\}|ihl|, 0)} \rBSo<11->{i=0}}}
+\only<handout:2-|11->{\centerline{\bjava{(\{2, 4, 6\}, 3, |ihl|\{2, 0, 0\}|ihl|, 1)} \phantom{\rBSo<1->{i=0}}\llap{\rBS<handout:-2|16-41>{i=0}\rBS<handout:3-|42->{i=1}}}}
+\only<handout:2|16-40>{\centerline{\bjava{(\{2, 4, 6\}, 3, |ihl|\{2, 2, 0\}|ihl|, 2)} \phantom{\rBSo<1->{i=0}}\llap{\rBS<handout:2-3|21-24>{i=0}\rBS<handout:0|25-31>{i=1}\rBS<handout:0|32-38>{i=2}\rBS<handout:0|39>{i=3}}}}
+\only<handout:4-|45->{\centerline{\bjava{(\{2, 4, 6\}, 3, |ihl|\{2, 4, 6\}|ihl|, 2)} \phantom{\rBSo<1->{i=0}}\llap{\rBS<50-53>{i=0}\rBS<handout:0|54->{i=2}}}}
+\only<handout:2|21-23>{\centerline{\bjava{(\{2, 4, 6\}, 3, \{2, 2, 2\}, 3)} \phantom{\rBSo<1->{i=0}}}}
+\only<handout:0|28-30>{\centerline{\bjava{(\{2, 4, 6\}, 3, \{2, 2, 4\}, 3)} \phantom{\rBSo<1->{i=0}}}}
+\only<handout:0|35-37>{\centerline{\bjava{(\{2, 4, 6\}, 3, \{2, 2, 6\}, 3)} \phantom{\rBSo<1->{i=0}}}}
+\only<handout:4|50-52>{\centerline{\bjava{(\{2, 4, 6\}, 3, \{2, 4, 2\}, 3)} \phantom{\rBSo<1->{i=0}}}}
+\end{columns}
+\begin{tikzpicture}[overlay,remember picture]
+\only<handout:5|56->{\fill[fill opacity=.6,fill=lightgray] (current page.north east) rectangle (current page.south west) node[midway,centered,align=center,black,opacity=1] {\huge\ldots\\\large Hier hatte Flo dann auch keine Zeit mehr.\\\normalsize\itshape Sonntags um 2:54\;Uhr};}
+\end{tikzpicture}
+\end{frame}
+\fi
+
+\begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3\hfill Rekursionsstart}
     \begin{itemize}[<+(1)->]
         \item Der Start der Rekursion ist nun recht einfach:
 \begin{plainjava}
@@ -660,24 +725,24 @@ static void helper(int[] array, int n, int[] combs, int index)
 
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3\hfill Wiederholungen vermeiden}
 \SetupLstHl\lstfs{9}\begin{itemize}[<+(1)->]
-        \item Wir nutzen eine weiter Variable: \bjava{start} um das Fenster zu begrenzen:
+        \item Wir nutzen eine weitere Variable: \bjava{start} um das Fenster zu begrenzen:
     \end{itemize}
 \begin{plainjava}
-|ihl|static void helper(int[] array, int n, int[] combs,|ihl| int start,|ihl| int index) {|ihl|
-    |ihl|if (index == n) {|ihl|
-    |ihl|    printArray(combs, 0);|ihl|
-    |ihl|} else {|ihl|
-        for (int i = start; i < array.length && array.length - i >= n - index; i++) {
-            |ihl|combs[index] = array[i];|ihl|
-            |ihl|helper(array, n, combs,|ihl| i + 1,|ihl| index + 1);|ihl|
-        }
-    |ihl|}|ihl|
-|ihl|}|ihl|
+!*\onslide<3->*!|ihl|static void helper(int[] array, int n, int[] combs,|ihl| int start,|ihl| int index) {|ihl|
+!*\onslide<4->*!    |ihl|if (index == n) {|ihl|
+!*\onslide<4->*!    |ihl|    printArray(combs, 0);|ihl|
+!*\onslide<4->*!    |ihl|} else {|ihl|
+!*\onslide<5->*!        for (int i = start; i < array.length && array.length - i >= n - index; i++) {
+!*\onslide<6->*!            |ihl|combs[index] = array[i];|ihl|
+!*\onslide<6->*!            |ihl|helper(array, n, combs,|ihl| i + 1,|ihl| index + 1);|ihl|
+!*\onslide<5->*!        }
+!*\onslide<4->*!    |ihl|}|ihl|
+!*\onslide<3->*!|ihl|}|ihl|
 \end{plainjava}
 \begin{itemize}
-    \item Wir begrenzen mit \bjava{i < array.length} die Iteration gewohnt nach oben.
-    \item \bjava{start} von unten: nach der Wahl eines \(i\)-ten Elements nur noch nach \bjava{i} wählen.
-    \item \bjava{array.length - i >= n - index} sichert zu, dass noch mindestens \bjava{n - index} größere Elemente im Array wählbar bleiben.
+    \item<7-> Wir begrenzen mit \bjava{i < array.length} die Iteration gewohnt nach oben.
+    \item<8-> \bjava{start} von unten: nach der Wahl eines \(i\)-ten Elements nur noch nach \bjava{i} wählen.
+    \item<9-> \bjava{array.length - i >= n - index} sichert zu, dass noch mindestens \bjava{n - index} Elemente im Array wählbar bleiben.
 \end{itemize}
 \end{frame}
 
@@ -690,5 +755,4 @@ static void helper(int[] array, int n, int[] combs, int index)
        \onslide<3->{You expected\ldots\ a recursion gag? Read this line again!}
     \end{center}
 \end{frame}
-
 \iffull\end{document}\fi
