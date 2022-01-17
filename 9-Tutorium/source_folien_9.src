@@ -619,13 +619,13 @@ static void helper(int[] array, int n, int[] combs, int start, int index)
         \itemsep6pt
         \item Die Baumrekursion gestaltet sich wie folgt:\pause
 \begin{plainjava}
-!*\onslide<3->*!static void helper(int[] arr, int n, int[] combs, int start, int index) {
-!*\onslide<4->*!    if (index == n) { // Basisfall
+!*\onslide<3->*!static void helper(int[] arr, int n, int[] combs, int start, int idx) {
+!*\onslide<4->*!    if (idx == n) { // Basisfall
 !*\onslide<5->*!        printArray(combs, 0);
 !*\onslide<4->*!    } else { !*\onslide<6->*!// Sonst: Für jedes Symbol:ldots:
 !*\onslide<7->*!        for (int i = start; i < arr.length; i++) {
-!*\onslide<8->*!            combs[index] = arr[i];
-!*\onslide<8->*!            helper(arr, n, combs, i, index + 1);
+!*\onslide<8->*!            combs[idx] = arr[i];
+!*\onslide<8->*!            helper(arr, n, combs, i, idx + 1);
 !*\onslide<7->*!        }
 !*\onslide<3->*!    }
 !*\onslide<4->*!}
