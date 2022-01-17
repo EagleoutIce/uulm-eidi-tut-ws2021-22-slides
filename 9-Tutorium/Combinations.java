@@ -27,8 +27,8 @@ public class Combinations {
     }
 
     public static void main(String[] args) {
-        int[] array = { 1, 2, 3, 4, 5 };
-        int n = 2;
+        int[] array = { 1, 2, 3, 4};
+        int n = 4;
         System.out.print("Die Kombinationen ohne Wiederholung aus [");
         for (int i = 0; i < array.length - 1; i++)
             System.out.print(array[i] + ",");

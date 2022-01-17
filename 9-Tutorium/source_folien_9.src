@@ -13,6 +13,7 @@
 \begin{document}
 \Titlepage{9}
 \fi
+\iffalse
 \newsavebox\sadGrapplePingu \savebox\sadGrapplePingu{\tikz\pingu[eyes angry,devil horns,right eye devil];}
 \section{Präsenzaufgabe}
 \subsection{Freude mit Sortierverfahren}
@@ -333,7 +334,7 @@ for(int i = years; i > 0; i--) {
 \subsection{Aufgabe 2}
 \iffull
 \begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 2}
-    \onslide<2->{\only<3->{\color{gray}}In dieser Aufgabe sollen Sie die Methode {\color{black}\bjava{public static boolean} \bjava{isPalindrome(String s)}} implementieren, welche überprüfen soll ob es sich bei dem als Parameter übergebenen String \bjava{s} um ein Palindrom handelt. Ein Palindrom ist ein Wort, das vorwärts und rückwärts gelesen identisch ist. Die Überprüfung soll {\color{black}nicht case-sensitive} sein, d.h. das Wort \textit{Kajak} soll zum Beispiel ein gültiges Palindrom sein.
+    \onslide<2->{\only<3->{\color{gray}}In dieser Aufgabe sollen Sie die Methode {\color{black}\bjava{public static boolean isPalindrome} \bjava{(String s)}} implementieren, welche überprüfen soll ob es sich bei dem als Parameter übergebenen String \bjava{s} um ein Palindrom handelt. Ein Palindrom ist ein Wort, das vorwärts und rückwärts gelesen identisch ist. Die Überprüfung soll {\color{black}nicht case-sensitive} sein, d.h. das Wort \textit{Kajak} soll zum Beispiel ein gültiges Palindrom sein.
     Verwenden Sie bei ihrer Implementierung {\color{black}keine Schleifen}, sondern {\color{black}rekursive Methoden-Aufrufe!}}\bigskip
 
     \onslide<4->{\color{black}Idee:}
@@ -519,22 +520,16 @@ for(int i = years; i > 0; i--) {
             }
 
             \onslide<11->{
-            \node (121) at(-1.5,-2) {\bjava{[9, 4]}};
-            \node (122) at( 0,-2) {\bjava{[9, 9]}};
-            \node (123) at( 1.5,-2) {\bjava{[9, 2]}};
+            \node (121) at(-1,-2) {\bjava{[9, 9]}};
+            \node (122) at( 1,-2) {\bjava{[9, 2]}};
 
             \draw[-Kite] (12) -- (121);
             \draw[-Kite] (12) -- (122);
-            \draw[-Kite] (12) -- (123);
             }
 
             \onslide<12->{%
-                \node (131) at( 3.5,-2) {\bjava{[2, 9]}};
-                \node (132) at( 5,-2) {\bjava{[2, 4]}};
-                \node (133) at( 6.5,-2) {\bjava{[2, 2]}};
+                \node (131) at( 5,-2) {\bjava{[2, 2]}};
             \draw[-Kite] (13) -- (131);
-            \draw[-Kite] (13) -- (132);
-            \draw[-Kite] (13) -- (133);
             }
 
             \onslide<13->{
@@ -554,9 +549,9 @@ for(int i = years; i > 0; i--) {
             \draw[lightgray,-Kite] (113) -- ++(0,-.6);
             \draw[lightgray,-Kite] (113) -- ++(.5,-.6);
 
-            \node (1221) at(-1,-3) {\bjava{[9, 9, 4]}};
-            \node (1222) at( 0,-3.75) {\bjava{[9, 9, 9]}};
-            \node (1223) at( 1,-3) {\bjava{[9, 9, 2]}};
+            \node (1221) at( 0,-3) {\bjava{[9, 9, 4]}};
+            \node (1222) at( 1,-3.75) {\bjava{[9, 9, 9]}};
+            \node (1223) at( 2,-3) {\bjava{[9, 9, 2]}};
 
             \draw[-Kite] (122) -- (1221);
             \draw[-Kite] (122) -- (1222);
@@ -566,25 +561,13 @@ for(int i = years; i > 0; i--) {
             \draw[lightgray,-Kite] (121) -- ++(0,-.6);
             \draw[lightgray,-Kite] (121) -- ++(.5,-.6);
 
-            \draw[lightgray,-Kite] (123) -- ++(-.5,-.6);
-            \draw[lightgray,-Kite] (123) -- ++(0,-.6);
-            \draw[lightgray,-Kite] (123) -- ++(.5,-.6);
+            \node (1311) at(4,-3) {\bjava{[2, 9, 4]}};
+            \node (1312) at(5,-3.75) {\bjava{[2, 4, 9]}};
+            \node (1313) at(6,-3) {\bjava{[2, 2, 2]}};
 
-            \node (1331) at(5.5,-3) {\bjava{[2, 9, 4]}};
-            \node (1332) at(6.5,-3.75) {\bjava{[2, 4, 9]}};
-            \node (1333) at(7.5,-3) {\bjava{[2, 2, 2]}};
-
-            \draw[-Kite] (133) -- (1331);
-            \draw[-Kite] (133) -- (1332);
-            \draw[-Kite] (133) -- (1333);
-
-            \draw[lightgray,-Kite] (131) -- ++(-.5,-.6);
-            \draw[lightgray,-Kite] (131) -- ++(0,-.6);
-            \draw[lightgray,-Kite] (131) -- ++(.5,-.6);
-
-            \draw[lightgray,-Kite] (132) -- ++(-.5,-.6);
-            \draw[lightgray,-Kite] (132) -- ++(0,-.6);
-            \draw[lightgray,-Kite] (132) -- ++(.5,-.6);
+            \draw[-Kite] (131) -- (1311);
+            \draw[-Kite] (131) -- (1312);
+            \draw[-Kite] (131) -- (1313);
             }
         \end{tikzpicture}}\vspace*{-\baselineskip}
     \end{center}
@@ -593,7 +576,7 @@ for(int i = years; i > 0; i--) {
 \end{tikzpicture}%
 \end{frame}
 
-\iffull\MakeThePinguExplainIt[text width=10.75cm]{cap=!hide,glasses=!hide,headband,eyes wink,right item angle=-160,cup=pingu@yellow}{Anstelle das Array zu nutzen und das Auszugeben, können wir für diese Aufgabe auch einen String aufbauen und ausgeben. Das kommt weiter unten (mit der \hyperlink{prefixalt}{\#Präfixalternative}).}\fi
+\iffull\MakeThePinguExplainIt[text width=10.75cm]{cap=!hide,glasses=!hide,headband,eyes wink,right item angle=-145,cup=pingu@yellow}{Anstelle das Array zu nutzen und das Auszugeben, können wir für diese Aufgabe auch einen String aufbauen und ausgeben. Das kommt weiter unten (mit der \hyperlink{prefixalt}{\#Präfixalternative}).}\fi
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
     \begin{itemize}[<+(1)->]
         \itemsep6pt
@@ -603,7 +586,7 @@ for(int i = years; i > 0; i--) {
 \begin{plainjava}
 !*\onslide<5->*!public static void printArray(int[] combination, int i) {
 !*\onslide<6->*!    if(i >= combination.length) { // Basisfall
-!*\onslide<7->*!        System.out.println();
+!*\onslide<7->*!        System.out.println(); // Ende der Ausgabe
 !*\onslide<6->*!    } else { // Rekursionsfall: ausgeben und nächstes
 !*\onslide<8->*!        System.out.print(combination[i] + " ");
 !*\onslide<9->*!        printArray(combination, i + 1);
@@ -618,35 +601,36 @@ for(int i = years; i > 0; i--) {
 \end{frame}
 
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
-    \begin{itemize}[<+(1)->]
+    \lstfs{9}\begin{itemize}[<+(1)->]
         \itemsep6pt
         \item Für das baumartige Antackern bauen wir uns eine Hilfe (zuerst mit Wiederholung):\pause
 \begin{plainjava}
-static void helper(int[] array, int n, int[] combs, int index)
+static void helper(int[] array, int n, int[] combs, int start, int index)
 \end{plainjava}
-        \item Dabei sind \bjava{array} und \bjava{n} die Eingabe.
-        \item \bjava{combs} ist das zu konstruierende Array.
-        \item \bjava{index} ist das aktuell in \bjava{combs} zu füllende Feld.
+        \item Dabei sind \T{array} und \T{n} die gegebene Eingabe.
+        \item \T{combs} ist das zu konstruierende Array.
+        \item \T{start} beschreibt ab welchem Feld aus \T{array} gezogen werden soll.
+        \item \T{index} ist das aktuell in \T{combs} zu füllende Feld.
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3}
-    \begin{itemize}[<+(1)->]
+    \lstfs{10}\begin{itemize}[<+(1)->]
         \itemsep6pt
         \item Die Baumrekursion gestaltet sich wie folgt:\pause
 \begin{plainjava}
-!*\onslide<3->*!static void helper(int[] array, int n, int[] combs, int index) {
+!*\onslide<3->*!static void helper(int[] arr, int n, int[] combs, int start, int index) {
 !*\onslide<4->*!    if (index == n) { // Basisfall
 !*\onslide<5->*!        printArray(combs, 0);
 !*\onslide<4->*!    } else { !*\onslide<6->*!// Sonst: Für jedes Symbol:ldots:
-!*\onslide<7->*!        for (int i = 0; i < array.length; i++) {
-!*\onslide<8->*!            combs[index] = array[i];
-!*\onslide<8->*!            helper(array, n, combs, index + 1);
+!*\onslide<7->*!        for (int i = start; i < arr.length; i++) {
+!*\onslide<8->*!            combs[index] = arr[i];
+!*\onslide<8->*!            helper(arr, n, combs, i, index + 1);
 !*\onslide<7->*!        }
 !*\onslide<3->*!    }
 !*\onslide<4->*!}
 \end{plainjava}
-        \item Aber halt\ldots\ Arrays sind komplexe Datentypen. Warum geht das? \info{Tipp: simulieren.}
+        \item<9-> Aber halt\ldots\ Arrays sind komplexe Datentypen. Warum geht das? \info{Tipp: simulieren.}
     \end{itemize}
 \end{frame}
 
@@ -657,18 +641,18 @@ static void helper(int[] array, int n, int[] combs, int index)
     \SetupLstHl\lstfs{10}\begin{itemize}\itemsep4pt
         \item<4-> Allgemein ist es besser, einen eignen \info{/lokalen} Zustand sicherzustellen:
 \begin{plainjava}
-!*\onslide<5->*!|ihl|for (int i = 0; i < array.length; i++) {|ihl|
+!*\onslide<5->*!|ihl|for (int i = start; i < array.length; i++) {|ihl|
 !*\onslide<6->*!    int[] newCombs = new int[combs.length];
 !*\onslide<6->*!    for(int j = 0; j < combs.length; j++) newCombs[j] = combs[j];
 !*\onslide<7->*!    newCombs[index] = array[i];
-!*\onslide<7->*!    helper(array, n, newCombs, index + 1);
+!*\onslide<7->*!    helper(array, n, newCombs, i, index + 1);
 !*\onslide<5->*!|ihl|}|ihl|
 \end{plainjava}\onslide<1->
     \item <8-> Oder um es anderweitig lokal zu halten~--- komplexe Datentypen eben: \begin{plainjava}
-!*\onslide<9->*!|ihl|for (int i = 0; i < array.length; i++) {|ihl|
+!*\onslide<9->*!|ihl|for (int i = start; i < array.length; i++) {|ihl|
 !*\onslide<11->*!    int tmp = combs[index];
 !*\onslide<10->*!    |ihl|combs[index] = array[i];|ihl|
-!*\onslide<10->*!    |ihl|helper(array, n, combs, index + 1);|ihl|
+!*\onslide<10->*!    |ihl|helper(array, n, combs, i, index + 1);|ihl|
 !*\onslide<11->*!    combs[index] = tmp;
 !*\onslide<9->*!|ihl|}|ihl|
     \end{plainjava}\onslide<1->
@@ -678,7 +662,7 @@ static void helper(int[] array, int n, int[] combs, int index)
         \only<handout:1-|3->{\node[above left=.15cm,yshift=.5cm,scale=.65,align=center] at(current page.south east) {\usebox\pingusaveboxb\\Safety measures: on};}
     \end{tikzpicture}
 \end{frame}
-
+\fi
 \begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 3\hfill Warum dann ohne?}
     \SetupLstHl\begin{itemize}[<+(1)->]
         \item Jetzt haben wir aber nichts wiederhergestellt\ldots
@@ -716,37 +700,46 @@ static void helper(int[] array, int n, int[] combs, int index)
 \fi
 
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3\hfill Rekursionsstart}
-    \begin{itemize}[<+(1)->]
+    \SetupLstHl\lstfs{9}\begin{itemize}[<+(1)->]
         \item Der Start der Rekursion ist nun recht einfach:
+    \end{itemize}
 \begin{plainjava}
 !*\onslide<3->*!public static void printCombinations(int[] array, int n) {
 !*\onslide<4->*!    int[] combination = new int[n]; // initialisiert mit 0
-!*\onslide<5->*!    helper(array, n, combination, 0);
+!*\onslide<5->*!    helper(array, n, combination, 0, 0);
 !*\onslide<3->*!}
+
+!*\onslide<5->*!|ihl|private static void helper(int[] array, int n, int[] combs, int start, int index) {|ihl|
+!*\onslide<5->*!|ihl|    if (index == n) { printArray(combs, 0); }|ihl|
+!*\onslide<5->*!|ihl|    else {|ihl|
+!*\onslide<5->*!|ihl|        for (int i = start; i < array.length; i++) {|ihl|
+!*\onslide<5->*!|ihl|            combs[index] = array[i];|ihl|
+!*\onslide<5->*!|ihl|            helper(array, n, combs, i, index + 1);|ihl|
+!*\onslide<5->*!|ihl|        }|ihl|
+!*\onslide<5->*!|ihl|    }|ihl|
+!*\onslide<5->*!|ihl|}|ihl|
 \end{plainjava}
-    \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3\hfill Wiederholungen vermeiden}
 \SetupLstHl\lstfs{9}\begin{itemize}[<+(1)->]
-        \item Wir nutzen eine weitere Variable: \bjava{start} um das Fenster zu begrenzen:
+        \item Wir inkrementieren \bjava{i} einfach um \(1\) im rekursiven Aufruf, damit es nicht wieder das selbe Feld wählen kann.
     \end{itemize}
 \begin{plainjava}
-!*\onslide<3->*!|ihl|static void helper(int[] array, int n, int[] combs,|ihl| int start,|ihl| int index) {|ihl|
+!*\onslide<3->*!|ihl|static void helper(int[] array, int n, int[] combs, int start, int index) {|ihl|
 !*\onslide<4->*!    |ihl|if (index == n) {|ihl|
 !*\onslide<4->*!    |ihl|    printArray(combs, 0);|ihl|
 !*\onslide<4->*!    |ihl|} else {|ihl|
-!*\onslide<5->*!        for (int i = start; i < array.length && array.length - i >= n - index; i++) {
+!*\onslide<5->*!        |ihl|for (int i = start; i < array.length |ihl|&& array.length - i >= n - index|ihl|; i++) {|ihl|
 !*\onslide<6->*!            |ihl|combs[index] = array[i];|ihl|
 !*\onslide<6->*!            |ihl|helper(array, n, combs,|ihl| i + 1,|ihl| index + 1);|ihl|
-!*\onslide<5->*!        }
+!*\onslide<5->*!        |ihl|}|ihl|
 !*\onslide<4->*!    |ihl|}|ihl|
 !*\onslide<3->*!|ihl|}|ihl|
 \end{plainjava}
 \begin{itemize}
-    \item<7-> Wir begrenzen mit \bjava{i < array.length} die Iteration gewohnt nach oben.
-    \item<8-> \bjava{start} von unten: nach der Wahl eines \(i\)-ten Elements nur noch nach \bjava{i} wählen.
-    \item<9-> \bjava{array.length - i >= n - index} sichert zu, dass noch mindestens \bjava{n - index} Elemente \info{\say{weiter rechts}} im Array wählbar bleiben.
+    \item<7-> \bjava{start} von unten: nach der Wahl eines \(i\)-ten Elements nur noch nach \(i + 1\) wählen.
+    \item<9-> \bjava{array.length - i >= n - index} sichert \text{optional} zu, dass noch mindestens \bjava{n - index} Elemente \info{\say{weiter rechts}} im Array wählbar bleiben. \info{Bonusfrage fürs Tutorium: Warum optional?}
 \end{itemize}
 \end{frame}
 
@@ -754,7 +747,7 @@ static void helper(int[] array, int n, int[] combs, int index)
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3\hfill Die Präfixalternative}
 \hypertarget<1>{prefixalt}{}\begin{itemize}[<+(1)->]
         \item Aus den Gründen, die uns die Abwesenheit der Sicherheitsmaßnahmen erlauben, können wir auch direkt einen \bjava{String} bauen (\only<2->{\textattachfile{\curpath CombinationsString.java}{CombinationsString.java}}).
-        \item Die Idee \info{ohne Wiederholung} ist wie folgt: \begin{itemize}
+        \item Die Idee \info{ohne Wiederholung, mit ist aber vergleichbar} ist wie folgt: \begin{itemize}
             \item Für jede Stelle im Array können wir entscheiden ob sie Teil der Kombination ist oder nicht.
             \item Am Ende \info{\say{akzeptieren}} geben wir alle Entscheidungen aus, die \T{n}-lange Kombinationen produzieren.
         \end{itemize}
