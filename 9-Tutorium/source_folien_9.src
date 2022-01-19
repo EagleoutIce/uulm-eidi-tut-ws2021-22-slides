@@ -105,6 +105,7 @@
 \end{plainjava}
 \end{frame}
 
+
 \begin{frame}[fragile]{Präsenzaufgabe - Lösung}
 \begin{itemize}[<+(1)->]
     \itemsep6.5pt
@@ -125,6 +126,21 @@
 !*\onslide<5->*!}
 \end{plainjava}
 \end{itemize}
+\begin{tikzpicture}[overlay, remember picture]
+    \begin{uncoverenv}<11->
+    \node[above left=.25cm,text width=10cm,scale=.5,xshift=-.5cm,yshift=1.25cm,draw=gray,thick,rounded corners=2pt] at(current page.south east) (a) {\begin{plainjava}[aboveskip=0pt,belowskip=0pt]
+// return findLower(array, element, index, 1);
+int findLower(int[] arr, int e, int idx, int i) {
+    if(i > idx)
+        return 0;
+    if (arr[idx - i] != e)
+        return idx - i + 1;
+    return findLower(arr, e, idx, i + 1);
+}
+    \end{plainjava}};
+    \node[above right,gray] at(a.north west) {\footnotesize Rekursive Variante\quad\tiny (etwas zu lang)};
+\end{uncoverenv}
+\end{tikzpicture}
 \end{frame}
 
 \iffull
@@ -225,7 +241,7 @@
 \only<handout:1-4|-25>{\stack{\textbf{find}}
 \stack{arr}
 \stack{\bjava{e = -14}}
-\only<handout:1-3|-19>{\stack{\bjava{idx =}~\textcolor{gray}{?}}}
+\only<handout:1-3|6-19>{\stack{\bjava{idx =}~\textcolor{gray}{?}}}
 \only<handout:4|20->{\stack{\bjava{idx = 1}}}
 \only<handout:0|22-23>{\stack{\bjava{i = 1}}}
 \only<handout:0|24>{\stack{\bjava{i = 2}}}
@@ -352,7 +368,7 @@ for(int i = years; i > 0; i--) {
     \end{itemize}\vfill
 \SetupLstHl\lstfs{10}%
 \begin{plainjava}
-!*\onslide<3->*!private static boolean isPalindrome(String s) { // die "Hilfsmethode"
+!*\onslide<3->*!public static boolean isPalindrome(String s) { // die "Hilfsmethode"
 !*\onslide<4->*!    return isPalindromeRecursive(s.toLowerCase());
 !*\onslide<3->*!}
 
@@ -478,6 +494,58 @@ for(int i = years; i > 0; i--) {
 \end{frame}
 \fi
 
+\iffull
+\begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 2\hfill Iterativer Ansatz}
+    \begin{itemize}[<+(1)->]
+        \item Die ersten beiden Aufgaben lassen sich \textit{einfacher} Iterativ prüfen.
+        \item Für das Palindrom schauen wir für jedes Zeichen \(i\) der \say{linken Hälfte} ob es mit dem gespiegelten \(\text{\T{length}} - i - 1\) der \say{rechten Hälfte} übereinstimmt:
+    \end{itemize}
+\begin{plainjava}
+!*\onslide<4->*!public static boolean isPalindromeIterative(String s) {
+!*\onslide<5->*!    s = s.toLowerCase();
+!*\onslide<6->*!    for(int i = 0; i < s.length() / 2; i++) {
+!*\onslide<7->*!        if(s.charAt(i) != s.charAt(s.length() - i - 1))
+!*\onslide<7->*!            return false;
+!*\onslide<6->*!    }
+!*\onslide<8->*!    return true;
+!*\onslide<4->*!}
+\end{plainjava}
+\end{frame}
+
+\begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 2\hfill Iterativer Ansatz, II}
+    \lstfs{10}\begin{itemize}[<+(1)->]
+        \item Dies können wir als Tail-Rekursion umschreiben (\only<2->{\textattachfile{\curpath PalindromeIterative.java}{PalindromeIterative.java}}):
+    \end{itemize}
+\begin{plainjava}
+!*\onslide<3->*!public static boolean isPalindrome(String s) {
+!*\onslide<4->*!    return helper(s.toLowerCase(), 0);
+!*\onslide<3->*!}
+!*\onslide<3->*!
+!*\onslide<5->*!private static boolean helper(String s, int i) {
+!*\onslide<6->*!    if (i >= s.length() / 2)
+!*\onslide<6->*!        return true;
+!*\onslide<7->*!    if (s.charAt(i) != s.charAt(s.length() - i - 1))
+!*\onslide<7->*!        return false;
+!*\onslide<8->*!    return helper(s, i + 1);
+!*\onslide<5->*!}
+\end{plainjava}
+\begin{tikzpicture}[overlay, remember picture]
+\begin{uncoverenv}<9->
+    \node[above left=.925cm,text width=9.65cm,draw=gray,thick,rounded corners=2pt,scale=.65,yshift=.25cm] at(current page.south east) {%
+\begin{plainjava}[aboveskip=0pt, belowskip=0pt]
+s = s.toLowerCase();
+for(int i = 0; i < s.length() / 2; i++) {
+    if(s.charAt(i) != s.charAt(s.length() - i - 1))
+        return false;
+}
+return true;
+\end{plainjava}
+    };
+\end{uncoverenv}
+\end{tikzpicture}
+\end{frame}
+\fi
+
 \subsection{Aufgabe 3}
 \iffull
 \begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 3}
@@ -541,38 +609,31 @@ for(int i = years; i > 0; i--) {
             \draw[-Kite] (111) -- (1112);
             \draw[-Kite] (111) -- (1113);
 
-            \draw[lightgray,-Kite] (112) -- ++(-.5,-.6);
-            \draw[lightgray,-Kite] (112) -- ++(0,-.6);
-            \draw[lightgray,-Kite] (112) -- ++(.5,-.6);
+            \draw[lightgray,-Kite] (112) -- ++(-.4,-.6);
+            \draw[lightgray,-Kite] (112) -- ++(.4,-.6);
 
-            \draw[lightgray,-Kite] (113) -- ++(-.5,-.6);
             \draw[lightgray,-Kite] (113) -- ++(0,-.6);
-            \draw[lightgray,-Kite] (113) -- ++(.5,-.6);
 
-            \node (1221) at( 0,-3) {\bjava{[9, 9, 4]}};
-            \node (1222) at( 1,-3.75) {\bjava{[9, 9, 9]}};
-            \node (1223) at( 2,-3) {\bjava{[9, 9, 2]}};
+            \node (1221) at( -2,-3) {\bjava{[9, 9, 4]}};
+            \node (1222) at( -1,-3.75) {\bjava{[9, 9, 9]}};
+            \node (1223) at( 0,-3) {\bjava{[9, 9, 2]}};
 
-            \draw[-Kite] (122) -- (1221);
-            \draw[-Kite] (122) -- (1222);
-            \draw[-Kite] (122) -- (1223);
+            \draw[-Kite] (121) -- (1221);
+            \draw[-Kite] (121) -- (1222);
+            \draw[-Kite] (121) -- (1223);
 
-            \draw[lightgray,-Kite] (121) -- ++(-.5,-.6);
-            \draw[lightgray,-Kite] (121) -- ++(0,-.6);
-            \draw[lightgray,-Kite] (121) -- ++(.5,-.6);
+            % \draw[lightgray,-Kite] (122) -- ++(-.5,-.6);
+            \draw[lightgray,-Kite] (122) -- ++(0,-.6);
+            % \draw[lightgray,-Kite] (122) -- ++(.5,-.6);
 
-            \node (1311) at(4,-3) {\bjava{[2, 9, 4]}};
-            \node (1312) at(5,-3.75) {\bjava{[2, 4, 9]}};
-            \node (1313) at(6,-3) {\bjava{[2, 2, 2]}};
+            \node (1311) at(5,-3) {\bjava{[2, 2, 2]}};
 
             \draw[-Kite] (131) -- (1311);
-            \draw[-Kite] (131) -- (1312);
-            \draw[-Kite] (131) -- (1313);
             }
-        \end{tikzpicture}}\vspace*{-\baselineskip}
+        \end{tikzpicture}}\vspace*{-1.45\baselineskip}
     \end{center}
 \begin{tikzpicture}[overlay, remember picture]
-    \onslide<14->{\node[left=-11mm,scale=.8] at(current page.7) {\usebox\pinguexplainbox};}
+    \onslide<14->{\node[left=-11mm,scale=.8] at(current page.{7.8}) {\usebox\pinguexplainbox};}
 \end{tikzpicture}%
 \end{frame}
 
@@ -627,8 +688,8 @@ static void helper(int[] array, int n, int[] combs, int start, int index)
 !*\onslide<8->*!            combs[idx] = arr[i];
 !*\onslide<8->*!            helper(arr, n, combs, i, idx + 1);
 !*\onslide<7->*!        }
-!*\onslide<3->*!    }
-!*\onslide<4->*!}
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
 \end{plainjava}
         \item<9-> Aber halt\ldots\ Arrays sind komplexe Datentypen. Warum geht das? \info{Tipp: simulieren.}
     \end{itemize}
@@ -639,7 +700,7 @@ static void helper(int[] array, int n, int[] combs, int start, int index)
 \newsavebox\pingusaveboxb \savebox\pingusaveboxb{\tikz\pingu[pants=pingu@red!70!pingu@black!50!pingu@white,pants bands,eyes wink,construction helmet,glasses round,glasses round fill=pingu@blue!40!pingu@yellow,glasses round opacity=.1];}
 \begin{frame}[c,fragile]{Übungsblatt 9 - Aufgabe 3\hfill Rekursive Sicherheit}
     \SetupLstHl\lstfs{10}\begin{itemize}\itemsep4pt
-        \item<4-> Allgemein ist es besser, einen eignen \info{/lokalen} Zustand sicherzustellen:
+        \item<4-> Allgemein ist es besser, einen eignen \info{/lokalen} Zustand sicherzustellen \info{hier iterativ!}:
 \begin{plainjava}
 !*\onslide<5->*!|ihl|for (int i = start; i < array.length; i++) {|ihl|
 !*\onslide<6->*!    int[] newCombs = new int[combs.length];
@@ -763,9 +824,9 @@ static void helper(int[] array, int n, int[] combs, int start, int index)
     \end{itemize}
     \onslide<10->{{\footnotesize\begin{equation*}
         \onslide<10->{\text{helper}(\text{a}, \text{n},\text{i}, \text{p})} = \begin{cases}
-            \onslide<11->{\text{gebe aus: \say{p}}} & \onslide<11->{n == 0} \\
-            \onslide<12->{\text{verwerfe Versuch}} & \onslide<12->{i == \text{a}.\text{length}} \\
-            \onslide<13->{\underbracket{\text{helper}(\text{a}, \text{n} - 1, \text{i} + 1, \text{p} + \text{a}[\text{i}] + \dq~\dq)}_{\text{nehme $\text{a}[\text{i}]$ mit}} \& \underbracket{\text{helper}(\text{a}, \text{n}, \text{i} + 1, \text{p})}_{\text{nehme $\text{a}[\text{i}]$ nicht mit}}} & \onslide<13->{\text{ sonst.}}\\
+            \onslide<11->{\text{gebe aus: \say{p}}} & \onslide<11->{n = 0} \\
+            \onslide<12->{\text{verwerfe Versuch}} & \onslide<12->{i = \text{a}.\text{length}} \\
+            \onslide<13->{\underbracket{\text{helper}(\text{a}, \text{n} - 1, \text{i} + 1, \text{p} + \text{a}[\text{i}] + \dq~\dq)}_{\text{nehme $\text{a}[\text{i}]$ mit}} \& \underbracket{\text{helper}(\text{a}, \text{n}, \text{i} + 1, \text{p})}_{\text{nehme $\text{a}[\text{i}]$ nicht mit}}} & \onslide<13->{\text{sonst.}}\\
         \end{cases}
     \end{equation*}}}
 \end{frame}
@@ -791,9 +852,9 @@ static void helper(int[] array, int n, int[] combs, int start, int index)
 \begin{tikzpicture}[remember picture, overlay]
     \onslide<1->{\node[below left=.25cm,yshift=-1.35cm,xshift=-.15cm,scale=.65,draw=gray,thick,fill=white,text=black,rounded corners=2pt] at(current page.north east) {\footnotesize\(
         \text{helper}(\text{a}, \text{n},\text{i}, \text{p}) = \begin{cases}
-            \text{gebe aus: \say{p}} & n == 0 \\
-            \text{verwerfe Versuch} & i == \text{a}.\text{length} \\
-            \underbracket{\text{helper}(\text{a}, \text{n} - 1, \text{i} + 1, \text{p} + \text{a}[\text{i}] + \dq~\dq)}_{\text{nehme $\text{a}[\text{i}]$ mit}} \& \underbracket{\text{helper}(\text{a}, \text{n}, \text{i} + 1, \text{p})}_{\text{nehme $\text{a}[\text{i}]$ nicht mit}} & \text{ sonst.}\\
+            \text{gebe aus: \say{p}} & n = 0 \\
+            \text{verwerfe Versuch} & i = \text{a}.\text{length} \\
+            \underbracket{\text{helper}(\text{a}, \text{n} - 1, \text{i} + 1, \text{p} + \text{a}[\text{i}] + \dq~\dq)}_{\text{nehme $\text{a}[\text{i}]$ mit}} \& \underbracket{\text{helper}(\text{a}, \text{n}, \text{i} + 1, \text{p})}_{\text{nehme $\text{a}[\text{i}]$ nicht mit}} & \text{sonst.}\\
         \end{cases}
     \)};}
 \end{tikzpicture}
@@ -801,7 +862,7 @@ static void helper(int[] array, int n, int[] combs, int start, int index)
 
 \begin{frame}[fragile]{Übungsblatt 9 - Aufgabe 3\hfill Die Präfixalternative}
     \SetupLstHl\lstfs{10}\begin{itemize}[<+(1)->]
-        \item Wir können das endständige Leerfeld aus dem String entfernen oder die Rekursion bereits eine Stufe früher \say{abbrechen}.
+        \item Wir können das endständige Leerfeld aus dem String entfernen oder die Rekursion bereits eine Stufe früher \say{abbrechen}. \info{Ignorieren wir den Sonderfall \(n \leq 0\) mal.}
         \item Das findet sich in \only<3->{\textattachfile{\curpath CombinationsStringShort.java}{CombinationsStringShort.java}}.
         \item Kurzgesagt: In diesem Fall muss die letzte Iteration gesondert behandeln:
     \end{itemize}

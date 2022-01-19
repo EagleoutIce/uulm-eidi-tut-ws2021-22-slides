@@ -27,12 +27,15 @@ public class BinarySearch {
       if (index == -1)
          return -1;
 
-      // Check whether there is a lower index
-      for (int i = 1; i <= index; i++)
-         if (array[index - i] != element)
-            return index - i + 1;
+      return findLower(array, element, index, 1);
+   }
 
-      return 0;
+   private static int findLower(int[] array, int element, int index, int i) {
+      if (i > index) // ! (i <= index)
+         return 0;
+      if (array[index - i] != element) // if in for
+         return index - i + 1;
+      return findLower(array, element, index, i + 1);
    }
 
    public static void printArray(int[] array) {

@@ -1,5 +1,5 @@
 public class Palindrome {
-   private static boolean isPalindrome(String s) {
+   public static boolean isPalindrome(String s) {
       return isPalindromeRecursive(s.toLowerCase());
    }
 
