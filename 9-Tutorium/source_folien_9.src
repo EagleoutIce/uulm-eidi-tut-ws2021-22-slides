@@ -144,7 +144,6 @@ int findLower(int[] arr, int e, int idx, int i) {
 \end{frame}
 
 \iffull
-\def\PinguBanner#1#2{\tikz\pingu[wings wave, banner=#1, banner sticks length=3mm,banner bent=-42,banner raise=-1.65mm,banner font=\bfseries\LARGE,eyes wink,banner height=5.25mm,#2];}
 \newsavebox\pinguBSa \savebox\pinguBSa{\PinguBanner{-14}{strawhat}}
 \newsavebox\pinguBSaa \savebox\pinguBSaa{\PinguBanner{-14}{cloak=pingu@black}}
 \newsavebox\pinguBSb \savebox\pinguBSb{\PinguBanner{24}{hat,hat position={1:(0cm,-.09cm){1.33}}}}

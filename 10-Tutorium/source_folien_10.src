@@ -1,454 +1,370 @@
-\errorcontextlines 999999
-\usepackage{attachfile2}
-\attachfilesetup{%
-    author={Florian Sihler},%
-    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
-}
+\InputIfFileExists{../global.src}\relax\relax
 
-\usepackage[%
-    sopra-listings={encoding,cpalette,highlights,numinpar},%
-    sopra-tables,
-    color-palettes={addons},%
-    util,%
-    lithie-boxes={germanenv,koma,overwrite},%
-    lithie-task-boxes={cpalette},%
-    lecture-links={patchurl},%
-    lecture-registers={disable}% would interfere with beamer
-]{lithie-util}
-
-\RequirePackage{lecture-personal-tikz}
-\usepackage[ngerman]{babel}
-\usepackage{foekfont}
-
-\input Rothdn.fd
-\newcommand*\rotnfamily{\usefont{U}{Rothdn}{xl}{n}}
-
-\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
-\RestyleAlgo{plain}
-\solLoadLanguage{bash,cpp,regex}
-
-\def\solcustom{fill=paletteA!30,draw=paletteA!30}
-
-\colorlet{MaterialHeaderColor}{paletteB}%
-\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
-
-\def\linkstyle#1{\textsf{\paletteD{#1}}}
-\SetAllLinkStyle{\linkstyle{#1}}
-\usepackage{tikzducks,tikzsymbols,lilly-color}
-\usetheme{lucy}
-
-\colorlet{chessfieldblack}{lightgray}
-
-\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing,backgrounds}
-
-\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
-
-\newcommand\parallelcontent[3][t]{%
-    \begin{columns}[#1]
-    \begin{column}{0.475\linewidth}
-        #2
-    \end{column}\hfill
-    \begin{column}{0.475\linewidth}
-        #3
-    \end{column}
-    \end{columns}
-}
-
-\lstset{lineskip=3pt}
-
-\tikzset{
-    dot/.style={circle,draw,align=center,text width=1em,execute at begin node={\strut}}
-}
-
-\setcounter{tocdepth}{4}
-
-\title[Zehntes Tutorium -- Übungsblatt 10]{Wo sind nochmal meine Socken?\\\small Tutorium 10}
-\date{\sffamily KW 27}
-\author{Florian Sihler}
-\institute{Institute of Distributed Systems \(\circ\) University Ulm}
+\iffull
+\def\smlll{\texorpdfstring{\def\RSsmallest{2pt}\smaller[2]}{}}
+\title[Zehntes Tutorium -- Übungsblatt 10]{Ich sortiere das. \textit{Ich}, als Sortierer.\\\small Ordnung 10}
+\date{\sffamily KW 4}
 
 \usepackage[glows]{tikzpingus}
-\usetikzlibrary{decorations.text}
-
+\usetikzlibrary{decorations.text,matrix}
 \hypersetup{colorlinks=false}
 
 \begin{document}
-\begin{frame}[c]
-    \begin{tikzpicture}[overlay]
-        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
-            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
-        \end{scope}
-        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {10};
-    \end{tikzpicture}
-    \titlepage
-\end{frame}
+\Titlepage{9}
+\fi
+
 
 \section{Präsenzaufgabe}
 \begin{frame}[c]{Präsenzaufgabe}
-    \begin{aufgabe}{Warten auf Godot}
-        \pause{}Stellen Sie die beiden folgenden Graphen entweder als Adjazenzliste oder -matrix in einem Java-Programm dar. Welche Form ist für welchen der Graphen besser geeignet und warum?\vspace*{-.5\baselineskip}
-\begin{center}
-    \onslide<3->{a)~~~\scalebox{.85}{\begin{tikzpicture}[scale=1.35,baseline=-.6ex]
-        \node[lblob] (3) at (0,2) {3};
-        \node[lblob] (2) at (2,2) {2};
-        \node[lblob] (1) at (2,0) {1};
-        \node[lblob] (0) at (0,0) {0};
+    \begin{aufgabe}{Bitte anstellen\ldots}
+        \only<-5|handout:0>{\pause{}\small In dieser Aufgabe sollen Sie ihre eigene dynamische Datenstruktur implementieren. Hierbei solle es sich um eine Queue handeln, welche nach dem \textit{FIFO}-Prinzip (\say{first in first out}) arbeitet und Integer Werte speichert.\pause{} Intern benötigen Sie hier zusätzlich zur Klasse \bjava{Queue} eine innere Klasse um die Elemente repräsentieren zu können.
 
-        \begin{scope}[every path/.style={draw,-Kite},t/.style 2 args={edge node={node[####1] {####2}}}]
-            \path (0) to[bend left=7,t={above}{6}] (1);
-            \path (1) to[bend left=7,t={below}{20}] (0);
-            \path (0) to[bend left=7,t={left}{3}] (3);
-            \path (3) to[bend left=7,t={right}{13}] (0);
-            \path (1) to[bend left=7,t={left}{3}] (2);
-            \path (2) to[bend left=7,t={right}{4}] (1);
-            \path (2) to[t={above}{7}] (3);
-            \path (0) to[t={below,pos=.45}{1}] (2);
-            \path (1) to[t={above,pos=.65}{9}] (3);
-            \path (0) to[loop left,t={left}{3}] (0);
-            \path (1) to[loop right,t={right}{8}] (1);
-            \path (2) to[loop right,t={right}{6}] (2);
-            \path (3) to[loop left,t={left}{42}] (3);
-        \end{scope}
-    \end{tikzpicture}}}\qquad \onslide<4->{~~b)~~~~\scalebox{.85}{\begin{tikzpicture}[scale=1.35,baseline=-.6ex]
-        \node[lblob] (3) at (0,2) {3};
-        \node[lblob] (2) at (2,2) {2};
-        \node[lblob] (1) at (2,0) {1};
-        \node[lblob] (0) at (0,0) {0};
+        \pause Implementieren Sie einen Konstruktor für die Klasse \textit{Queue}, welcher die internen Variablen entsprechend initialisiert und zusätzlich die folgenden Methoden: \only<4|handout:0>{\begin{enumerate}
+            \item \bjava{public void enqueue(int value)} --- soll ein neues Element mit dem Wert \bjava{value} am Ende der Queue einreihen.
+            \item \bjava{public boolean dequeue()} --- soll das vorderste Element aus der \bjava{Queue} entfernen und zurückliefern ob das Entfernen möglich war.
+            \item \bjava{public int getLength()} --- soll die Anzahl der eingereihten Elemente zurück geben.
+            \item \bjava{public String toString()} --- soll die eingereihten Werte in einem String formatieren und diesen Zurückgeben.
+        \end{enumerate}}
 
-        \begin{scope}[every path/.style={draw,-Kite},t/.style 2 args={edge node={node[####1] {####2}}}]
-            \path (0) -- (1);
-            \path (0) -- (3);
-            \path (3) -- (2);
-            \path (2) -- (1);
-        \end{scope}
-    \end{tikzpicture}}}\vspace*{-.5\baselineskip}
-\end{center}
+        \pause \textit{Bonusfrage}: Angenommen, Sie wollten die Methode \bjava{public :lan:?:ran: head()} implementieren, die den Wert des ersten Elements zurückgibt. Welchen Rückgabetyp würden sie wählen? Warum?}%
+        \only<6->{\vspace*{-1.25\baselineskip}\par%
+            \small Implementieren Sie eine (Linked-)\bjava{Queue} Klasse, die nach dem \textit{FIFO}-Prinzip (\say{first in first out}) Integer-Werte verwaltet. Schreiben Sie dafür eine interne Klasse um die Elemente zu repräsentieren. Implementieren Sie weiter:\vspace*{-.33\baselineskip} \onslide<7->{\begin{itemize}
+                \itemsep0.5pt
+                \item Den Konstruktor \bjava{public Queue()}, der alles \textit{explizit} zuweist.
+                \item \bjava{public void enqueue(int value)} --- füge \bjava{value} am Ende an.
+                \item \bjava{public boolean dequeue()} --- entferne das vorderste Element (\bjava{false} wenn leer).
+                \item \bjava{public int getLength()} --- Anzahl der Elemente in der Queue.
+                \item \bjava{public String toString()} --- die Inhalte als String formatiert.
+            \end{itemize}}\vspace*{-.33\baselineskip}\par
+            \onslide<8->{\textit{Bonus:} Welchen Rückgabetyp würden Sie für Die Methode \bjava{public :lan:?:ran: head()} wählen, die den Wert des ersten Elements zurückgibt. Warum? \hfill\textbf{Hilfsmethoden sind erlaubt \Smiley.}}%
+        }%
         \onslide<1->
     \end{aufgabe}
+    \only<5|handout:0>{
+        \begin{tikzpicture}[overlay, remember picture]
+            \node[above left=.5cm,text width=6cm,font=\footnotesize] at(current page.south east) {\begin{enumerate}
+                \item \bjava{public void enqueue(int value)} --- füge am Ende an.
+                \item \bjava{public boolean dequeue()} --- entferne vorderstes Element.
+                \item \bjava{public int getLength()} --- Anzahl eingereihter Elemente.
+                \item \bjava{public String toString()} --- Formatiert als String.
+            \end{enumerate}};
+        \end{tikzpicture}
+    }
 \end{frame}
 
-\tikzset{t/.style 2 args={edge node={node[#1] {#2}}}}
-\newsavebox\agraph
-\savebox\agraph{\scalebox{.85}{\begin{tikzpicture}[scale=1.35,baseline=-.6ex]
-    \node[lblob] (3) at (0,2) {3};
-    \node[lblob] (2) at (2,2) {2};
-    \node[lblob] (1) at (2,0) {1};
-    \node[lblob] (0) at (0,0) {0};
-
-    \begin{scope}[every path/.style={draw,-Kite}]
-        \path (0) to[bend left=7,t={above}{6}] (1);
-        \path (1) to[bend left=7,t={below}{20}] (0);
-        \path (0) to[bend left=7,t={left}{3}] (3);
-        \path (3) to[bend left=7,t={right}{13}] (0);
-        \path (1) to[bend left=7,t={left}{3}] (2);
-        \path (2) to[bend left=7,t={right}{4}] (1);
-        \path (2) to[t={above}{7}] (3);
-        \path (0) to[t={below,pos=.45}{1}] (2);
-        \path (1) to[t={above,pos=.65}{9}] (3);
-        \path (0) to[loop left,t={left}{3}] (0);
-        \path (1) to[loop right,t={right}{8}] (1);
-        \path (2) to[loop right,t={right}{6}] (2);
-        \path (3) to[loop left,t={left}{42}] (3);
-    \end{scope}
-\end{tikzpicture}}}
-\begin{frame}[fragile]{Präsenzaufgabe -- Lösung}
-\begin{tikzpicture}[remember picture, overlay]
-    \node[below left=.25cm,yshift=-1.2cm,scale=.75,opacity=.65] at(current page.north east) {\usebox\agraph};
-\end{tikzpicture}\vspace*{-\baselineskip}%
-\begin{itemize}
-    \itemsep8pt
-    \item<2-> Viele Kanten \emph{und} Kantengewichte: \onslide<3->{Adjazenzmatrix.}\medskip\par
-    \onslide<4->{\info{Die Kanten nutzen den Overhead der Matrix gut aus, Gewichte können direkt\\eingetragen werden.}}
-    \item<5-> In Java geht dies durch ein zweidimensionales Array:\vspace*{-10pt}
-\begin{center}
-\begin{columns}[c]
-\begin{column}{.55\linewidth}
-\begin{plainjava}[columns=fixed]
-!*\onslide<6->*!int[][] graphA = new int[][] {
-!*\onslide<7->*!       /*  0   1   2   3 */
-!*\onslide<7->*!/* 0 */!*\onslide<8->*! {  3,  6,  1,  3},
-!*\onslide<7->*!/* 1 */!*\onslide<9->*! { 20,  8,  3,  9},
-!*\onslide<7->*!/* 2 */!*\onslide<10->*! {  0,  4,  6,  7},
-!*\onslide<7->*!/* 3 */!*\onslide<11->*! { 13,  0,  0, 42}
-!*\onslide<6->*!};
-\end{plainjava}
-\end{column} \begin{column}{.35\linewidth}
-\onslide<12->{\begin{equation*}
-\bordermatrix{~ & \textcolor{gray}{0} & \textcolor{gray}{1} & \textcolor{gray}{2} & \textcolor{gray}{3} \cr
-    \textcolor{gray}{0} &  3 & 6 & 1 &  3\cr
-    \textcolor{gray}{1} & 20 & 8 & 3 &  9\cr
-    \textcolor{gray}{2} &  0 & 4 & 6 &  7\cr
-    \textcolor{gray}{3} & 13 & 0 & 0 & 42\cr}
-\end{equation*}}
-\end{column}
-\end{columns}
-\end{center}
-\end{itemize}
+\begin{frame}{Präsenzaufgabe - Lösung\iffull\hfill\null\llap{\smash{\raisebox{-.3\baselineskip}{\scalebox{.7}{\itshape\footnotesize Or how to make \(\sim\)100 Lines Musterlösung verkraftbar}}}}\fi}
+    \begin{itemize}
+        \item
+    \end{itemize}
 \end{frame}
 
-\savebox\agraph{\scalebox{.85}{\begin{tikzpicture}[scale=1.35,baseline=-.6ex]
-    \node[lblob] (3) at (0,2) {3};
-    \node[lblob] (2) at (2,2) {2};
-    \node[lblob] (1) at (2,0) {1};
-    \node[lblob] (0) at (0,0) {0};
-
-    \begin{scope}[every path/.style={draw,-Kite}]
-        \path (0) -- (1);
-        \path (0) -- (3);
-        \path (3) -- (2);
-        \path (2) -- (1);
-    \end{scope}
-\end{tikzpicture}}}
-\begin{frame}[fragile]{Präsenzaufgabe -- Lösung, II}
-\begin{tikzpicture}[remember picture, overlay]
-    \node[below left=.25cm,yshift=-1.2cm,scale=.75,opacity=.65] at(current page.north east) {\usebox\agraph};
-\end{tikzpicture}\vspace*{-\baselineskip}%
-\begin{itemize}[<+(1)->]
-    \itemsep8pt
-    \item Wenig Kanten \emph{und} keine Kantengewichte:\pause{} Adjazenzliste.\par
-    \info{In einer Adjazenzmatrix wären viele Einträge \bjava{0} oder \bjava{false}.}
-    \item Wir benötigen zuerst eine Node-Klasse:\lstfs{9}
-\begin{plainjava}[morekeywords={[3]{Node}}]
-!*\onslide<5->*!class Node {
-!*\onslide<6->*!    int key;
-!*\onslide<7->*!    Node next;
-!*\onslide<5->*!
-!*\onslide<8->*!    public Node(int key, Node next) {
-!*\onslide<9->*!        this.key = key;
-!*\onslide<10->*!        this.next = next;
-!*\onslide<8->*!    }
-!*\onslide<5->*!}
-\end{plainjava}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Präsenzaufgabe -- Lösung, III}
-\begin{tikzpicture}[remember picture, overlay]
-    \node[above left=.25cm,yshift=.33cm,scale=.75,opacity=.65] at(current page.south east) {\usebox\agraph};
-\end{tikzpicture}\vspace*{-\baselineskip}%
-\begin{itemize}
-    \itemsep8pt
-    \item<2-> Damit gestaltet sich die Liste wie folgt:\vspace*{-.75\baselineskip}\lstfs{10}
-\begin{center}
-\begin{columns}[c]
-\begin{column}{.55\linewidth}
-\begin{plainjava}[aboveskip=-5pt]
-!*\onslide<3->*!Node[] graphB = new Node[] {
-!*\onslide<4->*!    new Node(1, new Node(3, null)),
-!*\onslide<5->*!    null,
-!*\onslide<6->*!    new Node(1, null),
-!*\onslide<7->*!    new Node(2, null)
-!*\onslide<3->*!};
-\end{plainjava}
-\end{column} \begin{column}{.3\linewidth}
-\onslide<8->{\begin{alignat*}{2}
-    \mathbf{0} &\to 1 &\to 3 \\
-    \mathbf{1} & &\\
-    \mathbf{2} &\to 1 & \\
-    \mathbf{3} &\to 2 & \\
-\end{alignat*}}
-\end{column}
-\end{columns}\vspace*{-2\baselineskip}
-\end{center}
-\item<9-> Aber ist der Aufwand notwendig? \onslide<10->{In Java: Nein.}\smallskip\par{}
-    \onslide<11->{\info{Da in Java Arrays komplexe Datentypen sind, sind Arrays auch Zeiger und damit mehr-\\dimensionale Arrays auch Zeiger auf Zeiger. In Sprachen wie \T{C} muss das nicht so sein.}}
-\item<12-> Daher:\lstfs{10} \bjava{int[][] graphB = new int[][] \{ \{1, 3\}, \{\}, \{1\}, \{2\} \};}.
-\end{itemize}
-\end{frame}
 
 \section{Übungsblatt 10}
 \subsection{Aufgabe 1}
-\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1a)}
+\begin{frame}[c,fragile]{Übungsblatt 10 - Aufgabe 1}
+    \pause Sortieren Sie die Zahlenfolge \(8, 6, 3, 5, 1, 2, 7, 4\) grafisch mit den folgenden Sortieralgorithmen:
     \begin{itemize}[<+(1)->]
-        \item Die Freuden der Datei: \only<2->{\textattachfile{PriorityQueue.java}{PriorityQueue.java}}
-        \item Das Grundgerüst einer Priority-Queue mit Heap:
-\begin{plainjava}[morekeywords={[3]{PriorityQueue}}]
-!*\onslide<4->*!public class PriorityQueue {
-!*\onslide<5->*!    private final String[] heap;
-!*\onslide<5->*!    private int next = 0;
-!*\onslide<4->*!
-!*\onslide<6->*!    public PriorityQueue(int size) {
-!*\onslide<7->*!        if (size < 0) throw new IllegalArgumentException("[...]");
-!*\onslide<8->*!        this.heap = new String[size];
-!*\onslide<6->*!    }
-!*\onslide<4->*!}
-\end{plainjava}
+        \item Mergesort
+        \item Quicksort --- Nutzen Sie jeweils das erste Element als Pivotelement.
+        \item Insertionsort
+    \end{itemize}
+    \bigskip\par\pause
+
+    \resizebox{2cm}!{\tikz[align-half-base]\pingu[eyes wink,left wing wave, sign post left={Note!}];}\hfill\parbox{\linewidth-2cm}{%
+    Ich nehmen für die Folien an, dass wir immer \textit{aufsteigend} sortieren. Alle andere Sortierweisen (wie \textit{absteigend}) geht analog.}
+\end{frame}
+
+\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Mergesort}
+    \begin{center}
+\resizebox{.975\linewidth}{!}{%
+\begin{tikzpicture}[yscale=0.9]
+    \onslide<1->{\node (a) at(0,0) {[\(8, 6, 3, 5, 1, 2, 7, 4\)]};}
+    \foreach[count=\i] \l/\x in {{8,6,3,5}/-4,{1,2,7,4}/4}{
+        \onslide<+(1)->{
+            \node (b\i) at(\x,-1) {[\(\l\)]};
+            \draw[-Kite] (a) -- (b\i);
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p in {{8,6}/-6/1,{3,5}/-2/1,{1,2}/2/2,{7,4}/6/2}{
+        \onslide<+(1)->{
+            \node (c\i) at(\x,-2) {[\(\l\)]};
+            \draw[-Kite] (b\p) -- (c\i);
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p in {{8}/-7/1,{6}/-5/1,{3}/-3/2,{5}/-1/2,%
+        {1}/1/3,{2}/3/3,{7}/5/4,{4}/7/4}{
+        \onslide<+(1)->{
+            \node (d\i) at(\x,-3) {[\(\l\)]};
+            \draw[-Kite] (c\p) -- (d\i);
+        }
+    }
+
+    \onslide<+(1)->{
+    \foreach[count=\i] \l/\x/\p in {{8}/-7/1,{6}/-5/2,{3}/-3/3,{5}/-1/4,%
+        {1}/1/5,{2}/3/6,{7}/5/7,{4}/7/8}{
+            \node (e\i) at(\x,-4) {[\(\l\)]};
+            \draw[densely dotted,-Kite,gray] (d\p) -- (e\i);
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p/\pt in {{6,8}/-6/1/2,{3,5}/-2/3/4,{1,2}/2/5/6,{7,4}/6/7/8}{
+        \onslide<+(1)->{
+            \node (f\i) at(\x,-5) {[\(\l\)]};
+            \ifnum\p=\pt\draw[densely dotted,gray,-Kite] (e\p) -- (f\i);\else \draw[-Kite] (e\p) -- (f\i);\draw[-Kite] (e\pt) -- (f\i); \fi
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p/\pt in {{3,5,6,8}/-4/1/2,{1,2,4,7}/4/3/4}{
+        \onslide<+(1)->{
+            \node (g\i) at(\x,-6) {[\(\l\)]};
+            \ifnum\p=\pt \draw[densely dotted,gray,-Kite] (f\p) -- (g\i);\else \draw[-Kite] (f\p) -- (g\i);\draw[-Kite] (f\pt) -- (g\i); \fi
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p/\pt in {{1,2,3,4,5,6,7,8}/0/1/2}{
+        \onslide<+(1)->{
+            \node (h\i) at(\x,-7) {[\(\l\)]};
+            \draw[-Kite] (g\p) -- (h\i); \draw[-Kite] (g\pt) -- (h\i);
+        }
+    }
+    \onslide<+(1)->{\draw[densely dashed] (-8,-3.5) -- ++(17.25,0) node[above left] {\strut Divide} node[below left] {\strut Merge};}
+\end{tikzpicture}
+}
+    \end{center}
+\end{frame}
+
+\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort}
+    \begin{itemize}[<+(1)->]
+        \itemsep12.5pt
+        \item Quicksort kann unterschiedlich angewendet werden.
+        \item Wir betrachten \iffull drei\else zwei\fi\ verschiedene Varianten: \begin{itemize}
+            \iffull \item Eine einfache mit Listen (die direkte Umsetzung, genügt nicht).\fi
+            \item Die Version der Vorlesung (Pivot ans Ende, Marker)
+            \item Eine etwas schnellere Version (nur mit Markern).
+        \end{itemize}
+        \item \iffull Alle\else Beide\fi\ folgen dem dem bekannten Schema: \begin{itemize}
+            \item Wenn Liste einelementig oder leer: fertig.
+            \item Wähle Pivotelement und teile Liste in \say{kleiner} und \say{größergleich}.
+            \item Wiederhole rekursiv für beide Teile.
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1a)}
-    \begin{itemize}[<+(1)->]
-        \item Für die \T{percolate}-Methode schreiben wir uns zuerst \bjava{swap(int, int)} als Hilfe:
-\begin{plainjava}
-!*\onslide<3->*!private void swap(int i, int j){
-!*\onslide<4->*!    if (!(0 <= i && i < this.heap.length))
-!*\onslide<4->*!        throw new IndexOutOfBoundsException(i);
-!*\onslide<5->*!    if (!(0 <= j && j < this.heap.length))
-!*\onslide<5->*!        throw new IndexOutOfBoundsException(j);
-!*\onslide<6->*!    String tmp = this.heap[i];
-!*\onslide<6->*!    this.heap[i] = this.heap[j];
-!*\onslide<6->*!    this.heap[j] = tmp;
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
+
+\iffull
+\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Listenversion}
+    \begin{center}
+\resizebox{.65\linewidth}{!}{%
+\begin{tikzpicture}[yscale=0.9]
+    \onslide<1->{\node (a) at(0,0) {[\(\pivotelem{8}, 6, 3, 5, 1, 2, 7, 4\)]};}
+    \foreach[count=\i] \l/\x in {{}/4,{\pivotelem{6}, 3, 5, 1, 2, 7, 4}/-4}{
+        \onslide<+(1)->{
+            \node (b\i) at(\x,-1) {[\(\l\)]};
+            \draw[-Kite] (a) -- (b\i);
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p in {{\pivotelem3,5,1,2,4}/-6/2,{\pivotelem7}/-2/2}{
+        \onslide<+(1)->{
+            \node (c\i) at(\x,-2) {[\(\l\)]};
+            \draw[-Kite] (b\p) -- (c\i);
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p in {{\pivotelem1,2}/-7/1,{\pivotelem5,4}/-5/1}{
+        \onslide<+(1)->{
+            \node (d\i) at(\x,-3) {[\(\l\)]};
+            \draw[-Kite] (c\p) -- (d\i);
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p/\c in {{\pivotelem2}/-6.5/d1/{},{\pivotelem4}/-5.5/d2/{}}{
+        \onslide<+(1)->{
+            \node (e\i) at(\x,-4) {[\(\l\)]};
+            \expandafter\draw\expandafter[\c,-Kite] (\p) -- (e\i);
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p/\px/\pt in {{\pivotelem1,2}/-7/1/d1/1,{4,\pivotelem5}/-5/2/d2/2}{
+        \onslide<+(1)->{
+            \node (f\i) at(\x,-5) {[\(\l\)]};
+            \ifnum\p=\pt\draw[-Kite] (e\p) -- (f\i);\else \draw[-Kite] (e\p) -- (f\i);\draw[-Kite] (e\pt) -- (f\i); \fi
+            \draw[densely dotted,gray,-Kite] (\px) -- (f\i);
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p/\px/\pt in {{1,2,\pivotelem3,4,5}/-6/f1/c1/f2,{\pivotelem7}/-2/c2//c2}{
+        \onslide<+(1)->{
+            \node (g\i) at(\x,-6) {[\(\l\)]};
+            \ifx\p\pt\draw[densely dotted,gray,-Kite] (\p) -- (g\i);\else \draw[-Kite] (\p) -- (g\i);\draw[-Kite] (\pt) -- (g\i); \fi
+            \ifx\px\empty\else\draw[densely dotted,gray,-Kite] (\px) -- (g\i);\fi
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p/\px/\pt in {{1,2,3,4,5,\pivotelem6,7}/-4/g1/b2/g2,{}/4/b1//b1}{
+        \onslide<+(1)->{
+            \node (h\i) at(\x,-7) {[\(\l\)]};
+            \ifx\p\pt\draw[densely dotted,gray,-Kite] (\p) -- (h\i);\else \draw[-Kite] (\p) -- (h\i);\draw[-Kite] (\pt) -- (h\i); \fi
+            \ifx\px\empty\else\draw[densely dotted,gray,-Kite] (\px) -- (h\i);\fi
+        }
+    }
+
+    \foreach[count=\i] \l/\x/\p/\px/\pt in {{1,2,3,4,5,6,7,\pivotelem8}/0/h1/a/h2}{
+        \onslide<+(1)->{
+            \node (i\i) at(\x,-8) {[\(\l\)]};
+            \ifx\p\pt\draw[densely dotted,gray,-Kite] (\p) -- (i\i);\else \draw[-Kite] (\p) -- (i\i);\draw[-Kite] (\pt) -- (i\i); \fi
+            \ifx\px\empty\else\draw[densely dotted,gray,-Kite] (\px) -- (i\i);\fi
+        }
+    }
+
+    % \onslide<+(1)->{\draw[densely dashed] (-8,-3.5) -- ++(17.25,0) node[above left] {\strut Divide} node[below left] {\strut Merge};}
+\end{tikzpicture}
+}
+    \end{center}
+\end{frame}
+\fi
+
+\newsavebox\pinguquicksortA \savebox\pinguquicksortA{\PinguBanner{1}{eyes shiny,santa hat}} \newsavebox\pinguquicksortAx \savebox\pinguquicksortAx{\PinguBanner{1}{eyes wink,santa hat}}
+\newsavebox\pinguquicksortB \savebox\pinguquicksortB{\PinguBanner{2}{eyes shiny,construction helmet}} \newsavebox\pinguquicksortBx \savebox\pinguquicksortBx{\PinguBanner{2}{eyes wink,construction helmet}}
+\newsavebox\pinguquicksortC \savebox\pinguquicksortC{\PinguBanner{3}{eyes shiny,glasses,halo}} \newsavebox\pinguquicksortCx \savebox\pinguquicksortCx{\PinguBanner{3}{eyes wink,glasses,halo}}
+\newsavebox\pinguquicksortD \savebox\pinguquicksortD{\PinguBanner{4}{eyes shiny,headband}} \newsavebox\pinguquicksortDx \savebox\pinguquicksortDx{\PinguBanner{4}{eyes wink,headband}}
+\newsavebox\pinguquicksortE \savebox\pinguquicksortE{\PinguBanner{5}{eyes shiny,headphones}} \newsavebox\pinguquicksortEx \savebox\pinguquicksortEx{\PinguBanner{5}{eyes wink,headphones}}
+\newsavebox\pinguquicksortF \savebox\pinguquicksortF{\PinguBanner{6}{eyes shiny,crown}} \newsavebox\pinguquicksortFx \savebox\pinguquicksortFx{\PinguBanner{6}{eyes wink,crown}}
+\newsavebox\pinguquicksortG \savebox\pinguquicksortG{\PinguBanner{7}{right eye shiny,eye patch left}} \newsavebox\pinguquicksortGx \savebox\pinguquicksortGx{\PinguBanner{7}{right eye wink,eye patch left}}
+\newsavebox\pinguquicksortH \savebox\pinguquicksortH{\PinguBanner{8}{eyes shiny,hat}} \newsavebox\pinguquicksortHx \savebox\pinguquicksortHx{\PinguBanner{8}{eyes wink,hat}}
+
+\def\pinguqsbx#1{\scalebox{.325}{\expandafter\usebox\csname pinguquicksort#1\endcsname}}
+\makeatletter
+\newcommand\pinguqsbb[3][]{\protected@edef\tmp{#3}\savebox0{\smash{\pinguqsbx{#2\ifx\tmp\empty\else x\fi}}}\usebox0\llap{\raisebox{-.285cm}{\parbox{\wd0}{#1\small\centering\strut\ifx\tmp\empty\else\faCaretUp\fi\\[-2mm]\T{\strut#3}}}}}
+\def\pingubbfn#1{\hfill\parbox{4.5cm}{\footnotesize\color{gray}#1}\bigskip\par}
+\def\pingubbtk#1#2{\begin{tikzpicture}[baseline={([yshift=.4cm]1.base)}]
+    \def\l{{\color{gray}\scriptsize\faAngleLeft}}\foreach[count=\i] \col/\pin/\t/\m in {#1} {
+        \node[inner ysep=0pt,outer ysep=-2pt] (\i) at(1.2*\i,0) {\pinguqsbb[\col]{\pin}{\t}};
+        \ifx\m\empty\else
+            \fill[white,opacity=.5]([xshift=1mm,yshift=3mm]\i.south west) rectangle ([xshift=-1mm,yshift=1.25cm]\i.north east);
+        \fi
+    }
+    #2
+\end{tikzpicture}}%
+\makeatother
+\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Vorlesungstreue}
+\only<2|handout:0>{Ich köööönnte es wieder mit Klammern machen.}
+\only<3->{\pingubbtk{\color{paletteA}/H/Pivot/,/F/{\l\,l}/,/C//,/E//,/A//,/B//,/G//,/D/{\l\,r}/}{\draw[Kite-Kite] (1.south) to[bend right=4] (8.south);}%\b Fl1\x C\x E\x A\x B \x F\b Dr2%
+    \onslide<4->{\pingubbfn{Nach der Vorlesung muss das Pivotelement ans Ende!}}
+    \onslide<5->{%
+        \pingubbtk{/D/l/,/F//,/C//,/E//,/A//,/B//,/G/r/,\color{paletteA}/H/Pivot/}{\onslide<7->{
+            \foreach[remember=\i as \li (initially 1)] \i in {2,...,8}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}
+        }}
+    }\onslide<6->{\pingubbfn{\T{left} geht nach rechts, solange es auf ein Element zeigt, das kleiner als das Pivotelement ist.}}
+    \onslide<8->{%
+        \pingubbtk{/D/l/,/F//,/C//,/E//,/A//,/B//,/G/r/,\color{paletteA}/H/{{\color{black}l,}Pivot}/}{\draw[-Kite] (8) to[loop below] (8);}
+    }\onslide<9->{\pingubbfn{Es ist \(l \geq r\). Tausche \T{left} mit dem Pivotelement (hier die selben).}}
+}\vspace*{-1.33cm}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1a)}
-    \begin{itemize}[<+(1)->]
-        \item Nun können wir die Routine konstruieren\lstfs{9}
-\begin{plainjava}
-!*\onslide<3->*!private void percolate(int i) {
-!*\onslide<4->*!    int l = 2*i + 1, r = 2*i + 2, t = i;
-!*\onslide<3->*!
-!*\onslide<5->*!    if (r < next)
-!*\onslide<6->*!        t = this.heap[l].length() <= this.heap[r].length() ? l : r;
-!*\onslide<5->*!    else if (l < next)
-!*\onslide<7->*!        t = l;
-!*\onslide<3->*!
-!*\onslide<8->*!    if (t != i && this.heap[t].length() <= this.heap[i].length()) {
-!*\onslide<9->*!        swap(i, t);
-!*\onslide<9->*!        percolate(t);
-!*\onslide<8->*!    }
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
+\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Vorlesungstreue}
+\onslide<2->{\onslide<3->{\pingubbtk{\color{paletteA}/F/Pivot/,/C/{\l\,l}/,/E//,/A//,/B//,/G//,/D/{\l\,r}/,/H//:ghost}{\draw[Kite-Kite] (1.south) to[bend right=4] (7.south);}}
+    \onslide<2->{\pingubbfn{Wir wiederholen den Prozess für die linke und die rechte Hälfte. Hier gibt es nur eine linke\ldots}}
+    \onslide<4->{\pingubbtk{/D/l/,/C//,/E//,/A//,/B//,/G/r/,\color{paletteA}/F/Pivot/,/H//:ghost}{\onslide<6->{
+        \foreach[remember=\i as \li (initially 1)] \i in {2,...,6}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}
+    }}}
+    \onslide<5->{\pingubbfn{Every body steps to the right\ldots}}
+    \onslide<7->{\pingubbtk{/D//,/C//,/E//,/A//,/B//,/G/{l,r}/,\color{paletteA}/F/Pivot/,/H//:ghost}{\draw[Kite-Kite] (6.south) to[bend right] (7.south);}}
+    \onslide<8->{\pingubbfn{Es ist \(l = r\). Tausche \T{left} mit dem Pivotelement.}}
+}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1b)}
-    \begin{itemize}[<+(1)->]
-        \item Nun die \bjava{put}-Routine:\lstfs{9}
-\begin{plainjava}[aboveskip=0pt]
-!*\onslide<3->*!public void put(String str) {
-!*\onslide<4->*!    if (next >= this.heap.length) throw new IllegalStateException("[...]");
-!*\onslide<5->*!    this.heap[next] = str;
-!*\onslide<5->*!    int curr = next;
-!*\onslide<6->*!    while (curr > 0) {
-!*\onslide<7->*!        int parent = (curr - 1) / 2;
-!*\onslide<8->*!        if (this.heap[parent].length() <= this.heap[curr].length())
-!*\onslide<8->*!            break;
-!*\onslide<9->*!        swap(curr, parent);
-!*\onslide<10->*!        curr = parent;
-!*\onslide<6->*!    }
-!*\onslide<11->*!    percolate(curr);
-!*\onslide<12->*!    next++;
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
+\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Vorlesungstreue}
+\onslide<2->{\onslide<3->{\pingubbtk{\color{paletteA}/D/Pivot/,/C/{\l\,l}/,/E//,/A//,/B/{\l\,r}/,/F//:ghost,/G//,/H//:ghost}{\draw[Kite-Kite] (1.south) to[bend right=4] (5.south);}}
+    \onslide<2->{\pingubbfn{Wir wiederholen den Prozess zuerst für die linke Hälfte.}}
+    \onslide<4->{\pingubbtk{/B/l/,/C//,/E//,/A/r/,\color{paletteA}/D/Pivot/,/F//:ghost,/G//,/H//:ghost}{\onslide<6->{
+        \foreach[remember=\i as \li (initially 1)] \i in {2,...,3}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}
+        \draw[Kite-Kite] (3.south) to[bend right] (4.south);
+    }}}
+    \onslide<5->{\pingubbfn{Es ist \(l < r\), wir vertauschen also zuerst die beiden.}}
+    \onslide<6->{\pingubbtk{/B//,/C//,/A/l/,/E/r/,\color{paletteA}/D/Pivot/,/F//:ghost,/G//,/H//:ghost}{
+        \draw[Kite-Kite] (4.south) to[bend right] (5.south);
+        \foreach[remember=\i as \li (initially 3)] \i in {4}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}}
+    }
+    \onslide<7->{\pingubbfn{Nun ist \(l = r\). Tausche \T{left} mit dem Pivotelement.}}
+}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1c)}
-    \begin{itemize}[<+(1)->]
-        \item Die \bjava{peek}-Routine:\lstfs{9}
-\begin{plainjava}
-!*\onslide<3->*!public String peek() {
-!*\onslide<4->*!    if (next <= 0) throw new IllegalStateException("[...]");
-!*\onslide<5->*!    return this.heap[0];
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
+\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Vorlesungstreue}
+\onslide<2->{\onslide<3->{\pingubbtk{\color{paletteA}/B/Pivot/,/C/{\l\,l}/,/A/{\l\,r}/,/D//:ghost,/E//,/F//:ghost,/G//,/H//:ghost}{\draw[Kite-Kite] (1.south) to[bend right=4] (3.south);}}
+    \onslide<2->{\pingubbfn{Wir wiederholen den Prozess wieder zuerst für die linke Hälfte.}}
+    \onslide<4->{\pingubbtk{/A/l/,/C/r/,\color{paletteA}/B/Pivot/,/D//:ghost,/E//,/F//:ghost,/G//,/H//:ghost}{\foreach[remember=\i as \li (initially 1)] \i in {2}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}\draw[Kite-Kite] (2.south) to[bend right] (3.south);}}
+    \onslide<5->{\pingubbfn{Erenut haben wir \(l = r\). Tausche \T{left} mit dem Pivotelement.}}
+    \onslide<6->{\pingubbtk{\color{paletteA}/A/{{\color{black}l,r,}Pivot}/,/B//:ghost,/C//,/D//:ghost,/E//,/F//:ghost,/G//,/H//:ghost}{}}
+    \onslide<7->{\pingubbfn{Für alle weiteren Teillisten ist \(l = r = \text{Pivot}\). Wir verkürzen das in dieser Variante}}
+}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 10 - Aufgabe 1d)}
-    \begin{itemize}[<+(1)->]
-        \item Und zuletzt \bjava{get}:\lstfs{9}
-\begin{plainjava}
-!*\onslide<3->*!public String get() throws IllegalStateException {
-!*\onslide<4->*!    if (next <= 0) throw new IllegalStateException("[...]");
-!*\onslide<5->*!    String toReturn = this.heap[0];
-!*\onslide<6->*!    this.heap[0] = this.heap[next - 1];
-!*\onslide<7->*!    next--;
-!*\onslide<8->*!    percolate(0);
-!*\onslide<9->*!    return toReturn;
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
+% list | left | right
+\def\shortqspivot#1#2#3{\foreach[count=\i] \l in {#1} {\node (\i) at (.5*\i,0) {\strut\l};}
+\ifnum#2>0 \ifnum#2=#3
+\node[above=-2.75mm,align=center] (l) at (#2.north) {l,r\\[-2.33mm]\footnotesize\faCaretDown};
+\else\node[above=-2.75mm,align=center] (l) at (#2.north) {l\\[-2.33mm]\footnotesize\faCaretDown}; \node[above=-2.75mm,align=center] (r) at (#3.north) {r\\[-2.33mm]\footnotesize\faCaretDown};\fi\fi}
+{\def\leftc#1{\parbox{.45\linewidth}{\raggedleft\scriptsize\color{gray}#1}~~}
+\def\rightc#1{~~\parbox{.45\linewidth}{\raggedright\scriptsize\color{gray}#1}}
+\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Nur mit Markern}
+\begin{itemize}[<+(1)->]
+    \item Von Hand, müssen wir aber das Pivotelement nirgends \say{hintauschen}.
+    \item Im Folgenden eine Kompaktversion. Mit den Pivotelementen \pivotelem{P}:
+\end{itemize}
+\begin{columns}[c,onlytextwidth]
+\column{.5\linewidth}
+\centering\leftc{1) Solange \(a[l] < P\) und \(a[r] \geq P\)}\scalebox{.85}{\begin{tikzpicture}[align-base]
+    \shortqspivot{\pivotelem{8},6,3,5,1,2,7,4}{2}{8}
+    \foreach[remember=\i as \li (initially 2)] \i in {3,...,8}{\draw[-Kite,gray] ([xshift=3pt,yshift=7pt]\li.north) -- ([xshift=-3pt,yshift=7pt]\i.north);}
+\end{tikzpicture}}\par
+\leftc{2) Es ist: \(l \geq r\)}\scalebox{.85}{\begin{tikzpicture}[align-base]
+    \shortqspivot{\pivotelem{8},6,3,5,1,2,7,4}{8}{8}
+    \draw[Kite-Kite] ([yshift=5pt]1.south) to[bend right=10] ([yshift=5pt]8.south);
+\end{tikzpicture}}\par
+\leftc{3) Rekursion links. Solange \(a[l] < P\) und \(a[r] \geq P\)}\scalebox{.85}{\begin{tikzpicture}[align-base]
+    \shortqspivot{\pivotelem{4},6,3,5,1,2,7,{\color{gray}8}}{2}{7}
+    \foreach[remember=\i as \li (initially 7)] \i in {6}{\draw[-Kite,gray] ([xshift=-3pt,yshift=7pt]\li.north) -- ([xshift=3pt,yshift=7pt]\i.north);}
+\end{tikzpicture}}\par
+\leftc{4) \(a[l] \geq P\) und \(a[r] < P\)}\scalebox{.85}{\begin{tikzpicture}
+    \shortqspivot{\pivotelem{4},6,3,5,1,2,7,{\color{gray}8}}{2}{6}
+    \draw[Kite-Kite] ([yshift=5pt]2.south) to[bend right=10] ([yshift=5pt]6.south);
+\end{tikzpicture}}
+\column{.5\linewidth}
+\scalebox{.85}{\begin{tikzpicture}[align-base]
+    \shortqspivot{\pivotelem{4},2,3,5,1,6,7,{\color{gray}8}}{2}{6}
+    \foreach[remember=\i as \li (initially 2)] \i in {3,...,4}{\draw[-Kite,gray] ([xshift=3pt,yshift=7pt]\li.north) -- ([xshift=-3pt,yshift=7pt]\i.north);}
+    \foreach[remember=\i as \li (initially 6)] \i in {5}{\draw[-Kite,gray] ([xshift=-3pt,yshift=7pt]\li.north) -- ([xshift=3pt,yshift=7pt]\i.north);}
+\end{tikzpicture}}\rightc{5) Solange \(a[l] < P\) und \(a[r] \geq P\)}\par\scalebox{.85}{\begin{tikzpicture}[align-base]
+    \shortqspivot{\pivotelem{4},2,3,5,1,6,7,{\color{gray}8}}{4}{5}
+    \draw[Kite-Kite] ([yshift=5pt]4.south) to[bend right=10] ([yshift=5pt]5.south);
+    \draw[Kite-Kite,white] ([yshift=5pt]1.south) to[bend right=10] ([yshift=5pt]8.south);
+\end{tikzpicture}}\rightc{6) \(a[l] \geq P\) und \(a[r] < P\)}\par\scalebox{.85}{\begin{tikzpicture}[align-base]
+    \shortqspivot{\pivotelem{4},2,3,1,5,6,7,{\color{gray}8}}{4}{5}
+    \foreach[remember=\i as \li (initially 5)] \i in {4}{\draw[-Kite,gray] ([xshift=-3pt,yshift=7pt]\li.north) -- ([xshift=3pt,yshift=7pt]\i.north);}
+\end{tikzpicture}}\rightc{7) Solange \(a[l] < P\) und \(a[r] \geq P\)}\par\scalebox{.85}{\begin{tikzpicture}[align-base]
+    \shortqspivot{\pivotelem{4},2,3,1,5,6,7,{\color{gray}8}}{4}{4}
+    \draw[Kite-Kite,white] ([yshift=5pt]2.south) to[bend right=10] ([yshift=5pt]6.south);
+    \draw[Kite-Kite] ([yshift=5pt]1.south) to[bend right=10] ([yshift=5pt]4.south);
+\end{tikzpicture}}\rightc{8) Es ist \(l \geq r\).}
+\end{columns}
+\begin{center}
+    \begin{tikzpicture}
+        \shortqspivot{1,2,3,{\color{gray}4},5,6,7,{\color{gray}8}}{0}{0}
+    \end{tikzpicture}\vspace*{-1\baselineskip}\par
+    {\scriptsize\color{gray}Fertig sortiert, alle weiteren Anwendungen liefern nichts.}
+\end{center}
+% TODO: Begründungen TODO: deal with scale
+\end{frame}}
+
 
 \subsection{Zusatzaufgabe 4/6}
-\def\DrawEye#1#2{
-    \fill[devilcolor,path fading=fade out] (#1-#2-eye) circle [radius=2.15pt];
-    \foreach \i in {0,1}{
-    \filldraw[path fading=fade out,devilcolor,draw opacity=0.25,fill opacity=0.66] (#1-#2-eye)++(0,0.36) to[bend right=58] ++(0.36,-0.36) to[bend right=58] ++(-0.36,-0.36) to[bend right=58] ++(-0.36,0.36) to[bend right=58] cycle;}
-    \foreach \i in {0}{
-    \fill[path fading=fade out,devilcolor!20!yellow!15!white] (#1-#2-eye)++(0,0.10) to[bend right=60] ++(0.10,-0.10) to[bend right=60] ++(-0.10,-0.10) to[bend right=60] ++(-0.10,0.10) to[bend right=60] cycle;}
-    \fill[devilcolor!20!yellow!7!white] (#1-#2-eye) circle [radius=0.5pt]; %
-    \fill[white] (#1-#2-eye) circle [radius=0.15pt]; %
-}
-
-\colorlet{devilcolor}{purple!90!red}
-\colorlet{shadowcolor}{devilcolor!10!black}
-\tikzfading[name=fade out,inner color=transparent!0,outer color=transparent!100]
-\def\WW#1#2{
-    \node[circle,inner sep=rand*0.25pt+0.5pt,fill,devilcolor!60!black,path fading=circle with fuzzy edge 20 percent] (d#2) at(#1) {};
-    \draw[devilcolor!60!black,very thin,decorate,decoration={coil,aspect=0,segment length=0.85pt,amplitude=0.33pt,pre length=0pt,post length=0pt}] (d#2) -- ++(0,-5pt-rand*2pt);
-}
-
-\newsavebox\mommapengu
-\savebox\mommapengu{}% TODO NO OLD PENGUS
-
-{
-\setbeamercolor{background canvas}{bg=black}
-\begin{frame}[c,plain]
-\begin{center}
-\vspace*{-0.75cm}\scalebox{1.25}{\usebox{\mommapengu}}
-\end{center}%
-\begin{tikzpicture}[overlay,remember picture]
-    \node[below left,white,scale=0.45] at(current page.north east) {\textbf{\textcolor{devilcolor}{Achievement}} unlocked: Discover Momma pengu};
-\end{tikzpicture}%
-\end{frame}
-}
 
 \begin{frame}[fragile]{Zusatzaufgabe 4/6}
 \begin{itemize}[<+(1)->]
-    \item Siehe dahaaaa: \only<2->{\textattachfile{Knapsack.java}{Knapsack.java}}
-    \item Die Idee: wir prüfen für jeden Gegenstand einmal den Fall wenn wir ihn wählen und einmal, wenn wir ihn verschmähen.
-    \item Der rekursive Einstieg:\lstfs{9}
-\begin{plainjava}
-!*\onslide<5->*!public static List knapsack(int capacity, int[] values, int[] weights) {
-!*\onslide<6->*!    if (capacity < 0)
-!*\onslide<6->*!        throw new IllegalArgumentException("[...]");
-!*\onslide<7->*!    if(values.length != weights.length)
-!*\onslide<7->*!        throw new IllegalArgumentException("[..]");
-!*\onslide<8->*!    return knapsack(capacity, 0, values, weights);
-!*\onslide<5->*!}
-\end{plainjava}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Zusatzaufgabe 4/6}
-\begin{itemize}[<+(1)->]
-    \item Die Hauptroutine:\lstfs{8}
-\begin{plainjava}
-!*\onslide<3->*!private static List knapsack(int capacity, int idx, int[] values, int[] weights) {
-!*\onslide<4->*!  if(idx >= values.length) // Done
-!*\onslide<4->*!    return new List();
-!*\onslide<5->*!  if(capacity < weights[idx]) // W < w_i; too heavy
-!*\onslide<5->*!    return knapsack(capacity, idx + 1, values, weights);
-
-!*\onslide<6->*!  List with = knapsack(capacity - weights[idx], idx + 1, values, weights).push(idx);
-!*\onslide<6->*!  List withoutItem = knapsack(capacity, idx + 1, values, weights);
-!*\onslide<3->*!
-!*\onslide<7->*!  int valueWithItem = getValueOfList(withItem, values);
-!*\onslide<7->*!  int valueWithoutItem = getValueOfList(withoutItem, values);
-!*\onslide<3->*!
-!*\onslide<8->*!  return valueWithItem > valueWithoutItem ? with : withoutItem;
-!*\onslide<3->*!}
-\end{plainjava}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[fragile]{Zusatzaufgabe 4/6}
-\begin{itemize}[<+(1)->]
-    \item Und hier die Hilfsroutine zur Berechnung des Wertes einer Liste:
-\begin{plainjava}
-!*\onslide<3->*!private static int getValueOfList(List list, int[] values) {
-!*\onslide<4->*!    int sum = 0;
-!*\onslide<5->*!    for(int i = 0; i < list.length; i++) {
-!*\onslide<6->*!        sum += values[list.getByIndex(i)];
-!*\onslide<5->*!    }
-!*\onslide<7->*!    return sum;
-!*\onslide<3->*!}
-\end{plainjava}
+    \item
 \end{itemize}
 \end{frame}
 
@@ -464,8 +380,8 @@
     \end{center}
 \begin{tikzpicture}[overlay, remember picture]
     \fill[black] (current page.north east) -| ++(-2.5cm,-1.9cm) -- ++(0.25cm,-0.25cm) -| cycle;
-    \node[below left=2pt,xshift=-1.55mm,scale=0.36] at(current page.north east) {\usebox{\mommapengu}};
+    \node[below left=2pt,xshift=-1.55mm,scale=0.36] at(current page.north east) {};
 \end{tikzpicture}
 \end{frame}
 
-\end{document}
+\iffull\end{document}\fi

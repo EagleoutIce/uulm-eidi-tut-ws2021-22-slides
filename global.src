@@ -150,14 +150,26 @@
 \DeclareMathOperator\ggt{ggt}
 
 \makeatletter
-\newcommand*\md[2][0]{\only<#2|handout:#1>{\llap{\color{paletteA}\faAngleRight~}}}
-\newcommand*\ml[2][0]{\only<#2|handout:#1>{\rlap{\color{paletteA}\;\faAngleLeft}}}
-\newcommand*\mg[2][0]{\only<#2|handout:#1>{\llap{\color{shadeA!70!paletteA}\faAngleRight~}}}
+\def\MDRight{{\tiny\smash{\faChevronRight}}}
+\def\MDLeft{{\tiny\smash{\faChevronLeft}}}
+\def\MDDown{{\tiny\smash{\faChevronDown}}}
+\def\MDUp{{\tiny\smash{\faChevronUp}}}
 
-\newcommand*\mb[2][0]{\only<#2|handout:#1>{\rlap{\smash{\raisebox{-.66\baselineskip}{\kern-.1em\color{paletteA}\faAngleUp}}}}}
-\newcommand*\mbg[2][0]{\only<#2|handout:#1>{\rlap{\smash{\raisebox{-.66\baselineskip}{\kern-.1em\color{shadeA}\faAngleUp}}}}}
-\newcommand*\mh[2][0]{\only<#2|handout:#1>{\color{paletteA}\faAngleUp}}
-\newcommand*\mdl[2][0]{\only<#2|handout:#1>{\llap{\smash{\raisebox{-.5\baselineskip}{\tikz{\fill[paletteA,rounded corners=1pt] (0,-.65mm) rectangle ++(2.15\p@,\baselineskip+.65mm);}}~}}}}
+\newcommand*\md[2][0]{\only<#2|handout:#1>{\llap{\color{paletteA}\MDRight~}}}
+\newcommand*\ml[2][0]{\only<#2|handout:#1>{\rlap{\color{paletteA}\;\MDLeft}}}
+\newcommand*\mg[2][0]{\only<#2|handout:#1>{\llap{\color{shadeA!70!paletteA}\MDRight~}}}
+
+\newcommand*\mb[2][0]{\only<#2|handout:#1>{\rlap{\smash{\raisebox{-.66\baselineskip}{\kern-.1em\color{paletteA}\MDUp}}}}}
+\newcommand*\mbg[2][0]{\only<#2|handout:#1>{\rlap{\smash{\raisebox{-.66\baselineskip}{\kern-.1em\color{shadeA}\MDUp}}}}}
+\newcommand*\mh[2][0]{\only<#2|handout:#1>{\color{paletteA}\MDUp}}
 \newcommand<>\rBS[1]{\only#2{\solGet{comments}{\color{lightgray}\itshape#1}}}
 \newcommand<>\rBSo[1]{\onslide#2{\solGet{comments}{\color{lightgray}\itshape#1}}}
 \makeatother
+
+\tikzset{
+    dot/.style={circle,draw,align=center,text width=1em,execute at begin node={\strut}},
+}
+
+\def\pivotelem#1{{\fboxsep=1pt\kern1pt{\hbox{\color{paletteA}\textbf{\underline{#1}}}\kern1pt}}}
+
+\def\PinguBanner#1#2{\tikz\pingu[wings wave, banner=#1, banner sticks length=3mm,banner bent=-42,banner raise=-3.55mm,banner font=\bfseries\Huge,eyes wink,banner height=5.25mm,#2];}
