@@ -26,8 +26,7 @@ public class Queue {
    private int length;
 
    public Queue() {
-       this.first = null;
-       this.last = null;
+       this.first = this.last = null;
        this.length = 0;
    }
 
@@ -72,12 +71,12 @@ public class Queue {
    public String toString() {
        String s = "[";
        if(length > 0) {
-           Element next = this.first;
-           while (next.getNextElement() != null) {
-               s += next.getValue() + ", ";
-               next = next.getNextElement();
+           Element current = this.first;
+           while (current.getNextElement() != null) {
+               s += current.getValue() + ", ";
+               current = current.getNextElement();
            }
-           s += next.getValue();
+           s += current.getValue();
        }
        s += "]";
        return s;
