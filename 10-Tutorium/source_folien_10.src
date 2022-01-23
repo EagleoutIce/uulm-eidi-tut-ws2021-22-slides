@@ -573,16 +573,16 @@ public class MayQueueValue {
     \onslide<23->{\shortqspivot{\pivotelem{4},2,3,1,5,6,7,{\color{gray}8}}{4}{5}}
     \onslide<25->{\foreach[remember=\i as \li (initially 5)] \i in {4}{\draw[-Kite,gray] ([xshift=-3pt,yshift=7pt]\li.north) -- ([xshift=3pt,yshift=7pt]\i.north);}}
 \end{tikzpicture}}\onslide<24->{\rightc{7) Solange \(a[r] \geq P\) und \(a[l] < P\) (hier nicht, da \(l \geq r\).)}}\par\scalebox{.85}{\begin{tikzpicture}[align-base]
-    \onslide<27->{\shortqspivot{\pivotelem{4},2,3,1,5,6,7,{\color{gray}8}}{4}{4}}
-    \onslide<29->{\draw[Kite-Kite,white] ([yshift=5pt]2.south) to[bend right=10] ([yshift=5pt]6.south);
+    \onslide<26->{\shortqspivot{\pivotelem{4},2,3,1,5,6,7,{\color{gray}8}}{4}{4}}
+    \onslide<28->{\draw[Kite-Kite,white] ([yshift=5pt]2.south) to[bend right=10] ([yshift=5pt]6.south);
     \draw[Kite-Kite] ([yshift=5pt]1.south) to[bend right=10] ([yshift=5pt]4.south);}
-\end{tikzpicture}}\onslide<28->{\rightc{8) Es ist \(l \geq r\).}}
+\end{tikzpicture}}\onslide<27->{\rightc{8) Es ist \(l \geq r\).}}
 \end{columns}
 \begin{center}
     \begin{tikzpicture}
-        \onslide<30->{\shortqspivot{1,2,3,{\color{gray}4},5,6,7,{\color{gray}8}}{0}{0}}
+        \onslide<29->{\shortqspivot{1,2,3,{\color{gray}4},5,6,7,{\color{gray}8}}{0}{0}}
     \end{tikzpicture}\vspace*{-.9\baselineskip}\par
-    \onslide<31->{{\scriptsize\color{gray}Fertig sortiert, alle weiteren Anwendungen liefern nichts.}}
+    \onslide<30->{{\scriptsize\color{gray}Fertig sortiert, alle weiteren Anwendungen liefern nichts.}}
 \end{center}
 \end{frame}}
 
@@ -667,7 +667,7 @@ public class MayQueueValue {
     \onslide<6->{\sorted{1}{8}{sorted}}
 \end{tikzpicture}}\\[2.25em]
 \begin{itemize}
-    \item<6-> Theoretisch kann man auch alle \say{Zwischentauschschritte} einzeichnen.
+    \item<7-> Theoretisch kann man auch alle \say{Zwischentauschschritte} einzeichnen.
 \end{itemize}
 \end{frame}}
 
@@ -731,7 +731,7 @@ static void swap(int[] array, int i, int j) {
 !*\onslide<9->*!            swap(array, i, i + 1);
 !*\onslide<8->*!        move(array, i + 1, n);
 !*\onslide<7->*!    }
-!*\onslide<6->*!}
+!*\onslide<6->*!}!*\onslide<1->*!
 \end{plainjava}
 \begin{tikzpicture}[overlay,remember picture]
 \begin{uncoverenv}<1->\node[above left,yshift=5.7mm,text width=9.25cm,scale=.575] at(current page.south east) {
@@ -815,21 +815,21 @@ public static void bubbleSort(int[] arr) {
     \item Das Gute an einer rekursiven Definition wie dieser? Wir können Sie direkt umsetzen!
 \end{itemize}\SetupLstHl
 \begin{plainjava}
-public static int knapsack(int W, int[] weights, int[] values) {
-    if(weights.length != values.length) return -1;
-    return k(W, 0, |ihl|weights, values|ihl|);
-}
-
-private static int k(int W, int i, |ihl|int[] w, int[] v|ihl|) {
-  if (i >= w.length) return 0; // beginnt bei 0:    !*\solGet{comments}{$i > n$}*! :yields: 0
-  if (w[i] > W) return k(W, i + 1, |ihl|w, v|ihl|); // !*\solGet{comments}{$w_i > W_{\text{max}}$}*! :yields: !*\solGet{comments}{$k(W_{\text{max}}, i + 1)$}*!
-  else return Math.max(k(W, i + 1, |ihl|w, v|ihl|), // sonst: !*\solGet{comments}{$\max\bigl(\text{\say{ohne}},$}*!
-    k(W - w[i], i + 1, |ihl|w, v|ihl|) + v[i]); // !*\solGet{comments}{$\text{\say{mit}}\bigr)$}*!
-}
+!*\onsliode<3->*!public static int knapsack(int W, int[] weights, int[] values) {
+!*\onsliode<4->*!    if(weights.length != values.length) return -1;
+!*\onsliode<5->*!    return k(W, 0, |ihl|weights, values|ihl|);
+!*\onsliode<3->*!}
+!*\onsliode<3->*!
+!*\onsliode<6->*!private static int k(int W, int i, |ihl|int[] w, int[] v|ihl|) {
+!*\onsliode<7->*!  if (i >= w.length) return 0; // beginnt bei 0:    !*\solGet{comments}{$i > n$}*! :yields: 0
+!*\onsliode<8->*!  if (w[i] > W) return k(W, i + 1, |ihl|w, v|ihl|); // !*\solGet{comments}{$w_i > W_{\text{max}}$}*! :yields: !*\solGet{comments}{$k(W_{\text{max}}, i + 1)$}*!
+!*\onsliode<9->*!  else return Math.max(k(W, i + 1, |ihl|w, v|ihl|), // sonst: !*\solGet{comments}{$\max\bigl(\text{\say{ohne}},$}*!
+!*\onsliode<9->*!    k(W - w[i], i + 1, |ihl|w, v|ihl|) + v[i]); // !*\solGet{comments}{$\text{\say{mit}}\bigr)$}*!
+!*\onsliode<6->*!}
 \end{plainjava}
 \begin{tikzpicture}[overlay,remember picture]
-    \onslide<8->{\node[left=-7mm,scale=.8] at(current page.{-6.25}) {\usebox\pinguexplainbox};}
-    \onslide<9->{\node[above left,yshift=.5cm,xshift=-.35cm] at(current page.south east) {\only<9->{\textattachfile{\curpath Knapsack.java}{Knapsack.java}}};}
+    \onslide<10->{\node[left=-7mm,scale=.8] at(current page.{-6.25}) {\usebox\pinguexplainbox};}
+    \onslide<11->{\node[above left,yshift=.5cm,xshift=-.35cm] at(current page.south east) {\only<9->{\textattachfile{\curpath Knapsack.java}{Knapsack.java}}};}
 \end{tikzpicture}
 \end{frame}
 
