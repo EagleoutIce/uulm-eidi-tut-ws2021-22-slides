@@ -626,7 +626,7 @@ public class MayQueueValue {
     }
     \onslide<3->{\sorted{1}{4}{unsorted} \sorted{3}{8}{sorted}}
     \pgfinterruptboundingbox
-    \onslide<4->{\draw[-Kite] (1.north) to[bend right=18] ([xshift=-.66cm]3.north);}
+    \onslide<4->{\draw[-Kite] (1.north) to[bend right=12] ([xshift=-.66cm]3.north);}
     \endpgfinterruptboundingbox
 \end{tikzpicture}}\\[2.75em]
 \scalebox{.85}{\begin{tikzpicture}
@@ -635,7 +635,7 @@ public class MayQueueValue {
     }
     \onslide<6->{\sorted{2}{4}{unsorted} \sorted{1}{8}{sorted}}
     \pgfinterruptboundingbox
-    \onslide<7->{\draw[-Kite] (2.north) to[bend right=18] ([xshift=-.66cm]3.north);}
+    \onslide<7->{\draw[-Kite] (2.north) to[bend right=12] ([xshift=-.66cm]3.north);}
     \endpgfinterruptboundingbox
 \end{tikzpicture}}\\[2.75em]
 \scalebox{.85}{\begin{tikzpicture}
@@ -644,7 +644,7 @@ public class MayQueueValue {
     }
     \onslide<9->{\sorted{7}{4}{unsorted} \sorted{1}{8}{sorted}}
     \pgfinterruptboundingbox
-    \onslide<10->{\draw[-Kite] (7.north) to[bend right=18] ([xshift=-.66cm]8.north);}
+    \onslide<10->{\draw[-Kite] (7.north) to[bend right=15] ([xshift=-.66cm]8.north);}
     \endpgfinterruptboundingbox
 \end{tikzpicture}}
 \end{frame}
@@ -657,7 +657,7 @@ public class MayQueueValue {
     }
     \onslide<3->{\sorted{4}{4}{unsorted} \sorted{1}{8}{sorted}}
     \pgfinterruptboundingbox
-    \onslide<4->{\draw[-Kite] (4.north) to[bend right=18] ([xshift=-.66cm]5.north);}
+    \onslide<4->{\draw[-Kite] (4.north) to[bend right=12] ([xshift=-.66cm]5.north);}
     \endpgfinterruptboundingbox
 \end{tikzpicture}}\\[2.75em]
 \scalebox{.85}{\begin{tikzpicture}
@@ -684,7 +684,7 @@ public class MayQueueValue {
 \end{frame}
 \fi
 
-\MakeThePinguExplainIt[text width=8.75cm]{cap=!hide,hat,glasses=!hide,eyes wink,cup=!hide,heart=shadeA,bronze medal,right item angle=5}{Florians Didaktik Hoffnungsversuch: Eigentlich machen wir Rekursion nicht \textit{nur um irgendwas iteratives hinzubekommen}. Es gibt schöne, wundervolle Probleme die sich mit Rekursion wunderschön und elegant lösen lassen. Tolle\ldots\ wirklich tolle\ldots\ schnief.}
+\MakeThePinguExplainIt[text width=8.75cm]{cap=!hide,strawhat,glasses=!hide,glasses round,eyes shiny,cup=!hide,heart=shadeA,gold medal,right item angle=5}{Florians Didaktik Hoffnungsversuch: Eigentlich machen wir Rekursion nicht \textit{nur um irgendwas iteratives hinzubekommen}. Es gibt schöne, wundervolle Probleme die sich mit Rekursion wunderschön und elegant lösen lassen. Tolle\ldots\ wirklich tolle\ldots\ schnief.}
 \begin{frame}[c,fragile]{Übungsblatt 10 - Aufgabe 2}
     \begin{itemize}[<+(1)->]
         \item Iterativ ist das einfach:\lstfs{9}
@@ -779,18 +779,58 @@ public static void bubbleSort(int[] arr) {
 \subsection{Aufgabe 3}
 \begin{frame}[c,fragile]{Übungsblatt 10 - Aufgabe 3}
     \begin{enumerate}[<+(1)->]
+        \itemsep7pt
         \item Was versteht man unter einem stabilen Sortieralgorithmus?\medskip\par
             \pause{} Ein \textit{stabiler} Sortieralgorithmus verändert nicht die Reihenfolge von Elementen mit dem gleichen Wert. \info{Beispiel: Wir sortieren zuerst nach Alter, danach nach Alphabet. Ein Stabiler Sortieralgorithmus garantiert, dass Personen mit gleichem Alter immernoch alphabetisch sortiert sind.}
-        \item Welche der vier auf diesem Übungsblatt vorgekommenen Sortieralgorithmen sind stabil und welche sind instabil?
+        \item Welche der vier auf diesem Übungsblatt vorgekommenen Sortieralgorithmen sind stabil und welche sind instabil?\medskip\par
+        \pause Insertionsort, Mergesort und Bubblesort \info{Quicksort ist Instabil}.
     \end{enumerate}
 \end{frame}
 
 \subsection{Zusatzaufgabe 4/6}
 
+\iffull
+\begin{frame}[c,fragile]{Übungsblatt 10 - Aufgabe 3}
+    \onslide<2->{\footnotesize In dieser Aufgabe sollen Sie sich mit dem 0-1-Rucksackproblem beschäftigen. Hier gibt es einen Rucksack mit einer maximalen Tragekapazität $W_{max}$, sowie $n$ Gegenstände welche jeweils ein Gewicht $w_i$ und einen Wert $v_i$ haben. Die gesuchte Lösung ist der maximale Wert $V$ einer Teilmenge von Gegenständen, deren Gesamtgewicht nicht größer als $W_{max}$ ist.
+
+    Das Problem lässt sich durch folgende rekursive Formel definieren:
+    \[
+    \text{k}(W_{max},i) =
+    \left\{
+        \begin{array}{ll}
+            0  & \mbox{für } i > n \\
+            \text{k}(W_{max},i+1)  & \mbox{für } w_i > W_{max} \\
+            max\bigl(\text{k}(W_{max},i+1), \text{k}(W_{max} - w_i,i+1) + v_i\bigr) & \mbox{sonst }
+        \end{array}
+    \right.
+    \]
+    Implementieren Sie die Methode \bjava{public static int knapsack(int W, int[] weights, int[] values)} welche die maximale Tragekapazität des Rucksacks, sowie zwei Integer Arrays für die Gewichte und Werte der Gegenstände als Parameter übernimmt, und den maximalen Wert der Gegenstände zurückgibt die im Rucksack transportiert werden können.
+    Implementieren Sie dazu eine rekursive Hilfsmethode mit geeigneten Parametern, welche intern von der Wrapper-Methode aufgerufen wird.}
+\end{frame}
+\fi
+
+\MakeThePinguExplainIt[text width=6.65cm]{cap=!hide,glasses=!hide,construction helmet,eyes shiny,bill flat,right item angle=5}{Wir nutzen \bjava{w.length} für \bjava{n} und müssen beachten, dass es bei \(0\) losgeht.}
 \begin{frame}[fragile]{Zusatzaufgabe 4/6}
 \begin{itemize}[<+(1)->]
-    \item
-\end{itemize}
+    \item Das Gute an einer rekursiven Definition wie dieser? Wir können Sie direkt umsetzen!
+\end{itemize}\SetupLstHl
+\begin{plainjava}
+public static int knapsack(int W, int[] weights, int[] values) {
+    if(weights.length != values.length) return -1;
+    return k(W, 0, |ihl|weights, values|ihl|);
+}
+
+private static int k(int W, int i, |ihl|int[] w, int[] v|ihl|) {
+  if (i >= w.length) return 0; // beginnt bei 0:    !*\solGet{comments}{$i > n$}*! :yields: 0
+  if (w[i] > W) return k(W, i + 1, |ihl|w, v|ihl|); // !*\solGet{comments}{$w_i > W_{\text{max}}$}*! :yields: !*\solGet{comments}{$k(W_{\text{max}}, i + 1)$}*!
+  else return Math.max(k(W, i + 1, |ihl|w, v|ihl|), // sonst: !*\solGet{comments}{$\max\bigl(\text{\say{ohne}},$}*!
+    k(W - w[i], i + 1, |ihl|w, v|ihl|) + v[i]); // !*\solGet{comments}{$\text{\say{mit}}\bigr)$}*!
+}
+\end{plainjava}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<8->{\node[left=-7mm,scale=.8] at(current page.{-6.25}) {\usebox\pinguexplainbox};}
+    \onslide<9->{\node[above left,yshift=.5cm,xshift=-.35cm] at(current page.south east) {\only<9->{\textattachfile{\curpath Knapsack.java}{Knapsack.java}}};}
+\end{tikzpicture}
 \end{frame}
 
 \section{Die End-Pingu-Ente}
@@ -804,7 +844,7 @@ public static void bubbleSort(int[] arr) {
     \end{center}
 \begin{tikzpicture}[overlay, remember picture]
     \fill[black] (current page.north east) -| ++(-2.5cm,-1.9cm) -- ++(0.25cm,-0.25cm) -| cycle;
-    \node[below left=2pt,xshift=-1.55mm,scale=0.36] at(current page.north east) {};
+    \node[below left=2pt,xshift=-.15mm,scale=0.36] at(current page.north east) {\usebox\donotmesswithbeate};
 \end{tikzpicture}
 \end{frame}
 
