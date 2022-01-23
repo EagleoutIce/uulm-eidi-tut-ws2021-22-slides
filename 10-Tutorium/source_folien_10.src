@@ -41,6 +41,7 @@
     \endscope
 \end{pgfonlayer}
 \end{tikzpicture}}
+\iffull
 \begin{frame}[c]{Präsenzaufgabe}
     \begin{aufgabe}{Bitte anstellen\ldots}
         \only<-5|handout:0>{\pause{}\small In dieser Aufgabe sollen Sie ihre eigene dynamische Datenstruktur implementieren. Hierbei solle es sich um eine Queue handeln, welche nach dem \textit{FIFO}-Prinzip (\say{first in first out}) arbeitet und Integer Werte speichert.\pause{} Intern benötigen Sie hier zusätzlich zur Klasse \bjava{Queue} eine innere Klasse um die Elemente repräsentieren zu können.
@@ -82,6 +83,7 @@
         \onslide<10->{\node at (current page.center) {\usebox\donotmesswithbeate};}
     \end{tikzpicture}}
 \end{frame}
+\fi
 
 \newsavebox\QueueShort \savebox\QueueShort{\begin{minipage}{8cm}
 \begin{plainjava}^^J
@@ -815,17 +817,17 @@ public static void bubbleSort(int[] arr) {
     \item Das Gute an einer rekursiven Definition wie dieser? Wir können Sie direkt umsetzen!
 \end{itemize}\SetupLstHl
 \begin{plainjava}
-!*\onsliode<3->*!public static int knapsack(int W, int[] weights, int[] values) {
-!*\onsliode<4->*!    if(weights.length != values.length) return -1;
-!*\onsliode<5->*!    return k(W, 0, |ihl|weights, values|ihl|);
-!*\onsliode<3->*!}
-!*\onsliode<3->*!
-!*\onsliode<6->*!private static int k(int W, int i, |ihl|int[] w, int[] v|ihl|) {
-!*\onsliode<7->*!  if (i >= w.length) return 0; // beginnt bei 0:    !*\solGet{comments}{$i > n$}*! :yields: 0
-!*\onsliode<8->*!  if (w[i] > W) return k(W, i + 1, |ihl|w, v|ihl|); // !*\solGet{comments}{$w_i > W_{\text{max}}$}*! :yields: !*\solGet{comments}{$k(W_{\text{max}}, i + 1)$}*!
-!*\onsliode<9->*!  else return Math.max(k(W, i + 1, |ihl|w, v|ihl|), // sonst: !*\solGet{comments}{$\max\bigl(\text{\say{ohne}},$}*!
-!*\onsliode<9->*!    k(W - w[i], i + 1, |ihl|w, v|ihl|) + v[i]); // !*\solGet{comments}{$\text{\say{mit}}\bigr)$}*!
-!*\onsliode<6->*!}
+!*\onslide<3->*!public static int knapsack(int W, int[] weights, int[] values) {
+!*\onslide<4->*!    if(weights.length != values.length) return -1;
+!*\onslide<5->*!    return k(W, 0, |ihl|weights, values|ihl|);
+!*\onslide<3->*!}
+!*\onslide<3->*!
+!*\onslide<6->*!private static int k(int W, int i, |ihl|int[] w, int[] v|ihl|) {
+!*\onslide<7->*!  if (i >= w.length) return 0; // beginnt bei 0:    !*\solGet{comments}{$i > n$}*! :yields: 0
+!*\onslide<8->*!  if (w[i] > W) return k(W, i + 1, |ihl|w, v|ihl|); // !*\solGet{comments}{$w_i > W_{\text{max}}$}*! :yields: !*\solGet{comments}{$k(W_{\text{max}}, i + 1)$}*!
+!*\onslide<9->*!  else return Math.max(k(W, i + 1, |ihl|w, v|ihl|), // sonst: !*\solGet{comments}{$\max\bigl(\text{\say{ohne}},$}*!
+!*\onslide<9->*!    k(W - w[i], i + 1, |ihl|w, v|ihl|) + v[i]); // !*\solGet{comments}{$\text{\say{mit}}\bigr)$}*!
+!*\onslide<6->*!}
 \end{plainjava}
 \begin{tikzpicture}[overlay,remember picture]
     \onslide<10->{\node[left=-7mm,scale=.8] at(current page.{-6.25}) {\usebox\pinguexplainbox};}
