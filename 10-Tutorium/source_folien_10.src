@@ -783,9 +783,9 @@ public static void bubbleSort(int[] arr) {
     \begin{enumerate}[<+(1)->]
         \itemsep7pt
         \item Was versteht man unter einem stabilen Sortieralgorithmus?\medskip\par
-            \pause{} Ein \textit{stabiler} Sortieralgorithmus verändert nicht die Reihenfolge von Elementen mit dem gleichen Wert. \info{Beispiel: Wir sortieren zuerst nach Alter, danach nach Alphabet. Ein Stabiler Sortieralgorithmus garantiert, dass Personen mit gleichem Alter immernoch alphabetisch sortiert sind.}
+            \pause{} Ein \textit{stabiler} Sortieralgorithmus verändert nicht die Reihenfolge von Elementen mit dem gleichen \textit{Sortierschlüssel}. \info{Beispiel: Wir sortieren zuerst nach Alter, danach nach Alphabet. Ein Stabiler Sortieralgorithmus garantiert, dass Personen mit gleichem Alter immernoch alphabetisch sortiert sind.}
         \item Welche der vier auf diesem Übungsblatt vorgekommenen Sortieralgorithmen sind stabil und welche sind instabil?\medskip\par
-        \pause Insertionsort, Mergesort und Bubblesort \info{Quicksort ist Instabil}.
+        \pause Insertionsort, Mergesort und Bubblesort sind stabil, Quicksort ist instabil.\pause{} \infoblock{Genau genommen kann man aber jeden Algorithmus mit entsprechendem Zusatzaufwand stabil und nicht stabil implementieren. Wir halten uns hier an die Vorlesungsimplementation.}
     \end{enumerate}
 \end{frame}
 
@@ -806,7 +806,7 @@ public static void bubbleSort(int[] arr) {
         \end{array}
     \right.
     \]
-    Implementieren Sie die Methode \bjava{public static int knapsack(int W, int[] weights, int[] values)} welche die maximale Tragekapazität des Rucksacks, sowie zwei Integer Arrays für die Gewichte und Werte der Gegenstände als Parameter übernimmt, und den maximalen Wert der Gegenstände zurückgibt die im Rucksack transportiert werden können.
+    Implementieren Sie die Methode \bjava{public static int knapsack(int W,} \bjava{int[] weights, int[] values)} welche die maximale Tragekapazität des Rucksacks, sowie zwei Integer Arrays für die Gewichte und Werte der Gegenstände als Parameter übernimmt, und den maximalen Wert der Gegenstände zurückgibt die im Rucksack transportiert werden können.
     Implementieren Sie dazu eine rekursive Hilfsmethode mit geeigneten Parametern, welche intern von der Wrapper-Methode aufgerufen wird.}
 \end{frame}
 \fi
