@@ -47,6 +47,8 @@ public class Queue {
        if(length > 0) {
            this.first = this.first.getNextElement();
            length--;
+           if(length == 0)
+                this.last = null;
            return true;
        }
        return false;

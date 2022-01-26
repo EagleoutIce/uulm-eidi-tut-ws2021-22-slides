@@ -234,9 +234,11 @@ class Element \{^^J
 !*\onslide<4->*!        if(length > 0) {
 !*\onslide<5->*!            this.first = this.first.next; // Verschieben
 !*\onslide<6->*!            length--;
-!*\onslide<7->*!            return true;
+!*\onslide<7->*!            if(length == 0)
+!*\onslide<7->*!                this.last = null;
+!*\onslide<8->*!            return true;
 !*\onslide<4->*!        }
-!*\onslide<8->*!        return false;
+!*\onslide<9->*!        return false;
 !*\onslide<3->*!    }
 !*\onslide<2->*!|ihl|}|ihl|
 \end{plainjava}
@@ -565,8 +567,8 @@ public class MayQueueValue {
 \column{.5\linewidth}
 \scalebox{.85}{\begin{tikzpicture}[align-base]
     \onslide<16->{\shortqspivot{\pivotelem{4},2,3,5,1,6,7,{\color{gray}8}}{2}{6}}
-    \onslide<18->{\foreach[remember=\i as \li (initially 2)] \i in {3,...,4}{\draw[-Kite,gray] ([xshift=3pt,yshift=7pt]\li.north) -- ([xshift=-3pt,yshift=7pt]\i.north);}}
-    \onslide<19->{\foreach[remember=\i as \li (initially 6)] \i in {5}{\draw[-Kite,gray] ([xshift=-3pt,yshift=7pt]\li.north) -- ([xshift=3pt,yshift=7pt]\i.north);}}
+    \onslide<19->{\foreach[remember=\i as \li (initially 2)] \i in {3,...,4}{\draw[-Kite,gray] ([xshift=3pt,yshift=7pt]\li.north) -- ([xshift=-3pt,yshift=7pt]\i.north);}}
+    \onslide<18->{\foreach[remember=\i as \li (initially 6)] \i in {5}{\draw[-Kite,gray] ([xshift=-3pt,yshift=7pt]\li.north) -- ([xshift=3pt,yshift=7pt]\i.north);}}
 \end{tikzpicture}}\onslide<17->{\rightc{5) Solange \(a[r] \geq P\) und \(a[l] < P\)}}\par\scalebox{.85}{\begin{tikzpicture}[align-base]
     \onslide<20->{\shortqspivot{\pivotelem{4},2,3,5,1,6,7,{\color{gray}8}}{4}{5}}
     \onslide<22->{\draw[Kite-Kite] ([yshift=5pt]4.south) to[bend right=10] ([yshift=5pt]5.south);
@@ -588,14 +590,14 @@ public class MayQueueValue {
 \end{center}
 \end{frame}}
 
-{\def\sorted#1#2#3{\draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt,xshift=-5pt]#1.south west) to[edge node={node[below=6pt,overlay] {sortiert}}] ([yshift=-8pt,xshift=5pt]#2.south east);}
+{\def\sorted#1#2#3{\draw[decorate,decoration={brace,amplitude=6pt,mirror}] ([yshift=-8pt,xshift=-5pt]#1.south west) to[edge node={node[below=6pt,overlay] {#3}}] ([yshift=-8pt,xshift=5pt]#2.south east);}
 \begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Insertionsort}
 \centering
 \scalebox{.85}{\begin{tikzpicture}
     \onslide<2->{
         \foreach[count=\i] \x in {8,6,3,5,1,2,7,4} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
     }
-    \onslide<3->{\sorted{6}{4}{unsorted} \sorted{8}{8}{sorted} }
+    \onslide<3->{\sorted{6}{4}{unsortiert} \sorted{8}{8}{sortiert} }
     \pgfinterruptboundingbox
     \onslide<4->{\draw[-Kite] (6.north) to[bend right=22] ([xshift=-.66cm]8.north);}
     \endpgfinterruptboundingbox
@@ -604,7 +606,7 @@ public class MayQueueValue {
     \onslide<5->{
         \foreach[count=\i] \x in {6,8,3,5,1,2,7,4} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
     }
-    \onslide<6->{\sorted{3}{4}{unsorted} \sorted{6}{8}{sorted} }
+    \onslide<6->{\sorted{3}{4}{unsortiert} \sorted{6}{8}{sortiert} }
     \pgfinterruptboundingbox
     \onslide<7->{\draw[-Kite] (3.north) to[bend right=18] ([xshift=-.66cm]6.north);}
     \endpgfinterruptboundingbox
@@ -613,7 +615,7 @@ public class MayQueueValue {
     \onslide<8->{
         \foreach[count=\i] \x in {3,6,8,5,1,2,7,4} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
     }
-    \onslide<9->{\sorted{5}{4}{unsorted} \sorted{3}{8}{sorted} }
+    \onslide<9->{\sorted{5}{4}{unsortiert} \sorted{3}{8}{sortiert} }
     \pgfinterruptboundingbox
     \onslide<10->{\draw[-Kite] (5.north) to[bend right=18] ([xshift=-.66cm]6.north);}
     \endpgfinterruptboundingbox
@@ -626,7 +628,7 @@ public class MayQueueValue {
     \onslide<2->{
         \foreach[count=\i] \x in {3,5,6,8,1,2,7,4} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
     }
-    \onslide<3->{\sorted{1}{4}{unsorted} \sorted{3}{8}{sorted}}
+    \onslide<3->{\sorted{1}{4}{unsortiert} \sorted{3}{8}{sortiert}}
     \pgfinterruptboundingbox
     \onslide<4->{\draw[-Kite] (1.north) to[bend right=12] ([xshift=-.66cm]3.north);}
     \endpgfinterruptboundingbox
@@ -635,7 +637,7 @@ public class MayQueueValue {
     \onslide<5->{
         \foreach[count=\i] \x in {1,3,5,6,8,2,7,4} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
     }
-    \onslide<6->{\sorted{2}{4}{unsorted} \sorted{1}{8}{sorted}}
+    \onslide<6->{\sorted{2}{4}{unsortiert} \sorted{1}{8}{sortiert}}
     \pgfinterruptboundingbox
     \onslide<7->{\draw[-Kite] (2.north) to[bend right=12] ([xshift=-.66cm]3.north);}
     \endpgfinterruptboundingbox
@@ -644,7 +646,7 @@ public class MayQueueValue {
     \onslide<8->{
         \foreach[count=\i] \x in {1,2,3,5,6,8,7,4} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
     }
-    \onslide<9->{\sorted{7}{4}{unsorted} \sorted{1}{8}{sorted}}
+    \onslide<9->{\sorted{7}{4}{unsortiert} \sorted{1}{8}{sortiert}}
     \pgfinterruptboundingbox
     \onslide<10->{\draw[-Kite] (7.north) to[bend right=15] ([xshift=-.66cm]8.north);}
     \endpgfinterruptboundingbox
@@ -657,7 +659,7 @@ public class MayQueueValue {
     \onslide<2->{
         \foreach[count=\i] \x in {1,2,3,5,6,7,8,4} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
     }
-    \onslide<3->{\sorted{4}{4}{unsorted} \sorted{1}{8}{sorted}}
+    \onslide<3->{\sorted{4}{4}{unsortiert} \sorted{1}{8}{sortiert}}
     \pgfinterruptboundingbox
     \onslide<4->{\draw[-Kite] (4.north) to[bend right=12] ([xshift=-.66cm]5.north);}
     \endpgfinterruptboundingbox
@@ -666,7 +668,7 @@ public class MayQueueValue {
     \onslide<5->{
         \foreach[count=\i] \x in {1,2,3,4,5,6,7,8} {\node[dot]  (\x) at(1.5*\i,0) {\x};}
     }
-    \onslide<6->{\sorted{1}{8}{sorted}}
+    \onslide<6->{\sorted{1}{8}{sortiert}}
 \end{tikzpicture}}\\[2.25em]
 \begin{itemize}
     \item<7-> Theoretisch kann man auch alle \say{Zwischentauschschritte} einzeichnen.
@@ -703,7 +705,7 @@ public class MayQueueValue {
 !*\onslide<4->*!    }
 !*\onslide<3->*!}
 \end{plainjava}
-    \item<8-> Wir werden zweimal Rekursion benutzen umd die For-Schleifen zu re-\\präsentieren. \only<8->{\textattachfile{\curpath BubbleSort.java}{BubbleSort.java}}
+    \item<8-> Wir werden zweimal Rekursion benutzen um die For-Schleifen zu re-\\präsentieren: \only<8->{\textattachfile{\curpath BubbleSort.java}{BubbleSort.java}}.
 \end{itemize}
 \begin{tikzpicture}[overlay,remember picture]
 \onslide<9->{\node[left=-7mm,scale=.8] at(current page.-15) {\usebox\pinguexplainbox};}
@@ -739,7 +741,7 @@ static void swap(int[] array, int i, int j) {
 \begin{uncoverenv}<1->\node[above left,yshift=5.7mm,text width=9.25cm,scale=.575] at(current page.south east) {
 \begin{plainjava}
 public static void bubbleSort(int[] arr) {
-    for (int n = arr.length; n >= 1; n--) {
+    for (int n = arr.length; n > 1; n--) {
         for (int i = 0; i < n - 1; i++) {
             if (arr[i] > arr[i + 1])
                 swap(arr, i, i + 1);
@@ -783,7 +785,7 @@ public static void bubbleSort(int[] arr) {
     \begin{enumerate}[<+(1)->]
         \itemsep7pt
         \item Was versteht man unter einem stabilen Sortieralgorithmus?\medskip\par
-            \pause{} Ein \textit{stabiler} Sortieralgorithmus verändert nicht die Reihenfolge von Elementen mit dem gleichen \textit{Sortierschlüssel}. \info{Beispiel: Wir sortieren zuerst nach Alter, danach nach Alphabet. Ein Stabiler Sortieralgorithmus garantiert, dass Personen mit gleichem Alter immernoch alphabetisch sortiert sind.}
+            \pause{} Ein \textit{stabiler} Sortieralgorithmus verändert nicht die Reihenfolge von Elementen mit dem gleichen \textit{Sortierschlüssel}. \infoblock{Beispiel: Wir sortieren zuerst nach Alter, danach nach Alphabet. Ein stabiler Sortieralgorithmus garantiert, dass Personen mit gleichem Alter immernoch alphabetisch sortiert sind.}
         \item Welche der vier auf diesem Übungsblatt vorgekommenen Sortieralgorithmen sind stabil und welche sind instabil?\medskip\par
         \pause Insertionsort, Mergesort und Bubblesort sind stabil, Quicksort ist instabil.\pause{} \infoblock{Genau genommen kann man aber jeden Algorithmus mit entsprechendem Zusatzaufwand stabil und nicht stabil implementieren. Wir halten uns hier an die Vorlesungsimplementation.}
     \end{enumerate}
@@ -792,7 +794,7 @@ public static void bubbleSort(int[] arr) {
 \subsection{Zusatzaufgabe 4/6}
 
 \iffull
-\begin{frame}[c,fragile]{Übungsblatt 10 - Aufgabe 3}
+\begin{frame}[c,fragile]{Übungsblatt 10 - Zusatzaufgabe 4/6}
     \onslide<2->{\footnotesize In dieser Aufgabe sollen Sie sich mit dem 0-1-Rucksackproblem beschäftigen. Hier gibt es einen Rucksack mit einer maximalen Tragekapazität $W_{max}$, sowie $n$ Gegenstände welche jeweils ein Gewicht $w_i$ und einen Wert $v_i$ haben. Die gesuchte Lösung ist der maximale Wert $V$ einer Teilmenge von Gegenständen, deren Gesamtgewicht nicht größer als $W_{max}$ ist.
 
     Das Problem lässt sich durch folgende rekursive Formel definieren:
@@ -806,8 +808,8 @@ public static void bubbleSort(int[] arr) {
         \end{array}
     \right.
     \]
-    Implementieren Sie die Methode \bjava{public static int knapsack(int W,} \bjava{int[] weights, int[] values)} welche die maximale Tragekapazität des Rucksacks, sowie zwei Integer Arrays für die Gewichte und Werte der Gegenstände als Parameter übernimmt, und den maximalen Wert der Gegenstände zurückgibt die im Rucksack transportiert werden können.
-    Implementieren Sie dazu eine rekursive Hilfsmethode mit geeigneten Parametern, welche intern von der Wrapper-Methode aufgerufen wird.}
+    Implementieren Sie die Methode \bjava{public static int knapsack(int W, int[] weights,} \bjava{int[] values)} welche die maximale Tragekapazität des Rucksacks, sowie zwei Integer Arrays für die Gewichte und Werte der Gegenstände als Parameter übernimmt, und den maximalen Wert der Gegenstände zurückgibt die im Rucksack transportiert werden können.
+    Implementieren Sie dazu eine rekursive Hilfsmethode mit geeigneten Parametern, welche intern von der Wrapper-Methode aufgerufen wird.\par}
 \end{frame}
 \fi
 
@@ -831,7 +833,7 @@ public static void bubbleSort(int[] arr) {
 \end{plainjava}
 \begin{tikzpicture}[overlay,remember picture]
     \onslide<10->{\node[left=-7mm,scale=.8] at(current page.{-6.25}) {\usebox\pinguexplainbox};}
-    \onslide<11->{\node[above left,yshift=.5cm,xshift=-.35cm] at(current page.south east) {\only<9->{\textattachfile{\curpath Knapsack.java}{Knapsack.java}}};}
+    \onslide<11->{\node[above left,yshift=.5cm,xshift=-.35cm] at(current page.south east) {\only<11->{\textattachfile{\curpath Knapsack.java}{Knapsack.java}}};}
 \end{tikzpicture}
 \end{frame}
 
