@@ -78,7 +78,7 @@
 \MakeThePinguExplainIt[text width=3.77cm]{cap=!hide,glasses=!hide,halo,halo raise=2mm,devil horns,right item angle=5,cup=!hide,bow tie}{Natürlich~können~die\\Kanten~in~die~andere\\~Richtung~auch~ein~ande-\\res~Gewicht~aufweisen.}
 \begin{frame}[c]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
-        \item Nun mit der Adjazenzmatrix:
+        \item Nun mit der Adjazenzmatrix (Kanten wie \tikz[align-half-base]{\draw[Kite-Kite] (0,0) -- (1,0);} können auch\\ungerichtet dargestellt werden):
     \end{itemize}
     \begin{center}
         \onslide<3->{\(

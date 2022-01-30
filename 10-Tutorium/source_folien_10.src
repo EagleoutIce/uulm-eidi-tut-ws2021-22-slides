@@ -229,7 +229,6 @@ class Element \{^^J
 !*\onslide<2->*!    |ihl|    public Element(int value) { this.value = value; }|ihl|
 !*\onslide<2->*!    |ihl|}|ihl|
 !*\onslide<2->*!    |ihl|private Element first, last;   private int length;|ihl|
-
 !*\onslide<3->*!    public boolean dequeue() {
 !*\onslide<4->*!        if(length > 0) {
 !*\onslide<5->*!            this.first = this.first.next; // Verschieben
