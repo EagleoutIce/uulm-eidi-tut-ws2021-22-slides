@@ -378,7 +378,7 @@ public class RingBuffer {
 \end{onlyenv}
     \item<4-> Hier heißen Start und Ende eben \bjava{head} und \bjava{tail}.
     \item<5-> Weiter soll \bjava{Element} veränderbar sein.
-    \item<6-> Anstelle der Länge speichern wir zunächst einfach mal, ob er Buffer voll ist.
+    \item<6-> Anstelle der Länge speichern wir zunächst einfach mal, ob der Buffer voll ist.
     \end{itemize}
 \end{frame}
 
