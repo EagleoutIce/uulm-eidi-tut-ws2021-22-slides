@@ -17,7 +17,7 @@
 \section{Präsenzaufgabe}
 \begin{frame}[c]{Präsenzaufgabe}
     \onslide<2->{\begin{aufgabe}{Nächste Ausfahrt links}
-        \onslide<3->{Geben Sie die Adjazenzliste für den Graphen links an und zeichnen Sie den Graphen für dei Adjazenzmatrix rechts.}
+        \onslide<3->{Geben Sie die Adjazenzliste für den Graphen links an und zeichnen Sie den Graphen für die Adjazenzmatrix rechts.}
         \vspace*{-.5\baselineskip}\begin{center}
             \onslide<4->{\scalebox{.75}{\begin{tikzpicture}[scale=1.325,align-half-base]
                 \node[dot] (1) at (0,0) {1};
