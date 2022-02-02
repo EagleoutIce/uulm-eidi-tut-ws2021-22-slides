@@ -161,6 +161,8 @@
 \newcommand*\ml[2][0]{\only<#2|handout:#1>{\rlap{\color{paletteA}\;\MDLeft}}}
 \newcommand*\mg[2][0]{\only<#2|handout:#1>{\llap{\color{shadeA!70!paletteA}\MDRight~}}}
 
+\def\mkb#1{$\vphantom{A}\smash{\underset{\!\bullet}{\text{#1}}}$}
+
 \newcommand*\mb[2][0]{\only<#2|handout:#1>{\rlap{\smash{\raisebox{-.66\baselineskip}{\kern-.1em\color{paletteA}\MDUp}}}}}
 \newcommand*\mbg[2][0]{\only<#2|handout:#1>{\rlap{\smash{\raisebox{-.66\baselineskip}{\kern-.1em\color{shadeA}\MDUp}}}}}
 \newcommand*\mh[2][0]{\only<#2|handout:#1>{\color{paletteA}\MDUp}}
@@ -175,3 +177,6 @@
 \def\pivotelem#1{{\fboxsep=1pt\kern1pt{\hbox{\color{paletteA}\textbf{\underline{#1}}}\kern1pt}}}
 
 \def\PinguBanner#1#2{\tikz\pingu[wings wave, banner=#1, banner sticks length=3mm,banner bent=-42,banner raise=-3.55mm,banner font=\bfseries\Huge,eyes wink,banner height=5.25mm,#2];}
+
+\newcommand*\heap[2][]{\downsize{\linewidth}{\begin{forest}for tree={lblob,lgray,text=black,minimum width=2.5em,s sep=4em-level*.5em,edge={line width=3pt,lgray},#1}#2\end{forest}}}
+\colorlet{lgray}{lightgray!48!white}

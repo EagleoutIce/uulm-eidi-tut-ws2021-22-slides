@@ -1,96 +1,18 @@
-\errorcontextlines 999999
-\usepackage{attachfile2}
-\attachfilesetup{%
-    author={Florian Sihler},%
-    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
-}
+\InputIfFileExists{../global.src}\relax\relax
 
-\usepackage[%
-    sopra-listings={encoding,cpalette,highlights,numinpar},%
-    sopra-tables,
-    color-palettes={addons},%
-    util,%
-    lithie-boxes={germanenv,koma,overwrite},%
-    lithie-task-boxes={cpalette},%
-    lecture-links={patchurl},%
-    lecture-registers={disable}% would interfere with beamer
-]{lithie-util}
+\iffull
+\def\smlll{\texorpdfstring{\def\RSsmallest{2pt}\smaller[2]}{}}
+\title[Zwölftes Tutorium -- Übungsblatt 12]{Baum --- Traum --- Zauuuun --- Sieg\\\small Tutorium 12}
+\date{\sffamily KW 6}
 
-\RequirePackage{lecture-personal-tikz}
-
-\usepackage[ngerman]{babel}
-\usepackage{amssymb}
-\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
-\RestyleAlgo{plain}
-\solLoadLanguage{bash,cpp,regex}
-
-\def\solcustom{fill=paletteA!30,draw=paletteA!30}
-
-\colorlet{MaterialHeaderColor}{paletteB}%
-\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
-
-\newcommand\twosplit[3][t]{%
-\begin{columns}[#1]
-\begin{column}{0.475\linewidth}
-    #2
-\end{column}\hfill
-\begin{column}{0.475\linewidth}
-    #3
-\end{column}
-\end{columns}
-}
-
-\def\linkstyle#1{\textsf{\paletteD{#1}}}
-\SetAllLinkStyle{\linkstyle{#1}}
-\usepackage{tikzducks,tikzsymbols,lilly-color}
-\usetheme{lucy}
-
-\colorlet{chessfieldblack}{lightgray}
-
-\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
-
-\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
-
-\newcommand\parallelcontent[3][t]{%
-    \begin{columns}[#1]
-    \begin{column}{0.475\linewidth}
-        #2
-    \end{column}\hfill
-    \begin{column}{0.475\linewidth}
-        #3
-    \end{column}
-    \end{columns}
-}
-
-\tikzset{
-    dot/.style={circle,draw,align=center,text width=1em,execute at begin node={\strut}},
-    elem node/.style={inner sep=0pt}%
-}
-
-\setcounter{tocdepth}{4}
-
-\title[Zwölftes Tutorium -- Übungsblatt 12]{Die Suche nach der Prim-Sieb-Schnittstelle!\\\small Tutorium 12}
-\date{\sffamily KW 29}
-\author{Florian Sihler}
-\institute{Institute of Distributed Systems \(\circ\) University Ulm}
-
-\usepackage{tikzpingus}
-\usetikzlibrary{decorations.text}
-
+\usepackage[glows]{tikzpingus}
+\usetikzlibrary{decorations.text,matrix}
 \hypersetup{colorlinks=false}
 
 \begin{document}
-\begin{frame}[c]
-    \begin{tikzpicture}[overlay]
-        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
-            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
-        \end{scope}
-        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {12};
-    \end{tikzpicture}
-    \titlepage
-\end{frame}
-
-
+\Titlepage{12}
+\fi
+\iffalse
 \section{Präsenzaufgabe}
 \newsavebox\ActionCode \savebox\ActionCode{%
 \begin{minipage}{5.5cm}
@@ -162,158 +84,285 @@ PrimeSieve sieve = new PrimeSieve(m);^^J
         \item Allgemein ist die Worst-Case-Laufzeit damit \(\O(m \cdot n)\) und die Best-Case-Laufzeit \(\O(1)\).
     \end{itemize}
 \end{frame}
+\fi
 
 \section{Übungsblatt 12}
 \subsection{Aufgabe 1}
+\iffull
+\begin{frame}[c]{Übungsblatt 12 - Aufgabe 1}
+    \scriptsize \onslide<2->{In dieser Aufgabe sollen Sie ihre eigenen binären Bäume aus Arrays wachsen lassen und diese anschließend in der Breite durchlaufen. Hierfür finden Sie im Moodle neben diesem Übungsblatt zwei weitere Java Files, die Sie für ihre Implementierung verwenden dürfen. Verwenden Sie ansonsten keine vorgefertigten dynamischen Datenstrukturen!}
+    \begin{enumerate}
+    \item<3-> Erstellen Sie eine Klasse \bjava[morekeywords={[3]{BinaryTree,IntegerNode}}]{BinaryTree} mit einer Instanzvariable \bjava[morekeywords={[3]{BinaryTree,IntegerNode}}]{private IntegerNode root}, welche die Wurzel des binären Baumes repräsentieren soll. Definieren Sie nun einen Konstruktor, welcher ein Array aus Integer Werten als Parameter übernimmt und daraus einen balancierten binären Baum erzeugt. Für die Speicherung der Knoten können Sie die vorgegeben Klasse \bjava[morekeywords={[3]{BinaryTree,IntegerNode}}]{IntegerNode} verwenden, welche der einfach verketteten Version aus der Vorlesung von Folie X.68 entspricht. Bei der Vorlage sind die Instanzvariablen allerdings gekapselt, so dass Sie diese über die getter und setter Methoden ansprechen müssen.
+    \item<3-> Nun sollen Sie die Methode \bjava{public void breadthFirstTraversal()} implementieren, welche den Baum in der Breite durchläuft und die Werte der einzelnen Knoten ausgibt. Hierfür werden Sie die vorgegebene Klasse \bjava{Queue} benötigen, welche \bjava[morekeywords={[3]{BinaryTree,IntegerNode}}]{IntegerNode} Elemente einreihen kann.
+    \end{enumerate}
+    \onslide<4->{\textit{Hinweis:} Sollten Sie die erste Teilaufgabe nicht komplett lösen können, erzeugen Sie sich manuell einen binären Baum um ihre Implementierung der Breitensuche zu testen.}
+    \vspace*{-2.33mm}
+    \onslide<5->{\begin{center}
+        \def\arraystretch{1.75}
+        \scalebox{.875}{\begin{tabular}{|*6{>{\centering\arraybackslash}p{1.33em}|}}
+            \hline
+            9 & 1 & 7 & 3 & 6 & 5 \\
+            \hline
+        \end{tabular}\quad\(\longrightarrow\)\quad\raisebox{-.5\height}{\begin{forest}
+            for tree={dot, l sep=.15ex}
+            [9[1[3][6]][7[5][,phantom]]]
+        \end{forest}}}
+    \end{center}}
+\end{frame}
+\begin{frame}[c]{Exkurs: Ein wenig fantastische Heaps gefällig?}
+\onslide<2->{\centering\heap{%
+    [42,name=root[19,name=inner1[7,name=inner2[3,name=leaf1][-2,name=leaf2]][8,name=leaf3]][-5,name=inner3[-9,name=leaf4]]]%
+    \onslide<3->{\fill[paletteA,rounded corners=.4pt] (root.north)++(-.75mm,2mm-.75mm) rectangle ++(1.5mm,1.5mm) [radius=2.15pt] node[left=1.65mm+.75mm,paletteA,font=\bfseries] (dr) {Wurzel};
+    \node[below=-4pt,gray,font=\scriptsize\itshape] at (dr.south) {root};}
+    \pgfinterruptboundingbox
+    \onslide<4->{\fill[paletteB] (inner1.north)++(0,2mm) circle [radius=2.15pt] node[left=1.65mm,paletteB,font=\bfseries] (di) {Innerer Knoten};
+    \node[below=-4pt,gray,font=\scriptsize\itshape] at (di.south) {inner node};
+    \foreach\i in {2,3} {\fill[paletteB] (inner\i.north)++(0,2mm) circle [radius=2.15pt];}}
+    \onslide<5->{\fill[paletteD] (leaf1.west)++(-2mm,0) circle [radius=2.15pt] node[left=1.65mm,paletteD,font=\bfseries] (dl) {Blatt};
+    \node[below=-4pt,gray,font=\scriptsize\itshape] at (dl.south) {leaf};
+    \foreach\i in {2,3,4} {\fill[paletteD] (leaf\i.west)++(-2mm,0) circle [radius=2.15pt];}}
+    \endpgfinterruptboundingbox
+    \onslide<6->{
+        \node[right=1.25cm,gray] (niveau) at (dr-|inner3) {\textbf{Ebene}};
+    }
+    \pgfonlayer{background}
+        \foreach[count=\i] \x in {root,inner1,leaf3,leaf1} {
+            \onslide<\the\numexpr\i+6\relax->{
+                \node[gray,font=\bfseries] (dn\i) at(\x-|niveau) {\the\numexpr\i-1\relax};
+                \draw[lgray!90!white,densely dashed, very thick] (dn\i.west) -- (dl.west|-dn\i.west);
+            }
+        }
+    \endpgfonlayer
+}}
+\end{frame}
+\begin{frame}[c]{Exkurs: Heaps\ldots\ Bäume. Was hat eine Wurzel und zwei Beine?}
+\begin{columns}[c]
+\begin{column}{.55\linewidth}
+\begin{itemize}
+    \itemsep8pt
+    \item<4-> Jede gefüllte Ebene \(i\) enthält \(2^i\) Elemente.
+    \item<5-> Die Nummerierung nach Breitendurchlauf erlaubt Adressierung!
+    \item<7-> Das linke Kind von \(n\) ist \(2 \cdot n + 1\), das rechte Kind \(2 \cdot n + 2\).
+    \item<8-> Der Elternknoten von \(n\) ist \(\lfloor \frac{n - 1}{2}\rfloor\).
+\end{itemize}
+\end{column}
+\begin{column}{.35\linewidth}
+\onslide<2->{\heap[s sep=3em-level*.5em]{[18,name=a[7,name=b[3,name=c[3,name=d][2,name=e]][6,name=f]][-2,name=g[-1,name=h][-2,name=i]]]%
+\pgfonlayer{background}
+\onslide<3->{\foreach[count=\i] \x in {a,b,c,d} {
+        \node[gray,font=\bfseries] (dn\i) at(\x-|4,0) {\the\numexpr\i-1\relax};
+        \draw[lgray!90!white,densely dashed, very thick] (dn\i.west) -- (d.west|-dn\i.west) -- ++(-2.5mm,0);
+}}
+\onslide<6->{\foreach[count=\i] \x in {a, b, g, c, f, h, i, d, e} {
+        \node[paletteA,font=\bfseries,left=.25mm] at (\x.west) {\the\numexpr\i-1\relax};
+}}
+\endpgfonlayer}}
+\end{column}
+\end{columns}
+\begin{tikzpicture}[overlay,remember picture]
+    \colorlet{qr@fancy@gradient@tl}{gray!14!paletteA}
+    \colorlet{qr@fancy@gradient@br}{gray!90!paletteA}
+    \onslide<9->{\node[above left,yshift=.5cm,xshift=-.15cm] at(current page.south east) {\fancyqr[height=1.75cm,level=H]{https://github.com/EagleoutIce/Episode-Heaps}};}
+\end{tikzpicture}
+\end{frame}
+\fi
+
 \begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 1a)}
     \begin{itemize}[<+(1)->]
-        \item Dateien Palast: \only<2->{\textattachfile{BiNode.java}{BiNode.java}} und \only<2->{\textattachfile{BinaryTree.java}{BinaryTree.java}}.
-        \item Für \T{insert} schreiben wir eine rekursive Hilfsmethode, die von der Wurzel an die korrekte Position sucht:
-\begin{plainjava}
-!*\onslide<4->*!public void insert(int element) {
-!*\onslide<5->*!    this.root = insert(this.root, element);
+        \item Ein Dateien Palast: \only<2->{\textattachfile{\curpath IntegerNode.java}{IntegerNode.java}}, \only<2->{\textattachfile{\curpath Queue.java}{Queue.java}} und \only<2->{\textattachfile{\curpath BinaryTree.java}{BinaryTree.java}}.
+        \item Wir bauen einen binären Baum \info{ich glaub es kaum. Zauuuuun}:
+\begin{plainjava}[morekeywords={[3]{BinaryTree,IntegerNode}}]
+!*\onslide<4->*!public BinaryTree(int[] items) {
+!*\onslide<5->*!    this.root = buildTree(items, 0);
 !*\onslide<4->*!}
+!*\onslide<6->*!private static IntegerNode buildTree(int[] items, int index) {
+!*\onslide<7->*!    if (index >= items.length) return null;
+!*\onslide<7->*!
+!*\onslide<8->*!    IntegerNode node = new IntegerNode(items[index]);
+!*\onslide<10->*!    node.setLeftChild(buildTree(items, 2 * index + 1)); // left
+!*\onslide<10->*!    node.setRightChild(buildTree(items, 2 * index + 2)); // right
+!*\onslide<9->*!    return node;
+!*\onslide<6->*!}
 \end{plainjava}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 1a)}
-    \begin{itemize}[<+(1)->]
-        \item Hier der rekursive Helfers-Helfer:
-\begin{plainjava}[morekeywords={[3]{BiNode}}]
-!*\onslide<3->*!public static BiNode insert(BiNode current, int element) {
-!*\onslide<4->*!  if(current == null) { // leaf
-!*\onslide<5->*!    return new BiNode(element);
-!*\onslide<4->*!  } else if (element < current.value) { // left
-!*\onslide<6->*!    current.left = insert(current.left, element);
-!*\onslide<4->*!  } else if (element > current.value) { // right
-!*\onslide<7->*!    current.right = insert(current.right, element);
-!*\onslide<4->*!  }
-!*\onslide<8->*!  return current; // already present
+\iffull
+\begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 1a)\hfill Watcha doin?}
+\SetupLstHl\lstfs{8}%
+\begin{plainjava}[morekeywords={[3]{BinaryTree,IntegerNode}}]
+!*\onslide<2->*!!*\md4*!public BinaryTree(int[] items) { !*\rBS<handout:1-3|4->{items=\{14,3,7,8,-2\}}*!
+!*\onslide<2->*!    !*\md5*!this.root = build!*\mb6*!!*\mbg[1-2]{7-59}*!Tr!**!ee(items, 0);!*\ml[3]{60}*!
+!*\onslide<2->*!}
+
+!*\onslide<3->*!!*\md{7,12,17,22,29,38,51}*!private static IntegerNode buildTree(int[] items, int index) { !*\rBS<handout:1|7-11,47-50,57-59>{items=\{\mkb{14},3,7,8,-2\}}*!!*\rBS<handout:2|12-16,34-37,44-46>{items=\{14,\mkb{3},7,8,-2\}}*!!*\rBS<handout:0|17-21,25-28,32-33>{items=\{14,3,7,\mkb{8},-2\}}*!!*\rBS<handout:0|22-24,29-31>{items=\{14,3,7,8,-2\}~\mkb{~}}*!!*\rBS<38-43|handout:0>{items=\{14,3,7,8,\mkb{-2}\}}*!!*\rBS<51-56|handout:0>{items=\{14,3,\mkb{7},8,-2\}}*!
+!*\onslide<3->*!    !*\md{8,13,18,23,30,39,52}*!if (index >= items.length) return null;!*\ml{24,31}~*! !*\rBS<handout:1|8-11,47-50,57-59>{0>=5}*!!*\rBS<handout:2|13-16,34-37,44-46>{1>=5}*!!*\rBS<handout:0|18-21,25-28,32-33>{3>=5}*!!*\rBS<handout:0|23-24,30-31>{7>=5}*!!*\rBS<handout:0|39-43>{4>=5}*!!*\rBS<handout:0|52-56>{2>=5}*!
+!*\onslide<3->*!
+!*\onslide<3->*!    !*\md{9,14,19,40,53}*!IntegerNode node = new IntegerNode(items[index]); !*\rBS<handout:1|9-11,47-50,57-59>{IntegerNode(14)}*!!*\rBS<handout:2|14-16,34-37,44-46>{IntegerNode(3)}*!!*\rBS<handout:0|19-21,25-28,32-33>{IntegerNode(8)}*!!*\rBS<handout:0|40-43>{IntegerNode(-2)}*!!*\rBS<handout:0|53-56>{IntegerNode(7)}*!
+
+!*\onslide<3->*!    !*\md[1]{10,15,20,41,54}*!node.setLeftChild(build!*\mb{11,16,21,25,34,47}\mbg[1,2]{12-15,17-20,22-24,26-33,35-46}*!Tre!**!e(items, 2 * index + 1));!*\ml{26,35,48}~*! !*\rBS<handout:1|10-11>{2*0+1, items=\{14,\mkb{3},7,8,-2\}}*!!*\rBS<handout:0|15-16>{2*1+1, items=\{14,3,7,\mkb{8},-2\}}*!!*\rBS<handout:0|20-21>{2*2+1, items=\{14,3,7,8,-2\}~\mkb{~}}*!!*\rBS<handout:0|41-43,54-56>{skipping\ldots}*!
+
+!*\onslide<3->*!    !*\md{27,36,42,49,55}*!node.setRightChild(build!*\mb{28,32,37,44,50,57}\mbg{29-31,38-43,51-56}*!Tr!**!ee(items, 2 * index + 2));!*\ml[2]{45,58}~*! !*\rBS<handout:0|27-28>{2*3+2, items=\{14,3,7,8,-2\}~\mkb{~}}*!!*\rBS<handout:0|36-37>{2*1+2, items=\{14,3,7,8,\mkb{-2}\}}*!!*\rBS<handout:0|42-43,55-56>{skipping\ldots}*!!*\rBS<handout:0|49-50>{2*0+2, items=\{14,3,\mkb{7},8,-2\}}*!
+
+!*\onslide<3->*!    !*\md{33,43,46,56,59}*!return node;
 !*\onslide<3->*!}
 \end{plainjava}
-    \end{itemize}
+\begin{tikzpicture}[overlay,remember picture,scale=.65,every node/.append style={transform shape}]
+    \scope[shift=(current page.south east),xshift=-.5cm-2cm,yshift=.5cm+3.5cm]
+        \onslide<10->{\node[dot] (0) at (0,0) {14};}
+        \onslide<handout:2-|14->{\node[dot] (1) at (-1,-1) {3};}
+        \onslide<handout:2-|19->{\node[dot] (2) at (-1.75,-2) {8};}
+        \onslide<handout:2-|25->{\draw (2) -- (1);}
+        \onslide<handout:2-|40->{\node[dot] (3) at (-.25,-2) {-2};}
+        \onslide<handout:2-|45->{\draw (3) -- (1);}
+        \onslide<handout:3-|48->{\draw (1) -- (0);}
+        \onslide<handout:3-|53->{\node[dot] (4) at (1,-1) {7};}
+        \onslide<handout:3-|58->{\draw (4) -- (0);}
+        \onslide<handout:3-|60->{\node[above=-1mm,align=center] at (0.north) {root\\[-1.8mm]\faCaretDown};}
+    \endscope
+\end{tikzpicture}
 \end{frame}
+\fi
 
 \begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 1b)}
     \begin{itemize}[<+(1)->]
-        \item Lets check the nodes:
-\begin{plainjava}[morekeywords={[3]{BiNode}}]
-!*\onslide<3->*!public int nodes() {
-!*\onslide<4->*!  return nodes(this.root);
-!*\onslide<3->*!}
-!*\onslide<5->*!public static int nodes(BiNode current) {
-!*\onslide<6->*!  if(current == null) {
-!*\onslide<7->*!    return 0;
-!*\onslide<6->*!  } else {
-!*\onslide<8->*!    return 1 + nodes(current.left) + nodes(current.right);
-!*\onslide<6->*!  }
+        \item Der Breitendurchlauf:\lstfs{10}
+\begin{plainjava}[morekeywords={[3]{BinaryTree,IntegerNode}}]
+!*\onslide<3->*!public void breadthFirstTraversal() {
+!*\onslide<4->*!    Queue queue = new Queue();
+!*\onslide<4->*!    queue.enqueue(root);
+!*\onslide<3->*!
+!*\onslide<5->*!    while (!queue.isEmpty()) {
+!*\onslide<6->*!        IntegerNode node = queue.dequeue();
+!*\onslide<6->*!        if(node == null) continue;
+!*\onslide<3->*!
+!*\onslide<7->*!        queue.enqueue(node.getLeftChild());
+!*\onslide<7->*!        queue.enqueue(node.getRightChild());
+!*\onslide<3->*!
+!*\onslide<8->*!        System.out.print(node.getValue() + " ");
+!*\onslide<3->*!    }
 !*\onslide<5->*!}
 \end{plainjava}
     \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 1c)}
-    \begin{itemize}[<+(1)->]
-        \item Final die (binäre) Suche:
-\begin{plainjava}[morekeywords={[3]{BiNode}}]
-!*\onslide<3->*!public boolean isElement(int value) {
-!*\onslide<4->*!  return isElement(this.root, value);
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 1c)}
-    \begin{itemize}[<+(1)->]
-        \item Sowie der Helfers-Helfer:
-\begin{plainjava}[morekeywords={[3]{BiNode}}]
-!*\onslide<3->*!public static boolean isElement(BiNode current, int value) {
-!*\onslide<4->*!  if(current == null) {
-!*\onslide<5->*!    return false;
-!*\onslide<4->*!  } else if (current.value == value) {
-!*\onslide<6->*!    return true;
-!*\onslide<4->*!  } else if(value < current.value) { // left
-!*\onslide<7->*!    return isElement(current.left, value);
-!*\onslide<4->*!  } else {// right
-!*\onslide<8->*!    return isElement(current.right, value);
-!*\onslide<4->*!  }
-!*\onslide<3->*!}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
-
 \subsection{Aufgabe 2}
-\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 2a)}
-    \begin{itemize}[<+(1)->]
-        \item Zunächst die Klassen \info{diese habe ich lediglich umbenannt, damit sie mit den vorherigen nicht kollidieren}: \only<2->{\textattachfile{Memory.java}{Memory.java}}, \only<2->{\textattachfile{MemoryQueue.java}{MemoryQueue.java}} und \only<2->{\textattachfile{MemoryStack.java}{MemoryStack.java}}.
-        \item Zunächst das Grundgerüst:
-\begin{plainjava}[morekeywords={[3]{BiNode,Memory}}]
-!*\onslide<4->*!abstract class Memory {
-!*\onslide<5->*!  protected final BiNode[] memory;
-!*\onslide<5->*!  protected int length;
-!*\onslide<6->*!  protected Memory(int size) {
-!*\onslide<7->*!    if(size < 0)
-!*\onslide<7->*!      throw new IllegalArgumentException("Negative Speichergröße");
-!*\onslide<8->*!    this.memory = new BiNode[size];
-!*\onslide<8->*!    this.length = 0;
-!*\onslide<6->*!  }
-!*\onslide<9->*!// ...
-\end{plainjava}
-    \end{itemize}
+\iffull
+\begin{frame}[c]{Übungsblatt 12 - Aufgabe 2}
+\scriptsize\onslide<2->{In dieser Aufgabe sollen Sie eine Methode implementieren, welche einen \textit{Binary Expression Tree} auswerten kann. Dabei handelt es sich um eine spezielle Art von Baum, bei dem die Blätter Werte und die inneren Knoten arithmetische Operatoren speichern.
+Gehen Sie dafür folgendermaßen vor.}
+\begin{enumerate}
+    \item<3-> Erstellen Sie eine Klasse \solGet{keywordC}{StringNode}, welche den Datentyp \bjava{String} verwendet um den Wert des Knotens zu speichern. Dies ist für diese Aufgabe notwendig, da Sie hier sowohl Integer Werte als auch arithmetische Operatoren speichern sollen. Hierbei können Sie die Eigenschaften der Klasse \solGet{keywordC}{IntegerNode} übernehmen.
+    Fügen Sie nun noch die Methode \bjava{public boolean isLeaf()} hinzu, welche \texttt{true} zurückliefert falls es sich bei dem Knoten um ein Blatt im Baum handelt.
+    \item<4-> Erstellen Sie nun eine Klasse \solGet{keywordC}{BinaryExpressionTree}, welche ähnlich zur Klasse \solGet{keywordC}{BinaryTree} einen Konstruktor besitzt der anhand eines übergebenen Arrays einen Baum erzeugen kann.
+    Implementieren Sie nun die Methode \bjava{public double evaluate()}, welche den gespeicherten arithmetischen Ausdruck auswertet und das Ergebnis zurückliefert. Hierfür werden Sie sich eine rekursive Hilfsmethode implementieren müssen.
+\end{enumerate}
+\onslide<5->{Verwenden Sie auch bei dieser Aufgabe keine Arrays oder vorgefertigten dynamischen Datenstrukturen in ihrer Implementierung.
+\onslide<6->{\textbf{Hinweise:}
+\begin{itemize}
+    \item Falls Sie die Erzeugung des Baumes in der vorherigen Aufgabe nicht lösen konnten, erzeugen Sie sich in dieser Aufgabe manuell einen entsprechenden Baum im Konstruktor um ihre Implementierung testen zu können.
+    \item Ihr Baum sollte die \textit{Addition}, \textit{Subtraktion}, \textit{Multiplikation} und \textit{Division} unterstützen.
+    \item Die Methode \bjava{Double.parseDouble(string)} gibt den Fließkommawert zurück, welcher im übergebenen String \T{string} repräsentiert ist.}
+\end{itemize}}
 \end{frame}
+\fi
 
-\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 2a)}
-    \begin{itemize}[<+(1)->]
-        \item Hier die gemeinsamen Methoden:
-\begin{plainjava}[morekeywords={[3]{BiNode,Memory}}]
-!*\onslide<3->*!// ...
-!*\onslide<4->*!public abstract void write(BiNode x) throws IllegalStateException;
-!*\onslide<3->*!
-!*\onslide<5->*!public abstract BiNode read() throws IllegalStateException;
-!*\onslide<3->*!
-!*\onslide<6->*!public abstract BiNode peek() throws IllegalStateException;
-!*\onslide<3->*!
-!*\onslide<7->*!public boolean isEmpty() {
-!*\onslide<8->*!  return this.length <= 0;
-!*\onslide<7->*!}
-\end{plainjava}
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 2.1)}
+    \SetupLstHl\lstfs{9}\begin{itemize}[<+(1)->]
+        \item Zusätzliche Freu(n)de: \only<2->{\textattachfile{\curpath StringNode.java}{StringNode.java}} und \only<2->{\textattachfile{\curpath BinaryExpressionTree.java}{BinaryExpressionTreeStringNode.java}}
     \end{itemize}
-\end{frame}
-
-
-\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 2b)}
-    \begin{itemize}[<+(1)->]
-        \item Wir können uns hier \T{isEmpty}, sowie einige Attribute sparen:
-\begin{plainjava}[morekeywords={[3]{BiNode,Memory,MemoryQueue}}]
-!*\onslide<3->*!public class MemoryQueue extends Memory {
-!*\onslide<4->*!  private int first;
-!*\onslide<5->*!  public MemoryQueue(int size) {
-!*\onslide<6->*!    super(size);
-!*\onslide<6->*!    this.first = 0;
-!*\onslide<5->*!  }
-
-!*\onslide<7->*!  // write, read und peek unverändert
+\begin{plainjava}[morekeywords={[3]{StringNode}}]
+!*\onslide<3->*!public class StringNode {
+!*\onslide<4->*!    private String item;
+!*\onslide<4->*!    private StringNode left;
+!*\onslide<4->*!    private StringNode right;
+!*\onslide<3->*!
+!*\onslide<5->*!    |ihl|public void setRightChild(StringNode right) { this.right = right; }|ihl|
+!*\onslide<5->*!    |ihl|public StringNode getRightChild() { return this.right; }|ihl|
+!*\onslide<5->*!    |ihl|public void setLeftChild(StringNode left) { this.left = left; }|ihl|
+!*\onslide<5->*!    |ihl|public StringNode getLeftChild() { return this.left; }|ihl|
+!*\onslide<5->*!    |ihl|public void setItem(String item) { this.item = item; }|ihl|
+!*\onslide<5->*!    |ihl|public String getItem() { return this.item; }|ihl|
+!*\onslide<3->*!
+!*\onslide<7->*!    public boolean isLeaf() { return left == null && right == null; }
+!*\onslide<3->*!
+!*\onslide<6->*!    |ihl|public StringNode(String v) { this.item = v; this.right = this.left = null; }|ihl|
 !*\onslide<3->*!}
 \end{plainjava}
-    \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 2b)}
-    \begin{itemize}[<+(1)->]
-        \item Analog beim Stack:
-\begin{plainjava}[morekeywords={[3]{BiNode,Memory,MemoryStack}}]
-!*\onslide<3->*!public class MemoryStack extends Memory {
-!*\onslide<4->*!  public MemoryStack(int size) {
-!*\onslide<5->*!    super(size);
-!*\onslide<4->*!  }
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 2.2)}
+    \SetupLstHl\lstfs{9}\begin{itemize}[<+(1)->]
+        \item Die Grundlage des Baumes ist wie bekannt:
+    \end{itemize}
+\begin{plainjava}[morekeywords={[3]{BinaryExpressionTree,StringNode}}]
+!*\onslide<3->*!public class BinaryExpressionTree {
+!*\onslide<4->*!    private StringNode root;
+!*\onslide<5->*!    |ihl|public BinaryExpressionTree(|ihl|String[] |ihl|items) {|ihl|
+!*\onslide<6->*!        |ihl|this.root = buildTree(items, 0);|ihl|
+!*\onslide<5->*!    }
+!*\onslide<7->*!    |ihl|private static|ihl| StringNode |ihl|buildTree(|ihl|String[] |ihl|items, int index) {|ihl|
+!*\onslide<8->*!        |ihl|if (index >= items.length) return null;|ihl|
 !*\onslide<3->*!
-!*\onslide<6->*!  // write, read und peek unverändert
+!*\onslide<9->*!        StringNode |ihl|node = new|ihl| StringNode(|ihl|items[index]|ihl|);
+!*\onslide<10->*!        |ihl|node.setLeftChild(buildTree(items, 2 * index + 1));|ihl|
+!*\onslide<10->*!        |ihl|node.setRightChild(buildTree(items, 2 * index + 2));|ihl|
+!*\onslide<11->*!        |ihl|return node;|ihl|
+!*\onslide<7->*!    }
+!*\onslide<3->*!
+!*\onslide<12->*!    // :ldots:
 !*\onslide<3->*!}
 \end{plainjava}
-    \end{itemize}
 \end{frame}
 
+\begin{frame}[t,fragile]{Übungsblatt 12 - Aufgabe 2.2)}
+    \SetupLstHl\lstfs{8}\begin{itemize}[<+(1)->]
+        \item Die Auswertung
+    \end{itemize}
+\begin{plainjava}[morekeywords={[3]{BinaryExpressionTree,StringNode}}]
+!*\onslide<3->*!|ihl|public class BinaryExpressionTree {|ihl|
+!*\onslide<4->*!   |ihl|private StringNode root;|ihl|
+!*\onslide<4->*!   // :ldots:
+!*\onslide<5->*!   public double evaluate() { return traverse(root); }
+!*\onslide<6->*!   public double traverse(StringNode node) {!*\onslide<13->*! // Postorder
+!*\onslide<7->*!      |ihl|if (node == null) throw new IllegalStateException("Traversing empty");|ihl|
+!*\onslide<8->*!      if (node.isLeaf())  return Double.parseDouble(node.getItem());
+!*\onslide<9->*!      double valueLeft = traverse(node.getLeftChild());
+!*\onslide<9->*!      double valueRight = traverse(node.getRightChild());
+!*\onslide<5->*!
+!*\onslide<10->*!      switch (node.getItem()) { // Get the Operator
+!*\onslide<11->*!          case "+": return valueLeft + valueRight;
+!*\onslide<11->*!          case "-": return valueLeft - valueRight;
+!*\onslide<11->*!          case "*": return valueLeft * valueRight;
+!*\onslide<11->*!          case "/": return valueLeft / valueRight;
+!*\onslide<12->*!          default: throw new IllegalArgumentException(":ldots:");
+!*\onslide<10->*!      }
+!*\onslide<6->*!   }
+!*\onslide<3->*!|ihl|}|ihl|
+\end{plainjava}
+\end{frame}
+
+\subsection{Aufgabe 3}
+\iffull
+\begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 3}
+\footnotesize\onslide<2->{In dieser Aufgabe sollen Sie noch ein letztes Mal etwas auf der Kommandozeile zeichnen. Dieses Mal sollen Sie die Array-Repräsentation eines balancierten Binärbaumes grafisch darstellen. Hierfür sollten Sie sich zuerst Gedanken über die Eigenschaften des resultierenden Baumes machen. Ihre Implementierung sollte Bäume beliebiger Größe mit Knoten mit ganzzahligen positiven Werte zwischen 1 und 99 korrekt eingerückt darstellen können.
+Die Ausgabe ihres Programms sollte in etwa so aussehen:}
+\begin{plainbash}
+*\onslide<3->*Binärbaum-Darstellung von: [35, 5, 18, 19, 92, 85, 72, 84, 5]
+*\onslide<3->*              35
+*\onslide<3->*      +-------+-------+
+*\onslide<3->*      5               18
+*\onslide<3->*  +---+---+       +---+---+
+*\onslide<3->*  19      92      85      72
+*\onslide<3->*+-+-+
+*\onslide<3->*84  5
+\end{plainbash}
+\end{frame}
+\fi
+
+\begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 3}
+    TODO \textattachfile{\curpath DrawTree.java}{DrawTree.java}
+\end{frame}
 
 \subsection{Zusatzaufgabe 6/6}
 \begin{frame}[c]{Übungsblatt 12 - Zusatzaufgabe}
@@ -326,7 +375,7 @@ PrimeSieve sieve = new PrimeSieve(m);^^J
         (dynamisch) wir abhängig von der jeweiligen Instanz der entsprechende Code ausgeführt.
         \item \bjava[morekeywords={[3]{BinaryTree}}]{BinaryTree::traverseQ} implementiert eine Level-Order-Traversierung, wobei die Kindknoten von
         rechts nach links besucht werden.
-        \bjava[morekeywords={[3]{BinaryTree}}]{BinaryTreBinaryTree::traverseS} implementiert eine Pre-Order-Traversierung.
+        \bjava[morekeywords={[3]{BinaryTree}}]{BinaryTree::traverseS} implementiert eine Pre-Order-Traversierung.
     \end{itemize}
 \end{frame}
 
@@ -358,4 +407,4 @@ PrimeSieve sieve = new PrimeSieve(m);^^J
 \end{center}
 \end{frame}
 
-\end{document}
+\iffull\end{document}\fi

@@ -1,57 +1,65 @@
-import java.util.Arrays;
-
 public class Queue {
-  private final BiNode[] memory;
-  private int length;
-  private int first;
+    class Element {
+        private final IntegerNode node;
+        private Element next;
 
-  public Queue(int size) {
-    if (size < 0)
-      throw new IllegalArgumentException("Negative Speichergröße");
+        public Element(IntegerNode node) {
+            this.node = node;
+            this.next = null;
+        }
 
-    this.memory = new BiNode[size];
-    this.length = 0;
-    this.first = 0;
-  }
+        public void setNextElement(Element nextElement) {
+            this.next = nextElement;
+        }
 
-  public void write(BiNode element) throws IllegalStateException {
-    if (this.length >= this.memory.length) {
-      throw new IllegalStateException("Queue voll");
+        public Element getNextElement() {
+            return this.next;
+        }
+
+        public IntegerNode getNode() {
+            return this.node;
+        }
     }
 
-    this.memory[(this.first + this.length) % this.memory.length] = element;
-    this.length++;
-  }
+    private Element first;
+    private Element last;
+    private int length;
 
-  public BiNode read() throws IllegalStateException {
-    if (this.length <= 0) {
-      throw new IllegalStateException("Queue leer");
+    public Queue() {
+        this.first = null;
+        this.last = null;
+        this.length = 0;
     }
 
-    BiNode toReturn = this.memory[this.first];
-    this.first++;
-    this.first %= this.memory.length;
-    this.length--;
-    return toReturn;
-  }
+    public void enqueue(IntegerNode node) {
+        Element newElement = new Element(node);
 
-  public BiNode peek() throws IllegalStateException {
-    if (this.length <= 0) {
-      throw new IllegalStateException("Queue leer");
+        if(length == 0)
+            this.first = newElement;
+        else
+            this.last.setNextElement(newElement);
+
+        this.last = newElement;
+        length++;
     }
 
-    return this.memory[this.first];
-  }
+    public IntegerNode dequeue() {
+        if(length > 0) {
+            IntegerNode front = this.first.getNode();
+            this.first = this.first.getNextElement();
+            length--;
+            return front;
+        }
 
-  public boolean isEmpty() {
-    return this.length <= 0;
-  }
+        return null;
+    }
 
-  public String toString() {
-    return "{"
-      + "first" + ": " + this.first + ", "
-      + "length" + ": " + this.length + ", "
-      + "memory" + ": " + Arrays.toString(this.memory)
-      + "}";
-  }
+    public int getLength() {
+        return this.length;
+    }
+
+    public boolean isEmpty() {
+        return this.length == 0;
+    }
+
 }
