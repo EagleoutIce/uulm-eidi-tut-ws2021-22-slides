@@ -172,7 +172,7 @@ public class Queue {
     }
     private Element first;
     private Element last;
-    private int length;
+    private int size;
 }
 \end{plainjava}
 \end{onlyenv}
@@ -186,7 +186,7 @@ public class RPNStack {
     }
     private Element first;
     // private Element last;
-    private int length;
+    private int size;
 }
 \end{plainjava}
 \end{onlyenv}
@@ -203,12 +203,12 @@ public class RPNStack {
 !*\onslide<3->*!|ihl|public class RPNStack {|ihl|
 !*\onslide<4->*!    |ihl|class Element { final int value; Element next = null; }|ihl|
 !*\onslide<4->*!    |ihl|private Element first;|ihl|
-!*\onslide<4->*!    |ihl|private int length;|ihl|
+!*\onslide<4->*!    |ihl|private int size;|ihl|
 !*\onslide<5->*!    public void push(int value) {
 !*\onslide<6->*!        Element top = new Element(value);
 !*\onslide<7->*!        top.next = this.first;
 !*\onslide<7->*!        this.first = top;
-!*\onslide<8->*!        this.length++;
+!*\onslide<8->*!        this.size++;
 !*\onslide<5->*!    }
 !*\onslide<3->*!|ihl|}|ihl|
 \end{plainjava}
@@ -220,14 +220,14 @@ public class RPNStack {
 !*\onslide<2->*!|ihl|public class RPNStack {|ihl|
 !*\onslide<2->*!    |ihl|class Element { final int value; Element next = null; }|ihl|
 !*\onslide<2->*!    |ihl|private Element first;|ihl|
-!*\onslide<2->*!    |ihl|private int length;|ihl|
+!*\onslide<2->*!    |ihl|private int size;|ihl|
 !*\onslide<3->*!    |ihl|public void push(int value) { :ldots: }|ihl|
 !*\onslide<2->*!
 !*\onslide<4->*!    public int pop() {
-!*\onslide<5->*!        if(this.length == 0) throw new NoSuchElementException();
+!*\onslide<5->*!        if(this.size == 0) throw new NoSuchElementException();
 !*\onslide<6->*!        int value = this.first.value;
 !*\onslide<6->*!        this.first = this.first.next;
-!*\onslide<7->*!        this.length--;
+!*\onslide<7->*!        this.size--;
 !*\onslide<8->*!        return value;
 !*\onslide<4->*!    }
 !*\onslide<2->*!|ihl|}|ihl|
@@ -240,7 +240,7 @@ public class RPNStack {
         \item Wir können für jede Operation eine Methode wie folgt implementieren:
 \begin{plainjava}[morekeywords={[3]{RPNStack}}]
 !*\onslide<3->*!public void subtract() {
-!*\onslide<4->*!    if(this.length < 2) throw new NoSuchElementException();!*\onslide<7->*! // Nötig? :yields: Nö
+!*\onslide<4->*!    if(this.size < 2) throw new NoSuchElementException();!*\onslide<7->*! // Nötig? :yields: Nö
 !*\onslide<5->*!    int a = this.pop();
 !*\onslide<5->*!    int b = this.pop();
 !*\onslide<6->*!    this.push(b - a);!*\onslide<7->*! // this.push(-this.pop() + this.pop())
@@ -271,7 +271,7 @@ public class RPNStack {
 !*\onslide<2->*!    |ihl|public int pop() throws NoSuchElementException { :ldots: }|ihl|
 !*\onslide<2->*!    |ihl|private enum BinaryOperation { ADD, SUB, MUL }|ihl|
 !*\onslide<3->*!    private void performBinaryOperation(BinaryOperation operation) {
-!*\onslide<4->*!        if(this.length < 2) throw new NoSuchElementException();!*\onslide<13->*! // Nötig? :yields: Nopsie
+!*\onslide<4->*!        if(this.size < 2) throw new NoSuchElementException();!*\onslide<13->*! // Nötig? :yields: Nopsie
 !*\onslide<5->*!        int a = this.pop();
 !*\onslide<5->*!        int b = this.pop();
 !*\onslide<6->*!        switch(operation) {
@@ -358,7 +358,7 @@ public class Queue {
     }
     private Element first;
     private Element last;
-    private int length;
+    private int size;
 }
 \end{plainjava}
 \end{onlyenv}
@@ -412,7 +412,7 @@ public class RingBuffer {
 !*\onslide<2->*!    |ihl|private Element head, tail;|ihl|
 !*\onslide<2->*!    |ihl|private boolean isFull;|ihl|
 !*\onslide<3->*!    public RingBuffer(int capacity) {
-!*\onslide<4->*!        // ..
+!*\onslide<4->*!        // ...
 !*\onslide<4->*!        |ihl|Element current;|ihl|
 !*\onslide<2->*!
 !*\onslide<5->*!        for(int i = 1; i < capacity; i++) {
