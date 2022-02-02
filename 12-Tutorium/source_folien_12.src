@@ -261,8 +261,8 @@ Gehen Sie dafür folgendermaßen vor.}
 \onslide<6->{\textbf{Hinweise:}
 \begin{itemize}
     \item Falls Sie die Erzeugung des Baumes in der vorherigen Aufgabe nicht lösen konnten, erzeugen Sie sich in dieser Aufgabe manuell einen entsprechenden Baum im Konstruktor um ihre Implementierung testen zu können.
-    \item Ihr Baum sollte die \textit{Addition}, \textit{Subtraktion}, \textit{Multiplikation} und \textit{Division} unterstützen.
-    \item Die Methode \bjava{Double.parseDouble(string)} gibt den Fließkommawert zurück, welcher im übergebenen String \T{string} repräsentiert ist.}
+    \item Ihr Baum sollte die Operationen \textit{Addition}, \textit{Subtraktion}, \textit{Multiplikation} und \textit{Division} unterstützen.
+    \item Die Methode \bjava{public static double parseDouble(String s)} der Wrapper Klasse \bjava{Double} gibt ihnen den Fließkommawert zurück, welcher im übergebenen String \T{s} gespeichert ist.
 \end{itemize}}
 \end{frame}
 \fi
