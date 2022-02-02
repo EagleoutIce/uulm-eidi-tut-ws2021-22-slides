@@ -4,6 +4,7 @@
 \date{\sffamily KW 43}
 \fi
 
+\newsavebox\pinguA \newsavebox\pinguB
 \iffull
 \savebox\pinguA{\tikz\pingu[eyes shock, wings shock];}
 \savebox\pinguB{\tikz{\pingu[eyes shiny, left wing wave,tie=pingu@purple,tie dots,halo, staff right,hair 3=pingu@purple,name=X]; \node[above right,xshift=1mm] at(X-wing-left) {He... Helloh?};}}
