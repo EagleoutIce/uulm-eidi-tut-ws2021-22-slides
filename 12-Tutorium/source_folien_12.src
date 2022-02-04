@@ -12,7 +12,7 @@
 \begin{document}
 \Titlepage{12}
 \fi
-\iffalse
+
 \section{Präsenzaufgabe}
 \newsavebox\donotmesswithbeateagain \savebox\donotmesswithbeateagain{%
 \pgfdeclarelayer{very-background}%
@@ -614,7 +614,6 @@ int leftPad = width / (levelWidth * 2) - 2; // halb links, halb rechts
 !*\onslide<2->*!}
 \end{plainjava}
 \end{frame}
-\fi
 
 \subsection{Zusatzaufgabe 6/6}
 \iffull
@@ -813,27 +812,23 @@ static final char EMPTY = 0;^^J
     \item Wir probieren jeden Zug und wählen den besten:
 \end{itemize}
 \vspace*{-1mm}\lstfs{9}\SetupLstHl\begin{plainjava}[morekeywords={[4]{PLAYER_COMP,PLAYER_HUMAN,WIN_HUMAN,LOSE_HUMAN,DRAW,EMPTY}}]
-public static char[][] computerMove(char[][] board) {
-    System.out.println("Computer ist am Zug:");
-    int bestScore = WIN_HUMAN;
-    int bestMove = 1;
-
-    for (int y = 0; y < 3; y++) {
-        for (int x = 0; x < 3; x++) {
-            if (board[y][x] == EMPTY) {
-                board[y][x] = PLAYER_COMP;
-                int score = minimax(board, PLAYER_HUMAN);
-                board[y][x] = EMPTY;
-                if (score > bestScore) {
-                    bestScore = score;
-                    bestMove = y * 3 + x + 1;
-                }
-            }
-        }
-    }
-
-    return makeMove(board, bestMove, PLAYER_COMP);
-}
+!*\onslide<3->*!static char[][] computerMove(char[][] board) {
+!*\onslide<4->*!    System.out.println("Computer ist am Zug:");
+!*\onslide<5->*!    int bestScore = WIN_HUMAN;
+!*\onslide<5->*!    int bestMove = 1;
+!*\onslide<6->*!    for (int y = 0; y < 3; y++) {
+!*\onslide<7->*!        for (int x = 0; x < 3; x++) {
+!*\onslide<8->*!            if (board[y][x] != EMPTY) continue;
+!*\onslide<9->*!            board[y][x] = PLAYER_COMP;
+!*\onslide<10->*!            int score = minimax(board, PLAYER_HUMAN);
+!*\onslide<11->*!            board[y][x] = EMPTY;
+!*\onslide<12->*!            if (score > bestScore) {
+!*\onslide<12->*!                bestScore = score; bestMove = y * 3 + x + 1; // => Nummerierung
+!*\onslide<12->*!            }
+!*\onslide<7->*!        }
+!*\onslide<6->*!    }
+!*\onslide<13->*!    return makeMove(board, bestMove, PLAYER_COMP);
+!*\onslide<3->*!}
 \end{plainjava}
 \end{frame}
 
