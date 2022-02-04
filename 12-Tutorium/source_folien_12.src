@@ -12,7 +12,7 @@
 \begin{document}
 \Titlepage{12}
 \fi
-
+\iffalse
 \section{Präsenzaufgabe}
 \newsavebox\donotmesswithbeateagain \savebox\donotmesswithbeateagain{%
 \pgfdeclarelayer{very-background}%
@@ -614,14 +614,228 @@ int leftPad = width / (levelWidth * 2) - 2; // halb links, halb rechts
 !*\onslide<2->*!}
 \end{plainjava}
 \end{frame}
+\fi
 
 \subsection{Zusatzaufgabe 6/6}
-\begin{frame}[c]{Übungsblatt 12 - Zusatzaufgabe}
-    \begin{itemize}[<+(1)->]
-        \item
+\iffull
+\begin{frame}[c]{}
+    \downsize\linewidth{\SimulateTTTPlay{3, 5, 8, 6}{2}}
+\end{frame}
+\begin{frame}[c]{Übungsblatt 12 - Zusatzaufgabe 6/6\hfill I}
+\columns[c,onlytextwidth]
+\column{.7\linewidth}
+    \onslide<2->{\tiny Auf einem der vorherigen Übungsblätter hatten Sie die Aufgabe das Spiel Tic Tac Toe mit zwei realen Spielern zu implementieren.
+    In dieser Aufgabe soll es nun darum gehen einen der beiden Spieler durch eine KI zu ersetzen, welche immer den bestmöglichen Zug ausführt. Dabei handelt es sich un einen Zug, welcher im weiteren Spielverlauf entweder zu einem Sieg, oder zumindest zu einem Unentschieden führt falls der menschliche Spieler ebenfalls perfekt spielt.\bigskip
+
+    Um dies zu erreichen, sollen Sie sich in dieser Aufgabe mit dem \textit{Minimax} Algorithmus auseinandersetzen. Hierbei handelt es sich um einen Algorithmus, welcher rekursiv alle möglichen Spielverläufe bis zu einer bestimmten Tiefe durchgeht und basierend auf der Chance auf einen Gewinn entsprechende Punktzahlen zurückliefert. Beim Spiel Tic Tac Toe ist es dank der stark begrenzten Anzahl von Spielverläufen möglich, alle Züge durchzuprobieren bis entweder ein Spieler gewonnen hat, oder ein Unentschieden erreicht wurde. Bei komplexeren Spielen wie Schach oder Go ist dies nicht möglich.
+    Im Fall von Tic Tac Toe wird bei einem Sieg eine positive Zahl zurückgegeben, im Falle einer Niederlage eine negative Zahl und im Falle von einem Unentschieden eine Null.\bigskip
+
+    Die entsprechenden Punktzahlen werden daraufhin durch das alternierende bilden von Minima und Maxima rekursiv ausgewertet. Dies lässt sich am Besten anhand eines Beispiels erläutern. In der Abbildung rechts  gehen wir davon aus, dass die KI aktuell am Zug ist und das Symbol \T{x} verwendet. Es stehen nun drei mögliche Züge zur Auswahl. Der Zug oberste würde direkt zu einem Sieg führen. Hier ist kein rekursiver Methodenaufruf nötig, stattdessen wird direkt eine \(+10\) zurückgegeben um zu signalisieren dass es sich hierbei um einen Zug handelt der zum Sieg führt.}
+\column{.3\linewidth}
+\null\hfill\downsizeHeight{6.5cm}{\begin{tikzpicture}[ampersand replacement=\&,align-half-base,every path/.append style={rounded corners=2pt}]
+    \onslide<3->{\ttt{XOO --X O-X}\printtt*[right,at={(0,0)}]
+    \coordinate (b) at (m.south);}
+
+    \onslide<4->{\ttt{XOO -XX O-X}\printtt*[below right of=b,yshift=-1cm,xshift=1.5cm]
+    \coordinate (i) at (m.west);
+    \coordinate (ib) at (m.east);
+    \draw[-Kite] (b) |- (i);
+    \onslide<5->{\node[right=2mm,align=center] at(ib) {\large\paletteB{\textbf{\(+10\) Punkte}}\\[-1.33mm]\normalsize\info{to Harry Potter}};}
+
+    \ttt{XOO X-X O-X}\printtt*[below right of=b,yshift=-4.66cm,xshift=1.5cm]
+    \coordinate (ii) at (m.west);
+    \coordinate (iib) at (m.east);
+    \draw[-Kite] (b) |- (ii);
+    \onslide<5->{\draw[-Kite] (iib) -- ++(.5,0) |- ++(.5,.5);
+    \draw[-Kite] (iib) -- ++(.5,0) |- ++(.5,-.5);
+    \node[right=7mm] at (iib) {II)};}
+
+    \ttt{XOO --X OXX}\printtt*[below right of=b,yshift=-8cm,xshift=1.5cm]
+    \coordinate (iii) at (m.west);
+    \coordinate (iiib) at (m.east);
+    \draw[-Kite] (b) |- (iii);
+    \onslide<5->{\draw[-Kite] (iiib) -- ++(.5,0) |- ++(.5,.5);
+    \draw[-Kite] (iiib) -- ++(.5,0) |- ++(.5,-.5);
+    \node[right=7mm] at (iiib) {III)};}}
+\end{tikzpicture}}
+\endcolumns
+\end{frame}
+\begin{frame}[c]{Übungsblatt 12 - Zusatzaufgabe 6/6\hfill II}
+    \onslide<2->{\tiny Im Falle der beiden anderen möglichen Zügen II) und III) müssen wir nun rekursiv weiter gehen bis wir in jeweils das Spielende erreichen.
+    In der Abbildung rechts wechseln wir in die Sicht des menschlichen Spielers, und betrachten die jeweiligen Züge als neue Ausgangspositionen.
+    Der menschliche Spieler hat in beiden Fällen selbst jeweils zwei mögliche Züge zur Auswahl.
+    Wir betrachten im Folgenden nur noch den weiteren Ablauf von Zug II), da das Prinzip identisch auf Zug III) übertragbar ist.
+    Der menschliche Spieler könnte nun in diesem Zug gewinnen, indem er sein Symbol \say{O} in die Mitte des Spielfeldes platziert.
+    In diesem Fall würden wir bei dem rekursiven Methodenaufruf nun eine \(-10\) zurückgeben, um zu signalisieren dass die KI verloren hätte.
+    Würde der menschliche Spieler jedoch das untere freie Feld belegen, wäre das Spiel nicht vorbei und wir würden einen weiteren rekursiven Methoden Aufruf ausführen.\bigskip
+
+    Hier wechseln wir nun wieder in die Sicht der KI und stellen fest, dass nur noch ein Zug möglich ist, welcher zu einem Sieg führen würde.
+    In diesem Fall geben wir wieder eine \(+10\) zurück um dies zu signalisieren.
+    In jedem Rekursionsschritt müssen wir nun die zurückgegebenen Punktzahlen folgendermaßen auswerten:
+    befinden wir uns in der Sicht des menschlichen Spielers, so bilden wir das Maximum der zurückgegebenen Werte. Befinden wir uns in einem Rekursionsschritt in der Sicht der KI, so bilden wir das Minimum der zurückgegebenen Werte.}
+    \begin{center}
+\onslide<7->{\downsizeHeight{3cm}{\begin{tikzpicture}[ampersand replacement=\&,align-half-base,every path/.append style={rounded corners=2pt}]
+    \ttt{XOO X-X O-X}\printtt*[left,at={(0,0)}]
+    \coordinate (b) at (m.east);
+    \node[above] at (m.north) {II)};
+
+    \ttt{XOO XOX O-X}\printtt*[above left of=b,yshift=.4cm,xshift=2.5cm]
+    \coordinate (iia) at (m.west);
+    \coordinate (iib) at (m.east);
+    \node[right=2mm,align=center] at(iib) {\scriptsize\paletteD{\textbf{\(-10\) Punkte}}\\[-.1mm]\tiny\info{to love}};
+
+
+    \ttt{XOO X-X OXX}\printtt*[below left of=b,yshift=-.4cm,xshift=2.5cm]
+    \coordinate (iiia) at (m.west);
+    \coordinate (iiib) at (m.east);
+
+    \draw[-Kite] (b) -- ++(.5,0) |- (iia);
+    \draw[-Kite] (b) -- ++(.5,0) |- (iiia);
+
+    \ttt{XOO XXX OOX}\printtt*[right of=iiib,xshift=.5cm]
+    \coordinate (iiic) at (m.west);
+    \coordinate (iiid) at (m.east);
+    \node[right=2mm,align=center] at(iiid) {\scriptsize\paletteB{\textbf{\(+10\) Punkte}}\\[-.1mm]\tiny\info{to future}};
+    \draw[-Kite] (iiib) -- (iiic);
+
+\end{tikzpicture}}}\qquad\onslide<8->{\downsizeHeight{3cm}{\begin{tikzpicture}[ampersand replacement=\&,align-half-base,every path/.append style={rounded corners=2pt}]
+    \ttt{XOO --X OXX}\printtt*[left,at={(0,0)}]
+    \coordinate (b) at (m.east);
+    \node[above] at (m.north) {III)};
+
+    \ttt{XOO -OX O-X}\printtt*[above left of=b,yshift=.4cm,xshift=2.5cm]
+    \coordinate (iia) at (m.west);
+    \coordinate (iib) at (m.east);
+    \node[right=2mm,align=center] at(iib) {\scriptsize\paletteD{\textbf{\(-10\) Punkte}}\\[-.1mm]\tiny\info{to things}};
+
+
+    \ttt{XOO O-X OOX}\printtt*[below left of=b,yshift=-.4cm,xshift=2.5cm]
+    \coordinate (iiia) at (m.west);
+    \coordinate (iiib) at (m.east);
+
+
+    \draw[-Kite] (b) -- ++(.5,0) |- (iia);
+    \draw[-Kite] (b) -- ++(.5,0) |- (iiia);
+
+    \ttt{XOO OXX OXX}\printtt*[right of=iiib,xshift=.5cm]
+    \coordinate (iiic) at (m.west);
+    \coordinate (iiid) at (m.east);
+
+    \node[right=2mm,align=center] at(iiid) {\scriptsize\paletteB{\textbf{\(+10\) Punkte}}\\[-.1mm]\tiny\info{to my past}};
+    \draw[-Kite] (iiib) -- (iiic);
+\end{tikzpicture}}}
+    \end{center}
+\end{frame}
+\begin{frame}[c]{Übungsblatt 12 - Zusatzaufgabe\hfill III}
+    \onslide<2->{\tiny In II) und III) haben wir in der Sicht des Gegners jeweils immer nur einen Zug zur Auswahl, und somit betrachten wir die zurückgegebene Punktzahl direkt als Maximum.
+    In den jeweiligen Ausgangspositionen II) und III) haben wir aber zwei zurückgegebene Werte zur Auswahl.
+    Bilden wir hier jeweils das Minimum, so liefert uns dies in beiden Fällen eine \(-10\).
+    In diesem Fall wird das Minimum gebildet da wir davon ausgehen müssen, dass der Gegner selbst immer den optimalen Zug auswählt.
+    Der menschliche Spieler würde also in beiden Fällen jeweils das Feld belegen, welches für ihn zum Sieg führen würde.
+    Zurück in der Ausgangsposition bilden wir nun wieder das Maximum, aus den Minima die uns die rekursiven Methodenaufrufe zurückgegeben haben, was uns eine \(+10\) liefert.
+    Somit stellt sich Zug I) als optimal heraus, da die anderen beiden Züge zu einer Niederlage führen würden.\smallskip
+
+    Die Kernpunkte des Algorithmus lassen sich nun folgendermaßen zusammenfassen:
+    \begin{itemize}
+        \item[\textbullet] Der Algorithmus startet mit dem aktuellen Spielfeld, testet rekursiv die möglichen Spielzüge und bildet das Maximum der zurückgegebenen Werte für die jeweiligen Spielzüge.
+        \item[\textbullet] In den Rekursionsschritten wird nun alternierend das Minimum und das Maximum gebildet.
+        \item[\textbullet] Die Rekursion wird beendet wenn ein Spielende erreicht wird. In diesem Fall wird eine positive Zahl zurückgegeben falls die KI gewonnen hat, eine negative Zahl falls der menschliche Spieler gewonnen hat und eine Null im Falle eines Unentschieden.
+        \item[\textbullet] Zusätzlich lässt sich auch noch die Spieltiefe mit einbeziehen um den Zug zu bestimmen, welcher am schnellsten zum Sieg führt. Dies ist für diese Übungsaufgabe aber optional.
+    \end{itemize}\smallskip}
+
+    \onslide<3->{\strut\cancel{Im Moodle} Hier finden Sie als Vorlage für diese Aufgabe die Datei \textattachfile{\curpath Minimax.java}{Minimax.java}, welche eine vorbereitete Implementierung von Tic Tac Toe beinhaltet. In dieser Vorlage sollen Sie nun die folgenden zwei Methoden vervollständigen:
+    \begin{itemize}
+        \item[\textbullet] Die Methode \bjava{public static char[][] computerMove(char[][] board, int numMoves)} übernimmt das Spielbrett und die Anzahl der unbelegten Felder als Parameter. In dieser Methode sollen Sie nun den bestmöglichen Zug bestimmen, diesen in einer Kopie des Spielbrettes setzen und dieses zurückgeben.
+        Hierbei sollen Sie die folgende Methode \T{minimax} verwenden.
+        \item[\textbullet] Die Methode \bjava{public static int minimax(char[][] board, boolean maximize)} soll rekursiv den Minimax Algorithmus ausführen. Sie dürfen die Methodensignatur dieser Methode erweitern, sollten Sie zusätzliche Parameter benötigen. Für diese Aufgabe genügt es einen Spielzug zu bestimmen, der sicher zu einem Sieg oder einem Unentschieden führt.
     \end{itemize}
+    Bei dieser Aufgabe dürfen Sie die möglichen Spielzüge in einer \bjava{ArrayList} verwalten, um nicht in jedem Rekursionsschritt das gesamte Spielbrett durchsuchen zu müssen. Dies ist jedoch kein Muss.}
+\end{frame}
+\fi
+
+\MakeThePinguExplainIt[text width=8.33cm]{cap=!hide,glasses=!hide,halo,halo raise=2mm,lollipop left,left wing grab}{%
+\begin{plainjava}[aboveskip=-4pt,belowskip=0pt,deletekeywords={[4]{PLAYER_COMP,PLAYER_HUMAN,WIN_HUMAN,LOSE_HUMAN,DRAW,EMPTY}}]^^J
+static final int LOSE_HUMAN = 10;^^J
+static final int WIN_HUMAN = -10;^^J
+static final int DRAW = 0;^^J
+static final char PLAYER_COMP = 'X';^^J
+static final char PLAYER_HUMAN = 'O';^^J
+static final char EMPTY = 0;^^J
+\end{plainjava}
+}
+\begin{frame}[c,fragile]{Übungsblatt 12 - Zusatzaufgabe\hfill III}
+    \begin{itemize}[<+(1)->]
+        \item Man muss nicht jedes mal neu prüfen (\only<2->{\textattachfile{\curpath EfficientMinimax.java}{EfficientMinimax.java}}), wir betrachten es hier aber nur mit (\only<2->{\textattachfile{\curpath Minimax.java}{Minimax.java}}).
+        \item Zunächst, kann man überhaupt noch ziehen:
+\begin{plainjava}[morekeywords={[4]{PLAYER_COMP,PLAYER_HUMAN,WIN_HUMAN,LOSE_HUMAN,DRAW,EMPTY}}]
+!*\onslide<4->*!static boolean isFull(char[][] board) {
+!*\onslide<5->*!    for (int y = 0; y < 3; y++) {
+!*\onslide<6->*!        for (int x = 0; x < 3; x++) {
+!*\onslide<7->*!            if (board[y][x] == EMPTY)
+!*\onslide<7->*!                return false;
+!*\onslide<6->*!        }
+!*\onslide<5->*!    }
+!*\onslide<8->*!    return true;
+!*\onslide<4->*!}
+\end{plainjava}
+    \end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<8->{\node[left=-18mm,scale=.8] at(current page.{-24.25}) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
 
+\begin{frame}[c,fragile]{Übungsblatt 12 - Zusatzaufgabe\hfill Der Baum}
+\vspace*{-1mm}\lstfs{9}\SetupLstHl\begin{plainjava}[morekeywords={[4]{PLAYER_COMP,PLAYER_HUMAN,WIN_HUMAN,LOSE_HUMAN,DRAW,EMPTY}}]
+!*\onslide<2->*!static int minimax(char[][] board, char player) {
+!*\onslide<3->*!    // Blatt? Ist es schon vorbei?
+!*\onslide<4->*!    |ihl|if (winningMove(PLAYER_HUMAN, board)) return WIN_HUMAN;|ihl|
+!*\onslide<4->*!    |ihl|else if (winningMove(PLAYER_COMP, board)) return LOSE_HUMAN;|ihl|
+!*\onslide<4->*!    |ihl|else if (isFull(board)) return DRAW;|ihl|
+!*\onslide<5->*!    int bestScore = player == PLAYER_HUMAN ? LOSE_HUMAN : WIN_HUMAN;
+!*\onslide<7->*!    |ihl|for (int y = 0; y < 3; y++) {|ihl|
+!*\onslide<8->*!        |ihl|for (int x = 0; x < 3; x++) {|ihl|
+!*\onslide<9->*!            if (board[y][x] != EMPTY) continue; // Schon belegt
+!*\onslide<10->*!            board[y][x] = player; // Abstieg: Simuliere Zug
+!*\onslide<11->*!            int score = minimax(board, otherPlayer(player));
+!*\onslide<12->*!            board[y][x] = EMPTY; // Aufstieg: Verarbeite Ergebnis
+!*\onslide<13->*!            // Man verliert nur, wenn es keine andere Möglichkeit gibt:
+!*\onslide<13->*!            if(player == PLAYER_HUMAN) bestScore = Math.min(score, bestScore);
+!*\onslide<14->*!            else bestScore = Math.max(score, bestScore);
+!*\onslide<8->*!        |ihl|}|ihl|
+!*\onslide<7->*!    |ihl|}|ihl|
+!*\onslide<6->*!    return bestScore;
+!*\onslide<2->*!}
+\end{plainjava}
+\end{frame}
+
+\begin{frame}[c,fragile]{Übungsblatt 12 - Zusatzaufgabe\hfill Der Computer}
+\begin{itemize}[<+(1)->]
+    \item Wir probieren jeden Zug und wählen den besten:
+\end{itemize}
+\vspace*{-1mm}\lstfs{9}\SetupLstHl\begin{plainjava}[morekeywords={[4]{PLAYER_COMP,PLAYER_HUMAN,WIN_HUMAN,LOSE_HUMAN,DRAW,EMPTY}}]
+public static char[][] computerMove(char[][] board) {
+    System.out.println("Computer ist am Zug:");
+    int bestScore = WIN_HUMAN;
+    int bestMove = 1;
+
+    for (int y = 0; y < 3; y++) {
+        for (int x = 0; x < 3; x++) {
+            if (board[y][x] == EMPTY) {
+                board[y][x] = PLAYER_COMP;
+                int score = minimax(board, PLAYER_HUMAN);
+                board[y][x] = EMPTY;
+                if (score > bestScore) {
+                    bestScore = score;
+                    bestMove = y * 3 + x + 1;
+                }
+            }
+        }
+    }
+
+    return makeMove(board, bestMove, PLAYER_COMP);
+}
+\end{plainjava}
+\end{frame}
 
 \section{Die End-Pingus}
 
