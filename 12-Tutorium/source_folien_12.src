@@ -12,79 +12,207 @@
 \begin{document}
 \Titlepage{12}
 \fi
-\iffalse
+
 \section{Präsenzaufgabe}
-\newsavebox\ActionCode \savebox\ActionCode{%
-\begin{minipage}{5.5cm}
-\lstfs{7}%
-\begin{plainjava}[aboveskip=0pt,belowskip=0pt,morekeywords={[3]{PrimeSieve}}]^^J
-PrimeSieve sieve = new PrimeSieve(m);^^J
-/* A */ sieve.isPrime(1213);^^J
-/* B */ sieve.isPrime(501);^^J
-/* C */ sieve.isPrime(5011);^^J
-\end{plainjava}
-\end{minipage}
+\newsavebox\donotmesswithbeateagain \savebox\donotmesswithbeateagain{%
+\pgfdeclarelayer{very-background}%
+\pgfsetlayers{very-background,background,main,middle,foreground}%
+\colorlet{darkdevil}{pingu@red!80!pingu@black}%
+\begin{tikzpicture}%
+\pingu[body=pingu@black,right eye devil=darkdevil,left eye angry,devil horns=darkdevil,devil fork right,eye patch left,halo=darkdevil,halo raise=5.44mm,cape=darkdevil,cloak padding=3mm,bow tie=darkdevil,left wing raise,name=beate,bow tie offset=5mm];
+
+\node[above,darkdevil,opacity=0.25,scale=1.96,yshift=-0.65pt] (w) at(beate-wing-left-tip) {\faWindows};
+\node[above,darkdevil,scale=1.8] (w) at(beate-wing-left-tip) {\faWindows};
+
+\begin{pgfonlayer}{very-background}
+    \scope[transparency group,opacity=.2]
+    \coordinate (low-heart) at ([yshift=-0.65cm]beate-belly-center);
+    \begin{scope}[canvas is zx plane at y=0]
+        \foreach[count=\i] \a in {0,72,...,359} {
+            \path (low-heart)++(\a-25:2.5cm) coordinate (pent-\i);
+        }
+        \draw[darkdevil,ultra thick,opacity=0.2] (pent-1) -- (pent-3) -- (pent-5) -- (pent-2) -- (pent-4) -- (pent-1);
+        \draw[darkdevil,ultra thick,opacity=0.2] (low-heart) circle[radius=2.65cm];
+        \draw[darkdevil,thick] (pent-1) -- (pent-3) -- (pent-5) -- (pent-2) -- (pent-4) -- (pent-1);
+        \draw[darkdevil,thick] (low-heart) circle[radius=2.65cm];
+        \draw[darkdevil,decoration={text along path,text={|\rotnfamily\tiny|THIS IS SO GOOD, WE HAVE SOOO MUCH FUN, DON'T WE? LOVE XOXO THIS IS FLO HATIN EVERYTHING AGAIN I AM DOING THIS THE SECOND TIME BUT WHO IS COUNTING I GUESS?},text color={darkdevil},reverse path=true},decorate] (low-heart) circle[radius=2.7cm];
+    \end{scope}
+    \endscope
+\end{pgfonlayer}
+\end{tikzpicture}}
+\colorlet{darkdevil}{pingu@red!80!pingu@black}%
+\newsavebox\donotmesswithbeateagainmask \savebox\donotmesswithbeateagainmask{%
+\begin{tikzpicture}
+    \pingu[body=pingu@black,right eye wink,left eye angry,devil fork right,eye patch left,halo,halo raise=5.44mm,cape=darkdevil,cloak padding=3mm,bow tie=darkdevil,left wing raise,name=beate2,mask,bow tie offset=5mm];
+    \node[above,paletteD,opacity=0.25,scale=1.96,yshift=-0.65pt] (w) at(beate2-wing-left-tip) {\faLinux};
+    \node[above,paletteD,scale=1.8] (w) at(beate2-wing-left-tip) {\faLinux};
+\end{tikzpicture}
 }
 \begin{frame}[c,fragile]{Präsenzaufgabe}
-    \begin{aufgabe}{Komplexes Sieben}
-        \vspace*{-5mm}\par\onslide<2->{\footnotesize Geben Sie für den grau hinterlegten Code die Komplexität von \bjava[morekeywords={[3]{PrimeSieve}}]{PrimeSieve::isPrime} zu den drei Zeitpunkten \(A\), \(B\) und \(C\) in Abhängigkeit von \bjava{m} an. Erfassen Sie zudem die Worst- und Best-Case-Laufzeit von \bjava[morekeywords={[3]{PrimeSieve}}]{PrimeSieve::isPrime}. Begründen Sie Ihre Antwort (\bjava{m} ist sicher genügend groß).\par}\vspace*{-4mm}
-{\lstfs{6}
-\begin{plainjava}[multicols=2,morekeywords={[3]{PrimeSieve}},aboveskip=0pt,belowskip=0pt,lineskip=2.5pt]
-!*\onslide<3->*!public class PrimeSieve {
-!*\onslide<3->*!  private final boolean[] sieve;
-!*\onslide<3->*!  private int next;
-!*\onslide<3->*!
-!*\onslide<3->*!  public PrimeSieve(int max) {
-!*\onslide<3->*!    this.sieve = new boolean[max];
-!*\onslide<3->*!    this.sieve[0] = this.sieve[1] = true;
-!*\onslide<3->*!    this.next = 2;
-!*\onslide<3->*!  }
-!*\onslide<3->*!
-!*\onslide<3->*!  public boolean isPrime(int n) {
-!*\onslide<3->*!    if (n >= this.sieve.length)
-!*\onslide<3->*!      throw new IndexOutOfBoundsException(n + "");
-!*\onslide<3->*!    if (n > this.next) {
-!*\onslide<3->*!      for (int i = this.next; i <= n; i++) {
-!*\onslide<3->*!        if (!this.sieve[i]) {
-!*\onslide<3->*!          for (int j = 2*i; j < this.sieve.length; j += i)
-!*\onslide<3->*!            this.sieve[j] = true;
-!*\onslide<3->*!        }
-!*\onslide<3->*!      }
-!*\onslide<3->*!      this.next = n;
-!*\onslide<3->*!    }
-!*\onslide<3->*!    return !this.sieve[n];
-!*\onslide<3->*!  }
-!*\onslide<3->*!}
-\end{plainjava}
-}
+    \begin{aufgabe}{Ich binde mich gleich doppelt an dich}
+        \footnotesize\onslide<2->{In dieser Aufgabe sollen Sie ihre ersten Erfahrungen mit Java Interfaces machen. \tikzmarknode[outer sep=2pt]{moodle}{Im Moodle} finden Sie als Vorlage für diese Aufgabe die Klasse \bjava[morekeywords={[3]{DoublyLinkedList}}]{DoublyLinkedList} welche eine doppelt-verkettete Liste repräsentiert die Integer Werte speichern kann, sowie das Interface \bjava[morekeywords={[3]{SeekAndRemove}}]{SeekAndRemove}, welches drei verschiedene Methoden definiert um Elemente in der Liste zu suchen und diese zu Entfernen.}
+        \begin{itemize}
+            \item<3-> Die Methode \bjava{public void removeFirst(int value)} soll die Liste beginnend beim vordersten Element durchsuchen, und das erste Element entfernen welches den als Parameter übergebenen Wert hat.
+            \item<3-> Die Methode \bjava{public void removeLast(int value)} soll die Liste beginnend beim hintersten Element durchsuchen, und das erste Element entfernen welches den als Parameter übergebenen Wert hat.
+            \item<3-> Die Methode \bjava{public void removeFirst(int value)} soll alle Elemente entfernen die den als Parameter übergebenen Wert haben.
+        \end{itemize}
+        \onslide<4->{Sie sollen nun dieses Interface in der vorgegebenen Klasse \bjava[morekeywords={[3]{DoublyLinkedList}}]{DoublyLinkedList} implementieren.
+
+        \textbf{Hinweis:} Sie können sich eine separate Hilfsmethode definieren um Elemente aus der Liste zu entfernen. Dies hilft redundanten Code in den Implementierungen der Methoden zu vermeiden.}
         \onslide<1->
     \end{aufgabe}
-\onslide<4->{\begin{tikzpicture}[overlay,remember picture]
-    \node[above left=7pt,yshift=11pt,fill=lightgray!35,draw=gray,thick,rounded corners=2pt,scale=.85] at (current page.south east) {%
-    \usebox\ActionCode%
-    };
-\end{tikzpicture}}
+    \begin{tikzpicture}[overlay,remember picture]
+        \onslide<5->{
+            \clip[rounded corners=2pt] (moodle.south east) rectangle (moodle.north west) [invclip];
+            \fill[black,opacity=0.8] (current page.south east) rectangle (current page.north west);
+        }
+        \onslide<6|handout:0>{\node at (current page.center) {\usebox\donotmesswithbeateagain};}
+        \onslide<7->{\node (@) at (current page.center) {\usebox\donotmesswithbeateagainmask}; \node[below,paletteD] at (@.south) {Wear your mask!};}
+    \end{tikzpicture}
 \end{frame}
 
-\def\O{\mathcal{O}}
-\begin{frame}[t]{Präsenzaufgabe - Lösung}
+\newsavebox\interfacebox \savebox\interfacebox{%
+\minipage{9cm}
+\begin{plainjava}[morekeywords={[3]{DoublyLinkedList,SeekAndRemove}},aboveskip=0pt,belowskip=0pt]^^J
+public interface SeekAndRemove {^^J
+    // Entferne erstes Element mit Wert <v>^^J
+    public void removeFirst(int v);^^J
+    // Entferne letztes Element mit Wert <v>^^J
+    public void removeLast(int v);^^J
+    // Entferne alle Elemente mit Wert <v>^^J
+    public void removeAll(int v);^^J
+}^^J
+\end{plainjava}
+\endminipage}
+\begin{frame}[c,fragile]{Präsenzaufgabe}
+    \SetupLstHl\begin{aufgabe}{Ich binde mich gleich dreifach-doppelt an dich}
+        \vspace*{-5mm}\par\footnotesize\onslide<2->{Gegeben sei die \bjava[morekeywords={[3]{DoublyLinkedList}}]{DoublyLinkedList}-Klasse. Implementieren Sie das Interface \bjava[morekeywords={[3]{SeekAndRemove}}]{SeekAndRemove}:
+        }
+\begin{onlyenv}<3|handout:0>
+\begin{plainjava}[morekeywords={[3]{DoublyLinkedList,SeekAndRemove}}]
+public class DoublyLinkedList implements SeekAndRemove {
+    private class Element {
+        public final int value;
+        public Element prev = null, next = null;
+        public Element(int value, Element prev, Element next) {
+            this.value = value; this.prev = prev; this.next = next;
+        }
+    }
+
+    private Element head = null;
+    private Element tail = null;
+    private int length = 0;
+
+    public DoublyLinkedList() { }
+
+    public void addFront(int value) {
+        Element element = new Element(value, null, this.head);
+        if(length == 0) this.tail = element;
+        else this.head.setPrevElement(element);
+
+        this.head = element;
+        length++;
+    }
+
+    public void addBack(int value) {
+        Element element = new Element(value, tail, null);
+        if(length == 0) this.head = element;
+        else this.tail.setNextElement(element);
+
+        this.tail = element;
+        length++;
+    }
+}
+\end{plainjava}
+\end{onlyenv}
+\begin{onlyenv}<4->
+\begin{plainjava}[morekeywords={[3]{DoublyLinkedList,SeekAndRemove}},aboveskip=3pt,belowskip=0pt]
+public class DoublyLinkedList implements SeekAndRemove {
+    |ihl|class Element { final int value; Element prev = null, next = null; }|ihl|
+
+    private Element head, tail = null;
+    private int length = 0;
+
+    |ihl|public DoublyLinkedList() { }|ihl|
+    |ihl|public void addFront(int value) { :ldots: }|ihl|
+    |ihl|public void addBack(int value) { :ldots: } |ihl|
+}
+\end{plainjava}
+\end{onlyenv}
+    \onslide<5->{Hilfsmethoden sind erlaubt. Diese können hier auch\\helfen, redundanten Code zu vermeiden.}
+        \onslide<1->
+    \end{aufgabe}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<6->{\node[above left,draw=gray,very thick,fill=white,rounded corners=2pt,scale=.75,yshift=1.4cm,xshift=-.25cm] at(current page.south east) {\usebox\interfacebox};}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung}
     \begin{itemize}[<+(1)->]
-        \item Erkenntnisse: \begin{itemize}
-            \itemsep7pt
-            \item Grundlegend hängt die Komplexität an \(m\) und \(n\) (verschachtelte Schleife): \(\O(m \cdot n)\).
-            \item \(n\) ist bei jedem Aufruf \emph{konstant}. So wird (z.B.) aus \(\O(1213 \cdot m) = \O(m)\).\par \(\Longrightarrow\) Die äußere \bjava{for}-Schleife läuft für jeden Aufruf konstant!
-            \item Ist \(i\) in einer Schleife prim, so genügen zwar \(\frac{m}{i}\) Iterationen in der inneren Schleife, die Konstante \(i\) in der Schleife spielt für \(\O\) aber keine Bedeutung.
-            \item Bisherige Berechnungen werden gespeichert!\par \(\Longrightarrow\) Alle Aufrufe, die kleiner als das bisherige Maximum sind, treten mit \(\O(1)\) gar nicht in die Schleife ein!
-        \end{itemize}
-        \item Damit erhalten wir die folgenden Komplexitäten: \begin{description}[A:]
-            \item[A:] Hier haben wir ein neues Maximum: \(\O(m)\).
-            \item[B:] Mit \(501 \leq 1213\) gibt es nichts neues zu berechnen: \(\O(1)\).
-            \item[C:] Ein neues Maximum: \(\O(m)\).
-        \end{description}
-        \item Allgemein ist die Worst-Case-Laufzeit damit \(\O(m \cdot n)\) und die Best-Case-Laufzeit \(\O(1)\).
+        \item Wir schreiben eine Methode, die ein Element gegeben der Referenz entfernt:
+\begin{plainjava}
+!*\onslide<3->*!private void removeElement(Element element) {
+!*\onslide<4->*!    if(element == null || length == 0) return; // Nichts zu tun
+!*\onslide<3->*!
+!*\onslide<5->*!    if(element == this.head) this.head = element.next; // Erstes
+!*\onslide<5->*!    if(element == this.tail) this.tail = element.prev; // Letztes
+!*\onslide<3->*!
+!*\onslide<6->*!    if(element.prev != null) // überspringe prev
+!*\onslide<6->*!        element.prev.next = element.next;
+!*\onslide<7->*!    if(element.next != null) // überspringe next
+!*\onslide<7->*!        element.next.prev = element.prev;
+!*\onslide<8->*!    length--;
+!*\onslide<3->*!}
+\end{plainjava}
     \end{itemize}
 \end{frame}
-\fi
+
+\begin{frame}[t,fragile]{Präsenzaufgabe - Lösung\hfill removeFirst(int)}
+    \begin{itemize}[<+(1)->]
+        \item Jetzt ist die Erfüllung des Interfaces leicht (\only<2->{\textattachfile{\curpath SeekAndRemove.java}{SeekAndRemove.java}} und \only<2->{\textattachfile{\curpath DoublyLinkedList.java}{DoublyLinkedList.java}}):
+\begin{plainjava}
+!*\onslide<3->*!public void removeFirst(int value) {
+!*\onslide<4->*!    Element current = head; // von vorne nach hinten:ldots:
+!*\onslide<4->*!    while(current != null) {
+!*\onslide<5->*!        if(current.value == value) {
+!*\onslide<6->*!            removeElement(current);
+!*\onslide<6->*!            break;
+!*\onslide<5->*!        }
+!*\onslide<4->*!        current = current.next;
+!*\onslide<4->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill removeLast(int)}
+\begin{plainjava}
+!*\onslide<2->*!public void removeLast(int value) {
+!*\onslide<3->*!    Element current = tail; // von hinten nach vorne:ldots:
+!*\onslide<3->*!    while(current != null) {
+!*\onslide<4->*!        if(current.value == value) {
+!*\onslide<5->*!            removeElement(current);
+!*\onslide<5->*!            break;
+!*\onslide<4->*!        }
+!*\onslide<3->*!        current = current.prev;
+!*\onslide<3->*!    }
+!*\onslide<2->*!}
+\end{plainjava}
+\end{frame}
+
+\begin{frame}[c,fragile]{Präsenzaufgabe - Lösung\hfill removeAll(int)}
+\begin{plainjava}
+!*\onslide<2->*!public void removeAll(int value) {
+!*\onslide<3->*!    Element current = head; // von wo nach wo ist egal
+!*\onslide<3->*!    while(current != null) {
+!*\onslide<4->*!        if(current.value == value)
+!*\onslide<4->*!            removeElement(current);
+!*\onslide<2->*!
+!*\onslide<3->*!        current = current.next;
+!*\onslide<3->*!    }
+!*\onslide<2->*!}
+\end{plainjava}
+\end{frame}
 
 \section{Übungsblatt 12}
 \subsection{Aufgabe 1}
@@ -361,50 +489,156 @@ Die Ausgabe ihres Programms sollte in etwa so aussehen:}
 \fi
 
 \begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 3}
+    \begin{itemize}[<+(1)->]
+        \item Man \textit{kann} das Zeichnen naiv implementieren (\only<2->{\textattachfile{\curpath DrawTreeNaive.java}{DrawTreeNaive.java}}).
+        \item Das werden wir hier nicht tun.\pause\ Wir können Mathe.\pause\ Wir lieben Mathe (\only<2->{\textattachfile{\curpath DrawTree.java}{DrawTree.java}}).
+        \item Zunächst die Formatierung einer Zahl:
+\begin{plainjava}
+!*\onslide<7->*!static String numberFormat(int[] arr, int i) {
+!*\onslide<8->*!    if(i >= arr.length) return "  ";
+!*\onslide<9->*!    return arr[i] > 9 ? Integer.toString(arr[i]) : " " + arr[i];
+!*\onslide<7->*!}
+\end{plainjava}
+        \item<10-> Mit \bjava{String::format} geht auch: \bjava{String.format(\"}\solGet{literals}{\solGet{keywordB}{\%-2d}}\bjava{\"}\bjava{, arr[i]);}
+        % \item Da es sich nur um balancierte Bäume handelt, können wir wieder die Zweierpotenzen ausnutzen!
+        % \item Nicht vorhandene Knoten sind einfach leere Knoten.
+        % \item Ein balancierter Binärbaum aus \(n\) Elementen hat eine Tiefe von \(\floor{\log_2(n)}\).
+        % \item Für einen Knoten sind die Hälfte der Kinder auf der linken Seite \info{und potenziell leer}.
+    \end{itemize}
     % TODO \textattachfile{\curpath DrawTree.java}{DrawTree.java}
+\end{frame}
+
+\MakeThePinguExplainIt[text width=6.33cm]{cap=!hide,glasses=!hide,halo,halo raise=2mm,lollipop left,left wing grab}{Ich werde nicht auf die Erweiterbarkeit eingehen. Warum? Manche 2er kommen von den Binärbaumen, manche von der Breite der Zahlen, manche vom Padding. Die Differenzierung ist nett.}
+\begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 3}
+    \lstfs{10}\begin{itemize}[<+(1)->]
+        \item Oder der erweiterbare Weg \info{wie könnte man das erweitern}:
+\begin{plainjava}
+!*\onslide<3->*!public static String numberFormat(int[] array, int i) {
+!*\onslide<4->*!    if(i >= array.length) return " ".repeat(2);
+!*\onslide<5->*!    int number = array[i];
+!*\onslide<5->*!    int size = (int) Math.log10(number) + 1;
+!*\onslide<6->*!    return number + " ".repeat(Math.abs(2 - size));
+!*\onslide<3->*!}
+\end{plainjava}
+        \item<7-> Hinweis: Allgemein werde ich \bjava{String::repeat} benutzen, anstelle von sowas:
+\begin{plainjava}
+!*\onslide<8->*!public String repeat(String str, int n) {
+!*\onslide<9->*!    String ret = "";
+!*\onslide<9->*!    for(int i = 0; i < n; i++) ret += str;
+!*\onslide<9->*!    return str;
+!*\onslide<8->*!}
+\end{plainjava}
+    \end{itemize}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<10->{\node[left=-18mm,scale=.8] at(current page.{-26.25}) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
+\end{frame}
+
+\begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 3\hfill Baumkunde}
+    \lstfs{10}\lstset{aboveskip=4pt,belowskip=4pt}\begin{itemize}[<+(1)->]
+        \item Was wir brauchen: \begin{itemize}
+            \item Die Größe des Baumes durch \(\log_2\) aus der Länge des Arrays:
+{\color{black}\begin{plainjava}
+int height = (int) (Math.log(array.length) / Math.log(2));
+\end{plainjava}}
+            \item Die maximale Breite des Baumes. Jeder Knoten braucht dabei \(2\) Zeichen und zwischen den Knoten gibt es zwei Zeichen Platz.
+            \info{Wie ginge das mit Konstanten schöner, lesbarer und flexibler?}
+{\color{black}\begin{plainjava}
+int width = (2 + 2) * (int) Math.pow(2, height);
+\end{plainjava}}
+            \item Die Position des \(j\)-ten Knoten auf Ebene \(i\) \info{man kann auch einfach hochzählen}:
+{\color{black}\begin{plainjava}
+int index = (int) Math.pow(2, i) + j - 1;
+\end{plainjava}}
+        \end{itemize}
+            \item Den Abstand links und den Zwischen-Abstand auf Ebene \(i\) \info{erstmal ohne Padding}:
+\begin{plainjava}
+int levelWidth = (int) Math.pow(2, i);
+int padding = width / levelWidth;
+int leftPad = width / (levelWidth * 2) - 2; // halb links, halb rechts
+\end{plainjava}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 3\hfill draw(int[])}
+\SetupLstHl\begin{itemize}[<+(1)->]
+    \item High-Level ist das Zeichnen leicht beschrieben:
+\begin{plainjava}
+!*\onslide<3->*!static void draw(int[] array) {
+!*\onslide<4->*!    int height = |ihl|(int) (Math.log(array.length) / Math.log(2))|ihl|;
+!*\onslide<4->*!    int width = |ihl|(2 + 2) * (int) Math.pow(2, height)|ihl|;
+!*\onslide<3->*!
+!*\onslide<5->*!    for (int i = 0; i <= height; i++) {
+!*\onslide<6->*!        drawNumbers(array, width, i);
+!*\onslide<7->*!        if (i < height) // Für die nächste Ebene:
+!*\onslide<7->*!            drawLines(array, width, i + 1);
+!*\onslide<5->*!    }
+!*\onslide<3->*!}
+\end{plainjava}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 3\hfill drawNumbers(int[], int, int)}
+\SetupLstHl
+\begin{plainjava}
+!*\onslide<2->*!static void drawNumbers(int[] array, int width, int currentHeight) {
+!*\onslide<3->*!    int levelSize = |ihl|(int) Math.pow(2, currentHeight)|ihl|;
+!*\onslide<3->*!    int padding = |ihl|width / levelSize|ihl|;
+!*\onslide<3->*!    int leftPadding = |ihl|width / (levelSize * 2) - 2|ihl|;
+!*\onslide<4->*!    System.out.print(" ".repeat(leftPadding));
+!*\onslide<5->*!    for (int j = 0; j < levelSize; j++) { // "Breitendurchlauf"
+!*\onslide<6->*!        if (j > 0) // Abstand dazwischen
+!*\onslide<6->*!            System.out.print(" ".repeat(padding - 2));
+!*\onslide<7->*!        System.out.print(formatNumber(array, |ihl|levelSize + j - 1|ihl|));
+!*\onslide<5->*!    }
+!*\onslide<8->*!    System.out.println();
+!*\onslide<2->*!}
+\end{plainjava}
+\end{frame}
+
+\begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 3\hfill drawLines(int[], int, int)}
+\SetupLstHl
+\begin{plainjava}
+!*\onslide<2->*!static void drawLines(int[] array, int width, int currentHeight) {
+!*\onslide<3->*!    int levelSize = |ihl|(int) Math.pow(2, currentHeight)|ihl|;
+!*\onslide<3->*!    int padding = |ihl|width / levelSize|ihl|;
+!*\onslide<3->*!    int leftPadding = |ihl|width / (levelSize * 2) - 2|ihl|;
+!*\onslide<4->*!    System.out.print(" ".repeat(leftPadding) + "+"); // Mind. eine
+!*\onslide<5->*!    for (int j = 0; j < levelSize; j++) {
+!*\onslide<6->*!        if (|ihl|levelSize + j - 1|ihl| >= array.length) break; // Zahlen vorbei?
+!*\onslide<7->*!        if (j > 0 && j % 2 == 0) // Abstand dazwischen
+!*\onslide<7->*!            System.out.print(" ".repeat(padding - 1) + "+");
+!*\onslide<8->*!        System.out.print("-".repeat((padding - 2) / 2) + "+");
+!*\onslide<5->*!    }
+!*\onslide<9->*!    System.out.println();
+!*\onslide<2->*!}
+\end{plainjava}
 \end{frame}
 
 \subsection{Zusatzaufgabe 6/6}
 \begin{frame}[c]{Übungsblatt 12 - Zusatzaufgabe}
     \begin{itemize}[<+(1)->]
-        \item Die \textit{Polymorphie} der Methoden der \solGet{keywordC}{Memory} Unterklassen und damit dynamisches Binden.\pause{} Je nach
-        konkreter Unterklasse der jeweiligen Instanz werden entweder die Methoden von Stack oder die
-        von Queue aufgerufen. Zur Übersetzerzeit (statisch) ist durch die Verwendung der Klasse Memory nur
-        sichergestellt, dass es die benötigten Methoden \bjava[morekeywords={[3]{Memory}}]{Memory::write}, \bjava[morekeywords={[3]{Memory}}]{Memory::read} und \bjava[morekeywords={[3]{Memory}}]{Memory::isEmpty}
-        gibt, ohne (abgesehen von \bjava[morekeywords={[3]{Memory}}]{Memory::isEmpty}) zu wissen, wie diese genau implementiert sind.\pause{} Zur Laufzeit
-        (dynamisch) wir abhängig von der jeweiligen Instanz der entsprechende Code ausgeführt.
-        \item \bjava[morekeywords={[3]{BinaryTree}}]{BinaryTree::traverseQ} implementiert eine Level-Order-Traversierung, wobei die Kindknoten von
-        rechts nach links besucht werden.
-        \bjava[morekeywords={[3]{BinaryTree}}]{BinaryTree::traverseS} implementiert eine Pre-Order-Traversierung.
+        \item
     \end{itemize}
 \end{frame}
 
-\begin{frame}[fragile,t]{Übungsblatt 12 - Zusatzaufgabe}
-    \begin{itemize}[<+(1)->]
-        \item Die beiden Aufrufe liefern:
-\begin{plainjava}
-!*\onslide<3->*!tree.traverseQ();
-!*\onslide<3->*!  //:yields: new int[]{59, 82, 21, 65, 49, 12, 50, 38, 20, 16}
-
-!*\onslide<4->*!tree.traverseS();
-!*\onslide<4->*!  //:yields: new int[]{59, 21, 12, 20, 16, 49, 38, 50, 82, 65}
-\end{plainjava}
-    \end{itemize}
-\end{frame}
 
 \section{Die End-Pingus}
 
+\newsavebox\guidancepingu
+\savebox\guidancepingu{\tikz{\pingu[body=pingu@black,mask=gray!57!pingu@white,eyes wink,heart=gray!70!white,headphones=pingu@purple,shirt=pingu@white!80!pingu@black,second shirt=pingu@red!70!pingu@white!50!white!80!pingu@black,tie=pingu@purple,shirt above,tie offset=.425cm,glasses,glasses bend=15,cape=pingu@purple,cloak padding=3.5mm,right wing hug,left wing wave,lollipop left=pingu@purple,right item angle=30,staff right length=28mm,headphone outer=pingu@white!80!pingu@purple,lollipop left handle=pingu@bronze!80!pingu@black!90!pingu@purple,light-staff right=pingu@bronze!80!pingu@black!90!pingu@purple]}}
+\newsavebox\guidanceleft
+\savebox\guidanceleft{\tikz{\pingu[body=pingu@black,mask,eyes wink,heart=gray!70!white,left wing wave]}}
+\newsavebox\guidanceright
+\savebox\guidanceright{\tikz{\pingu[body=pingu@black,mask,eyes wink,heart=gray!70!white,right wing wave]}}
 \begin{frame}[c]
-\pause{}\begin{center}
-    % \resizebox{.95\linewidth}!{%
-    % \tikz{\pingu[left wing grab, sunglasses, cup straw = !hide, cup* = teal, cup shift=0, cup cover = brown!87!black, cup drops = !hide,name=lenni]}
-    % \quad
-    % \tikz{\pingu[left wing wave, right eye=!hide, name=steini,sign post={\raisebox{10pt}{\scalebox{0.65}{\parbox{1.25cm}{\centering\small I \textcolor{purple}{\faHeart}\\\color{cwhite}M4g1c\\[-.65cm]}}}}]; \fill (steini-right-eye) circle [radius=0.082cm];\draw[line width=0.245pt,fill=pingu@blue,fill opacity=0.035] (steini-right-eye) circle [radius=0.15cm];\draw[very thin] ($(steini-right-eye)+(0.15,0)$) to[bend left,looseness=0.2] ++(-0.01,-0.375) coordinate (dt); \fill (dt) circle (0.65pt);}
-    % \quad
-    % \tikz{\pingu[left eye wink, right eye wink,santa,heart=pingu@red!24!white,name=tolgo,eyes wink];}
-    % \quad
-    % \tikz{\pingu[left patch,halo,right hair=teal,torch,name=flo]}}
-\end{center}
+\pause
+\begin{tikzpicture}[overlay,remember picture]
+    \node[circle,fill=gray!90!pingu@white,inner sep=7mm] (c) at (current page.center) {\usebox\guidancepingu};
+
+    \onslide<3->{\node[left=5mm] at(c.west) {\usebox\guidanceleft};}
+    \onslide<3->{\node[right=5mm] at(c.east) {\usebox\guidanceright};}
+\end{tikzpicture}
 \end{frame}
 
 \iffull\end{document}\fi

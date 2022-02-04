@@ -172,6 +172,7 @@
 
 \tikzset{
     dot/.style={circle,draw,align=center,text width=1em,execute at begin node={\strut}},
+    invclip/.style={insert path={{[sharp corners] (current page.north east) -- (current page.south east) -- (current page.south west) -- (current page.north west) -- (current page.north east)}}}
 }
 
 \def\pivotelem#1{{\fboxsep=1pt\kern1pt{\hbox{\color{paletteA}\textbf{\underline{#1}}}\kern1pt}}}
