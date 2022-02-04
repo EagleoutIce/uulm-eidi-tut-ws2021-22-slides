@@ -181,3 +181,5 @@
 
 \newcommand*\heap[2][]{\downsize{\linewidth}{\begin{forest}for tree={lblob,lgray,text=black,minimum width=2.5em,s sep=4em-level*.5em,edge={line width=3pt,lgray},#1}#2\end{forest}}}
 \colorlet{lgray}{lightgray!48!white}
+
+\usepackage{\thpath/ttt}
