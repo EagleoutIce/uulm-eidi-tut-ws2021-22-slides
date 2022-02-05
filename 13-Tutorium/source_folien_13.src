@@ -1,328 +1,293 @@
-\errorcontextlines 999999
-\usepackage{attachfile2}
-\attachfilesetup{%
-    author={Florian Sihler},%
-    color=0.2 0.36 0.494, icon=Tag, mimetype=text/plain%
-}
+\InputIfFileExists{../global.src}\relax\relax
 
-\usepackage[%
-    sopra-listings={encoding,cpalette,highlights,numinpar},%
-    sopra-tables,
-    color-palettes={addons},%
-    util,%
-    lithie-boxes={germanenv,koma,overwrite},%
-    lithie-task-boxes={cpalette},%
-    lecture-links={patchurl},%
-    lecture-registers={disable}% would interfere with beamer
-]{lithie-util}
+\iffull
+\def\smlll{\texorpdfstring{\def\RSsmallest{2pt}\smaller[2]}{}}
+\title[Dreizehntes Tutorium -- Übungsblatt 13]{It is the final Count-Zauuuuuun\\\small Das Ende. Die 13 (Natürlich\ldots)}
+\date{\sffamily KW 7}
 
-\RequirePackage{lecture-personal-tikz}
-
-\usepackage[ngerman]{babel}
-
-\UsePalette{NorthernLights}\AtBeginDocument{\colorlet{cprimary}{paletteB}}
-\RestyleAlgo{plain}
-\solLoadLanguage{bash,cpp,regex}
-
-\def\solcustom{fill=paletteA!30,draw=paletteA!30}
-
-\colorlet{MaterialHeaderColor}{paletteB}%
-\colorlet{NextMaterialHeaderColor}{paletteB!75!white}%
-
-\def\linkstyle#1{\textsf{\paletteD{#1}}}
-\SetAllLinkStyle{\linkstyle{#1}}
-\usepackage{tikzducks,tikzsymbols,lilly-color}
-\usetheme{lucy}
-
-\colorlet{chessfieldblack}{lightgray}
-
-\usetikzlibrary{arrows.meta,decorations,decorations.pathreplacing}
-
-\def\info#1{\bgroup\scriptsize\textcolor{gray}{(#1)}\egroup}
-
-\newcommand\parallelcontent[3][t]{%
-    \begin{columns}[#1]
-    \begin{column}{0.475\linewidth}
-        #2
-    \end{column}\hfill
-    \begin{column}{0.475\linewidth}
-        #3
-    \end{column}
-    \end{columns}
-}
-
-\tikzset{
-    dot/.style={circle,draw,align=center,text width=1em,execute at begin node={\strut}},
-    elem node/.style={inner sep=0pt}%
-}
-
-\setcounter{tocdepth}{4}
-
-\title[Dreizehntes Tutorium -- Übungsblatt 13]{Is it Lö Final?\\\small Tutorium 13}
-\date{\sffamily KW 30}
-\author{Florian Sihler}
-\institute{Institute of Distributed Systems \(\circ\) University Ulm}
-
-\usepackage{tikzpingus}
-\usetikzlibrary{decorations.text}
-
+\usepackage[glows]{tikzpingus}
+\usetikzlibrary{decorations.text,matrix}
 \hypersetup{colorlinks=false}
 
-\makeatletter
-\newif\if@borderstar
-\def\bordermatrix{\@ifnextchar*{%
-\@borderstartrue\@bordermatrix@i}{\@borderstarfalse\@bordermatrix@i*}%
-}
-\def\@bordermatrix@i*{\@ifnextchar[{\@bordermatrix@ii}{\@bordermatrix@ii[()]}}
-\def\@bordermatrix@ii[#1]#2{%
-\begingroup
-\m@th\@tempdima8.75\p@\setbox\z@\vbox{%
-\def\cr{\crcr\noalign{\kern 2\p@\global\let\cr\endline }}%
-\ialign {$##$\hfil\kern 2\p@\kern\@tempdima & \thinspace %
-\hfil $##$\hfil && \quad\hfil $##$\hfil\crcr\omit\strut %
-\hfil\crcr\noalign{\kern -\baselineskip}#2\crcr\omit %
-\strut\cr}}%
-\setbox\tw@\vbox{\unvcopy\z@\global\setbox\@ne\lastbox}%
-\setbox\tw@\hbox{\unhbox\@ne\unskip\global\setbox\@ne\lastbox}%
-\setbox\tw@\hbox{%
-$\kern\wd\@ne\kern -\@tempdima\left\@firstoftwo#1%
-\if@borderstar\kern2pt\else\kern -\wd\@ne\fi%
-\global\setbox\@ne\vbox{\box\@ne\if@borderstar\else\kern 2\p@\fi}%
-\vcenter{\if@borderstar\else\kern -\ht\@ne\fi%
-\unvbox\z@\kern-\if@borderstar2\fi\baselineskip}%
-\if@borderstar\kern-2\@tempdima\kern2\p@\else\,\fi\right\@secondoftwo#1 $%
-}\null \;\vbox{\kern\ht\@ne\box\tw@}%
-\endgroup
-}
-\makeatother
-
 \begin{document}
-\begin{frame}[c]
-    \begin{tikzpicture}[overlay]
-        \begin{scope}[xshift=\paperwidth-3cm,yshift=-4.5cm,scale=0.4]
-            \lithiebirb[\DisableLinkStyle\href{https://github.com/EagleoutIce/lithie-util}{\Lithie}]
-        \end{scope}
-        \node[scale=5,below left=2.5pt,color=csecondary,opacity=.4] at(\paperwidth,0.22\paperheight) {13};
-    \end{tikzpicture}
-    \titlepage
-\end{frame}
-
+\Titlepage{13}
+\fi
 
 \section{Übungsblatt 13}
 \subsection{Aufgabe 1}
 
-\begin{frame}[t,fragile]{Übungsblatt 13}
-\begin{itemize}[<+(1)->]
-    \item Ein Blick auf Readable: \begin{plainjava}[morekeywords={[3]{Readable}}]
-!*\onslide<3->*!public interface Readable {
-!*\onslide<4->*!    public boolean canRead();
-!*\onslide<5->*!    public int read();
-!*\onslide<3->*!}
-    \end{plainjava}
-    \item<6-> Im Endeffekt ein Iterator: \begin{itemize}
-        \item<7-> Gibt es noch ein weiteres Element zum Iterieren? (\bjava{canRead})
-        \item<8-> Betrachte das nächste Element. (\bjava{read})
-    \end{itemize}
-\end{itemize}
-\end{frame}
+\iffull
+\begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1}
+\lstfs{9}%
+\pause Gegeben sei folgende abstrakte Klasse \solGet{keywordC}{RegularPolygon}, welche ein Polygon mit gleichen Seitenlängen bzw. Innenwinkeln repräsentieren soll:
+\begin{plainjava}[morekeywords={[3]{RegularPolygon}}]
+public abstract class RegularPolygon {
+    protected final int numSides;
+    protected final double sideLength;
 
-\begin{frame}[t,fragile]{Übungsblatt 13 - Aufgabe 1a)}
-\begin{itemize}[<+(1)->]
-    \item Eine wunderbare Integer-Range (\only<2->{\textattachfile{IntRange.java}{IntRange.java}}).
-    \item Wir iterieren also über alle Elemente in \([a, b)\):
-\begin{plainjava}
-!*\onslide<4->*!public boolean canRead() {
-!*\onslide<5->*!    return this.current < this.max;
-!*\onslide<4->*!}
-!*\onslide<4->*!
-!*\onslide<6->*!public int read() {
-!*\onslide<7->*!    if(!this.canRead())
-!*\onslide<7->*!        throw new IllegalStateException("Interval consumed");
-!*\onslide<8->*!    return current++;
-!*\onslide<6->*!}
-\end{plainjava}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 13 - Aufgabe 1b)}
-\begin{itemize}[<+(1)->]
-    \item Nun Integer-Random (\only<2->{\textattachfile{IntRandom.java}{IntRandom.java}}).
-    \item Hier iterieren wir an sich über eine unendliche Liste mit Elementen aus \([a, b]\):
-\begin{plainjava}
-!*\onslide<4->*!public boolean canRead() {
-!*\onslide<5->*!    return true;
-!*\onslide<4->*!}
-!*\onslide<4->*!
-!*\onslide<6->*!public int read() {
-!*\onslide<7->*!    return rng.nextInt(this.max + 1);
-!*\onslide<6->*!}
-\end{plainjava}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 13 - Intermezzo}
-\begin{itemize}[<+(1)->]
-    \item Ein Blick auf Writeable: \begin{plainjava}[morekeywords={[3]{Writeable}}]
-!*\onslide<3->*!public interface Writeable {
-!*\onslide<4->*!    public boolean canWrite();
-!*\onslide<5->*!    public void write(int i);
-!*\onslide<3->*!}
-    \end{plainjava}
-    \item<6-> Ein Iterator zum schreiben: \begin{itemize}
-        \item<7-> Gibt es noch Schreibplatz? (\bjava{canWrite})
-        \item<8-> Schreibe ein Element (\bjava{write}).
-    \end{itemize}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 13 - Aufgabe 1c)}
-\begin{itemize}[<+(1)->]
-    \item Nun etwas zum Filter-Charme (\only<2->{\textattachfile{IntFilterQueue.java}{IntFilterQueue.java}}).
-    \item Zunächst die \say{can}-Methoden:
-\begin{plainjava}
-!*\onslide<4->*!public boolean canRead() {
-!*\onslide<5->*!    return this.length > 0;
-!*\onslide<4->*!}
-!*\onslide<3->*!
-!*\onslide<6->*!public boolean canWrite() {
-!*\onslide<7->*!    return this.length < this.buffer.length;
-!*\onslide<6->*!}
-\end{plainjava}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 13 - Aufgabe 1c)}
-\begin{itemize}[<+(1)->]
-    \item Durch das Modulo erzeugen wir einen Wrap-Around:
-\begin{plainjava}
-!*\onslide<3->*!public int read() {
-!*\onslide<4->*!    if (!this.canRead())
-!*\onslide<4->*!        throw new IllegalStateException("Queue leer");
-!*\onslide<3->*!
-!*\onslide<5->*!    int toReturn = this.buffer[this.first];
-!*\onslide<6->*!    this.first = (this.first + 1) % this.buffer.length;
-!*\onslide<7->*!    this.length--;
-!*\onslide<5->*!    return toReturn;
-!*\onslide<3->*!}
-\end{plainjava}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 13 - Aufgabe 1c)}
-\begin{itemize}[<+(1)->]
-    \item Auch beim Schreiben verwenden wir das bekannte Wrapping in Arrays:
-\begin{plainjava}
-!*\onslide<3->*!public void write(int i) {
-!*\onslide<4->*!    if (!this.canWrite())
-!*\onslide<4->*!        throw new IllegalStateException("Queue voll");
-!*\onslide<5->*!    if (!this.predicate(i))
-!*\onslide<5->*!        return;
-!*\onslide<6->*!    int next = (this.first + this.length) % this.buffer.length;
-!*\onslide<6->*!    this.buffer[next] = i;
-!*\onslide<6->*!    this.length++;
-!*\onslide<3->*!}
-\end{plainjava}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Übungsblatt 13 - Aufgabe 1d)}
-\begin{itemize}[<+(1)->]
-    \item Und nun, weil wir das Sieben lieben (\only<2->{\textattachfile{IntSieve.java}{IntSieve.java}}, \only<2->{\textattachfile{Set.java}{Set.java}})
-    \item Das Grundgerüst:
-\begin{plainjava}[morekeywords={[3]{IntSieve,Set,IntFilterQueue}}]
-public class IntSieve extends IntFilterQueue {
-    private Set known;
-
-    public IntSieve(int bufferSize) {
-        super(bufferSize);
-        this.known = new Set();
+    public RegularPolygon(int numSides, double sideLength) {
+        this.numSides = numSides;
+        this.sideLength = sideLength;
     }
 
-    public boolean predicate(int v) { /* ... */ }
+    public int getNumSides() { return this.numSides; }
+    public double getCircumference() { return this.numSides * this.sideLength; }
+    public abstract double getArea();
 }
 \end{plainjava}
-\end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 13 - Aufgabe 1d)}
-\begin{itemize}[<+(1)->]
-    \item Zuletzt die Implementation von \bjava{predicate}:
-\begin{plainjava}
-!*\onslide<3->*!public boolean predicate(int v) {
-!*\onslide<4->*!    if (this.known.isElement(v))
-!*\onslide<4->*!        return false;
-!*\onslide<5->*!    this.known.write(v);
-!*\onslide<6->*!    return true;
+\begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1}
+\small\begin{enumerate}
+    \item<2-> Implementieren Sie nun die zwei Klassen \solGet{keywordC}{EquilateralTriangle} und \solGet{keywordC}{Square}, welche ein gleichseitiges Dreieck bzw. ein Quadrat repräsentieren sollen. Beide Klassen sollen jeweils von \solGet{keywordC}{RegularPolygon} erben, und müssen deshalb die Methode \bjava{public double getArea()} definieren. Zusätzlich sollen beide Klassen einen Konstruktor anbieten, welcher die Seitenlänge als Parameter übernimmt.
+    \item<2-> Wenn Sie abstrakte Methode \bjava{public double getArea()} in den Subklassen implementieren, wird diese Methode dann überladen oder überschrieben? Begründen Sie ihre Antwort!
+    \item<2-> Könnte die abstrakte Klasse auch durch ein Interface ersetzt werden? Falls ja, geben Sie ein entsprechendes Interface an, falls nein, begründen Sie warum dies nicht möglich ist.
+    \item<2-> In der Vorlage wird der Modifier \bjava{protected} für die Instanzvariablen verwendet. Könnte hier auch der Modifier \bjava{private} verwendet werden? Begründen Sie ihre Antwort!
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1}
+\small\begin{enumerate}
+    \item<2->[5.] Welche der Aufrufe in folgendem Testprogramm würden zu einem Compiler-Fehler führen und welche sind korrekt? Begründen Sie ihre Antwort!
+    (Nehmen Sie für diese Teilaufgabe an, dass die beiden Klassen \solGet{keywordC}{Square} und \solGet{keywordC}{EquilateralTriangle} korrekt implementiert wurden.)
+\begin{plainjava}[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,Square}}]
+public class PolygonTest {
+    public static void main(String[] args) {
+        RegularPolygon triangle = new EquilateralTriangle(3); // Aufruf 1
+        EquilateralTriangle newTriangle = triangle; // Aufruf 2
+        Square square = new RegularPolygon(4, 4); // Aufruf 3
+    }
+}
+\end{plainjava}
+    \end{enumerate}
+\end{frame}
+
+\fi
+
+\begin{frame}[t,fragile]{Übungsblatt 13 - Aufgabe 1 a)\hfill EquilateralTriangle}
+\SetupLstHl\begin{itemize}[<+(1)->]
+    \item Gimme those classes (\only<2->{\textattachfile{\curpath EquilateralTriangle.java}{EquilateralTriangle.java}} und \only<2->{\textattachfile{\curpath Square.java}{Square.java}})
+\begin{plainjava}[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,Square}},add to literate={@Override}{{\color{gray}@Override}}9]
+!*\onslide<3->*!public class EquilateralTriangle extends RegularPolygon {
+!*\onslide<4->*!    public EquilateralTriangle(int sideLength) {
+!*\onslide<5->*!        super(3, sideLength);
+!*\onslide<4->*!    }
+!*\onslide<3->*!
+!*\onslide<6->*!    @Override
+!*\onslide<6->*!    public double getArea() {
+!*\onslide<7->*!        return 0.25 * Math.sqrt(3) * sideLength * sideLength;
+!*\onslide<6->*!    }
 !*\onslide<3->*!}
 \end{plainjava}
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t,fragile]{Übungsblatt 13 - Fazit}
+\begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1 a)\hfill Square}
+\SetupLstHl
+\begin{plainjava}[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,Square}},add to literate={@Override}{{\color{gray}@Override}}9]
+!*\onslide<2->*!public class Square extends RegularPolygon {
+!*\onslide<3->*!    public Square(int sideLength) {
+!*\onslide<4->*!        super(4, sideLength);
+!*\onslide<3->*!    }
+!*\onslide<2->*!
+!*\onslide<5->*!    @Override
+!*\onslide<5->*!    public double getArea() {
+!*\onslide<6->*!        return sideLength * sideLength;
+!*\onslide<5->*!    }
+!*\onslide<2->*!}
+\end{plainjava}
+\end{frame}
+
+
+\begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1 b-d)}
 \begin{itemize}[<+(1)->]
-    \item Diese Interfaces beschreiben unfassbar abstrakt Datenstrukturen.
-    \item Readable beschreibt so irgendetwas lesbares. \pause{}Möglich: \begin{itemize}
-        \item eine Datei
-        \item ein Heap
-        \item ein Stack
-        \item eine Queue
-        \item ein Binär-, Such- oder Spielbaum
-        \item eine Zeichenkette
-        \item eine Netzwerkverbindung
-        \item ein Sensor
-        \item \ldots
-    \end{itemize}
-    \item Ebenso bei Writeable (wobei manche Komponenten Read- oder Writeonly sind).
-    \item Reichen die deswegen für alles aus?\pause{}\par\info{Nein. Oftmals brauchen wir mehr Wissen über die Datenstrukturen um ihre Vor- und Nachteile besser ausnutzen zu können. So beispielsweise, ob die Datenstrukturen geordnet sind oder nicht.}
+    \itemsep4pt
+    \item \textcolor{gray}{Wenn Sie abstrakte Methode \bjava{public double getArea()} in den Subklassen implementieren, wird diese Methode dann überladen oder überschrieben?}\smallskip\par\pause
+    Sie wird überschrieben: die \say{implementierende} Methode hat die selbe Signatur \info{siehe \href{https://docs.oracle.com/javase/specs/jls/se17/jls17.pdf\#page=309}{JLS17 8.4.8.1} für die genauen Regeln}.
+    \item \textcolor{gray}{Könnte die abstrakte Klasse auch durch ein Interface ersetzt werden?}\smallskip\par
+    \pause Das ist aus zwei Gründen nicht möglich: \begin{enumerate}
+        \item<6-> Die Klasse hat einen Konstruktor.
+        \item<7-> Die Klasse enthält Instanzvariablen.
+    \end{enumerate}
+    \onslide<8->{\textit{Schnittstellen} definieren das Verhalten. \textit{Keinen} Zustand!}
+    \item<9-> \textcolor{gray}{In der Vorlage wird der Modifier \bjava{protected} für die Instanzvariablen verwendet. Könnte hier auch der Modifier \bjava{private} verwendet werden?}\smallskip\par
+    \onslide<10->{Für \bjava{numSides} ist dies möglich, diese Variable wird nur in \solGet{keywordC}{RegularPolygon} gebraucht.}
+    \onslide<11->{Für \bjava{sideLength} allerdings nicht, wir benötigen diese für \bjava{getArea()}.}
 \end{itemize}
 \end{frame}
 
-
-\subsection{Aufgabe 2}
-\begin{frame}[t]{Übungsblatt 13 - Aufgabe 2a)}
-\begin{itemize}[<+(1)->]
-    \item Wie die Algorithmen twerkeln:
-\begin{description}[Algorithmus A:]
-    \item[Algorithmus A:] Implementiert binäre Suche.\par
-    Dabei wird das Array jeweils von einem mittleren Index aus in zwei Teile geteilt, den Teil links vom Mittlepunkt, mit den Werten die kleiner als der am Mittelpunkt sind, und den Teil rechts vom Mittelpunkt, mit den größeren Werten. Dies wird so lange wiederholt, bis entweder der gesuchte Wert am Mittelpunkt zu finden ist, oder das durchsuchte Teilarray leer ist.
-    \item[Algorithmus B:] funktioniert Analog zu Algorithmus A, jedoch wird hier das Array in drei Teile geteilt,
-    wobei es zwei Trennpunkte gibt. Die Teilung wird ebenfalls wiederholt, bis der gesuchte Wert an einem
-    der beiden Trennpunkte gefunden wird, oder das zu durchsuchende Array leer ist.
-\end{description}
-\end{itemize}
+\begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1 e)}
+\lstfs{10}\SetupLstHl\begin{plainjava}[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,Square}}]
+!*\onslide<2->*!|ihl|public class PolygonTest {|ihl|
+!*\onslide<2->*!    |ihl|public static void main(String[] args) {|ihl|
+!*\onslide<2->*!        RegularPolygon triangle = new EquilateralTriangle(3); // Aufruf 1
+!*\onslide<2->*!        EquilateralTriangle newTriangle = triangle; // Aufruf 2
+!*\onslide<2->*!        Square square = new RegularPolygon(4, 4); // Aufruf 3
+!*\onslide<2->*!    |ihl|}|ihl|
+!*\onslide<2->*!|ihl|}|ihl|
+\end{plainjava}
+\begin{enumerate}
+    \item<3-> Das ist fein, da \solGet{keywordC}{EquilateralTriangle} von \solGet{keywordC}{RegularPolygon} erbt und damit eine Spezialisierung darstellt! \info{Plymorphie}
+    \item<4-> Böse. Es ist zwar \bjava{triangle} eigentlich ein \solGet{keywordC}{EquilateralTriangle} aber nicht jedes \solGet{keywordC}{RegularPolygon} ist ein \solGet{keywordC}{EquilateralTriangle}!
+    \item<5-> Böse, wir können keine Instanz einer abstrakten Klasse erzeugen!
+\end{enumerate}
 \end{frame}
 
-\begin{frame}[t]{Übungsblatt 13 - Aufgabe 2b)}
-\begin{itemize}[<+(1)->]
-    \item Die Komplexitätsabschätzung:
-\begin{description}[Algorithmus A:]
-    \item[Algorithmus A:] hat die Worst-Case-Laufzeit \(\mathcal{O}(\log_2 n)\), da für jeden Iterationsschritt einmal geprüft
-    2wird, ob der gesuchte Wert gefunden wurde, und dann der Suchbereich halbiert wird. Durch die Halbierung
-    werden \(log_2 n\)-Iterationen durchgeführt.
-    \item[Algorithmus B:] hat eine Worst-Case-Laufzeit von \(\mathcal{O}(\log_3 n)\). Die Begründung hierfür ist analog zu
-    der Obigen, jedoch wird das Array hier jeweils gedrittelt, was letztendlich zu \(\log_3 n\)-Iterationen führt.
-\end{description}
-\end{itemize}
+\section{So they came. One. Final Time.}
+
+%
+\pgfmathsetmacro{\relativefibrethickness}{0.50}
+\pgfmathsetmacro{\relativefibrevariation}{0.11}
+\pgfmathsetmacro{\numberoffibres}{9}
+\pgfmathsetmacro{\fibresteps}{25}
+\pgfmathsetmacro{\boardwidth}{10}
+\pgfmathsetmacro{\boardheight}{10}
+\colorlet{backgroundcolor}{brown}
+\colorlet{fibrecolor}{brown!82!black}
+\definecolor{shieldsilver}{HTML}{C0C0C0}
+\pgfmathsetmacro{\segmentwidth}{\boardwidth/(\numberoffibres+1)}
+\pgfmathsetmacro{\segmentvariation}{\relativefibrethickness/2*\segmentwidth}
+
+\pgfmathsetmacro{\secondfibre}{2*\segmentwidth}
+\pgfmathsetmacro{\lastfibre}{\numberoffibres*\segmentwidth}
+
+\pgfmathsetmacro{\stepheight}{\boardheight/\fibresteps}
+
+\newcommand<>\framerecap[3][lightgray!20!white]{\only#4{\savebox0{\scalebox{.45}{#3}}\scalebox{.8}{\tikz{\node[fill=#1,rounded corners=2pt,minimum width=3.65cm,minimum height=2.66cm](a){\usebox0};\node[gray,above left] at(a.south east){\footnotesize#2};}}\hfill}}
+\begin{frame}[t,plain]
+\centering\null\vfill\only<-6|handout:0>{\vfill\vfill}%
+        \only<2-6|handout:0>{This is it.\\[4mm]}
+        \only<3-6|handout:0>{Aus.\\[4mm]}
+        \only<4-6|handout:0>{Vorbei.\\[4mm]}
+        \only<5-6|handout:0>{\Large Noch Fragen?\quad \onslide<6|handout:0>{Viel Erfolg!}}
+\begin{minipage}\linewidth
+\framerecap<7->{Org}{\tikz{\pingu[wings wave,name=saphira,eyes wink,pants=cprimary,monocle right,xshift=-3.25cm]
+\path[postaction={decorate},decoration={text along path, text={|\LARGE\Fontauri|Motivation!},text align={fit to path}}] (saphira-bill) ++ (90+55:45pt) arc (90+55:90-55:45pt);}}
+\framerecap<8->{0}{\begin{tikzpicture}
+    \only<2->{\pingu[right wing grab,cup=purple!90!green,name=saphira, left eye wink]}
+\end{tikzpicture}}
+\framerecap<9->{1}{\begin{tikzpicture}
+    \pingu[name = herbertine, heart=purple!15!pingu@white, left wing hug, right wing wave,eyes shiny]
+    \node[above, inner sep=1.5pt,scale=3, pingu@red!70!white] at(herbertine-wing-right-tip) {\faHeart};
+    % \HerbertMarkers
+\end{tikzpicture}\begin{tikzpicture}
+    \pingu[name = herbert, heart=teal!15!pingu@white, wings shock, eyes shock,pumpkin-hat,pumpkin-hat outline=gray!70!pingu@bronze]
+    % \HerbertMarkers
+\end{tikzpicture}}
+\framerecap<10->{2}{\begin{tikzpicture}
+    \pingu[name = herbertine, heart=purple!15!pingu@white, eyes wink, left wing hug, right wing wave]
+    \node[above, inner sep=1.5pt,scale=3, pingu@red!70!white] at(herbertine-wing-right-tip) {\faHeart};
+\end{tikzpicture}\hspace*{-0.4cm}\begin{tikzpicture}
+    \pingu[name = herbert, heart=teal!15!pingu@white, right wing hug, eyes shock]
+\end{tikzpicture}}
+\framerecap<11->{3}{\begin{tikzpicture}
+    \pingu[name = herbertine,eyes wink, right wing wave,bow tie,glasses,hat]
+    \pingu[name = herbert, xshift=2.75cm, wings grab, cup, eyes shiny, hair 2=pingu@green]
+\end{tikzpicture}}\medskip\par
+\framerecap<12->{4}{\begin{tikzpicture}
+    \pingu[name=herbertine, left wing hug, right wing wave, hand cast right=\scalebox{2}{\color{pingu@red!50!white}\faHeart}]
+    \pgfonlayer{foreground}
+    \node[inner sep=1.5pt,scale=1.25,pingu@red!50!white] at(herbertine-eye-left) {\large\faHeart};
+    \node[inner sep=1.5pt,scale=1.25,pingu@red!50!white] at(herbertine-eye-right) {\large\faHeart};
+    \endpgfonlayer
+    \pingu[name = herbert, xshift=3.1cm,right wing hug, sunglasses,eyes wink]
+\end{tikzpicture}}
+\framerecap<13->{5}{\begin{tikzpicture}
+	\pingu[crown 2d=pingu@bronze,
+	       medal=pingu@purple, tie,
+	       eye patch left,
+	       eye patch right,
+	       right wing wave, sunglasses,
+	       glow thick=pingu@yellow]
+\end{tikzpicture}}
+\framerecap<14->{6}{\begin{tikzpicture}
+    \node[scale=.265,rotate=-13] (bb) at (0,0) {\usebox\beebox};
+    \node[left,yshift=-16mm,scale=1.33] at (bb.west) {\usebox\pingudoc};
+\end{tikzpicture}}
+\colorlet{@ping@bg}{pingu@red!73!pingu@black}%
+\framerecap<15->[@ping@bg]{7}{\tikz\pingu[body=@ping@bg!25!pingu@white,body front=!hide,feet color=@ping@bg!25!pingu@white,eyes wink,eyes color=@ping@bg!70!pingu@white,bill=none,santa hat=@ping@bg!25!pingu@white,santa hat second=@ping@bg!70!pingu@white,heart=@ping@bg!70!pingu@white];}
+\framerecap<16->{8}{\scalebox{.5}{\raisebox{.2cm}{\scalebox{2.5}{\begin{tikzpicture}
+    \doggo[height delta=.1mm,body=white!95!brown!89!pingu@red,eye=pingu@red!25!pingu@black]
+\end{tikzpicture}}}\!\!\!\!\!
+\scalebox{.8}{\begin{tikzpicture}
+% Let ducks fight... whatever? ^^
+    % \node at(0,0) {\includegraphics[width=4.25cm]{Durotan.png}};
+    \node[scale=2.25] at (7,0) {\begin{tikzpicture}
+        \duck[invisible,water=blue!90!white]
+        \begin{scope}[xshift=-1.25cm,scale=1.1]
+            \fill[gray,rotate=-24] (0.1,1.21) rectangle (1*1.1,1*1.23); % make triangle
+            \fill[gray,rotate=-24]
+                (1.2,1.22) ellipse (1*0.15 and 1*0.03) (1.08,1.22)
+                ellipse (1*0.03 and 1*0.15);
+        \end{scope}
+        \duck[beard=red!20!brown]
+        \node[red!20!brown,rounded corners=1,scale=0.72] at (0.59,1.76) {\rotatebox{-28}{\faMinus}};
+        \node[red!20!brown,rounded corners=1,scale=0.75] at (0.86,1.70) {\rotatebox{-2}{\faMinus}};
+        \duck[invisible,viking=gray]
+
+        \begin{scope}[scale=0.1,xshift=2.75cm]
+            % Shield
+            \draw[line width=2.75pt,shieldsilver] (\boardwidth/2,\boardheight/2) circle (\boardwidth/2);
+            % the dots:
+            \pgfmathsetmacro\bwradius{\boardwidth/2+2.75/11 pt}
+            \foreach \i in {0,20,...,360} {
+                \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2)++(\i:\bwradius) circle (3.75pt);
+            }
+
+            \clip (\boardwidth/2,\boardheight/2) circle (\boardwidth/2);
+            \filldraw[backgroundcolor] (0,0) rectangle ++(\boardwidth,\boardheight);
+
+            \foreach \x in {1,2,...,\numberoffibres}
+            {
+                \fill[fibrecolor] ($(\x*\segmentwidth-\segmentvariation,0) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                \foreach \y in {1,...,\fibresteps}
+                {   -- ($(\x*\segmentwidth-\segmentvariation,\y*\stepheight) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                }
+                -- ($(\x*\segmentwidth+\segmentvariation,\boardheight)+ (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                \foreach \y in {\fibresteps,...,0}
+                {   -- ($(\x*\segmentwidth+\segmentvariation,\y*\stepheight) + (rand*\relativefibrevariation*\relativefibrethickness,0)$)
+                }
+                -- cycle;
+            }
+            % shield post
+            \fill[shieldsilver] (\boardwidth/2,\boardheight/2) circle (46.25pt);
+            \foreach \i in {0,40,...,360} {
+                \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2)++(\i:40.25pt) circle (3.75pt);
+            }
+            \begin{scope}
+                \fill[shieldsilver!85!black] (\boardwidth/2,\boardheight/2) circle (0.85);
+                \clip (\boardwidth/2,\boardheight/2) circle (0.85);
+                \shade[outer color=shieldsilver!85!black, inner color=shieldsilver!90!white] (\boardwidth/2-0.35,\boardheight/2+0.8) circle (1.32);
+            \end{scope}
+        \end{scope}
+        %\def\swordscaler{1}
+        %\fill[gray,rotate=24] (0.1,0.21) rectangle (\swordscaler*1.1,\swordscaler*0.23); % make triangle
+        %\fill[gray!70!black,rotate=24]
+        %    (1.2,0.22) ellipse (\swordscaler*0.15 and \swordscaler*0.03) (1.08,0.22)
+        %    ellipse (\swordscaler*0.03 and \swordscaler*0.15);
+    \end{tikzpicture}};
+\end{tikzpicture}}}}\medskip\par
+\strut\hfill\framerecap<17->{9}{\begin{tikzpicture}
+    \pingu[body=pingu@black,body front=pingu@black,eyes wink,bill color=pingu@black,eyes color=pingu@black,feet color=pingu@black,tie=pingu@white]
+\end{tikzpicture}}
+\framerecap<18->{10}{\begin{tikzpicture}
+    \duck[aodai=cprimary!50!black,tshirt=cprimary,conicalhat=brown,water=paletteA]
+    \node[below left=-1.66cm,xshift=1cm,scale=0.36] at(current bounding box.north east) {\usebox\donotmesswithbeate};
+\end{tikzpicture}}
+\framerecap<19->{11}{\begin{tikzpicture}
+    \pingu[left wing wave, eyes wink, rook, hair 2=pingu@green,name=saphira,sign post left=Li(s)t!,lightsaber right,right item angle=80]% torch :C
+\end{tikzpicture}}
+\framerecap<20->{12}{\begin{tikzpicture}
+    \node[] (c) at (0,0) {\usebox\guidancepingu};
+    \node[left=5mm] at(c.west) {\usebox\guidanceleft};
+    \node[right=5mm] at(c.east) {\usebox\guidanceright};
+\end{tikzpicture}}
+\end{minipage}\medskip\par
+\color{gray}\onslide<22->{Hat Spaß gemacht.}\quad\onslide<23->{Viel Erfolg an der Klausur!}\quad\onslide<24->{Bis dann und\ldots\ \textit{waddle on}!}
+\vfill\null
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<21->{\node[above left,gray] at(current page.south east) {13};}
+\end{tikzpicture}
 \end{frame}
 
-\begin{frame}[t]{Übungsblatt 13 - Aufgabe 2c)}
-\begin{itemize}[<+(1)->]
-    \item Die Algorithmen sind in der selben Komplexitätsklasse, da der Basiswechsel bei Logarithmen mit einer Konstante funktioniert:\pause
-\begin{equation*}
-    \log_3 n = \frac{\log_2 n}{\log_2 3} = \frac{1}{\log_2 3} \cdot \log_2 n
-\end{equation*}
-\pause{} Der konstante Faktor \(\frac{1}{\log_2 3}\) entfällt in der \(\O\)-Notation.\pause{} \info{Deswegen gibt man die Basen in der \(\O\)-Notation auch meist nicht an.}
-\end{itemize}
-\end{frame}
-
-\section{Der End-Pinguuuu}
-
-\begin{frame}[c]
-    \begin{center}
-        \scalebox{3}{\begin{tikzpicture}
-        \pingu[left wing wave,right eye=none, name=monoci,sign post left={\raisebox{14pt}{\scalebox{0.8}{\parbox{1.2cm}{\centering\small Good\\\color{white}Job!\\[-0.65cm]}}}}]\fill (monoci-eye-right) circle [radius=0.082cm];\draw[line width=0.245pt,fill=pingu@blue,fill opacity=0.035] (monoci-eye-right) circle [radius=0.15cm];\draw[very thin] ($(monoci-eye-right)+(0.15,0)$) to[bend left,looseness=0.2] ++(-0.01,-0.375) coordinate (dt); \fill (dt) circle (0.65pt);\node[left] at(monoci-wing-left) {~~~~~};
-        \end{tikzpicture}}
-    \end{center}
-\end{frame}
-
-\end{document}
+\iffull\end{document}\fi
