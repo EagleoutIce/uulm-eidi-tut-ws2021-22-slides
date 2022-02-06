@@ -154,13 +154,13 @@ public class PolygonTest {
 \pgfmathsetmacro{\stepheight}{\boardheight/\fibresteps}
 
 \newcommand<>\framerecap[3][lightgray!20!white]{\only#4{\savebox0{\scalebox{.45}{#3}}\scalebox{.8}{\tikz{\node[fill=#1,rounded corners=2pt,minimum width=3.65cm,minimum height=2.66cm](a){\usebox0};\node[gray,above left] at(a.south east){\footnotesize#2};}}\hfill}}
-\begin{frame}[t,plain]
-\centering\null\vfill\only<-6|handout:0>{\vfill\vfill}%
+\begin{frame}[c,plain]
+\centering\null\vfill\vfill
         \only<2-6|handout:0>{This is it.\\[4mm]}
         \only<3-6|handout:0>{Aus.\\[4mm]}
         \only<4-6|handout:0>{Vorbei.\\[4mm]}
         \only<5-6|handout:0>{\Large Noch Fragen?\quad \onslide<6|handout:0>{Viel Erfolg!}}
-\begin{minipage}\linewidth
+\only<7->{\begin{minipage}\linewidth
 \framerecap<7->{Org}{\tikz{\pingu[wings wave,name=saphira,eyes wink,pants=cprimary,monocle right,xshift=-3.25cm]
 \path[postaction={decorate},decoration={text along path, text={|\LARGE\Fontauri|Motivation!},text align={fit to path}}] (saphira-bill) ++ (90+55:45pt) arc (90+55:90-55:45pt);}}
 \framerecap<8->{0}{\begin{tikzpicture}
@@ -283,11 +283,10 @@ public class PolygonTest {
     \node[right=5mm] at(c.east) {\usebox\guidanceright};
 \end{tikzpicture}}
 \end{minipage}\medskip\par
-\color{gray}\onslide<22->{Hat Spaß gemacht.}\quad\onslide<23->{Viel Erfolg an der Klausur!}\quad\onslide<24->{Bis dann und\ldots\ \textit{waddle on}!}
-\vfill\null
-\begin{tikzpicture}[overlay,remember picture]
+\color{gray}\onslide<22->{Hat Spaß gemacht.}\quad\onslide<23->{Viel Erfolg an der Klausur!}\quad\onslide<24->{Bis dann und\ldots\ \textit{waddle on}!}}%
+\vfill\begin{tikzpicture}[overlay,remember picture]
     \onslide<21->{\node[above left,gray] at(current page.south east) {13};}
-\end{tikzpicture}
+\end{tikzpicture}\null
 \end{frame}
 
 \iffull\end{document}\fi
