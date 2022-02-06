@@ -39,8 +39,8 @@ public abstract class RegularPolygon {
 
 \begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1}
 \small\begin{enumerate}
-    \item<2-> Implementieren Sie nun die zwei Klassen \solGet{keywordC}{EquilateralTriangle} und \solGet{keywordC}{Square}, welche ein gleichseitiges Dreieck bzw. ein Quadrat repräsentieren sollen. Beide Klassen sollen jeweils von \solGet{keywordC}{RegularPolygon} erben, und müssen deshalb die Methode \bjava{public double getArea()} definieren. Zusätzlich sollen beide Klassen einen Konstruktor anbieten, welcher die Seitenlänge als Parameter übernimmt.
-    \item<2-> Wenn Sie abstrakte Methode \bjava{public double getArea()} in den Subklassen implementieren, wird diese Methode dann überladen oder überschrieben? Begründen Sie ihre Antwort!
+    \item<2-> Implementieren Sie nun die zwei Klassen \solGet{keywordC}{EquilateralTriangle} und \solGet{keywordC}{Square}, welche ein gleichseitiges Dreieck bzw. ein Quadrat repräsentieren sollen. Beide Klassen sollen jeweils von \solGet{keywordC}{RegularPolygon} erben, und müssen deshalb die Methode \bjava{public double getArea()} definieren. Zusätzlich sollen beide Klassen einen Konstruktor anbieten, welcher die Seitenlänge als Parameter übernimmt \info{\(A_\triangle = \frac{1}{4} \cdot \sqrt{3} \cdot a^2\)}.
+    \item<2-> Wenn Sie die abstrakte Methode \bjava{public double getArea()} in den Subklassen implementieren, wird diese Methode dann überladen oder überschrieben? Begründen Sie ihre Antwort!
     \item<2-> Könnte die abstrakte Klasse auch durch ein Interface ersetzt werden? Falls ja, geben Sie ein entsprechendes Interface an, falls nein, begründen Sie warum dies nicht möglich ist.
     \item<2-> In der Vorlage wird der Modifier \bjava{protected} für die Instanzvariablen verwendet. Könnte hier auch der Modifier \bjava{private} verwendet werden? Begründen Sie ihre Antwort!
     \end{enumerate}
@@ -52,16 +52,33 @@ public abstract class RegularPolygon {
     (Nehmen Sie für diese Teilaufgabe an, dass die beiden Klassen \solGet{keywordC}{Square} und \solGet{keywordC}{EquilateralTriangle} korrekt implementiert wurden.)
 \begin{plainjava}[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,Square}}]
 public class PolygonTest {
-    public static void main(String[] args) {
-        RegularPolygon triangle = new EquilateralTriangle(3); // Aufruf 1
-        EquilateralTriangle newTriangle = triangle; // Aufruf 2
-        Square square = new RegularPolygon(4, 4); // Aufruf 3
-    }
+   public static void main(String[] args) {
+      RegularPolygon polygon = new EquilateralTriangle(3); // A 1
+      EquilateralTriangle triangle = (EquilateralTriangle)polygon; // A 2
+      Square square = new RegularPolygon(4, 4); // A 3
+   }
 }
 \end{plainjava}
     \end{enumerate}
 \end{frame}
 
+\begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1}
+\small\begin{enumerate}
+    \item<2->[6.] Würden die folgenden Aufrufe der Methode \bjava{getArea} funktionieren? Falls ja, welche Werte würden entsprechend ausgegeben werden? Begründen Sie in jedem Fall ihre Antwort!
+    (Nehmen Sie an, dass die beiden Klassen \solGet{keywordC}{Square} und \solGet{keywordC}{EquilateralTriangle} korrekt implementiert wurden.)
+\begin{plainjava}[morekeywords={[3]{PolygonTest,RegularPolygon,PolygonAreaTest,EquilateralTriangle,Square}}]
+public class PolygonAreaTest {
+    public static void main(String[] args) {
+        RegularPolygon polygon = new EquilateralTriangle(3);
+        System.out.println(polygon.getArea());
+
+        polygon = new Square(2);
+        System.out.println(polygon.getArea());
+    }
+}
+\end{plainjava}
+    \end{enumerate}
+\end{frame}
 \fi
 
 \begin{frame}[t,fragile]{Übungsblatt 13 - Aufgabe 1 a)\hfill EquilateralTriangle}
@@ -110,7 +127,7 @@ public class PolygonTest {
         \item<7-> Die Klasse enthält Instanzvariablen.
     \end{enumerate}
     \onslide<8->{\textit{Schnittstellen} definieren das Verhalten. \textit{Keinen} Zustand!}
-    \item<9-> \textcolor{gray}{In der Vorlage wird der Modifier \bjava{protected} für die Instanzvariablen verwendet. Könnte hier auch der Modifier \bjava{private} verwendet werden?}\smallskip\par
+    \item<9-> \textcolor{gray}{In der Vorlage wird der Modifier \bjava{protected} für die Instanzvariablen verwendet. Könnte hier auch der Modifier \bjava{private} für beide verwendet werden?}\smallskip\par
     \onslide<10->{Für \bjava{numSides} ist dies möglich, diese Variable wird nur in \solGet{keywordC}{RegularPolygon} gebraucht.}
     \onslide<11->{Für \bjava{sideLength} allerdings nicht, wir benötigen diese für \bjava{getArea()}.}
 \end{itemize}
@@ -119,18 +136,36 @@ public class PolygonTest {
 \begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1 e)}
 \lstfs{10}\SetupLstHl\begin{plainjava}[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,Square}}]
 !*\onslide<2->*!|ihl|public class PolygonTest {|ihl|
-!*\onslide<2->*!    |ihl|public static void main(String[] args) {|ihl|
-!*\onslide<2->*!        RegularPolygon triangle = new EquilateralTriangle(3); // Aufruf 1
-!*\onslide<2->*!        EquilateralTriangle newTriangle = triangle; // Aufruf 2
-!*\onslide<2->*!        Square square = new RegularPolygon(4, 4); // Aufruf 3
-!*\onslide<2->*!    |ihl|}|ihl|
+!*\onslide<2->*!   |ihl|public static void main(String[] args) {|ihl|
+!*\onslide<2->*!      RegularPolygon polygon = new EquilateralTriangle(3); // A 1
+!*\onslide<2->*!      EquilateralTriangle triangle = (EquilateralTriangle)polygon; // A 2
+!*\onslide<2->*!      Square square = new RegularPolygon(4, 4); // A 3
+!*\onslide<2->*!   |ihl|}|ihl|
 !*\onslide<2->*!|ihl|}|ihl|
 \end{plainjava}
 \begin{enumerate}
-    \item<3-> Das ist fein, da \solGet{keywordC}{EquilateralTriangle} von \solGet{keywordC}{RegularPolygon} erbt und damit eine Spezialisierung darstellt! \info{Plymorphie}
-    \item<4-> Böse. Es ist zwar \bjava{triangle} eigentlich ein \solGet{keywordC}{EquilateralTriangle} aber nicht jedes \solGet{keywordC}{RegularPolygon} ist ein \solGet{keywordC}{EquilateralTriangle}!
+    \item<3-> Das ist fein, da \solGet{keywordC}{EquilateralTriangle} von \solGet{keywordC}{RegularPolygon} erbt und damit eine Spezialisierung darstellt! \info{Polymorphie}
+    \item<4-> Durch die explizite Typkonvertierung ist dies fein. Implizit würde dies nicht funktionieren! So geht das aber, da \bjava{polygon} tatsächlich auf eine Instanz vom Typ \solGet{keywordC}{EquilateralTriangle} zeigt.
     \item<5-> Böse, wir können keine Instanz einer abstrakten Klasse erzeugen!
 \end{enumerate}
+\end{frame}
+
+
+\begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1 f)}
+\lstfs{10}\SetupLstHl\begin{plainjava}[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,PolygonAreaTest,Square}}]
+!*\onslide<2->*!|ihl|public class PolygonAreaTest {|ihl|
+!*\onslide<2->*!    |ihl|public static void main(String[] args) {|ihl|
+!*\onslide<2->*!        RegularPolygon polygon = new EquilateralTriangle(3);
+!*\onslide<2->*!        System.out.println(polygon.getArea());
+!*\onslide<2->*!
+!*\onslide<2->*!        polygon = new Square(2);
+!*\onslide<2->*!        System.out.println(polygon.getArea());
+!*\onslide<2->*!    |ihl|}|ihl|
+!*\onslide<2->*!|ihl|}|ihl|
+\end{plainjava}
+\begin{itemize}
+    \item<3-> Beide Aufrufe passen! Durch \textit{dynamische Bindung} wird \bjava[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,PolygonAreaTest,Square}}]{EquilateralTriangle::}\bjava{getArea} und \bjava[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,PolygonAreaTest,Square}}]{Square::getArea} für \bjava{polygon.getArea()} aufgerufen. \onslide<4->{So wird zunächst der Flächeninhalt des Dreiecks \info{\(3.87911\ldots\)} und dann der Flächeninhalt des Quadrates \info{\(4\)} ausgegeben.}
+\end{itemize}
 \end{frame}
 
 \section{So they came. One. Final Time.}
@@ -152,6 +187,9 @@ public class PolygonTest {
 \pgfmathsetmacro{\lastfibre}{\numberoffibres*\segmentwidth}
 
 \pgfmathsetmacro{\stepheight}{\boardheight/\fibresteps}
+
+\newsavebox\sadpengu \savebox\sadpengu{\tikz\pingu[eyes sad,wings grab,hair 3=pingu@black,body type=chubby,heart=shadeB];}
+\newsavebox\staffpengu \savebox\staffpengu{\tikz\pingu[:hide,staff right];}
 
 \newcommand<>\framerecap[3][lightgray!20!white]{\only#4{\savebox0{\scalebox{.45}{#3}}\scalebox{.8}{\tikz{\node[fill=#1,rounded corners=2pt,minimum width=3.65cm,minimum height=2.66cm](a){\usebox0};\node[gray,above left] at(a.south east){\footnotesize#2};}}\hfill}}
 \begin{frame}[c,plain]
@@ -285,6 +323,11 @@ public class PolygonTest {
 \end{minipage}\medskip\par
 \color{gray}\onslide<22->{Hat Spaß gemacht.}\quad\onslide<23->{Viel Erfolg an der Klausur!}\quad\onslide<24->{Bis dann und\ldots\ \textit{waddle on}!}}%
 \vfill\begin{tikzpicture}[overlay,remember picture]
+    \onslide<25-|handout:2>{
+        \fill[darkgray,fill opacity=.8] (current page.south east) rectangle (current page.north west);
+        \node[scale=2] (b) at(current page.center) {\usebox\sadpengu};
+        \node[scale=2,rotate=10,yshift=1.3mm,xshift=2mm] at(b.south) {\usebox\staffpengu};
+    }
     \onslide<21->{\node[above left,gray] at(current page.south east) {13};}
 \end{tikzpicture}\null
 \end{frame}
