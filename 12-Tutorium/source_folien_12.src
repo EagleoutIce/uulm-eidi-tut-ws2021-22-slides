@@ -451,12 +451,12 @@ Gehen Sie dafür folgendermaßen vor.}
 !*\onslide<3->*!|ihl|public class BinaryExpressionTree {|ihl|
 !*\onslide<4->*!   |ihl|private StringNode root;|ihl|
 !*\onslide<4->*!   // :ldots:
-!*\onslide<5->*!   public double evaluate() { return traverse(root); }
-!*\onslide<6->*!   public double traverse(StringNode node) {!*\onslide<13->*! // Postorder
+!*\onslide<5->*!   public double evaluate() { return evaluate(root); }
+!*\onslide<6->*!   private double evaluate(StringNode node) {!*\onslide<13->*! // Postorder
 !*\onslide<7->*!      |ihl|if (node == null) throw new IllegalStateException("Traversing empty");|ihl|
 !*\onslide<8->*!      if (node.isLeaf())  return Double.parseDouble(node.getItem());
-!*\onslide<9->*!      double valueLeft = traverse(node.getLeftChild());
-!*\onslide<9->*!      double valueRight = traverse(node.getRightChild());
+!*\onslide<9->*!      double valueLeft = evaluate(node.getLeftChild());
+!*\onslide<9->*!      double valueRight = evaluate(node.getRightChild());
 !*\onslide<5->*!
 !*\onslide<10->*!      switch (node.getItem()) { // Get the Operator
 !*\onslide<11->*!          case "+": return valueLeft + valueRight;
