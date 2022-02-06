@@ -49,7 +49,7 @@
 \providecommand\thpath{..}
 \usepackage{\thpath/tikz-horner}
 
-\usepackage{tikzdoggo}
+\usepackage{tikzdoggos}
 \usepackage[glows]{tikzpingus}
 
 \usetikzlibrary{decorations.text,tikzmark,3d}
