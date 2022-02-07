@@ -1,4 +1,4 @@
-public class DrawTree {
+public class DrawBinaryTree {
     public static void draw(int[] array) {
         int height = (int) (Math.log(array.length) / Math.log(2));
         int width = (2 + 2) * (int) Math.pow(2, height);

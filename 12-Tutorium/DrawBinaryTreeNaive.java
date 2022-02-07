@@ -1,4 +1,4 @@
-public class DrawTreeNaive {
+public class DrawBinaryTreeNaive {
     public static int drawNodes(int[] array, int arrayIndex, int arrayLength, int height, int depth) {
         int indentation = (int) (Math.pow(2, height - depth +1) - 2);
         int spacing = (int) (Math.pow(2, height - depth + 2) - 1);

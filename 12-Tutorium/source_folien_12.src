@@ -490,8 +490,8 @@ Die Ausgabe ihres Programms sollte in etwa so aussehen:}
 
 \begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 3}
     \begin{itemize}[<+(1)->]
-        \item Man \textit{kann} das Zeichnen naiv implementieren (\only<2->{\textattachfile{\curpath DrawTreeNaive.java}{DrawTreeNaive.java}}).
-        \item Das werden wir hier nicht tun.\pause\ Wir können Mathe.\pause\ Wir lieben Mathe (\only<2->{\textattachfile{\curpath DrawTree.java}{DrawTree.java}}).
+        \item Man \textit{kann} das Zeichnen naiv implementieren (\only<2->{\textattachfile{\curpath DrawBinaryTreeNaive.java}{DrawBinaryTreeNaive.java}}).
+        \item Das machen wir hier nicht.\pause\ We know Math.\pause\ We love Math (\only<2->{\textattachfile{\curpath DrawBinaryTree.java}{DrawBinaryTree.java}}).
         \item Zunächst die Formatierung einer Zahl:
 \begin{plainjava}
 !*\onslide<7->*!static String numberFormat(int[] arr, int i) {
@@ -505,7 +505,6 @@ Die Ausgabe ihres Programms sollte in etwa so aussehen:}
         % \item Ein balancierter Binärbaum aus \(n\) Elementen hat eine Tiefe von \(\floor{\log_2(n)}\).
         % \item Für einen Knoten sind die Hälfte der Kinder auf der linken Seite \info{und potenziell leer}.
     \end{itemize}
-    % TODO \textattachfile{\curpath DrawTree.java}{DrawTree.java}
 \end{frame}
 
 \MakeThePinguExplainIt[text width=6.33cm]{cap=!hide,glasses=!hide,halo,halo raise=2mm,lollipop left,left wing grab}{Ich werde nicht auf die Erweiterbarkeit eingehen. Warum? Manche 2er kommen von den Binärbaumen, manche von der Breite der Zahlen, manche vom Padding. Die Differenzierung ist nett.}
