@@ -72,16 +72,16 @@
 \end{frame}
 
 \newsavebox\interfacebox \savebox\interfacebox{%
-\minipage{9cm}
+\minipage{9.5cm}
 \begin{plainjava}[morekeywords={[3]{DoublyLinkedList,SeekAndRemove}},aboveskip=0pt,belowskip=0pt]^^J
-public interface SeekAndRemove {^^J
-    // Entferne erstes Element mit Wert <v>^^J
-    public void removeFirst(int v);^^J
-    // Entferne letztes Element mit Wert <v>^^J
-    public void removeLast(int v);^^J
-    // Entferne alle Elemente mit Wert <v>^^J
-    public void removeAll(int v);^^J
-}^^J
+public interface SeekAndRemove \{^^J
+:ws::ws:// Entferne erstes Element mit Wert <v>^^J
+:ws::ws:public void removeFirst(int v);^^J
+:ws::ws:// Entferne letztes Element mit Wert <v>^^J
+:ws::ws:public void removeLast(int v);^^J
+:ws::ws:// Entferne alle Elemente mit Wert <v>^^J
+:ws::ws:public void removeAll(int v);^^J
+\}^^J
 \end{plainjava}
 \endminipage}
 \begin{frame}[c,fragile]{Präsenzaufgabe}
@@ -143,7 +143,7 @@ public class DoublyLinkedList implements SeekAndRemove {
         \onslide<1->
     \end{aufgabe}
 \begin{tikzpicture}[overlay,remember picture]
-    \onslide<6->{\node[above left,draw=gray,very thick,fill=white,rounded corners=2pt,scale=.75,yshift=1.4cm,xshift=-.25cm] at(current page.south east) {\usebox\interfacebox};}
+    \onslide<6->{\node[above left,draw=gray,very thick,fill=white,rounded corners=2pt,scale=.75,yshift=1.15cm,xshift=-.25cm] at(current page.south east) {\usebox\interfacebox};}
 \end{tikzpicture}
 \end{frame}
 
@@ -372,8 +372,8 @@ public class DoublyLinkedList implements SeekAndRemove {
 !*\onslide<7->*!        queue.enqueue(node.getRightChild());
 !*\onslide<3->*!
 !*\onslide<8->*!        System.out.print(node.getValue() + " ");
-!*\onslide<3->*!    }
-!*\onslide<5->*!}
+!*\onslide<5->*!    }
+!*\onslide<3->*!}
 \end{plainjava}
     \end{itemize}
 \end{frame}
