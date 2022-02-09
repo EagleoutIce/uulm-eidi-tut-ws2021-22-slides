@@ -237,6 +237,7 @@ public class DoublyLinkedList implements SeekAndRemove {
         \end{forest}}}
     \end{center}}
 \end{frame}
+\MakeThePinguExplainIt[text width=3cm]{cap=!hide,glasses=!hide,halo raise=2mm,lollipop left,left wing grab}{Ob die Ebene/Tiefe bei \(0\) oder \(1\) beginnt ist eine Annahme.}
 \begin{frame}[c]{Exkurs: Ein wenig fantastische Heaps gefällig?}
 \onslide<2->{\centering\heap{%
     [42,name=root[19,name=inner1[7,name=inner2[3,name=leaf1][-2,name=leaf2]][8,name=leaf3]][-5,name=inner3[-9,name=leaf4]]]%
@@ -262,6 +263,9 @@ public class DoublyLinkedList implements SeekAndRemove {
         }
     \endpgfonlayer
 }}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<11->{\node[left=-20mm,scale=.8] at(current page.{-24.25}) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
 \end{frame}
 \begin{frame}[c]{Exkurs: Heaps\ldots\ Bäume. Was hat eine Wurzel und zwei Beine?}
 \begin{columns}[c]
@@ -491,7 +495,7 @@ Die Ausgabe ihres Programms sollte in etwa so aussehen:}
 \begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 3}
     \begin{itemize}[<+(1)->]
         \item Man \textit{kann} das Zeichnen naiv implementieren (\only<2->{\textattachfile{\curpath DrawBinaryTreeNaive.java}{DrawBinaryTreeNaive.java}}).
-        \item Das machen wir hier nicht.\pause\ We know Math.\pause\ We love Math (\only<2->{\textattachfile{\curpath DrawBinaryTree.java}{DrawBinaryTree.java}}).
+        \item Das machen wir hier nicht.\pause\ We know Math.\pause\ We love Math (\only<5->{\textattachfile{\curpath DrawBinaryTree.java}{DrawBinaryTree.java}}).
         \item Zunächst die Formatierung einer Zahl:
 \begin{plainjava}
 !*\onslide<7->*!static String numberFormat(int[] arr, int i) {
@@ -507,7 +511,7 @@ Die Ausgabe ihres Programms sollte in etwa so aussehen:}
     \end{itemize}
 \end{frame}
 
-\MakeThePinguExplainIt[text width=6.33cm]{cap=!hide,glasses=!hide,halo,halo raise=2mm,lollipop left,left wing grab}{Ich werde nicht auf die Erweiterbarkeit eingehen. Warum? Manche 2er kommen von den Binärbaumen, manche von der Breite der Zahlen, manche vom Padding. Die Differenzierung ist nett.}
+\MakeThePinguExplainIt[text width=6.33cm]{cap=!hide,glasses=!hide,halo,halo raise=2mm,lollipop left,left wing grab}{Ich werde nicht auf die Erweiterbarkeit eingehen. Warum? Manche 2er kommen von den Binärbaumen, manche von der Breite der Zahlen, manche vom Padding. Das ist eine nette Übung.}
 \begin{frame}[c,fragile]{Übungsblatt 12 - Aufgabe 3}
     \lstfs{10}\begin{itemize}[<+(1)->]
         \item Oder der erweiterbare Weg \info{wie könnte man das erweitern}:
@@ -552,9 +556,9 @@ int index = (int) Math.pow(2, i) + j - 1;
         \end{itemize}
             \item Den Abstand links und den Zwischen-Abstand auf Ebene \(i\) \info{erstmal ohne Padding}:
 \begin{plainjava}
-int levelWidth = (int) Math.pow(2, i);
-int padding = width / levelWidth;
-int leftPad = width / (levelWidth * 2) - 2; // halb links, halb rechts
+!*\onslide<7->*!int levelWidth = (int) Math.pow(2, i);
+!*\onslide<7->*!int padding = width / levelWidth;
+!*\onslide<7->*!int leftPad = width / (levelWidth * 2) - 2; // halb links, halb rechts
 \end{plainjava}
     \end{itemize}
 \end{frame}
@@ -672,7 +676,7 @@ int leftPad = width / (levelWidth * 2) - 2; // halb links, halb rechts
     In jedem Rekursionsschritt müssen wir nun die zurückgegebenen Punktzahlen folgendermaßen auswerten:
     befinden wir uns in der Sicht des menschlichen Spielers, so bilden wir das Maximum der zurückgegebenen Werte. Befinden wir uns in einem Rekursionsschritt in der Sicht der KI, so bilden wir das Minimum der zurückgegebenen Werte.}
     \begin{center}
-\onslide<7->{\downsizeHeight{3cm}{\begin{tikzpicture}[ampersand replacement=\&,align-half-base,every path/.append style={rounded corners=2pt}]
+\onslide<3->{\downsizeHeight{3cm}{\begin{tikzpicture}[ampersand replacement=\&,align-half-base,every path/.append style={rounded corners=2pt}]
     \ttt{XOO X-X O-X}\printtt*[left,at={(0,0)}]
     \coordinate (b) at (m.east);
     \node[above] at (m.north) {II)};
@@ -696,7 +700,7 @@ int leftPad = width / (levelWidth * 2) - 2; // halb links, halb rechts
     \node[right=2mm,align=center] at(iiid) {\scriptsize\paletteB{\textbf{\(+10\) Punkte}}\\[-.1mm]\tiny\info{to future}};
     \draw[-Kite] (iiib) -- (iiic);
 
-\end{tikzpicture}}}\qquad\onslide<8->{\downsizeHeight{3cm}{\begin{tikzpicture}[ampersand replacement=\&,align-half-base,every path/.append style={rounded corners=2pt}]
+\end{tikzpicture}}}\qquad\onslide<4->{\downsizeHeight{3cm}{\begin{tikzpicture}[ampersand replacement=\&,align-half-base,every path/.append style={rounded corners=2pt}]
     \ttt{XOO --X OXX}\printtt*[left,at={(0,0)}]
     \coordinate (b) at (m.east);
     \node[above] at (m.north) {III)};
@@ -741,7 +745,7 @@ int leftPad = width / (levelWidth * 2) - 2; // halb links, halb rechts
         \item[\textbullet] Zusätzlich lässt sich auch noch die Spieltiefe mit einbeziehen um den Zug zu bestimmen, welcher am schnellsten zum Sieg führt. Dies ist für diese Übungsaufgabe aber optional.
     \end{itemize}\smallskip}
 
-    \onslide<3->{\strut\cancel{Im Moodle} Hier finden Sie als Vorlage für diese Aufgabe die Datei \textattachfile{\curpath Minimax.java}{Minimax.java}, welche eine vorbereitete Implementierung von Tic Tac Toe beinhaltet. In dieser Vorlage sollen Sie nun die folgenden zwei Methoden vervollständigen:
+    \onslide<3->{\strut\cancel{Im Moodle} Hier finden Sie als Vorlage für diese Aufgabe die Datei \only<3->{\textattachfile{\curpath Minimax.java}{Minimax.java}}, welche eine vorbereitete Implementierung von Tic Tac Toe beinhaltet. In dieser Vorlage sollen Sie nun die folgenden zwei Methoden vervollständigen:
     \begin{itemize}
         \item[\textbullet] Die Methode \bjava{public static char[][] computerMove(char[][] board, int numMoves)} übernimmt das Spielbrett und die Anzahl der unbelegten Felder als Parameter. In dieser Methode sollen Sie nun den bestmöglichen Zug bestimmen, diesen in einer Kopie des Spielbrettes setzen und dieses zurückgeben.
         Hierbei sollen Sie die folgende Methode \T{minimax} verwenden.
@@ -778,7 +782,7 @@ static final char EMPTY = 0;^^J
 \end{plainjava}
     \end{itemize}
 \begin{tikzpicture}[overlay,remember picture]
-    \onslide<8->{\node[left=-18mm,scale=.8] at(current page.{-24.25}) {\usebox\pinguexplainbox};}
+    \onslide<9->{\node[left=-18mm,scale=.8] at(current page.{-24.25}) {\usebox\pinguexplainbox};}
 \end{tikzpicture}
 \end{frame}
 
