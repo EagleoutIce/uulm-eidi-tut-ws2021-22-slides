@@ -432,15 +432,15 @@ Gehen Sie dafür folgendermaßen vor.}
 !*\onslide<4->*!    private StringNode root;
 !*\onslide<5->*!    |ihl|public BinaryExpressionTree(|ihl|String[] |ihl|items) {|ihl|
 !*\onslide<6->*!        |ihl|this.root = buildTree(items, 0);|ihl|
-!*\onslide<5->*!    }
+!*\onslide<5->*!    |ihl|}|ihl|
 !*\onslide<7->*!    |ihl|private static|ihl| StringNode |ihl|buildTree(|ihl|String[] |ihl|items, int index) {|ihl|
 !*\onslide<8->*!        |ihl|if (index >= items.length) return null;|ihl|
 !*\onslide<3->*!
-!*\onslide<9->*!        StringNode |ihl|node = new|ihl| StringNode(|ihl|items[index]|ihl|);
+!*\onslide<9->*!        StringNode |ihl|node = new|ihl| StringNode|ihl|(items[index]);|ihl|
 !*\onslide<10->*!        |ihl|node.setLeftChild(buildTree(items, 2 * index + 1));|ihl|
 !*\onslide<10->*!        |ihl|node.setRightChild(buildTree(items, 2 * index + 2));|ihl|
 !*\onslide<11->*!        |ihl|return node;|ihl|
-!*\onslide<7->*!    }
+!*\onslide<7->*!    |ihl|}|ihl|
 !*\onslide<3->*!
 !*\onslide<12->*!    // :ldots:
 !*\onslide<3->*!}
