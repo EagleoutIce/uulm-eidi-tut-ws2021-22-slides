@@ -54,7 +54,7 @@
         \begin{itemize}
             \item<3-> Die Methode \bjava{public void removeFirst(int value)} soll die Liste beginnend beim vordersten Element durchsuchen, und das erste Element entfernen welches den als Parameter übergebenen Wert hat.
             \item<3-> Die Methode \bjava{public void removeLast(int value)} soll die Liste beginnend beim hintersten Element durchsuchen, und das erste Element entfernen welches den als Parameter übergebenen Wert hat.
-            \item<3-> Die Methode \bjava{public void removeFirst(int value)} soll alle Elemente entfernen die den als Parameter übergebenen Wert haben.
+            \item<3-> Die Methode \bjava{public void removeAll(int value)} soll alle Elemente entfernen die den als Parameter übergebenen Wert haben.
         \end{itemize}
         \onslide<4->{Sie sollen nun dieses Interface in der vorgegebenen Klasse \bjava[morekeywords={[3]{DoublyLinkedList}}]{DoublyLinkedList} implementieren.
 
