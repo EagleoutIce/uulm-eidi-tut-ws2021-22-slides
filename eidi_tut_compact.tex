@@ -12,7 +12,7 @@
 \colorlet{NextMaterialHeaderColor}{paletteB!65!white}%
 \attachfilesetup{color=paletteB}
 \fullfalse
-\def\maxtut{12}
+\def\maxtut{13}
 \title[Alle Tutorien 0--\maxtut]{Kompaktversion Tutorien\\\small Von pinguinreduzierten Tutorien 0--\maxtut}
 \date{\sffamily\today}
 
@@ -73,10 +73,13 @@
 \setbeamertemplate{section in toc}{%
   {$\HEXADecimalnum{\inserttocsectionnumber}$}.~~\inserttocsection}
 \begin{frame}[c,plain]{Eine Sammlung~--- schnief~--- ohne Liebe}
-% \def\inserttocsectionnumber{\HEXADecimal{section}.}%
-   \begin{multicols}{2}
-\disablehyper\tableofcontents
-   \end{multicols}
+\disablehyper
+\columns[c,onlytextwidth]
+\column{.5\linewidth}
+\tableofcontents[sections={1-8}]
+\column{.5\linewidth}
+\tableofcontents[sections={9-16}]
+\endcolumns
 \end{frame}
 \setcounter{tocdepth}{5}
 \Load[Organisatiorisches Tutorium]{Organisatiorisches Tutorium}{Org-Tutorium}{org}{43}
@@ -93,5 +96,6 @@
 \Load[Tutorium 10]{Blatt 10 --- Sortierverfahren}{10-Tutorium}{10}{4}
 \Load[Tutorium 11]{Blatt 11 --- Stacks und Buffer}{11-Tutorium}{11}{5}
 \Load[Tutorium 12]{Blatt 12 --- Bäume und Minimax}{12-Tutorium}{12}{6}
+\Load[Tutorium 13]{Blatt 13 --- Vererbung}{13-Tutorium}{13}{7}
 
 \end{document}
