@@ -83,7 +83,7 @@ public class PolygonAreaTest {
 
 \begin{frame}[t,fragile]{Übungsblatt 13 - Aufgabe 1 a)\hfill EquilateralTriangle}
 \SetupLstHl\begin{itemize}[<+(1)->]
-    \item Gimme those classes (\only<2->{\textattachfile{\curpath EquilateralTriangle.java}{EquilateralTriangle.java}} und \only<2->{\textattachfile{\curpath Square.java}{Square.java}})
+    \item Gimme those classes (\only<2->{\textattachfile{\curpath EquilateralTriangle.java}{EquilateralTriangle.java}} und \only<2->{\textattachfile{\curpath Square.java}{Square.java}}):
 \begin{plainjava}[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,Square}},add to literate={@Override}{{\color{gray}@Override}}9]
 !*\onslide<3->*!public class EquilateralTriangle extends RegularPolygon {
 !*\onslide<4->*!    public EquilateralTriangle(int sideLength) {
@@ -164,7 +164,7 @@ public class PolygonAreaTest {
 !*\onslide<2->*!|ihl|}|ihl|
 \end{plainjava}
 \begin{itemize}
-    \item<3-> Beide Aufrufe passen! Durch \textit{dynamische Bindung} wird \bjava[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,PolygonAreaTest,Square}}]{EquilateralTriangle::}\bjava{getArea} und \bjava[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,PolygonAreaTest,Square}}]{Square::getArea} für \bjava{polygon.getArea()} aufgerufen. \onslide<4->{So wird zunächst der Flächeninhalt des Dreiecks \info{\(3.87911\ldots\)} und dann der Flächeninhalt des Quadrates \info{\(4\)} ausgegeben.}
+    \item<3-> Beide fein! Durch \textit{dynamische Bindung} wird \bjava[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,PolygonAreaTest,Square}}]{EquilateralTriangle::}\bjava{getArea} und \bjava[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,PolygonAreaTest,Square}}]{Square::getArea} für \bjava{polygon.getArea()} aufgerufen. \onslide<4->{So wird zunächst der Flächeninhalt des Dreiecks \info{\(3.87911\ldots\)} und dann der Flächeninhalt des Quadrates \info{\(4\)} ausgegeben.}
 \end{itemize}
 \end{frame}
 
