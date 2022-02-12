@@ -1,7 +1,5 @@
-# [alpine] sltx and texlive
+# [alpine] and texlive
 FROM docker.io/eagleoutice/lithie-tx-full:latest
-
-LABEL version="1.0" author="Florian Sihler"
 
 # we do not care about caching
 USER root

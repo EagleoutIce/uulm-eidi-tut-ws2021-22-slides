@@ -1,6 +1,5 @@
 # allows me to use brace expansions
 SHELL := /usr/bin/env bash
-
 # requires:
 # rename, pdftk and pdfsplitter (https://github.com/EagleoutIce/pdfsplitter)
 # LaTeX: https://github.com/EagleoutIce
@@ -9,6 +8,8 @@ TUTS := $(wildcard *-Tutorium)
 TUTS_CLEAN := $(TUTS:=-clean)
 TARGET_DIR := all_pdfs
 VERBOSE := 0
+
+.PHONY: all docker clean retrieve_pdfs retrieve_compact compact $(TUTS) $(TUTS_CLEAN)
 
 all: retrieve_pdfs retrieve_compact
 	echo -e "\033[32mRun for: $(TUTS)\033[m"
@@ -22,7 +23,7 @@ retrieve_pdfs: $(TUTS)
 	./rename-fb "s/folien_([^.]*)\.pdf/eidi_tut_\1.pdf/" "$(TARGET_DIR)/animated/folien_*.pdf"
 	./rename-fb "s/noanim_folien_([^.]*)\.pdf/eidi_tut_\1.pdf/" "$(TARGET_DIR)/noanim_folien_*.pdf"
 
-retrieve_compact:
+retrieve_compact: compact
 	test -f eidi_tut_compact.pdf && cp eidi_tut_compact.pdf "$(TARGET_DIR)/eidi_tut_compact.pdf" || true
 
 $(TUTS):
@@ -37,13 +38,11 @@ clean: $(TUTS_CLEAN)
 	echo "Deleting the '$(TARGET_DIR)'-dir"
 	rm -rI $(TARGET_DIR)
 
-.PHONY: all clean retrieve_pdfs $(TUTS) $(TUTS_CLEAN)
-
 compact:
 	sltxrc eidi_tut_compact.tex
 
 docker:
-	docker build -t 'eidi-ws2021-tut-make' -f 'Dockerfile' .
+	docker build --pull --tag 'eidi-ws2021-tut-make' --file 'Dockerfile' .
 
 ifeq ($(VERBOSE),0)
 MAKEFLAGS += --silent
