@@ -1,6 +1,6 @@
 SLIDESTEX := $(shell ls folien*.tex) $(shell ls noanim_folien*.tex)
 
-SOURCESTEX := $(shell ls *.src)
+SOURCESTEX := $(shell ls source_*.tex)
 SLIDESPDF := $(addsuffix .pdf,$(basename $(SLIDESTEX)))
 CLEANTARGETS := log aux out ind bbl blg lof lot toc idx acn acr alg glg glo gls fls fdb_latexmk auxlock md5 SATZE ZSM UB TOP listing upa ilg TOPIC DEFS vrb snm nav atfi
 
@@ -9,8 +9,8 @@ CLEANTARGETS := log aux out ind bbl blg lof lot toc idx acn acr alg glg glo gls 
 all: $(SLIDESPDF)
 
 %.pdf: %.tex $(SOURCESTEX)
-	pdflatex -shell-escape -interaction nonstop -draftmode -jobname $(basename $@) $<
-	pdflatex -shell-escape -interaction nonstop -jobname $(basename $@) $<
+	pdflatex -shell-escape -interaction nonstopmode -draftmode -jobname $(basename $@) $<
+	pdflatex -shell-escape -interaction nonstopmode -jobname $(basename $@) $<
 	for fd in $(CLEANTARGETS); do rm -f ./$(basename $@).$$fd; done
 
 clean:
