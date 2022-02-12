@@ -12,15 +12,19 @@ jobs:
       with:
         lfs: true
         submodules: true
+    - name: get pu for preview
+      run: sudo apt install poppler-utils
     - name: use make docker to do the magic
       run: make docker
     - name: 'compiling the pdfs'
-      run: ./run-docker
+      run: |
+        ./run-docker
+        pdftoppm -png -f 1 -l 1 ./eidi_tut_compact.pdf preview
     - name: Commit
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add -f "all_pdfs/"
+        git add -f "all_pdfs/" "preview-001.png"
         git commit -m "Newly compiled data"
     - name: Push changes
       uses: ad-m/github-push-action@master
