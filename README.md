@@ -11,7 +11,41 @@ Andere Dateien wurden nachträglich entfernt und bleiben in der History, einfach
 ## 🐧Gimme
 
 Die Folien finden sich hier durch die CI direkt im [Repository](https://github.com/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/tree/gh-pages/all_pdfs) (inklusive aller animierten Versionen).
+Für die schnellklicker:\
+[<img src="https://github.com/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/blob/gh-pages/preview-001.png?raw=true" width="650"/>](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_compact.pdf)
 
+Die anderen (nicht animiert):
+[org](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_org.pdf),
+[0](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_0.pdf),
+[1](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_1.pdf),
+[2](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_2.pdf),
+[3](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_3.pdf),
+[4](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_4.pdf),
+[5](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_5.pdf),
+[6](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_6.pdf),
+[7](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_7.pdf),
+[8](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_8.pdf),
+[9](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_9.pdf),
+[10](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_10.pdf),
+[11](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_11.pdf),
+[12](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_12.pdf),
+[13](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_13.pdf).\
+Sowohl ihre animierten Versionen:
+[org](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_org.pdf),
+[0](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_0.pdf),
+[1](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_1.pdf),
+[2](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_2.pdf),
+[3](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_3.pdf),
+[4](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_4.pdf),
+[5](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_5.pdf),
+[6](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_6.pdf),
+[7](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_7.pdf),
+[8](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_8.pdf),
+[9](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_9.pdf),
+[10](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_10.pdf),
+[11](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_11.pdf),
+[12](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_12.pdf),
+[13](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/animated/eidi_tut_13.pdf).
 
 ## ⚒️ Build 'em yourself
 
