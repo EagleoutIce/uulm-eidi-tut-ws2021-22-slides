@@ -414,43 +414,6 @@ String output = (x % 2) == 0 ? " ist durch 2 teilbar"
     \end{itemize}
 \end{frame}
 
-% \section{Tipps für Übungsblatt 4}
-% \begin{frame}[t]{Aussicht: Übungsblatt 4}
-%     \begin{itemize}[<+(1)->]
-%         \item Bei einer Zeichenkette, kann man mittels \bjava{charAt} auf die einzelnen Zeichen zugreifen:\pause{}
-%         \ijava{CharAt.java}
-%     \end{itemize}
-% \end{frame}
-
-% \begin{frame}[t,fragile]{Aussicht: Übungsblatt 4}
-%     \begin{itemize}[<+(1)->]
-%         \rExecute{javac CharAt.java}%
-%         \item Wir erhalten: \rbash[:\pause{}]{java CharAt}
-%         \item Tipps zu ROT13:\pause{} Schaut euch an, wie die ASCII-Zeichen auf Zahlen abbilden.
-%         \item Beispielhaftes Verschlüsseln für ASCII $32$ bis $125$,\pause{} wobei \T{offset} ein \bjava{char} ist, der angibt um welches Zeichen verschoben werden soll, \T{c} sei der zu verschlüsselnde \bjava{char}\pause{} \info{ROT13 $\Rightarrow$ \bjava{offset = 13}}:\pause{}
-%         \begin{java}
-% if (c + offset > 125) // Überlauf :D
-%     char encrypted = (char) ((c+offset) - 125 + 32 - 1);
-% else
-%     char encrypted = (char) (c+offset);
-%         \end{java}
-%     \end{itemize}
-% \end{frame}
-
-% \begin{frame}[t,fragile]{Aussicht: Übungsblatt 4}
-%     \begin{itemize}[<+(1)->]
-%         \item Wichtige Information zu Unicode:\pause{} Manche Windows-Konsolen haben Standardmäßig kein Unicode. \pause{} Probiert: \cbash[morekeywords={[4]{chcp}}]{chcp 65001} im Terminal.
-%         \item Sonst Unicode, wie folgt:\pause{} \T{\paletteD{\textbackslash u}} gefolgt von der zugehörigen Zahl als Hexadezimalzahl.\pause{} So die Ente: \bjava[{literate={\\u}{{\paletteD{\textbackslash u}}}2}]{\"\\uD83E\\uDD86\"}.\pause{} \info{Kann vermutlich von den wenigsten Terminals dargestellt werden.}
-%         \item Codebeispiel:\pause{}
-% \begin{java}[literate={\\u}{{\paletteD{\textbackslash u}}}2]
-% char c = '\uFF03';
-% System.out.println(c + " \u263A");
-% \end{java}
-%         \item Liefert:\pause{} \say{\T{\# \Smiley}}.
-%     \end{itemize}
-% \end{frame}
-
-
 \iffull
 \section{Bonus: Kellerspeicher}
 

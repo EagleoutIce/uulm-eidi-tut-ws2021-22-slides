@@ -18,6 +18,7 @@ Sonst haben die Ordner folgende Bedeutung:
 * `*-Tutorium`: Referenziert das Tutorium zum jeweiligen Blatt (sowie [`Org-Tutorium`](Org-Tutorium) für den Anfang :D)
 * [`Dockerfile`](Dockerfile), [`rename-fb`](rename-fb) und [`run-docker`](run-docker): Damit es (hoffentlich) nicht nur bei mir läuft :D
 * [`tikz-horner.sty`](tikz-horner.sty): Eine Altlast zum automatischen generieren von Animationen für das Horner-Schema in LaTeX :D
+* [`ttt.sty`](ttt.sty): Eine Semi-Altlast für Tic-Tac-Toe (brrrrh, Memories)
 * [`makefile`](makefile): Wer weiß was er tut, kann das auch direkt benutzen um seinen Spaß zu haben.
 * [`global.src`](global.src): So etwas wie die gemeinsame Präambel aller Foliensätze. Zusammengetackert, damit es auch ohne ein ganzes Ökosystem funktioniert.
 

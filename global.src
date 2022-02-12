@@ -95,7 +95,7 @@
 
 \colorlet{chessfieldblack}{lightgray}
 
-\InputIfFileExists{ebl.sty}{}{}
+\InputIfFileExists{eagle-beamer-latex.sty}{}{} % i used it once :C
 
 \newsavebox\pinguexplainbox
 \savebox\pinguexplainbox{}
