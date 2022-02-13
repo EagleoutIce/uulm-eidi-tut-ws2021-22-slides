@@ -117,19 +117,20 @@ public class PolygonAreaTest {
 
 
 \begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1 b-d)}
-\begin{itemize}[<+(1)->]
-    \itemsep4pt
+\small\begin{itemize}[<+(1)->]
+    \itemsep3pt
     \item \textcolor{gray}{Wenn Sie abstrakte Methode \bjava{public double getArea()} in den Subklassen implementieren, wird diese Methode dann überladen oder überschrieben?}\smallskip\par\pause
-    Sie wird überschrieben: die \say{implementierende} Methode hat die selbe Signatur \info{siehe \href{https://docs.oracle.com/javase/specs/jls/se17/jls17.pdf\#page=309}{JLS17 8.4.8.1} für die genauen Regeln}.
+    Sie wird überschrieben: die \say{implementierende} Methode hat die selbe Signatur (und ist sichtbar) \info{siehe \href{https://docs.oracle.com/javase/specs/jls/se17/jls17.pdf\#page=309}{JLS17 8.4.8.1} für die genauen Regeln}.
     \item \textcolor{gray}{Könnte die abstrakte Klasse auch durch ein Interface ersetzt werden?}\smallskip\par
     \pause Das ist aus zwei Gründen nicht möglich: \begin{enumerate}
-        \item<6-> Die Klasse hat einen Konstruktor.
-        \item<7-> Die Klasse enthält Instanzvariablen.
+        \item<6-> Die (abstrakte) Klasse hat einen Konstruktor.
+        \item<7-> Die (abstrakte) Klasse enthält Instanzvariablen.
     \end{enumerate}
     \onslide<8->{\textit{Schnittstellen} definieren das Verhalten. \textit{Keinen} Zustand!}
     \item<9-> \textcolor{gray}{In der Vorlage wird der Modifier \bjava{protected} für die Instanzvariablen verwendet. Könnte hier auch der Modifier \bjava{private} für beide verwendet werden?}\smallskip\par
     \onslide<10->{Für \bjava{numSides} ist dies möglich, diese Variable wird nur in \solGet{keywordC}{RegularPolygon} gebraucht.}
     \onslide<11->{Für \bjava{sideLength} allerdings nicht, wir benötigen diese für \bjava{getArea()}.}
+    \onslide<12->{\infoblock{Man kööönte aber in diesem speziellen Fall auch eine neue Variable machen\ldots}}
 \end{itemize}
 \end{frame}
 
