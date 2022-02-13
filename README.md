@@ -11,7 +11,7 @@ Andere Dateien wurden nachträglich entfernt und bleiben in der History, einfach
 ## 🐧Gimme
 
 Die Folien finden sich hier durch die CI direkt im [Repository](https://github.com/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/tree/gh-pages/all_pdfs) (inklusive aller animierten Versionen).
-Für die schnellklicker:\
+Für die Schnellklicker:\
 [<img src="https://github.com/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/blob/gh-pages/preview-001.png?raw=true" width="650"/>](https://media.githubusercontent.com/media/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/gh-pages/all_pdfs/eidi_tut_compact.pdf)
 
 Die anderen (nicht animiert):
