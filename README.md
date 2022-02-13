@@ -2,11 +2,11 @@
 
 ![latex](https://img.shields.io/badge/Made%20with-LaTeX-1f425f.svg) [![compile-slides](https://github.com/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/actions/workflows/compile.yaml/badge.svg)](https://github.com/EagleoutIce/uulm-eidi-tut-ws2021-22-slides/actions/workflows/compile.yaml) ![maintenance](https://unmaintained.tech/badge.svg)
 
-Dies sind die historisch gewachsenen LaTeX-Quelle für die Eidi-Tutoriums-Folien von Florian Sihler.
+Dies sind die historisch gewachsenen LaTeX-Quellen für die Eidi-Tutoriums-Folien von Florian Sihler.
 Diese Version hier ist eine aus dem Eidi-Repo extrahierte Quelle mit veränderter History und leicht modifizierten
 Inhalten um Einzelpersonen anonym zu halten.
 
-Andere Dateien wurden nachträglich entfernt und bleiben in der History, einfach nur weil sie aus historischen Gründen keine Bedeutung mehr haben.
+Andere Dateien wurden nachträglich entfernt und bleiben in der History, einfach nur weil, sie aus historischen Gründen keine Bedeutung mehr haben.
 
 ## 🐧Gimme
 
