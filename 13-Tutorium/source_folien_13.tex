@@ -21,28 +21,28 @@
 \lstfs{9}%
 \pause Gegeben sei folgende abstrakte Klasse \solGet{keywordC}{RegularPolygon}, welche ein Polygon mit gleichen Seitenlängen bzw. Innenwinkeln repräsentieren soll:
 \begin{plainjava}[morekeywords={[3]{RegularPolygon}}]
-public abstract class RegularPolygon {
-    protected final int numSides;
-    protected final double sideLength;
-
-    public RegularPolygon(int numSides, double sideLength) {
-        this.numSides = numSides;
-        this.sideLength = sideLength;
-    }
-
-    public int getNumSides() { return this.numSides; }
-    public double getCircumference() { return this.numSides * this.sideLength; }
-    public abstract double getArea();
-}
+!*\onslide<3->*!public abstract class RegularPolygon {
+!*\onslide<3->*!    protected final int numSides;
+!*\onslide<3->*!    protected final double sideLength;
+!*\onslide<3->*!
+!*\onslide<3->*!    public RegularPolygon(int numSides, double sideLength) {
+!*\onslide<3->*!        this.numSides = numSides;
+!*\onslide<3->*!        this.sideLength = sideLength;
+!*\onslide<3->*!    }
+!*\onslide<3->*!
+!*\onslide<3->*!    public int getNumSides() { return this.numSides; }
+!*\onslide<3->*!    public double getCircumference() { return this.numSides * this.sideLength; }
+!*\onslide<3->*!    public abstract double getArea();
+!*\onslide<3->*!}
 \end{plainjava}
 \end{frame}
 
 \begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1}
 \small\begin{enumerate}
     \item<2-> Implementieren Sie nun die zwei Klassen \solGet{keywordC}{EquilateralTriangle} und \solGet{keywordC}{Square}, welche ein gleichseitiges Dreieck bzw. ein Quadrat repräsentieren sollen. Beide Klassen sollen jeweils von \solGet{keywordC}{RegularPolygon} erben, und müssen deshalb die Methode \bjava{public double getArea()} definieren. Zusätzlich sollen beide Klassen einen Konstruktor anbieten, welcher die Seitenlänge als Parameter übernimmt \info{\(A_\triangle = \frac{1}{4} \cdot \sqrt{3} \cdot a^2\)}.
-    \item<2-> Wenn Sie die abstrakte Methode \bjava{public double getArea()} in den Subklassen implementieren, wird diese Methode dann überladen oder überschrieben? Begründen Sie ihre Antwort!
-    \item<2-> Könnte die abstrakte Klasse auch durch ein Interface ersetzt werden? Falls ja, geben Sie ein entsprechendes Interface an, falls nein, begründen Sie warum dies nicht möglich ist.
-    \item<2-> In der Vorlage wird der Modifier \bjava{protected} für die Instanzvariablen verwendet. Könnte hier auch der Modifier \bjava{private} verwendet werden? Begründen Sie ihre Antwort!
+    \item<3-> Wenn Sie die abstrakte Methode \bjava{public double getArea()} in den Subklassen implementieren, wird diese Methode dann überladen oder überschrieben? Begründen Sie ihre Antwort!
+    \item<4-> Könnte die abstrakte Klasse auch durch ein Interface ersetzt werden? Falls ja, geben Sie ein entsprechendes Interface an, falls nein, begründen Sie warum dies nicht möglich ist.
+    \item<5-> In der Vorlage wird der Modifier \bjava{protected} für die Instanzvariablen verwendet. Könnte hier auch der Modifier \bjava{private} verwendet werden? Begründen Sie ihre Antwort!
     \end{enumerate}
 \end{frame}
 
@@ -51,13 +51,13 @@ public abstract class RegularPolygon {
     \item<2->[5.] Welche der Aufrufe in folgendem Testprogramm würden zu einem Compiler-Fehler führen und welche sind korrekt? Begründen Sie ihre Antwort!
     (Nehmen Sie für diese Teilaufgabe an, dass die beiden Klassen \solGet{keywordC}{Square} und \solGet{keywordC}{EquilateralTriangle} korrekt implementiert wurden.)
 \begin{plainjava}[morekeywords={[3]{PolygonTest,RegularPolygon,EquilateralTriangle,Square}}]
-public class PolygonTest {
-   public static void main(String[] args) {
-      RegularPolygon polygon = new EquilateralTriangle(3); // A 1
-      EquilateralTriangle triangle = (EquilateralTriangle)polygon; // A 2
-      Square square = new RegularPolygon(4, 4); // A 3
-   }
-}
+!*\onslide<3->*!public class PolygonTest {
+!*\onslide<3->*!   public static void main(String[] args) {
+!*\onslide<3->*!      RegularPolygon polygon = new EquilateralTriangle(3); // A 1
+!*\onslide<3->*!      EquilateralTriangle triangle = (EquilateralTriangle)polygon; // A 2
+!*\onslide<3->*!      Square square = new RegularPolygon(4, 4); // A 3
+!*\onslide<3->*!   }
+!*\onslide<3->*!}
 \end{plainjava}
     \end{enumerate}
 \end{frame}
@@ -67,15 +67,15 @@ public class PolygonTest {
     \item<2->[6.] Würden die folgenden Aufrufe der Methode \bjava{getArea} funktionieren? Falls ja, welche Werte würden entsprechend ausgegeben werden? Begründen Sie in jedem Fall ihre Antwort!
     (Nehmen Sie an, dass die beiden Klassen \solGet{keywordC}{Square} und \solGet{keywordC}{EquilateralTriangle} korrekt implementiert wurden.)
 \begin{plainjava}[morekeywords={[3]{PolygonTest,RegularPolygon,PolygonAreaTest,EquilateralTriangle,Square}}]
-public class PolygonAreaTest {
-    public static void main(String[] args) {
-        RegularPolygon polygon = new EquilateralTriangle(3);
-        System.out.println(polygon.getArea());
-
-        polygon = new Square(2);
-        System.out.println(polygon.getArea());
-    }
-}
+!*\onslide<3->*!public class PolygonAreaTest {
+!*\onslide<3->*!    public static void main(String[] args) {
+!*\onslide<3->*!        RegularPolygon polygon = new EquilateralTriangle(3);
+!*\onslide<3->*!        System.out.println(polygon.getArea());
+!*\onslide<3->*!
+!*\onslide<3->*!        polygon = new Square(2);
+!*\onslide<3->*!        System.out.println(polygon.getArea());
+!*\onslide<3->*!    }
+!*\onslide<3->*!}
 \end{plainjava}
     \end{enumerate}
 \end{frame}
@@ -118,16 +118,16 @@ public class PolygonAreaTest {
 
 \begin{frame}[c,fragile]{Übungsblatt 13 - Aufgabe 1 b-d)}
 \small\begin{itemize}[<+(1)->]
-    \itemsep3pt
-    \item \textcolor{gray}{Wenn Sie abstrakte Methode \bjava{public double getArea()} in den Subklassen implementieren, wird diese Methode dann überladen oder überschrieben?}\smallskip\par\pause
-    Sie wird überschrieben: die \say{implementierende} Methode hat die selbe Signatur (und ist sichtbar) \info{siehe \href{https://docs.oracle.com/javase/specs/jls/se17/jls17.pdf\#page=309}{JLS17 8.4.8.1} für die genauen Regeln}.
-    \item \textcolor{gray}{Könnte die abstrakte Klasse auch durch ein Interface ersetzt werden?}\smallskip\par
+    \itemsep5.5pt
+    \item \textcolor{gray}{Ist die Implementation con \bjava{getArea()} Überladung oder Überschreiben?}\par\pause
+    Überschreiben: die \say{implementierende} Methode hat die selbe Signatur (und ist sichtbar) \info{siehe \href{https://docs.oracle.com/javase/specs/jls/se17/jls17.pdf\#page=309}{JLS17 8.4.8.1} für die genauen Regeln}.
+    \item \textcolor{gray}{Könnte die abstrakte Klasse auch durch ein Interface ersetzt werden?}\par
     \pause Das ist aus zwei Gründen nicht möglich: \begin{enumerate}
         \item<6-> Die (abstrakte) Klasse hat einen Konstruktor.
         \item<7-> Die (abstrakte) Klasse enthält Instanzvariablen.
     \end{enumerate}
     \onslide<8->{\textit{Schnittstellen} definieren das Verhalten. \textit{Keinen} Zustand!}
-    \item<9-> \textcolor{gray}{In der Vorlage wird der Modifier \bjava{protected} für die Instanzvariablen verwendet. Könnte hier auch der Modifier \bjava{private} für beide verwendet werden?}\smallskip\par
+    \item<9-> \textcolor{gray}{Es wird der Modifier \bjava{protected} für die Instanzvariablen verwendet. Ginge auch \bjava{private}?}\par
     \onslide<10->{Für \bjava{numSides} ist dies möglich, diese Variable wird nur in \solGet{keywordC}{RegularPolygon} gebraucht.}
     \onslide<11->{Für \bjava{sideLength} allerdings nicht, wir benötigen diese für \bjava{getArea()}.}
     \onslide<12->{\infoblock{Man kööönte aber in diesem speziellen Fall auch eine neue Variable machen\ldots}}
