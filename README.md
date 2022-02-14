@@ -50,20 +50,20 @@ Sowohl ihre animierten Versionen:
 ## ⚒️ Build 'em yourself
 
 Zum Kompilieren empfiehlt sich das Docker-Image. Basteln mit: `make docker`
-Danach kann das Skript [`run-docker`](run-docker) verwendet werden (oder auf anderen Betriebssystemen ein vergleichbares Kommando zum starten von Docker-Containern verwenden).
+Danach kann das Skript [`run-docker`](run-docker) verwendet werden (oder auf anderen Betriebssystemen ein vergleichbares Kommando zum Starten von Docker-Containern verwenden).
 
 Sonst haben die Ordner folgende Bedeutung:
 
 * `*-Tutorium`: Referenziert das Tutorium zum jeweiligen Blatt (sowie [`Org-Tutorium`](Org-Tutorium) für den Anfang :D)
 * [`Dockerfile`](Dockerfile), [`rename-fb`](rename-fb) und [`run-docker`](run-docker): Damit es (hoffentlich) nicht nur bei mir läuft :D
-* [`tikz-horner.sty`](tikz-horner.sty): Eine Altlast zum automatischen generieren von Animationen für das Horner-Schema in LaTeX :D
+* [`tikz-horner.sty`](tikz-horner.sty): Eine Altlast zum automatischen Generieren von Animationen für das Horner-Schema in LaTeX :D
 * [`ttt.sty`](ttt.sty): Eine Semi-Altlast für Tic-Tac-Toe (brrrrh, Memories)
-* [`makefile`](makefile): Wer weiß was er tut, kann das auch direkt benutzen um seinen Spaß zu haben.
+* [`makefile`](makefile): Wer weiß, was er tut, kann das auch direkt benutzen um seinen Spaß zu haben.
 * [`global.src`](global.src): So etwas wie die gemeinsame Präambel aller Foliensätze. Zusammengetackert, damit es auch ohne ein ganzes Ökosystem funktioniert.
 
 ## 📜 Bonusfolien
 
-Die Episoden & Boni sind auf Github:
+Die Episoden und *manche* Boni sind auf Github:
 
 * [Rekursion](https://github.com/EagleoutIce/Episode-Recursion)
 * [Heaps](https://github.com/EagleoutIce/Episode-Heaps)
