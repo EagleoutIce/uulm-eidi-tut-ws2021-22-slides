@@ -539,8 +539,11 @@ public class MayQueueValue {
         \item Ist \T{l} nun immer noch weiter links von \T{r}, dann vertausche die Elemente auf die sie zeigen und wiederhole bei \ref{10mv-l}. Andernfalls, vertausche \T{l} und Pivotelement.
         \item Wiederhole ab \ref{10inits} rekursiv für die Teilliste links und rechts vom Pivotelement.
     \end{enumerate}
+    \begin{center}
+        \onslide<10->{\info{Der \say{gleich}-Fall ist an sich beliebig. Man kann also auch \T{l} für kleiner gleich und \T{r} für größer als das Pivotelement verwenden. Man muss nur eine der Varianten wählen.}}
+    \end{center}
 \begin{tikzpicture}[overlay,remember picture]
-    \onslide<9->{\node[left=-7mm,scale=.8] at(current page.9) {\usebox\pinguexplainbox};}
+    \onslide<9->{\node[left=-7mm,scale=.8] at(current page.10) {\usebox\pinguexplainbox};}
 \end{tikzpicture}
 \end{frame}
 
