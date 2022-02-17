@@ -474,38 +474,76 @@ public class MayQueueValue {
 \end{frame}
 
 \begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Vorlesungstreue}
-\onslide<1->{\pingubbtk{\color{paletteA}/F/Pivot/,/C/{\only<3->{\l\,}l}/,/E//,/A//,/B//,/G//,/D/{\only<3->{\l\,}r}/,/H//:ghost}{\onslide<3->{\draw[Kite-Kite] (1.south) to[bend right=4] (7.south);}}}
+\onslide<1->{\pingubbtk{\color{paletteA}/D/Pivot/, /F/{\only<3->{\l\,}l}/,/C//,/E//,/A//,/B//,/G/{\only<3->{\l\,}r}/,/H//:ghost}{\onslide<3->{\draw[Kite-Kite] (1.south) to[bend right=4] (7.south);}}}
     \onslide<2->{\pingubbfn{Wir wiederholen den Prozess für die linke und die rechte Hälfte. Hier gibt es nur eine linke\ldots}}
-    \onslide<4->{\pingubbtk{/D/l/,/C//,/E//,/A//,/B//,/G/r/,\color{paletteA}/F/Pivot/,/H//:ghost}{\onslide<6->{
-        \foreach[remember=\i as \li (initially 1)] \i in {2,...,6}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}
+    \onslide<4->{\pingubbtk{/G/l/,/F//,/C//,/E//,/A//,/B/r/,\color{paletteA}/D/Pivot/,/H//:ghost}{\onslide<6->{
+        % \foreach[remember=\i as \li (initially 1)] \i in {2,...,6}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}
+        \onslide<9->{\draw[Kite-Kite] (1.south) to[bend right=4] (6.south);}
     }}}
-    \onslide<5->{\pingubbfn{Every body steps to the right\ldots\ mit \(l \geq r\) wird \(r\) nicht mehr bewegt.}}
-    \onslide<7->{\pingubbtk{/D//,/C//,/E//,/A//,/B//,/G/{l,r}/,\color{paletteA}/F/Pivot/,/H//:ghost}{\onslide<9->{\draw[Kite-Kite] (6.south) to[bend right] (7.south);}}}
-    \onslide<8->{\pingubbfn{Es ist \(l = r\). Tausche \T{l} mit dem Pivotelement.}}
-\end{frame}
-
-\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Vorlesungstreue}
-\onslide<1->{\pingubbtk{\color{paletteA}/D/Pivot/,/C/{\only<3->{\l\,}l}/,/E//,/A//,/B/{\only<3->{\l\,}r}/,/F//:ghost,/G//,/H//:ghost}{\onslide<3->{\draw[Kite-Kite] (1.south) to[bend right=4] (5.south);}}}
-    \onslide<2->{\pingubbfn{Wir wiederholen den Prozess zuerst für die linke Hälfte.}}
-    \onslide<4->{\pingubbtk{/B/l/,/C//,/E//,/A/r/,\color{paletteA}/D/Pivot/,/F//:ghost,/G//,/H//:ghost}{\onslide<6->{\foreach[remember=\i as \li (initially 1)] \i in {2,...,3}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}}
-    \onslide<7->{\draw[Kite-Kite] (3.south) to[bend right] (4.south);}
+    \onslide<5->{\pingubbfn{Wir tauschen sofort. \(r\) zeigt auf ein Element kleiner und \(l\) auf eines größer gleich dem Pivotelement.}}
+    \onslide<7->{\pingubbtk{/B/l/,/F//,/C//,/E//,/A//,/G/r/,\color{paletteA}/D/Pivot/,/H//:ghost}{
+        \onslide<9->{\foreach[remember=\i as \li (initially 1)] \i in {2}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}}
+        \onslide<10->{\foreach[remember=\i as \li (initially 5)] \i in {6}{\draw[Kite-,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}}
+        \onslide<11->{\draw[Kite-Kite] (2.south) to[bend right=10] (5.south);}
     }}
-    \onslide<5->{\pingubbfn{Es ist \(l < r\), wir vertauschen also zuerst die beiden.}}
-    \onslide<8->{\pingubbtk{/B//,/C//,/A/l/,/E/r/,\color{paletteA}/D/Pivot/,/F//:ghost,/G//,/H//:ghost}{
-        \onslide<11->{\draw[Kite-Kite] (4.south) to[bend right] (5.south);}
-        \onslide<10->{\foreach[remember=\i as \li (initially 3)] \i in {4}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}}}
-    }
-    \onslide<9->{\pingubbfn{Nun ist \(l = r\). Tausche \T{left} mit dem Pivotelement.}}
+    \onslide<8->{\pingubbfn{Aaaand we continue with the (little) steppsies. And the swappsies.}}
 \end{frame}
 
 \begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Vorlesungstreue}
-\onslide<1->{\pingubbtk{\color{paletteA}/B/Pivot/,/C/{\only<3->{\l\,}l}/,/A/{\only<3->{\l\,}r}/,/D//:ghost,/E//,/F//:ghost,/G//,/H//:ghost}{\onslide<3->{\draw[Kite-Kite] (1.south) to[bend right=4] (3.south);}}}
-    \onslide<2->{\pingubbfn{Wir wiederholen den Prozess wieder zuerst für die linke Hälfte.}}
-    \onslide<4->{\pingubbtk{/A/l/,/C/r/,\color{paletteA}/B/Pivot/,/D//:ghost,/E//,/F//:ghost,/G//,/H//:ghost}{\onslide<6->{\foreach[remember=\i as \li (initially 1)] \i in {2}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}}\onslide<7->{\draw[Kite-Kite] (2.south) to[bend right] (3.south);}}}
-    \onslide<5->{\pingubbfn{Erneut haben wir \(l = r\). Tausche \T{left} mit dem Pivotelement.}}
+\onslide<1->{\pingubbtk{/B//,/A/l/,/C//,/E//,/F/r/,/G//,\color{paletteA}/D/Pivot/,/H//:ghost}{\onslide<3->{
+    \foreach[remember=\i as \li (initially 2)] \i in {3,4}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}}
+    \onslide<4->{\foreach[remember=\i as \li (initially 4)] \i in {5}{\draw[Kite-,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}}
+}}
+    \onslide<2->{\pingubbfn{Und sie kommen ganz nah zusammen\ldots.}}
+    \onslide<5->{\pingubbtk{/B//,/A//,/C//,/E/{l,r}/,/F//,/G//,\color{paletteA}/D/Pivot/,/H//:ghost}{
+        \onslide<7->{\draw[Kite-Kite] (4.south) to[bend right=7] (7.south);}
+    }}
+    \onslide<6->{\pingubbfn{Es ist \(l = r\), wir vertauschen also \(l\) und das Pivotelement.}}
+    \onslide<8->{\pingubbtk{\color{paletteA}/B/Pivot/,/A/\only<9->{\l\,}l/,/C/\only<9->{\l\,}r/,/D//:ghost,/F//,/G//,/E//,/H//:ghost}{
+        \onslide<9->{\draw[Kite-Kite] (1.south) to[bend right=4] (3.south);}
+    }}
+    \onslide<9->{\pingubbfn{Meet me at my happy place. We go to the left.}}
+\end{frame}
+
+\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Vorlesungstreue}
+\onslide<1->{\pingubbtk{/C/l/,/A/r/,\color{paletteA}/B/Pivot/,/D//:ghost,/F//,/G//,/E//,/H//:ghost}{\onslide<3->{\draw[Kite-Kite] (1.south) to[bend right=8] (2.south);}}}
+    \onslide<2->{\pingubbfn{Für die linke Hälfte machen wir ein swappsie.}}
+    \onslide<4->{\pingubbtk{/A/l/,/C/r/,\color{paletteA}/B/Pivot/,/D//:ghost,/F//,/G//,/E//,/H//:ghost}{\onslide<6->{\foreach[remember=\i as \li (initially 1)] \i in {2}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}}
+    \onslide<7->{\draw[Kite-Kite] (2.south) to[bend right] (3.south);}
+    }}
+    \onslide<5->{\pingubbfn{Weiter geht \(l\) eins nach rechts, da es nun auf ein kleineres Element zeigt. Nun hat es \(r\) getroffen, wir tauschen also \(l\) und Pivot.}}
+    \onslide<8->{\pingubbtk{/A//,/B//:ghost,/C//,/D//:ghost,\color{paletteA}/F/Pivot/,/G/\only<9->{\l\,}l/,/E/\only<9->{\l\,}r/,/H//:ghost}{
+        % \onslide<11->{\draw[Kite-Kite] (4.south) to[bend right] (5.south);}
+        % \onslide<10->{\foreach[remember=\i as \li (initially 3)] \i in {4}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}}}
+    }}
+    \onslide<9->{\pingubbfn{Eigentlich gings rekrusiv weiter. Einelementige oder sortierte Listen lassen sich durch Kommentare überspringen (\say{passiert ja nichts}).}}
+\end{frame}
+
+\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Vorlesungstreue}
+\onslide<1->{\pingubbtk{/A//,/B//:ghost,/C//,/D//:ghost,\color{paletteA}/F/Pivot/,/G/\only<9->{\l\,}l/,/E/\only<9->{\l\,}r/,/H//:ghost}{\onslide<3->{\draw[Kite-Kite] (5.south) to[bend right=4] (7.south);}}}
+    \onslide<2->{\pingubbfn{Es geht also wieder um ein Dreierpärchen}}
+    \onslide<4->{\pingubbtk{/A//,/B//:ghost,/C//,/D//:ghost,/E/l/,/G/r/,\color{paletteA}/F/Pivot/,/H//:ghost}{\onslide<6->{\foreach[remember=\i as \li (initially 5)] \i in {6}{\draw[-Kite,gray] ([xshift=1pt]\li.south) to[bend right] ([xshift=-1pt]\i.south);}}\onslide<7->{\draw[Kite-Kite] (6.south) to[bend right] (7.south);}}}
+    \onslide<5->{\pingubbfn{Es zeigt \(l\) auf ein kleineres Element, es geht also eins nach rechts, trifft \(r\) und tauscht mit Pivot.}}
     \onslide<8->{\pingubbtk{\color{paletteA}/A/{{\color{black}l,r,}Pivot}/,/B//:ghost,/C//,/D//:ghost,/E//,/F//:ghost,/G//,/H//:ghost}{}}
     \onslide<9->{\pingubbfn{Für alle weiteren Teillisten ist \(l = r = \text{Pivot}\). Wir verkürzen das in dieser Variante}}
 \end{frame}
+
+\MakeThePinguExplainIt[text width=4.25cm]{cap=!hide,glasses=!hide,headband,eyes wink,cup=!hide,heart=shadeA,right item angle=-74}{Lesser \& Greater tauschen, bis \(l \geq r\). Dann \(l\) \& Pivot und rekursiv.}
+\begin{frame}[c]{Übungsblatt 10 - Aufgabe 1\hfill Quicksort -- Vorlesungstreue}
+    \small\begin{enumerate}[<+(1)->]
+        \item\label{10inits} Betrachte die gegebene Teilliste \info{initial die Ganze}.
+        \item Tausche das Pivotelement ans Ende.
+        \item Setze \T{l} ganz nach links und \T{r} ganz nach rechts. \infoblock{Wahlweise auch \T{r} direkt eins links vom Pivotelement, diese Verschiebung passiert immer.}
+        \item \label{10mv-l}Schiebe \T{l} nach rechts solange es auf Elemente kleiner als das Pivotelement zeigt \info{\textbf{\paletteA{l}}esser}.
+        \item Nur wenn \T{l} noch weiter links als \T{r} ist, schiebe \T{r} nach links, solange es auf Elemente größer gleich dem Pivotelement zeigt \info{g\textbf{\paletteA{r}}eater}.
+        \item Ist \T{l} nun immer noch weiter links von \T{r}, dann vertausche die Elemente auf die sie zeigen und wiederhole bei \ref{10mv-l}. Andernfalls, vertausche \T{l} und Pivotelement.
+        \item Wiederhole ab \ref{10inits} rekursiv für die Teilliste links und rechts vom Pivotelement.
+    \end{enumerate}
+\begin{tikzpicture}[overlay,remember picture]
+    \onslide<9->{\node[left=-7mm,scale=.8] at(current page.9) {\usebox\pinguexplainbox};}
+\end{tikzpicture}
+\end{frame}
+
 
 % list | left | right
 \def\shortqspivot#1#2#3{\foreach[count=\i] \l in {#1} {\node (\i) at (.5*\i,0) {\strut\l};}
